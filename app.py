@@ -8,7 +8,7 @@ import streamlit as st
 
 # Page Config
 st.set_page_config(
-    page_title="TrendPulse AI - Commercial Signal Intelligence",
+    page_title="TrendPulse AI - Revenue Signal Intelligence",
     page_icon="⚡",
     layout="wide",
 )
@@ -16,13 +16,13 @@ st.set_page_config(
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
-# Dynamic Language Dictionary
+# Dynamic Language Dictionary with Income & ROI Terminology
 TEXTS = {
     "English": {
         "title": "⚡ TrendPulse AI: Commercial Signal Intelligence",
         "subtitle": (
             "Predictive Trend Intelligence | Automated Creator & Merchant"
-            " Execution"
+            " Revenue Multiplier"
         ),
         "terminal": "🔑 Enterprise Access Terminal",
         "simulate_pro": "Simulate Pro Subscription Access",
@@ -35,32 +35,35 @@ TEXTS = {
         "telemetry_title": "📊 Live Telemetry & Growth Forecast",
         "custom_search": "🔍 Custom Asset Search (Optional):",
         "active_signals_for": "Active Signals for:",
-        "filtered_asset": "Filtered Asset",
-        "pred_velocity": "Predictive Velocity",
+        "filtered_asset": "Filtered Trend Asset",
+        "est_revenue": "Est. Revenue Opportunity",
+        "saturation": "Saturation Window",
         "status": "Signal Status",
-        "chart_title": "📈 Dynamic Velocity Forecast Curve",
-        "matrix_title": "💡 Actionable Intelligence Matrix",
-        "locked_title": "🔒 PREDICTIVE EXECUTION SUITE IS LOCKED",
+        "chart_title": "📈 Dynamic Velocity & Demand Forecast Curve",
+        "matrix_title": "💡 Actionable Intelligence & Income Blueprint Matrix",
+        "locked_title": "🔒 MULTI-CHANNEL REVENUE BLUEPRINT IS LOCKED",
         "locked_info": (
-            "Unlock full profit blueprints, script hooks, audio vibes, and"
-            " 30-sec execution plans."
+            "Unlock high-converting scripts, viral hooks, monetized ad copy,"
+            " and step-by-step 10x ROI execution plan."
         ),
-        "upgrade_btn": "🔥 Upgrade to Pro Member Tier",
-        "analyzing_custom": "Analyzing Custom Asset:",
+        "upgrade_btn": "🔥 Upgrade to Pro & Unlock Revenue Engine",
+        "analyzing_custom": "Analyzing Revenue Potential for:",
         "select_asset": "🎯 Select Filtered Asset:",
         "operating_role": "👤 Operating Role:",
-        "gen_blueprint": "⚡ Generate Master Blueprint",
-        "monetization": "💰 Monetization & Profit Strategy",
-        "hook": "🎬 High-Retention Visual Hook (Copy & Use)",
-        "audio": "🎵 Recommended Audio Vibe",
-        "caption": "📢 Ready-to-Use Caption / Ad Copy",
-        "plan": "📝 Rapid Execution Plan",
+        "gen_blueprint": "⚡ Generate High-ROI Master Blueprint",
+        "monetization": "💰 Income Strategy & Profit Model",
+        "hook": "🎬 High-Retention Viral Hook (Copy & Use)",
+        "audio": "🎵 Recommended High-Converting Audio Vibe",
+        "caption": "📢 High-ROAS Caption / Commercial Ad Copy",
+        "plan": "📝 3-Step Rapid Revenue Execution Plan",
+        "roi_label": "Predicted Revenue Multiplier",
+        "roi_value": "8.4x Average Boost",
     },
     "Hindi": {
         "title": "⚡ TrendPulse AI: कमर्शियल सिग्नल इंटेलिजेंस",
         "subtitle": (
             "प्रेडिक्टिव ट्रेंड इंटेलिजेंस | ऑटोमेटेड क्रिएटर और मर्चेंट"
-            " एग्जीक्यूशन"
+            " रेवेन्यू मल्टिफ्लायर"
         ),
         "terminal": "🔑 एंटरप्राइज एक्सेस टर्मिनल",
         "simulate_pro": "प्रो सब्सक्रिप्शन एक्सेस सिमुलेट करें",
@@ -74,29 +77,32 @@ TEXTS = {
         "custom_search": "🔍 कस्टम एसेट सर्च (वैकल्पिक):",
         "active_signals_for": "सक्रिय सिग्नल:",
         "filtered_asset": "फ़िल्टर किया गया एसेट",
-        "pred_velocity": "अनुमानित गति (Velocity)",
+        "est_revenue": "अनुमानित आय का अवसर (Revenue)",
+        "saturation": "सैचुरेशन विंडो (मांग)",
         "status": "सिग्नल स्थिति",
-        "chart_title": "📈 डायनेमिक वेलोसिटी फ़ोरकास्ट कर्व",
-        "matrix_title": "💡 एक्शनएबल इंटेलिजेंस मैट्रिक्स",
-        "locked_title": "🔒 प्रेडिक्टिव एग्जीक्यूशन सूट लॉक है",
+        "chart_title": "📈 डायनेमिक वेलोसिटी और डिमांड फ़ोरकास्ट कर्व",
+        "matrix_title": "💡 एक्शनएबल इंटेलिजेंस और इनकम ब्लूप्रिंट मैट्रिक्स",
+        "locked_title": "🔒 मल्टी-चैनल रेवेन्यू ब्लूप्रिंट लॉक है",
         "locked_info": (
-            "पूरे प्रॉफिट ब्लूप्रिंट, स्क्रिप्ट हुक, ऑडियो वाइब्स और 30-सेकंड"
-            " प्लान अनलॉक करें।"
+            "हाई-कन्वर्टिंग स्क्रिप्ट, वायरल हुक, मोनेटाइज्ड एड कॉपी और 10x ROI"
+            " एग्जीक्यूशन प्लान अनलॉक करें।"
         ),
-        "upgrade_btn": "🔥 प्रो मेंबर टियर में अपग्रेड करें",
-        "analyzing_custom": "कस्टम एसेट का विश्लेषण:",
+        "upgrade_btn": "🔥 प्रो में अपग्रेड करें और रेवेन्यू इंजन अनलॉक करें",
+        "analyzing_custom": "आय क्षमता का विश्लेषण:",
         "select_asset": "🎯 फ़िल्टर किया गया एसेट चुनें:",
         "operating_role": "👤 आपकी भूमिका (Role):",
-        "gen_blueprint": "⚡ मास्टर ब्लूप्रिंट जनरेट करें",
-        "monetization": "💰 मोनेटाइजेशन और प्रॉफिट रणनीति",
+        "gen_blueprint": "⚡ हाई-ROI मास्टर ब्लूप्रिंट जनरेट करें",
+        "monetization": "💰 इनकम रणनीति और प्रॉफिट मॉडल",
         "hook": "🎬 हाई-रिटेंशन विजुअल हुक (कॉपी और उपयोग करें)",
         "audio": "🎵 अनुशंसित ऑडियो वाइब",
-        "caption": "📢 तैयार कैप्शन / एड कॉपी",
-        "plan": "📝 त्वरित निष्पादन योजना (Execution Plan)",
+        "caption": "📢 तैयार हाई-ROAS एड कॉपी / कैप्शन",
+        "plan": "📝 3-चरणीय त्वरित रेवेन्यू प्लान",
+        "roi_label": "अनुमानित आय मल्टीप्लायर",
+        "roi_value": "8.4x औसत वृद्धि",
     },
 }
 
-# Custom CSS
+# Custom CSS styling
 st.markdown(
     """
 
@@ -258,25 +264,28 @@ def generate_master_intelligence(
   if not GROQ_API_KEY:
     return {
         "viral_score": f"{velocity_score}%",
+        "roi_multiplier": "6.8x - 12.4x Potential",
         "prediction_window": (
-            f"Peak active on {platform} over {timeframe} window"
+            f"Peak Monetization Active on {platform} over {timeframe} window"
         ),
         "profit_model": (
             f"Capitalize on '{keyword_asset}' under {category} using targeted"
-            f" {target_role} monetization workflows."
+            f" {target_role} monetization workflows to generate recurring"
+            " sales."
         ),
         "execution_hook": (
-            f"Stop scrolling! Here is how '{keyword_asset}' is trending on"
-            f" {platform}..."
+            f"Stop scrolling! Here is how '{keyword_asset}' is printing revenue"
+            f" on {platform}..."
         ),
         "audio_suggestion": "Trending Low-Fi Beats / High-Energy Phonk Track",
         "ad_copy": (
-            f"Get instant access to top-rated '{keyword_asset}' solutions"
-            " today!"
+            f"Unlock instant revenue using top-rated '{keyword_asset}'"
+            " strategies today!"
         ),
         "action_blueprint": (
-            "1. Launch targeted content using keyword hook\n2. Integrate"
-            " recommended audio vibe\n3. Direct audience to monetized CTA"
+            "1. Launch targeted high-converting reel using keyword hook\n2."
+            " Integrate recommended viral audio vibe\n3. Direct audience to"
+            " high-ticket CTA funnel"
         ),
     }
 
@@ -284,15 +293,16 @@ def generate_master_intelligence(
   prompt = f"""
     Analyze Keyword Asset: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform: '{platform}' | Timeframe: '{timeframe}' | Velocity Score: {velocity_score}%
     Language to respond in: {lang}
-    Generate an execution blueprint. Return STRICT JSON:
+    Generate an income execution blueprint. Return STRICT JSON:
     {{
       "viral_score": "{velocity_score}%",
-      "prediction_window": "Specific lifecycle window based on {timeframe}",
-      "profit_model": "Monetization strategy for {target_role}",
-      "execution_hook": "High-retention 3-second hook for {platform}",
+      "roi_multiplier": "e.g., 5.5x - 11.2x Revenue Potential",
+      "prediction_window": "Specific monetization lifecycle window based on {timeframe}",
+      "profit_model": "Actionable monetization strategy focused on increasing income for {target_role}",
+      "execution_hook": "High-retention 3-second hook designed for conversions on {platform}",
       "audio_suggestion": "Recommended viral audio vibe",
-      "ad_copy": "High-converting caption/ad copy text",
-      "action_blueprint": "3-step execution plan"
+      "ad_copy": "High-converting ad copy text designed to multiply revenue",
+      "action_blueprint": "3-step rapid execution plan"
     }}
     """
   try:
@@ -306,12 +316,13 @@ def generate_master_intelligence(
   except Exception:
     return {
         "viral_score": f"{velocity_score}%",
-        "prediction_window": f"Active Growth Phase ({timeframe})",
-        "profit_model": f"Monetize '{keyword_asset}' immediately.",
-        "execution_hook": f"Secret strategy for '{keyword_asset}'!",
+        "roi_multiplier": "7.2x Revenue Potential",
+        "prediction_window": f"Active Growth & High Revenue Phase ({timeframe})",
+        "profit_model": f"Monetize '{keyword_asset}' immediately using high-converting funnels.",
+        "execution_hook": f"Secret monetization strategy for '{keyword_asset}'!",
         "audio_suggestion": "Trending High-Tempo Track",
-        "ad_copy": f"Check out '{keyword_asset}' now!",
-        "action_blueprint": "1. Post Content\n2. Add CTA\n3. Monetize",
+        "ad_copy": f"Check out '{keyword_asset}' and multiply your income now!",
+        "action_blueprint": "1. Post High-Converting Content\n2. Add Direct CTA\n3. Scaled Sales Monetization",
     }
 
 
@@ -319,7 +330,7 @@ def generate_master_intelligence(
 if "is_premium" not in st.session_state:
   st.session_state["is_premium"] = False
 
-# TOP BAR: Title Header & Clean Language Switcher Positioned at Top Right
+# TOP BAR: Title Header & Clean Language Switcher
 head_col1, head_col2 = st.columns([3, 1])
 
 with head_col2:
@@ -429,19 +440,23 @@ with left_col:
       geo_map[geo_option], platform_source, selected_category, timeframe
   )
 
+  revenue_tiers = [
+      "$18,500/mo",
+      "$14,200/mo",
+      "$9,800/mo",
+      "$7,500/mo",
+      "$5,100/mo",
+  ]
   table_data = []
   signal_scores = {}
   for idx, item in enumerate(active_signals):
     score = round(98.8 - (idx * 3.2), 1)
-    stage = (
-        "🌱 Emerging (Peak Pending)"
-        if idx % 2 == 0
-        else "🔥 Active Viral Peak"
-    )
+    sat_val = 12 + (idx * 8)
+    sat_status = f"{sat_val}% (High ROI Window)"
     table_data.append({
         t["filtered_asset"]: item["Keyword"],
-        t["pred_velocity"]: f"{score}%",
-        t["status"]: stage,
+        t["est_revenue"]: revenue_tiers[idx % len(revenue_tiers)],
+        t["saturation"]: sat_status,
     })
     signal_scores[item["Keyword"]] = score
 
@@ -465,21 +480,23 @@ with left_col:
   days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"]
   multiplier = base_score / 100.0
   velocity_values = [
-      int(20 * multiplier),
-      int(45 * multiplier),
-      int(75 * multiplier),
+      int(25 * multiplier),
+      int(50 * multiplier),
+      int(85 * multiplier),
       int(100 * multiplier),
-      int(92 * multiplier),
-      int(80 * multiplier),
-      int(65 * multiplier),
+      int(94 * multiplier),
+      int(82 * multiplier),
+      int(70 * multiplier),
   ]
 
-  fig_df = pd.DataFrame({"Day": days, "Search Velocity": velocity_values})
+  fig_df = pd.DataFrame(
+      {"Day": days, "Demand & Revenue Trajectory": velocity_values}
+  )
   fig = px.line(
       fig_df,
       x="Day",
-      y="Search Velocity",
-      title=f"7-Day Forecast: {chart_keyword[:30]}...",
+      y="Demand & Revenue Trajectory",
+      title=f"7-Day Profit Potential Curve: {chart_keyword[:30]}...",
       markers=True,
   )
   fig.update_traces(line_color="#ff4b4b", line_width=3)
@@ -498,65 +515,7 @@ with right_col:
   if not st.session_state["is_premium"]:
     st.error(t["locked_title"])
     st.info(t["locked_info"])
-    st.link_button(
-        t["upgrade_btn"],
-        STRIPE_CHECKOUT_URL,
-        type="primary",
-        width="stretch",
-    )
-  else:
-    if custom_search.strip():
-      target_keyword = custom_search.strip()
-      target_score = 95.0
-      st.info(f"{t['analyzing_custom']} **{target_keyword}**")
-    else:
-      keyword_list = [t["Keyword"] for t in active_signals]
-      target_keyword = st.selectbox(t["select_asset"], keyword_list)
-      target_score = signal_scores.get(target_keyword, 92.0)
 
-    user_role = st.radio(
-        t["operating_role"],
-        [
-            "Content Creator / Influencer",
-            "E-Commerce Merchant / Dropshipper",
-            "Agency Owner / Freelancer",
-        ],
-        horizontal=True,
-    )
-
-    if st.button(t["gen_blueprint"], type="primary", width="stretch"):
-      with st.spinner("Processing fully synchronized signal matrices..."):
-        result = generate_master_intelligence(
-            target_keyword,
-            selected_category,
-            user_role,
-            platform_source,
-            timeframe,
-            target_score,
-            selected_lang,
-        )
-
-        st.success(f"🎯 Complete Intelligence Blueprint: **{target_keyword}**")
-
-        col_m1, col_m2 = st.columns(2)
-        with col_m1:
-          st.metric(
-              label="Predictive Viral Score", value=result.get("viral_score")
-          )
-        with col_m2:
-          st.info(f"**Timeline:** {result.get('prediction_window')}")
-
-        with st.expander(t["monetization"], expanded=True):
-          st.write(result.get("profit_model"))
-
-        with st.expander(t["hook"], expanded=True):
-          st.code(f'"{result.get("execution_hook")}"', language="text")
-
-        with st.expander(t["audio"], expanded=True):
-          st.write(f"🔊 **Audio Suggestion:** {result.get('audio_suggestion')}")
-
-        with st.expander(t["caption"], expanded=True):
-          st.code(f"{result.get('ad_copy')}", language="text")
-
-        with st.expander(t["plan"], expanded=True):
-          st.write(result.get("action_blueprint"))
+    # Teaser Box to drive conversions
+    st.markdown(
+        f"""
