@@ -318,11 +318,17 @@ def generate_master_intelligence(
         "viral_score": f"{velocity_score}%",
         "roi_multiplier": "7.2x Revenue Potential",
         "prediction_window": f"Active Growth & High Revenue Phase ({timeframe})",
-        "profit_model": f"Monetize '{keyword_asset}' immediately using high-converting funnels.",
+        "profit_model": (
+            f"Monetize '{keyword_asset}' immediately using high-converting"
+            " funnels."
+        ),
         "execution_hook": f"Secret monetization strategy for '{keyword_asset}'!",
         "audio_suggestion": "Trending High-Tempo Track",
         "ad_copy": f"Check out '{keyword_asset}' and multiply your income now!",
-        "action_blueprint": "1. Post High-Converting Content\n2. Add Direct CTA\n3. Scaled Sales Monetization",
+        "action_blueprint": (
+            "1. Post High-Converting Content\n2. Add Direct CTA\n3. Scaled"
+            " Sales Monetization"
+        ),
     }
 
 
@@ -419,9 +425,7 @@ with st.form(key="filter_form"):
         ],
     )
 
-  apply_filters = st.form_submit_button(
-      t["apply_btn"], use_container_width=True
-  )
+  apply_filters = st.form_submit_button(t["apply_btn"], width="stretch")
 
 st.markdown("---")
 
@@ -507,7 +511,7 @@ with left_col:
       plot_bgcolor="rgba(0,0,0,0)",
       font=dict(color="white"),
   )
-  st.plotly_chart(fig, use_container_width=True)
+  st.plotly_chart(fig, width="stretch")
 
 with right_col:
   st.subheader(t["matrix_title"])
@@ -516,7 +520,7 @@ with right_col:
     st.error(t["locked_title"])
     st.info(t["locked_info"])
 
-    # Teaser Box without unterminated string syntax errors
     first_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
-    st.markdown(
+
+    teaser_html = (
         '
