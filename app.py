@@ -174,12 +174,13 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
         
     else:
-        # FIXED: Explicitly pop the first list element dictionary BEFORE calling key matching (.get)
+        # FIXED: Rock-solid parsing sequence extracting the raw dictionary item strictly by index targeting
         selected_keyword = "Minimalist Office Setup Accessories"
-        if isinstance(trends, list) and len(trends) > 0:
-            first_element = trends[0]  # Access first element directly
-            if isinstance(first_element, dict):
-                selected_keyword = first_element.get("Topic", "Minimalist Office Setup Accessories")
+        try:
+            if isinstance(trends, list) and len(trends) > 0:
+                selected_keyword = str(trends[0]["Topic"])
+        except Exception:
+            selected_keyword = "Minimalist Office Setup Accessories"
             
         st.info(f"🎯 Currently Tracking Highest Velocity Target: **{selected_keyword}**")
         
