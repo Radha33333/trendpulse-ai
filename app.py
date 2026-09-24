@@ -182,6 +182,7 @@ def create_pdf_blueprint(
         ("Recommended Audio Vibe", result.get("audio_suggestion", "")),
         ("High-ROAS Caption & CTA", result.get("ad_copy", "")),
         ("Action Roadmap", result.get("action_blueprint", "")),
+        ("Competitor Ad Intelligence", result.get("competitor_intelligence", "")),
     ]
 
     for title, text in sections:
@@ -349,25 +350,29 @@ def generate_master_intelligence(
             f"Peak Trend Lifecycle Active ({timeframe} window)"
         ),
         "profit_model": (
-            f"Strategy: High-Converting Funnel & Direct Response Affiliate Model for {keyword_asset}.\n"
-            "• Step 1: Set up a targeted micro-landing page focusing on the exact pain point resolved by this trend.\n"
-            "• Step 2: Leverage automated DM triggers (e.g., ManyChat) to deliver direct affiliate links instantly when viewers comment."
+            f"• **Strategy:** Direct-to-Consumer Affiliate Funnel & Automated Lead Capture tailored for {target_role}.\n"
+            f"• **Execution Model:** Direct high-intent buyers of {keyword_asset} to a high-converting landing page using automated trigger tools."
         ),
         "execution_hook": (
-            f"• 0-3s Visual Cue: Fast-paced dynamic text transition over close-up b-roll of {keyword_asset}.\n"
-            "• Text Overlay: \"The one trend everyone is ignoring (until now) ⚠️\"\n"
-            "• Spoken Script: \"If you're still doing it the old way, you need to see this exact breakdown...\""
+            f"• **0-3s Visual Cue:** High-contrast close-up shot showcasing the core utility of {keyword_asset}.\n"
+            f"• **Text Overlay:** \"The secret tool top performers are using in 2026 ⚡\"\n"
+            f"• **Spoken Script:** \"If you're tired of doing this the hard way, look at these exact results...\""
         ),
-        "audio_suggestion": "Trending High-Energy Phonk / Cinematic Rhythmic Build",
+        "audio_suggestion": "Upbeat Phonk / Rhythmic Ambient Build",
         "ad_copy": (
-            f"The exact system behind the rise of {keyword_asset} 🚀📈\n\n"
-            "We tested this for 48 hours and the results speak for themselves. Drop a comment below with 'INFO' and we'll send you the complete framework directly!\n\n"
-            "#TrendAnalysis #GrowthHacking #DigitalStrategy #2026Trends"
+            f"Scaling results with {keyword_asset} 🚀📈\n\n"
+            "We tested this system across multiple channels and the ROI is unmatched. Comment 'READY' below and we'll send the complete framework straight to your DMs!\n\n"
+            "#GrowthHacking #DigitalStrategy #2026Trends"
         ),
         "action_blueprint": (
-            "1. HOUR 1: Capture or curate high-contrast 9:16 visual assets tailored to the platform.\n"
-            "2. HOUR 6: Configure keyword automation triggers for comments to capture high-intent leads.\n"
-            "3. DAY 2: Review retention data at the 3-second mark and scale ad spend or organic distribution on winning variations."
+            "1. HOUR 1: Record 9:16 high-retention video asset optimized for the platform.\n"
+            "2. HOUR 6: Deploy auto-DM keyword trigger sequence for comment conversion.\n"
+            "3. DAY 2: Evaluate 3-second retention metrics and scale distribution on winning variants."
+        ),
+        "competitor_intelligence": (
+            f"• **Top Competitor Hook Style:** *'Stop making this massive mistake with {keyword_asset}...'*\n"
+            "• **Optimal Video Duration:** 12 - 18 seconds\n"
+            "• **Estimated Engagement Benchmark:** High (4.8% CTR / Strong comment velocity)"
         ),
     }
 
@@ -381,17 +386,18 @@ def generate_master_intelligence(
     Analyze Asset: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform: '{platform}' | Timeframe: '{timeframe}' | Velocity: {velocity_score}%
     Language: {lang}
     
-    Provide hyper-specific, highly actionable, non-generic advice tailored directly to the asset and user role. Avoid vague filler phrases. Make the script sharp, engaging, and ready for immediate professional deployment.
+    Provide hyper-specific, highly tactical, actionable intelligence tailored precisely to the asset and user role ({target_role}). Avoid generic filler. Create professional-grade strategies ready for immediate commercial deployment.
 
     Return STRICT JSON format:
     {{
       "viral_score": "{velocity_score}%",
       "prediction_window": "Monetization lifecycle active window with specific timing details",
-      "profit_model": "Detailed, highly specific monetization strategy and step-by-step conversion framework",
-      "execution_hook": "Specific 0-3s visual cue, exact text overlay, and high-retention spoken script",
+      "profit_model": "Detailed, specific monetization strategy and conversion steps",
+      "execution_hook": "Specific 0-3s visual cue, exact text overlay, and high-retention script",
       "audio_suggestion": "Precise trending audio genre or vibe descriptor",
       "ad_copy": "High-ROAS caption with professional CTA and targeted hashtags",
-      "action_blueprint": "Clear 3-step rapid execution roadmap with hour/day markers"
+      "action_blueprint": "Clear 3-step rapid execution roadmap with time markers",
+      "competitor_intelligence": "Detailed competitor benchmark data including hook style, video duration, and expected CTR"
     }}
     """
 
@@ -695,12 +701,7 @@ with right_col:
                 st.markdown(result.get("action_blueprint"))
 
             with st.expander(t["competitor_insight"], expanded=False):
-                st.write(
-                    f"• **Top Competitor Hook:** *Stop making this common"
-                    f" mistake with {target_keyword}...*"
-                )
-                st.write("• **Avg. Video Duration:** 12 - 18 seconds")
-                st.write("• **Estimated Engagement Rate:** High (4.8% CTR)")
+                st.markdown(result.get("competitor_intelligence"))
 
             pdf_buffer = create_pdf_blueprint(
                 target_keyword,
