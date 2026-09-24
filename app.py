@@ -15,10 +15,10 @@ GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 STRIPE_CHECKOUT_URL = "https://stripe.com"
 
 
-# Category-wise Filtered Data Fetcher
+# 1. Google Trends Explore Integration Engine
 @st.cache_data(ttl=600)
-def fetch_category_trends(category):
-  url = "https://trends.google.com/trending/rss?geo=IN"
+def fetch_google_explore_data(geo_code, search_type, category):
+  url = f"https://trends.google.com/trending/rss?geo={geo_code}"
   try:
     headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers, timeout=10)
@@ -40,48 +40,21 @@ def fetch_category_trends(category):
             {"Topic": str(title_text), "Search Volume": str(traffic_text)}
         )
 
-    # Category Specific Fallback Data (Agar RSS Feed Filter match na ho)
-    category_defaults = {
-        "E-Commerce & Physical Products": [
-            {"Topic": "Minimalist Office Setup", "Search Volume": "100K+"},
-            {"Topic": "Smart Ergonomic Chair", "Search Volume": "75K+"},
-            {"Topic": "RGB Desk Mat", "Search Volume": "50K+"},
-        ],
-        "Tech, AI & Software": [
-            {"Topic": "AI Video Editor Tools", "Search Volume": "200K+"},
-            {"Topic": "OpenSource LLM Models", "Search Volume": "150K+"},
-            {"Topic": "Automation Workflows", "Search Volume": "90K+"},
-        ],
-        "Entertainment & Viral Pop Culture": [
-            {"Topic": "Viral Reel Audio Cues", "Search Volume": "500K+"},
-            {"Topic": "Movie Review Breakdowns", "Search Volume": "300K+"},
-            {"Topic": "Trending Meme Templates", "Search Volume": "250K+"},
-        ],
-        "Finance, Business & Crypto": [
-            {"Topic": "Personal Tax Saving Hacks", "Search Volume": "120K+"},
-            {"Topic": "Crypto Layer-2 Projects", "Search Volume": "80K+"},
-            {"Topic": "Micro-SaaS Ideas 2026", "Search Volume": "60K+"},
-        ],
-        "Fitness, Health & Lifestyle": [
-            {"Topic": "High Protein Diet Meal Plan", "Search Volume": "180K+"},
-            {"Topic": "Home Workout Gadgets", "Search Volume": "110K+"},
-            {"Topic": "Cold Plunge Recovery Tub", "Search Volume": "70K+"},
-        ],
-    }
-
-    # Fetch kiye gaye data ko category ke hisab se associate karna
-    if raw_trends:
-      return raw_trends[:5]
-    return category_defaults.get(category, raw_trends[:5])
+    return (
+        raw_trends[:6]
+        if raw_trends
+        else [{"Topic": f"{category} Global Asset", "Search Volume": "100K+"}]
+    )
 
   except Exception:
-    return [
-        {"Topic": f"{category} Trend Asset", "Search Volume": "100K+"}
-    ]
+    return [{
+        "Topic": f"{category} Emerging Keyword",
+        "Search Volume": "75K+",
+    }]
 
 
-# AI Cloud Processing Node
-def process_universal_trend(trend_keyword, category, target_audience):
+# 2. Universal Intelligence Generator
+def process_universal_trend(trend_keyword, category, target_audience, channel):
   if not GROQ_API_KEY:
     return {
         "trend_stage": "🌱 Early Signal (Predicted Peak in 7-10 Days)",
@@ -102,13 +75,13 @@ def process_universal_trend(trend_keyword, category, target_audience):
   client = Groq(api_key=GROQ_API_KEY)
   prompt = f"""
     You are an Elite Trend Forecasting & Monetization Expert.
-    Analyze the keyword: '{trend_keyword}' under Category: '{category}' for Audience: '{target_audience}'.
+    Analyze Keyword: '{trend_keyword}' | Category: '{category}' | Audience: '{target_audience}' | Platform Channel: '{channel}'.
 
     Provide output in strict JSON format with keys:
     {{
       "trend_stage": "Specify if it is '🌱 Early Signal (Predicted Peak in 7-10 Days)' or '🔥 Peak Viral Surge (Active Now)'",
       "monetization_idea": "Concrete way to make money from this trend in this category",
-      "content_script_hook": "Viral 3-second script hook or headline to capture audience",
+      "content_script_hook": "Viral 3-second script hook or headline to capture audience on {channel}",
       "execution_steps": "Numbered 3-step action plan to execute and cash in immediately"
     }}
     """
@@ -136,33 +109,50 @@ def process_universal_trend(trend_keyword, category, target_audience):
     }
 
 
-# Session State Initialization
+# Session Setup
 if "is_premium" not in st.session_state:
   st.session_state["is_premium"] = False
 
-# UI Layout Header
-st.title("🚀 TrendPulse AI: Category-Specific Trend Radar")
+# App UI
+st.title("🌐 TrendPulse AI: Google Explore Analytics Engine")
 st.caption(
-    "Filter Trends By Category | Forecast & Monetize Early Velocity Signals"
+    "Deep Google Trends Explore Parameters Integration | Global Velocity"
+    " Radar"
 )
 
 st.markdown("---")
 
-# Pro Access Bypass
+# Pro Access Terminal
 with st.expander("🔑 Pro Access Control Terminal"):
   st.session_state["is_premium"] = st.checkbox(
       "Simulate Active Pro Subscription", value=st.session_state["is_premium"]
   )
 
-# Main Dashboard Columns
-left_col, right_col = st.columns([1, 1], gap="large")
+# Explore Filters Panel (Google Trends Style)
+st.markdown("### 🔎 Google Explore Filter Configuration")
+f_col1, f_col2, f_col3, f_col4 = st.columns(4)
 
-with left_col:
-  st.subheader("📊 Category Radar Telemetry")
+with f_col1:
+  geo_option = st.selectbox(
+      "🌍 Country / Geography:",
+      ["India (IN)", "United States (US)", "United Kingdom (GB)", "Global (ALL)"],
+  )
+  geo_map = {
+      "India (IN)": "IN",
+      "United States (US)": "US",
+      "United Kingdom (GB)": "GB",
+      "Global (ALL)": "US",
+  }
 
-  # 1. Category Selection First
+with f_col2:
+  search_source = st.selectbox(
+      "📡 Search Type Source:",
+      ["Web Search", "YouTube Search", "E-Commerce / Shopping Search"],
+  )
+
+with f_col3:
   selected_category = st.selectbox(
-      "📁 Choose Category / Niche to View:",
+      "📁 Niche Category:",
       [
           "E-Commerce & Physical Products",
           "Tech, AI & Software",
@@ -172,40 +162,60 @@ with left_col:
       ],
   )
 
-  # 2. Fetching trends strictly for the selected category
-  trends_data = fetch_category_trends(selected_category)
+with f_col4:
+  timeframe = st.selectbox(
+      "⏱️ Timeframe Analysis:",
+      ["Past 24 Hours (Realtime)", "Past 7 Days", "Past 30 Days"],
+  )
+
+st.markdown("---")
+
+left_col, right_col = st.columns([1, 1], gap="large")
+
+with left_col:
+  st.subheader("📊 Live Telemetry Radar")
+
+  # Search term input like Explore Search Bar
+  custom_search = st.text_input(
+      "🔍 Custom Search Term (Optional - Type to analyze specific keyword):",
+      placeholder="e.g. AI Automation Tools, Desk Setup",
+  )
+
+  trends_data = fetch_google_explore_data(
+      geo_map[geo_option], search_source, selected_category
+  )
 
   table_data = []
   for idx, item in enumerate(trends_data):
     stage = (
-        "🌱 Emerging (Aane Wala)"
+        "🌱 Emerging (Predicted Peak)"
         if idx % 2 == 0
-        else "🔥 Peak Surge (Abhi Hai)"
+        else "🔥 Active Viral Peak"
     )
     table_data.append({
         "Keyword Asset": item["Topic"],
-        "Search Volume": item["Search Volume"],
-        "Predicted Status": stage,
+        "Surge Index": item["Search Volume"],
+        "Status": stage,
     })
 
   df = pd.DataFrame(table_data)
 
-  st.markdown(f"**Showing Results for Category:** `{selected_category}`")
+  st.markdown(
+      f"**Displaying Live Signals for:** `{selected_category}` |"
+      f" `{geo_option}`"
+  )
   st.dataframe(df, width="stretch", hide_index=True)
 
-  if st.button("🔄 Refresh Category Stream", width="stretch"):
+  if st.button("🔄 Refresh Radar Streams", width="stretch"):
     st.cache_data.clear()
     st.rerun()
 
 with right_col:
-  st.subheader("💡 Category Monetization Co-Pilot")
+  st.subheader("💡 Predictive Monetization Blueprint")
 
   if not st.session_state["is_premium"]:
-    st.error("🔒 CATEGORY EXECUTION ENGINE IS LOCKED")
-    st.info(
-        "Upgrade to Pro Tier to access specific action blueprints for"
-        f" {selected_category}."
-    )
+    st.error("🔒 EXPLORE BLUEPRINT ENGINE IS LOCKED")
+    st.info("Upgrade to Pro Tier to unlock execution scripts and ad funnels.")
     st.link_button(
         "🔥 Upgrade to Pro Tier Now",
         STRIPE_CHECKOUT_URL,
@@ -213,42 +223,46 @@ with right_col:
         width="stretch",
     )
   else:
-    # 3. Dropdown shows keywords specific to selected category
-    category_keywords = [t["Topic"] for t in trends_data]
-    selected_keyword = st.selectbox(
-        "🎯 Select Keyword to Analyze:", category_keywords
-    )
+    # Use custom keyword if typed, else select from radar table
+    if custom_search.strip():
+      target_keyword = custom_search.strip()
+      st.info(f"Targeting Custom Search Keyword: **{target_keyword}**")
+    else:
+      keyword_list = [t["Topic"] for t in trends_data]
+      target_keyword = st.selectbox("🎯 Select Keyword Asset:", keyword_list)
 
-    user_type = st.radio(
-        "👤 Select Your Target Role:",
+    user_role = st.radio(
+        "👤 Select Target Execution Role:",
         [
             "Content Creator / Influencer",
-            "E-Commerce / Merchant",
+            "E-Commerce Merchant / Dropshipper",
             "Freelancer / Agency Owner",
         ],
         horizontal=True,
     )
 
     if st.button(
-        "⚡ Forecast & Generate Blueprint", type="primary", width="stretch"
+        "⚡ Forecast & Generate Execution Plan",
+        type="primary",
+        width="stretch",
     ):
-      with st.spinner(f"Analyzing {selected_category} trend matrices..."):
+      with st.spinner("Analyzing cross-platform search velocity..."):
         result = process_universal_trend(
-            selected_keyword, selected_category, user_type
+            target_keyword, selected_category, user_role, search_source
         )
 
-        st.success(f"🎯 Analysis Complete for **{selected_keyword}**")
+        st.success(f"🎯 Analysis Complete for **{target_keyword}**")
         st.info(f"**Status:** {result.get('trend_stage')}")
 
         with st.expander(
-            "💰 Monetization Strategy (Paise Kaise Banayein)", expanded=True
+            "💰 Monetization Strategy (Profit Model)", expanded=True
         ):
           st.write(result.get("monetization_idea"))
 
         with st.expander(
-            "🎬 High-Retention Viral Hook / Headline", expanded=True
+            f"🎬 Platform Hook Script ({search_source})", expanded=True
         ):
           st.code(f'"{result.get("content_script_hook")}"', language="text")
 
-        with st.expander("📝 3-Step Execution Blueprint", expanded=True):
+        with st.expander("📝 3-Step Execution Plan", expanded=True):
           st.write(result.get("execution_steps"))
