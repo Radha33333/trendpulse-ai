@@ -93,13 +93,18 @@ st.title("🚀 TrendPulse AI: Commercial Intelligence Feed")
 st.caption("24/7 Autonomous B2B trend tracking engine operating at zero overhead.")
 
 st.markdown("---")
-st.subheader("🔐 Workspace Access Controls")
-st.session_state["is_premium_user"] = st.checkbox("Simulate Paid Account Active (Check this box to unlock the AI Engine Below)", value=st.session_state["is_premium_user"])
 
-if st.session_state["is_premium_user"]:
-    st.success("👑 Premium License Verified - Cloud Processing System Online")
-else:
-    st.warning("⚠️ Restricted Sandbox Tier - Premium Features Gate-locked")
+# FIXED UI PANEL: Clear and permanently visible admin simulator
+st.subheader("🔐 System Verification Hub")
+admin_col1, admin_col2 = st.columns([2, 1])
+with admin_col1:
+    st.session_state["is_premium_user"] = st.checkbox("Simulate Paid Account Active (Check this to toggle gates instantly)", value=st.session_state["is_premium_user"])
+with admin_col2:
+    if st.session_state["is_premium_user"]:
+        st.success("👑 Premium Server Online")
+    else:
+        st.warning("⚠️ Sandbox Sandbox Active")
+
 st.markdown("---")
 
 left_col, right_col = st.columns(2, gap="large")
@@ -112,6 +117,11 @@ with left_col:
     df = pd.DataFrame(trends)
     st.dataframe(df, use_container_width=True, hide_index=True)
     
+    # Clean UI interactivity trigger to pull data manually
+    if st.button("🔄 Refresh Live Telemetry Data", use_container_width=True):
+        st.rerun()
+    
+    st.markdown("---")
     st.markdown("### 🔓 Free Tier Account Status")
     st.caption("You are viewing limited baseline telemetry. Upgrade to unlock full structural insights.")
 
@@ -142,7 +152,7 @@ with right_col:
                     with st.expander("🎬 High-Retention 3-Second Video Hook", expanded=True):
                         st.code(f'"{report.get("high_retention_hook")}"', language="text")
                     
-                    # NEW FEATURE: Structural White-label Report Exporter Functionality
+                    # White-label Report Exporter Functionality
                     st.markdown("---")
                     report_txt = (
                         f"TRENDPULSE AI - COMMERCIAL INTELLIGENCE REPORT\n"
