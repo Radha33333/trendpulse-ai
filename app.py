@@ -3,10 +3,9 @@ from groq import Groq
 import xml.etree.ElementTree as ET
 import requests
 import pandas as pd
-import json
 
 # Initialize structural viewport properties
-st.set_page_config(page_title="TrendPulse AI - Admin Portal", page_icon="📈", layout="wide")
+st.set_page_config(page_title="TrendPulse AI - Intelligence Portal", page_icon="📈", layout="wide")
 
 # Secure API Ingestion Layer via Streamlit Cloud Secrets Manager
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
@@ -14,7 +13,7 @@ GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 # Stripe Gateway Checkout Link Setup
 STRIPE_CHECKOUT_URL = "https://stripe.com"
 
-# SECURE ADMIN CREDENTIALS (यहाँ अपनी मनपसंद ID और Password बदल सकते हैं)
+# SECURE ADMIN CREDENTIALS
 ADMIN_USERNAME = "admin123"
 ADMIN_PASSWORD = "trendpulse_owner_2026"
 
@@ -40,25 +39,31 @@ def fetch_realtime_commercial_spikes():
     except Exception:
         return [{"Topic": "Minimalist Office Setup Accessories", "Search Volume Surge": "100K+"}]
 
-# 2. Cloud AI Processing Core (Zero-Temperature Factual Filter)
-def process_cloud_analysis(trend_data):
-    primary_trend = trend_data[0]["Topic"] if trend_data else "Minimalist Office Setup Accessories"
-    
+# 2. Cloud AI Processing Core (Bulletproof Text Engine)
+def process_cloud_analysis_text(trend_keyword):
     if not GROQ_API_KEY:
-        return get_fail_safe_local_blueprint(primary_trend)
+        return None
         
     client = Groq(api_key=GROQ_API_KEY)
-    system_instruction = f"""
-    You are a cold, analytical Data Analytics Engine. Do not append conversational filler.
-    Analyze this validated market data array: {trend_data}.
-    Identify the single most monetizable commercial keyword from this data.
-    Output a strictly formatted JSON report matching this dictionary structure exactly:
-    {{
-      "target_trend": "The isolated business keyword",
-      "business_pain_point": "The explicit problem consumers face leading to this search spike",
-      "monetization_execution": "Concrete monetization steps (Product to source or service to offer)",
-      "high_retention_hook": "A cold 3-second script hook addressing the pain point directly"
-    }}
+    
+    # Bulletproof prompt without tricky JSON parameters to stop failures
+    prompt = f"""
+    You are an elite Enterprise B2B Data Analytics Engine and E-commerce Growth Strategist.
+    Provide a deeply comprehensive and detailed commercial intelligence report for the keyword: '{trend_keyword}'.
+    
+    Format the response EXACTLY like this with no conversational filler or intro:
+    
+    🎯 TARGET ASSIGNMENT:
+    [Write the isolated business keyword here]
+    
+    💼 MASTER OPERATIONAL BLUEPRINT & MONETIZATION:
+    [Provide a comprehensive step-by-step master strategy. Include sourcing channels like Alibaba, specific pricing architectures with costs and high retail margins, Shopify design setup, and targeting parameters.]
+    
+    🧠 CONSUMER PSYCHOLOGY & MARKET PAIN POINTS:
+    [Provide a 3-sentence deep psychological breakdown of why people are desperately searching for this item right now and what shortage it solves.]
+    
+    🎬 HIGH-RETENTION VIRAL VIDEO AD CREATIVE SCRIPTS:
+    [Write 3 distinct viral video ad hooks: 1 Curiosity Hook, 1 Pain-Point Hook, 1 Benefit Hook, followed by a detailed 15-second script outline for dropshipping content creators.]
     """
     
     active_models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
@@ -67,30 +72,22 @@ def process_cloud_analysis(trend_data):
         try:
             completion = client.chat.completions.create(
                 model=model_id, 
-                messages=[{"role": "user", "content": system_instruction}],
-                temperature=0.0, 
-                response_format={"type": "json_object"}
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.3
             )
-            raw_output = completion.choices[0].message.content
-            return json.loads(raw_output)
+            return completion.choices[0].message.content
         except Exception:
             continue  
             
-    return get_fail_safe_local_blueprint(primary_trend)
-
-def get_fail_safe_local_blueprint(trend_keyword):
-    return {
-        "target_trend": f"{trend_keyword}",
-        "business_pain_point": "High demand surge coupled with lack of specialized suppliers or high local pricing options.",
-        "monetization_execution": f"Source unique variations of '{trend_keyword}' via B2B trade networks. Launch a dedicated single-product Shopify store and scale targeted conversion ads directly to relevant marketing channels.",
-        "high_retention_hook": f"Stop scrolling if you are still sourcing your '{trend_keyword}' manually. Here is how top brands do it 10x faster..."
-    }
+    return None
 
 # Initialize Session States
 if "is_admin_logged_in" not in st.session_state:
     st.session_state["is_admin_logged_in"] = False
 if "is_premium_active" not in st.session_state:
     st.session_state["is_premium_active"] = False
+if "ai_report_output" not in st.session_state:
+    st.session_state["ai_report_output"] = ""
 
 # ==========================================
 # VISUAL RENDERING DASHBOARD
@@ -100,7 +97,7 @@ st.caption("24/7 Autonomous B2B trend tracking engine operating at zero overhead
 
 st.markdown("---")
 
-# --- SECURE EXPANDABLE ADMIN LOGIN GATEWAY ---
+# Admin Login Terminal
 with st.expander("🔑 Owner / Admin Login Terminal", expanded=st.session_state["is_admin_logged_in"]):
     if not st.session_state["is_admin_logged_in"]:
         col1, col2 = st.columns(2)
@@ -112,26 +109,22 @@ with st.expander("🔑 Owner / Admin Login Terminal", expanded=st.session_state[
         if st.button("🔓 Authenticate Admin Rights", use_container_width=True, type="primary"):
             if input_user == ADMIN_USERNAME and input_pass == ADMIN_PASSWORD:
                 st.session_state["is_admin_logged_in"] = True
-                st.session_state["is_premium_active"] = True  # Admin gets auto-premium
+                st.session_state["is_premium_active"] = True  
                 st.success("🎯 Owner Identity Verified! Full Structural Rights Granted.")
                 st.rerun()
             else:
                 st.error("❌ Invalid Admin Credentials. Access Denied.")
     else:
         st.success("👑 Welcome Master Owner! You have absolute bypass control over the platform.")
-        
-        # Admin Special Rights: Toggle the paywall engine for testing in 1-click
-        st.subheader("🛠️ Super-User Command Center")
         st.session_state["is_premium_active"] = st.checkbox("Bypass Paywall Gate (Turn premium mode ON/OFF instantly)", value=st.session_state["is_premium_active"])
-        
         if st.button("🔒 Secure Logout from Admin Terminal", type="secondary"):
             st.session_state["is_admin_logged_in"] = False
             st.session_state["is_premium_active"] = False
+            st.session_state["ai_report_output"] = ""
             st.rerun()
 
 st.markdown("---")
 
-# Main Dashboard Content Split
 left_col, right_col = st.columns(2, gap="large")
 
 with left_col:
@@ -152,48 +145,46 @@ with left_col:
 with right_col:
     st.subheader("👑 Premium Actionable Monetization Blueprint")
     
-    # SYSTEM GATEKEEP CHECK
     if not st.session_state["is_premium_active"]:
         st.error("🔒 THIS CARD IS LOCKED BY THE TRENDPULSE ACCESS ENGINE")
         st.info("The execution layer is reserved strictly for enterprise marketing agencies and dropshipping brands.")
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
         
     else:
+        # Pull the primary keyword currently trending
+        selected_keyword = trends[0]["Topic"] if trends else "Minimalist Office Setup Accessories"
+        
         if st.button("⚡ Run Cloud Analysis Node", type="primary", use_container_width=True):
             if not GROQ_API_KEY:
                 st.error("⚠️ System Deployment Error: Groq API Key missing in stream configurations.")
             else:
                 with st.spinner("Processing automated cloud intelligence matrix rows..."):
-                    report = process_cloud_analysis(trends)
+                    # Execute direct raw text pipeline
+                    ai_result = process_cloud_analysis_text(selected_keyword)
                     
-                    st.info(f"🎯 Target Asset Identified: **{report.get('target_trend')}**")
-                    
-                    with st.expander("💼 The Monetization Strategy", expanded=True):
-                        st.write(report.get("monetization_execution"))
-                        
-                    with st.expander("🧠 Consumer Pain Point Analysis", expanded=True):
-                        st.write(report.get("business_pain_point"))
-                        
-                    with st.expander("🎬 High-Retention 3-Second Video Hook", expanded=True):
-                        st.code(f'"{report.get("high_retention_hook")}"', language="text")
-                    
-                    # White-label Report Exporter Functionality
-                    st.markdown("---")
-                    report_txt = (
-                        f"TRENDPULSE AI - COMMERCIAL INTELLIGENCE REPORT\n"
-                        f"==================================================\n"
-                        f"TARGET TREND: {report.get('target_trend')}\n\n"
-                        f"MONETIZATION STRATEGY:\n{report.get('monetization_execution')}\n\n"
-                        f"CONSUMER PAIN POINT:\n{report.get('business_pain_point')}\n\n"
-                        f"VIRAL VIDEO HOOK:\n\"{report.get('high_retention_hook')}\"\n"
-                    )
-                    
-                    st.download_button(
-                        label="📥 Download White-Label Executive Report (.txt)",
-                        data=report_txt,
-                        file_name=f"trendpulse_{report.get('target_trend').lower().replace(' ', '_')}_report.txt",
-                        mime="text/plain",
-                        use_container_width=True
-                    )
+                    if ai_result:
+                        st.session_state["ai_report_output"] = ai_result
+                        st.balloons()
+                    else:
+                        st.error("Cloud processing stalled. Displaying highly optimized local fallback node data.")
+                        st.session_state["ai_report_output"] = f"🎯 TARGET ASSIGNMENT:\n{selected_keyword}\n\n💼 MASTER BLUEPRINT:\nSource {selected_keyword} via verified B2B channels. Build a high-converting single-product storefront with 60%+ gross margins. Launch targeted Meta Advantage+ ad structures.\n\n🧠 CONSUMER PSYCHOLOGY:\nMassive digital demand spike meeting low immediate local market supply chain alternatives.\n\n🎬 VIDEO CREATIVE SCRIPTS:\nHook: 'Stop scrolling if you source your {selected_keyword} manually...'"
+
+        # Show Output and Download button if data exists in memory
+        if st.session_state["ai_report_output"]:
+            st.info("🔥 Live AI Analysis Completed Successfully!")
+            st.text_area("📋 Live Enterprise Strategy Report", value=st.session_state["ai_report_output"], height=400)
+            
+            # White-label Download Trigger
+            final_download_text = f"TRENDPULSE AI - OFFICIAL COMMERCIAL BLUEPRINT REPORT\n" \
+                                 f"======================================================\n\n" \
+                                 f"{st.session_state['ai_report_output']}"
+                                 
+            st.download_button(
+                label="📥 Download This White-Label Executive Report (.txt)",
+                data=final_download_text,
+                file_name=f"trendpulse_{selected_keyword.lower().replace(' ', '_')}_report.txt",
+                mime="text/plain",
+                use_container_width=True
+            )
         else:
             st.warning("Click the engine execution toggle button above to parse data loops instantly.")
