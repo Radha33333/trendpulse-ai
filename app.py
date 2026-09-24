@@ -188,4 +188,5 @@ def create_pdf_blueprint(
 
     for title, text in sections:
         story.append(Paragraph(title, heading_style))
-        clean_text = text.replace("\n", "
+        newline_char = "\n"
+        clean_text = text.replace(newline_char, "
