@@ -50,11 +50,11 @@ TEXTS = {
         "select_asset": "🎯 Select Filtered Asset:",
         "operating_role": "👤 Operating Role:",
         "gen_blueprint": "⚡ Generate Master Strategy Blueprint",
-        "monetization": "💡 Execution & Monetization Strategy",
-        "hook": "🎬 High-Retention Viral Hook (Copy & Use)",
+        "monetization": "💰 Direct High-ROI Monetization Model",
+        "hook": "🎬 Visual Script & High-Retention Hook (Plug & Play)",
         "audio": "🎵 Recommended High-Converting Audio Vibe",
-        "caption": "📢 High-Converting Caption / Commercial Ad Copy",
-        "plan": "📝 3-Step Rapid Execution Plan",
+        "caption": "📢 High-ROAS Caption & CTA Framework",
+        "plan": "📝 3-Step Rapid Execution Roadmap (Zero to Launch)",
         "score_label": "Predictive Viral Score",
     },
     "Hindi": {
@@ -89,11 +89,11 @@ TEXTS = {
         "select_asset": "🎯 फ़िल्टर किया गया एसेट चुनें:",
         "operating_role": "👤 आपकी भूमिका (Role):",
         "gen_blueprint": "⚡ मास्टर स्ट्रैटेजी ब्लूप्रिंट जनरेट करें",
-        "monetization": "💡 एग्जीक्यूशन और मोनेटाइजेशन रणनीति",
-        "hook": "🎬 हाई-रिटेंशन विजुअल हुक (कॉपी और उपयोग करें)",
-        "audio": "🎵 अनुशंसित ऑडियो वाइब",
-        "caption": "📢 तैयार एड कॉपी / कैप्शन",
-        "plan": "📝 3-चरणीय त्वरित प्लान",
+        "monetization": "💰 डायरेक्ट हाई-ROI मोनेटाइजेशन मॉडल",
+        "hook": "🎬 विजुअल स्क्रिप्ट और हाई-रिटेंशन हुक (प्लग एंड प्ले)",
+        "audio": "🎵 अनुशंसित हाई-कन्वर्टिंग ऑडियो वाइब",
+        "caption": "📢 हाई-ROAS कैप्शन और CTA फ्रेमवर्क",
+        "plan": "📝 3-चरणीय त्वरित एग्जीक्यूशन रोडमैप",
         "score_label": "अनुमानित वायरल स्कोर",
     },
 }
@@ -263,42 +263,65 @@ def generate_master_intelligence(
     return {
         "viral_score": f"{velocity_score}%",
         "prediction_window": (
-            f"Peak Trend Activity on {platform} over {timeframe} window"
+            f"Peak Trend Lifecycle Active ({timeframe} window)"
         ),
         "profit_model": (
-            f"Capitalize on {keyword_asset} under {category} using targeted"
-            f" {target_role} execution strategies to maximize viral reach."
+            f"**Strategy:** Premium UGC Partnership & Affiliate Funnel.\n**How"
+            f" to Cash In:** Showcase the premium aesthetic and comfort of"
+            f" {keyword_asset} to partner with top D2C brands for affiliate"
+            " commissions or direct brand sponsorship deals ($300–$800/reel)."
         ),
         "execution_hook": (
-            f"Stop scrolling! Here is what you need to know about"
-            f" {keyword_asset} on {platform}..."
+            f"* **0-3s Visual Cue:** Smooth camera focus highlighting the"
+            f" high-quality texture and natural movement of {keyword_asset} in"
+            ' aesthetic light.\n* **Text Overlay:** "The ultimate lifestyle'
+            ' upgrade everyone is switching to ✨"\n* **Spoken Script:** "If you'
+            " love breathable, long-lasting, and skin-friendly quality, you"
+            " need to check this out. Here is why this upgrade is trending"
+            ' right now..."'
         ),
-        "audio_suggestion": "Trending Low-Fi Beats / High-Energy Phonk Track",
+        "audio_suggestion": (
+            "Upbeat Chillhop / Aesthetic Ambient Track (Rising on trends)"
+        ),
         "ad_copy": (
-            f"Discover top-rated strategies for {keyword_asset} today!"
+            f"Upgrading to 100% natural {keyword_asset} 🌿✨\n\nSuper soft,"
+            " highly breathable, and gentle on the skin! Not only feels"
+            " incredibly comfortable all day, but also looks effortless and"
+            " modern.\n\n👇 Want the direct link + exclusive discount"
+            ' code?\nComment "YES" below and I\'ll DM you the details'
+            " instantly!\n\n#Trending #LifestyleUpgrade #QualityFirst"
+            " #ViralReels"
         ),
         "action_blueprint": (
-            "1. Launch targeted reel using keyword hook\n2. Integrate"
-            " recommended viral audio vibe\n3. Engage audience with direct CTA"
+            "1. **HOUR 1 (Content Production):** Shoot a 15-second visual reel"
+            " using the hook above, highlighting asset quality, and add the"
+            " direct comment CTA.\n2. **HOUR 6 (Traffic Automation):** Set up"
+            ' automated DM keyword response (e.g. reply "YES") to instantly'
+            " send the affiliate link to commenters.\n3. **DAY 2 (Scale &"
+            " Partner):** Share video performance stats with relevant brands"
+            " to pitch long-term paid partnerships."
         ),
     }
 
   client = Groq(api_key=GROQ_API_KEY)
 
-  prompt = (
-      f"Analyze Keyword Asset: '{keyword_asset}' | Category: '{category}' |"
-      f" Role: '{target_role}' | Platform: '{platform}' | Timeframe:"
-      f" '{timeframe}' | Velocity Score: {velocity_score}%\n    Language to"
-      f" respond in: {lang}\n    Generate a trend execution blueprint. Return"
-      ' STRICT JSON:\n    {\n      "viral_score":'
-      f' "{velocity_score}%",\n      "prediction_window": "Specific trend'
-      f' lifecycle window based on {timeframe}",\n      "profit_model":'
-      f' "Actionable strategy focused on growing audience/reach for {target_role}",\n'
-      '      "execution_hook": "High-retention 3-second hook designed for'
-      f' conversions on {platform}",\n      "audio_suggestion": "Recommended'
-      ' viral audio vibe",\n      "ad_copy": "High-converting caption text",\n'
-      '      "action_blueprint": "3-step rapid execution plan"\n    }'
-  )
+  prompt = f"""
+    Analyze Asset: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform: '{platform}' | Timeframe: '{timeframe}' | Velocity: {velocity_score}%
+    Language: {lang}
+    
+    Generate a complete, high-converting revenue blueprint focused on positive highlights, high quality, and actionable execution. Strictly avoid negative framing or criticizing alternatives.
+    
+    Return STRICT JSON format:
+    {{
+      "viral_score": "{velocity_score}%",
+      "prediction_window": "Monetization lifecycle active window e.g. Peak Trend Lifecycle Active ({timeframe})",
+      "profit_model": "**Strategy:** High-converting strategy for {target_role}\\n**How to Cash In:** Step-by-step monetization pathway utilizing {keyword_asset}",
+      "execution_hook": "* **0-3s Visual Cue:** Detailed visual setup for {platform}\\n* **Text Overlay:** Aesthetic on-screen text\\n* **Spoken Script:** Engaging spoken audio line focusing on benefits and quality",
+      "audio_suggestion": "Specific trending audio genre/style recommendation",
+      "ad_copy": "Complete high-converting caption with emojis, clear CTA, and relevant hashtags",
+      "action_blueprint": "1. **HOUR 1 (Content Production):** Setup instructions\\n2. **HOUR 6 (Traffic Automation):** Funnel setup instructions\\n3. **DAY 2 (Scale & Partner):** Growth and deal pitching strategy"
+    }}
+    """
 
   try:
     completion = client.chat.completions.create(
@@ -312,12 +335,25 @@ def generate_master_intelligence(
     return {
         "viral_score": f"{velocity_score}%",
         "prediction_window": f"Active Growth Phase ({timeframe})",
-        "profit_model": f"Engage audience around {keyword_asset} immediately.",
-        "execution_hook": f"Secret viral strategy for {keyword_asset}!",
+        "profit_model": (
+            f"**Strategy:** Brand Partnership & Direct Funnel for"
+            f" {target_role}.\n**How to Cash In:** Monetize {keyword_asset}"
+            " through direct audience engagement and affiliate offers."
+        ),
+        "execution_hook": (
+            f"* **0-3s Visual Cue:** Aesthetic product focus.\n* **Text"
+            ' Overlay:** "The top upgrade of 2026 ✨"\n* **Spoken Script:** "Here'
+            ' is why everyone is loving this..."'
+        ),
         "audio_suggestion": "Trending High-Tempo Track",
-        "ad_copy": f"Check out {keyword_asset} right now!",
+        "ad_copy": (
+            f"Check out {keyword_asset} today for the ultimate quality"
+            " upgrade! ✨"
+        ),
         "action_blueprint": (
-            "1. Post High-Converting Content\n2. Add Direct CTA\n3. Scale Reach"
+            "1. **HOUR 1:** Record high-quality content using visual hook.\n2."
+            " **HOUR 6:** Connect automated link delivery in comments.\n3. **DAY"
+            " 2:** Pitch results to brand partners."
         ),
     }
 
@@ -487,9 +523,7 @@ with left_col:
       int(70 * multiplier),
   ]
 
-  fig_df = pd.DataFrame(
-      {"Day": days, "Demand Trajectory": velocity_values}
-  )
+  fig_df = pd.DataFrame({"Day": days, "Demand Trajectory": velocity_values})
   fig = px.line(
       fig_df,
       x="Day",
@@ -520,8 +554,8 @@ with right_col:
     st.write("🔒 **Predictive Growth Rate:** 85% - 98% Viral Probability")
     st.write("🔒 **Trend Blueprint:** [Locked - Pro Only]")
     st.write(
-        '🔒 **Viral Script Hook:** "If you are not using this secret method'
-        ' to..." [Locked]'
+        '🔒 **Viral Script Hook:** "The ultimate lifestyle upgrade everyone is'
+        ' switching to..." [Locked]'
     )
 
     st.link_button(
@@ -566,25 +600,28 @@ with right_col:
             f"🎯 Signal Strategy Blueprint Generated: **{target_keyword}**"
         )
 
+        st.markdown("#### 📊 Live Strategy Telemetry")
         col_m1, col_m2 = st.columns(2)
         with col_m1:
           st.metric(
               label=t["score_label"], value=result.get("viral_score")
           )
         with col_m2:
-          st.info(f"**Window:** {result.get('prediction_window')}")
+          st.info(f"**Monetization Window:**\n{result.get('prediction_window')}")
+
+        st.markdown("---")
 
         with st.expander(t["monetization"], expanded=True):
-          st.write(result.get("profit_model"))
+          st.markdown(result.get("profit_model"))
 
         with st.expander(t["hook"], expanded=True):
-          st.code(f'"{result.get("execution_hook")}"', language="text")
+          st.markdown(result.get("execution_hook"))
 
         with st.expander(t["audio"], expanded=True):
-          st.write(f"🔊 **Audio Suggestion:** {result.get('audio_suggestion')}")
+          st.write(f"🔊 **Recommendation:** {result.get('audio_suggestion')}")
 
         with st.expander(t["caption"], expanded=True):
           st.code(f"{result.get('ad_copy')}", language="text")
 
         with st.expander(t["plan"], expanded=True):
-          st.write(result.get("action_blueprint"))
+          st.markdown(result.get("action_blueprint"))
