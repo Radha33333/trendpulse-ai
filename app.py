@@ -70,8 +70,8 @@ def process_cloud_analysis_text(trend_keyword, tier_level):
     Write 3 distinct high-converting script hooks (1 Curiosity, 1 Problem-Centric, 1 Direct Benefit) accompanied by a complete 15-second narrative execution timeline for social commerce creators.
     """
     
-    # Using robust models compatible with standard cloud access tokens
-    active_models = ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"]
+    # High-throughput models grouped to clear free-tier quota limits safely
+    active_models = ["llama-3.1-8b-instant", "llama-3.2-11b-vision-preview", "llama-3.3-70b-versatile"]
     
     for model_id in active_models:
         try:
@@ -174,10 +174,10 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
         
     else:
-        # FIXED: Extract data safely by referencing index [0] of the list first to grab the active row dictionary
+        # FIXED: Explicitly pop the first list element dictionary BEFORE calling key matching (.get)
         selected_keyword = "Minimalist Office Setup Accessories"
         if isinstance(trends, list) and len(trends) > 0:
-            first_element = trends[0]  # Crucial fix: select the first dictionary in the list
+            first_element = trends[0]  # Access first element directly
             if isinstance(first_element, dict):
                 selected_keyword = first_element.get("Topic", "Minimalist Office Setup Accessories")
             
