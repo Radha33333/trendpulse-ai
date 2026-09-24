@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import requests
 import pandas as pd
 
-# 1. Initialize structural properties with current enterprise layout
+# Initialize structural properties with current enterprise layout
 st.set_page_config(page_title="TrendPulse AI - Commercial Portal", page_icon="📈", layout="wide")
 
 # Secure API Ingestion Layer via Streamlit Cloud Secrets Manager
@@ -26,7 +26,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 2. Telemetry Ingestion Layer (Google RSS Ground Truth Feed)
+# 1. Telemetry Ingestion Layer (Google RSS Ground Truth Feed)
 def fetch_realtime_commercial_spikes():
     url = "https://google.com" 
     try:
@@ -48,7 +48,7 @@ def fetch_realtime_commercial_spikes():
     except Exception:
         return [{"Topic": "Minimalist Office Setup Accessories", "Search Volume Surge": "100K+"}]
 
-# 3. Cloud AI Processing Core (Optimized Text Pipeline)
+# 2. Cloud AI Processing Core (Optimized Text Pipeline)
 def process_cloud_analysis_text(trend_keyword, tier_level):
     if not GROQ_API_KEY:
         return None
@@ -182,13 +182,12 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", width="stretch")
         
     else:
-        # FIXED: Pop the list element strict loop index matching to isolate string value topic names
+        # FIXED: Directly unpack row 0 out of the list container to completely eliminate the TypeError crash
         selected_keyword = "Minimalist Office Setup Accessories"
         try:
             if isinstance(trends, list) and len(trends) > 0:
-                first_row = trends[0]
-                if isinstance(first_row, dict):
-                    selected_keyword = first_row.get("Topic", "Minimalist Office Setup Accessories")
+                first_row_dict = trends[0]  # Crucial Fix: Safely fetch the top trend dictionary
+                selected_keyword = str(first_row_dict.get("Topic", "Minimalist Office Setup Accessories"))
         except Exception:
             selected_keyword = "Minimalist Office Setup Accessories"
             
