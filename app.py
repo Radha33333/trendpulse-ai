@@ -30,13 +30,53 @@ st.markdown(
 def fetch_filtered_radar_signals(region, platform_source, category, timeframe):
   url = f"https://trends.google.com/trending/rss?geo={region}"
 
+  # Categories with split items and newly added Fashion category
   category_signals = {
-      "E-Commerce & Physical Products": [
+      # Separated Categories
+      "E-Commerce": [
+          "Micro-Fulfillment Logistics",
+          "D2C Brand Growth Strategies",
+          "Cross-Border Shipping Tech",
+          "High-Converting Funnel Builders",
+      ],
+      "Physical Products": [
           "Ergonomic Desk Setup Gadgets",
           "Aesthetic RGB Light Bars",
           "Minimalist MagSafe Powerbanks",
           "Orthopedic Standing Mats",
       ],
+      "Finance": [
+          "Tax Planning Hacks 2026",
+          "High-Yield Savings & Staking",
+          "Personal Budgeting Automations",
+          "Index Fund Investment Tips",
+      ],
+      "Business": [
+          "Micro-SaaS Profit Models",
+          "Zero-Investment Side Hustles",
+          "B2B Lead Generation Automation",
+          "Remote Team Operations",
+      ],
+      "Fitness": [
+          "Smart Fitness Ring Trackers",
+          "Posture Correction Wearables",
+          "Home Gym Compact Equipment",
+          "HIIT Workout Analytics",
+      ],
+      "Health & Lifestyle": [
+          "Cold Plunge Therapy Tubs",
+          "High Protein Clean Meal Plans",
+          "Sleep Optimization Gadgets",
+          "Mindfulness & Mental Wellness Apps",
+      ],
+      # Newly Added Category
+      "👗 Fashion & Apparel": [
+          "Y2K Vintage Streetwear",
+          "Minimalist Capsule Wardrobe",
+          "Sustainable Eco-Friendly Fabrics",
+          "Oversized Aesthetic Hoodies",
+      ],
+      # Other Intact Categories
       "Tech, AI & Software": [
           "Open Source AI Video Generators",
           "Automated Workflow Agents",
@@ -48,18 +88,6 @@ def fetch_filtered_radar_signals(region, platform_source, category, timeframe):
           "Viral Meme Reaction Formats",
           "Short-Form Anime Breakdown",
           "Celebrity Style Breakdown",
-      ],
-      "Finance, Business & Crypto": [
-          "Tax Planning Hacks 2026",
-          "Micro-SaaS Profit Models",
-          "High-Yield Crypto Staking",
-          "Zero-Investment Side Hustles",
-      ],
-      "Fitness, Health & Lifestyle": [
-          "Cold Plunge Therapy Tubs",
-          "High Protein Clean Meal Plans",
-          "Smart Fitness Ring Trackers",
-          "Posture Correction Wearables",
       ],
       "🤖 Generative AI & Automation Tools": [
           "Custom GPT Workflow Agents",
@@ -258,11 +286,15 @@ with st.form(key="filter_form"):
     selected_category = st.selectbox(
         "📁 Niche Category:",
         [
-            "E-Commerce & Physical Products",
+            "E-Commerce",
+            "Physical Products",
+            "Finance",
+            "Business",
+            "Fitness",
+            "Health & Lifestyle",
+            "👗 Fashion & Apparel",
             "Tech, AI & Software",
             "Entertainment & Viral Pop Culture",
-            "Finance, Business & Crypto",
-            "Fitness, Health & Lifestyle",
             "🤖 Generative AI & Automation Tools",
             "🛍️ TikTok Made Me Buy It (Viral Products)",
             "🎮 Gaming, Esports & Streaming Culture",
@@ -329,7 +361,7 @@ with left_col:
   )
   st.dataframe(df, width="stretch", hide_index=True)
 
-  # Chart Linked Directly
+  # Dynamic Chart
   st.markdown("#### 📈 Dynamic Velocity Forecast Curve")
 
   if custom_search.strip():
