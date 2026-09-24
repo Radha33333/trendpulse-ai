@@ -186,7 +186,4 @@ def create_pdf_blueprint(
         ("Action Roadmap", result.get("action_blueprint", "")),
     ]
 
-    for title, text in sections:
-        story.append(Paragraph(title, heading_style))
-        newline_char = "\n"
-        clean_text = text.replace(newline_char, "
+    break_tag = "
