@@ -349,23 +349,25 @@ def generate_master_intelligence(
             f"Peak Trend Lifecycle Active ({timeframe} window)"
         ),
         "profit_model": (
-            f"Strategy: Premium UGC Partnership & Affiliate Funnel.\nHow to Cash"
-            f" In: Showcase the premium aesthetic of {keyword_asset} to partner"
-            " with brands."
+            f"Strategy: High-Converting Funnel & Direct Response Affiliate Model for {keyword_asset}.\n"
+            "• Step 1: Set up a targeted micro-landing page focusing on the exact pain point resolved by this trend.\n"
+            "• Step 2: Leverage automated DM triggers (e.g., ManyChat) to deliver direct affiliate links instantly when viewers comment."
         ),
         "execution_hook": (
-            f'* 0-3s Visual Cue: Smooth camera focus on {keyword_asset}.\n* Text'
-            ' Overlay: "The ultimate lifestyle upgrade ✨"\n* Spoken Script:'
-            ' "If you love quality, check this out..."'
+            f"• 0-3s Visual Cue: Fast-paced dynamic text transition over close-up b-roll of {keyword_asset}.\n"
+            "• Text Overlay: \"The one trend everyone is ignoring (until now) ⚠️\"\n"
+            "• Spoken Script: \"If you're still doing it the old way, you need to see this exact breakdown...\""
         ),
-        "audio_suggestion": "Upbeat Chillhop / Aesthetic Ambient Track",
+        "audio_suggestion": "Trending High-Energy Phonk / Cinematic Rhythmic Build",
         "ad_copy": (
-            f"Upgrading to 100% natural {keyword_asset}"
-            " 🌿✨\n\nComment 'YES' for link!"
+            f"The exact system behind the rise of {keyword_asset} 🚀📈\n\n"
+            "We tested this for 48 hours and the results speak for themselves. Drop a comment below with 'INFO' and we'll send you the complete framework directly!\n\n"
+            "#TrendAnalysis #GrowthHacking #DigitalStrategy #2026Trends"
         ),
         "action_blueprint": (
-            "1. HOUR 1: Record 15s reel.\n2. HOUR 6: Enable auto-DM.\n3. DAY 2:"
-            " Scale brand deals."
+            "1. HOUR 1: Capture or curate high-contrast 9:16 visual assets tailored to the platform.\n"
+            "2. HOUR 6: Configure keyword automation triggers for comments to capture high-intent leads.\n"
+            "3. DAY 2: Review retention data at the 3-second mark and scale ad spend or organic distribution on winning variations."
         ),
     }
 
@@ -375,25 +377,28 @@ def generate_master_intelligence(
     try:
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
+    You are an elite enterprise growth strategist and senior data monetization consultant.
     Analyze Asset: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform: '{platform}' | Timeframe: '{timeframe}' | Velocity: {velocity_score}%
     Language: {lang}
     
+    Provide hyper-specific, highly actionable, non-generic advice tailored directly to the asset and user role. Avoid vague filler phrases. Make the script sharp, engaging, and ready for immediate professional deployment.
+
     Return STRICT JSON format:
     {{
       "viral_score": "{velocity_score}%",
-      "prediction_window": "Monetization lifecycle active window",
-      "profit_model": "Strategy and execution steps",
-      "execution_hook": "Visual cue, overlay text, spoken script",
-      "audio_suggestion": "Trending audio genre",
-      "ad_copy": "Caption with CTA and hashtags",
-      "action_blueprint": "3-step plan"
+      "prediction_window": "Monetization lifecycle active window with specific timing details",
+      "profit_model": "Detailed, highly specific monetization strategy and step-by-step conversion framework",
+      "execution_hook": "Specific 0-3s visual cue, exact text overlay, and high-retention spoken script",
+      "audio_suggestion": "Precise trending audio genre or vibe descriptor",
+      "ad_copy": "High-ROAS caption with professional CTA and targeted hashtags",
+      "action_blueprint": "Clear 3-step rapid execution roadmap with hour/day markers"
     }}
     """
 
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.2,
+            temperature=0.3,
             response_format={"type": "json_object"},
         )
         return json.loads(completion.choices[0].message.content)
