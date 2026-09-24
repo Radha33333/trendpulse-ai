@@ -2,11 +2,12 @@ import json
 import xml.etree.ElementTree as ET
 from groq import Groq
 import pandas as pd
+import plotly.express as px
 import requests
 import streamlit as st
 
 st.set_page_config(
-    page_title="TrendPulse AI - Commercial & GenZ Signal Intelligence",
+    page_title="TrendPulse AI - Commercial Signal Intelligence",
     page_icon="⚡",
     layout="wide",
 )
@@ -14,7 +15,7 @@ st.set_page_config(
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
-# Custom Styling for GenZ Dark Vibe & Clean UI
+# Custom CSS for styling
 st.markdown(
     """
 
@@ -23,20 +24,53 @@ st.markdown(
 )
 
 
-# Filter-linked Dynamic Intelligence Engine
+# Complete Dynamic Signal Engine with all merged categories
 @st.cache_data(ttl=300)
 def fetch_filtered_radar_signals(region, platform_source, category):
   url = f"https://trends.google.com/trending/rss?geo={region}"
 
+  # Complete Combined Categories Matrix (Original + Expanded)
   category_signals = {
+      # Original Standard Categories
+      "E-Commerce & Physical Products": [
+          "Ergonomic Desk Setup Gadgets",
+          "Aesthetic RGB Light Bars",
+          "Minimalist MagSafe Powerbanks",
+          "Orthopedic Standing Mats",
+      ],
+      "Tech, AI & Software": [
+          "Open Source AI Video Generators",
+          "Automated Workflow Agents",
+          "Local Privacy LLM Models",
+          "Developer Productivity Extension",
+      ],
+      "Entertainment & Viral Pop Culture": [
+          "Trending Cinematic Reel Audio",
+          "Viral Meme Reaction Formats",
+          "Short-Form Anime Breakdown",
+          "Celebrity Style Breakdown",
+      ],
+      "Finance, Business & Crypto": [
+          "Tax Planning Hacks 2026",
+          "Micro-SaaS Profit Models",
+          "High-Yield Crypto Staking",
+          "Zero-Investment Side Hustles",
+      ],
+      "Fitness, Health & Lifestyle": [
+          "Cold Plunge Therapy Tubs",
+          "High Protein Clean Meal Plans",
+          "Smart Fitness Ring Trackers",
+          "Posture Correction Wearables",
+      ],
+      # Expanded Niche & GenZ Categories
       "🤖 Generative AI & Automation Tools": [
           "Custom GPT Workflow Agents",
-          "Open-Source AI Video Generator",
           "Voice Cloning CapCut Template",
-          "Local Privacy LLM Setup",
+          "Open-Source Video Generators",
+          "Autonomous Coding Bots",
       ],
       "🛍️ TikTok Made Me Buy It (Viral Products)": [
-          "Aesthetic RGB Desk Light Bar",
+          "Aesthetic RGB Light Bar",
           "Compact MagSafe Powerbank",
           "Orthopedic Standing Mat",
           "Viral Cold Plunge Tub",
@@ -51,7 +85,7 @@ def fetch_filtered_radar_signals(region, platform_source, category):
           "Notion Aesthetic Planner Template",
           "Framer Portfolio Kit",
           "Zero-Code Automation Pipeline",
-          "Micro-Saas Starter Kit",
+          "Micro-SaaS Starter Kit",
       ],
       "🌱 Biohacking, Wellness & Longevity": [
           "Smart Fitness Ring Tracker",
@@ -80,7 +114,7 @@ def fetch_filtered_radar_signals(region, platform_source, category):
     if response.status_code == 200:
       root = ET.fromstring(response.content)
       ns = {"ht": "https://trends.google.com/trending/rss"}
-      for item in root.findall(".//item")[:3]:
+      for item in root.findall(".//item")[:4]:
         title = item.find("title")
         traffic = item.find("ht:approx_traffic", ns)
         if title is not None:
@@ -94,14 +128,14 @@ def fetch_filtered_radar_signals(region, platform_source, category):
     pass
 
   default_keywords = category_signals.get(
-      category, ["Viral Breakout Asset"]
+      category, ["Trending Breakout Asset"]
   )
   combined = []
 
   for kw in default_keywords:
     combined.append({
         "Keyword": f"{kw} [{platform_source}]",
-        "Volume": "250K+ GenZ Surge",
+        "Volume": "150K+ Surge",
     })
 
   for item in raw_signals:
@@ -115,39 +149,39 @@ def generate_master_intelligence(
 ):
   if not GROQ_API_KEY:
     return {
-        "viral_score": "98.2% (High GenZ Retention)",
-        "prediction_window": f"Peak active on {platform} in Next 48 Hours",
+        "viral_score": "95.4%",
+        "prediction_window": f"Peak active on {platform} in Next 3-5 Days",
         "profit_model": (
-            f"Launch quick organic campaign for '{keyword_asset}' under"
-            f" {category}. Monetize via bio link or affiliate."
+            f"Capitalize on '{keyword_asset}' under {category} using targeted"
+            f" {target_role} monetization workflows."
         ),
         "execution_hook": (
-            f"Stop scrolling! If you are not using '{keyword_asset}' on"
-            f" {platform}, you are missing out..."
+            f"Stop scrolling! Here is how '{keyword_asset}' is trending on"
+            f" {platform}..."
         ),
-        "audio_suggestion": "Trending Slowed + Reverb Lo-Fi Beats",
+        "audio_suggestion": "Trending Slowed + Reverb Lo-Fi / Phonk Track",
         "ad_copy": (
-            f"Get instant access to '{keyword_asset}'. Tap the link below before"
-            " it goes out of stock!"
+            f"Get instant access to top-rated '{keyword_asset}' solutions"
+            " today!"
         ),
         "action_blueprint": (
-            "1. Record 7-sec short video using hook\n2. Add suggested trending"
-            " audio\n3. Pin affiliate link in bio"
+            "1. Launch campaign using selected platform signal\n2. Add suggested"
+            " trending audio\n3. Redirect to monetized CTA"
         ),
     }
 
   client = Groq(api_key=GROQ_API_KEY)
   prompt = f"""
-    Analyze Keyword: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform: '{platform}'.
-    Provide response tailored for GenZ Creators & Dropshippers. Output strict JSON with keys:
+    Analyze Keyword: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform Source: '{platform}'.
+    Output strict JSON with keys:
     {{
-      "viral_score": "e.g. 97.5%",
-      "prediction_window": "Short lifecycle window e.g. Peak in Next 48-72 Hours",
-      "profit_model": "Instant monetization strategy",
-      "execution_hook": "High-retention 3-second hook for Short Video/Reels",
-      "audio_suggestion": "Recommended trending audio genre or style",
-      "ad_copy": "Direct converting caption/ad text",
-      "action_blueprint": "3-step 30-second execution plan"
+      "viral_score": "e.g. 96.2%",
+      "prediction_window": "Lifecycle prediction window",
+      "profit_model": "Monetization strategy",
+      "execution_hook": "Platform-specific 3-second hook",
+      "audio_suggestion": "Recommended audio vibe or genre",
+      "ad_copy": "Meta/TikTok ad text or caption",
+      "action_blueprint": "3-step execution plan"
     }}
     """
   try:
@@ -160,36 +194,33 @@ def generate_master_intelligence(
     return json.loads(completion.choices[0].message.content)
   except Exception:
     return {
-        "viral_score": "92.0%",
-        "prediction_window": "Active GenZ Surge Phase",
+        "viral_score": "91.0%",
+        "prediction_window": "Active Growth Phase",
         "profit_model": f"Monetize '{keyword_asset}' immediately.",
-        "execution_hook": f"The secret hack behind '{keyword_asset}'!",
+        "execution_hook": f"Secret strategy for '{keyword_asset}'!",
         "audio_suggestion": "Popular High-Tempo Phonk Track",
         "ad_copy": f"Check out '{keyword_asset}' now!",
-        "action_blueprint": "1. Post Short Reel\n2. Add CTA\n3. Monetize Link",
+        "action_blueprint": "1. Post Content\n2. Add CTA\n3. Monetize",
     }
 
 
-# Initialize Session State for Premium Access
 if "is_premium" not in st.session_state:
   st.session_state["is_premium"] = False
 
-# App UI Header
-st.title("⚡ TrendPulse AI: Viral Radar & Rapid Execution")
+# Application Interface
+st.title("⚡ TrendPulse AI: Commercial Signal Intelligence")
 st.caption(
-    "Automated Trend Signals | 30-Second Creator & E-Commerce Execution Engine"
+    "Predictive Trend Intelligence | Automated Creator & Merchant Execution"
 )
 
 st.markdown("---")
 
-# Pro Control Panel Gatekeeper
-with st.expander("🔑 Pro & Creator Access Terminal"):
+with st.expander("🔑 Enterprise Access Terminal"):
   st.session_state["is_premium"] = st.checkbox(
-      "Simulate Active Subscription Access",
-      value=st.session_state["is_premium"],
+      "Simulate Pro Subscription Access", value=st.session_state["is_premium"]
   )
 
-# Extended GenZ & High-Converting Signal Configuration
+# Extended Filter Setup
 st.markdown("### 🎛️ Signal Intelligence Configuration")
 f_col1, f_col2, f_col3, f_col4 = st.columns(4)
 
@@ -209,16 +240,22 @@ with f_col2:
   platform_source = st.selectbox(
       "📱 Platform Source:",
       [
+          "Social Video & Reels",
           "TikTok & Instagram Reels",
-          "YouTube Shorts Velocity",
-          "E-Commerce & Social Shopping",
+          "Search Engine Intent",
+          "E-Commerce Shopping",
       ],
   )
 
 with f_col3:
   selected_category = st.selectbox(
-      "📁 Viral Niche Category:",
+      "📁 Niche Category:",
       [
+          "E-Commerce & Physical Products",
+          "Tech, AI & Software",
+          "Entertainment & Viral Pop Culture",
+          "Finance, Business & Crypto",
+          "Fitness, Health & Lifestyle",
           "🤖 Generative AI & Automation Tools",
           "🛍️ TikTok Made Me Buy It (Viral Products)",
           "🎮 Gaming, Esports & Streaming Culture",
@@ -231,8 +268,13 @@ with f_col3:
 
 with f_col4:
   timeframe = st.selectbox(
-      "⏱️ Velocity Window:",
-      ["Realtime Spike (24h)", "Viral Surge (3-7 Days)", "Macro Trend (30 Days)"],
+      "⏱️ Signal Velocity:",
+      [
+          "Realtime Spike (24h)",
+          "Short-Term Trend (7 Days)",
+          "Viral Surge (3-7 Days)",
+          "Macro Trend (30 Days)",
+      ],
   )
 
 st.markdown("---")
@@ -240,42 +282,42 @@ st.markdown("---")
 left_col, right_col = st.columns([1, 1], gap="large")
 
 with left_col:
-  st.subheader("📊 Live Telemetry & Growth Projection")
+  st.subheader("📊 Live Telemetry & Growth Forecast")
 
   custom_search = st.text_input(
-      "🔍 Deep Target Asset (Optional):",
-      placeholder="e.g. CapCut AI Template, Mini Projector",
+      "🔍 Custom Asset Search (Optional):",
+      placeholder="e.g. Ergonomic Keyboard, AI Content Generator",
   )
 
-  # Fetch data based on active filter selections
   active_signals = fetch_filtered_radar_signals(
       geo_map[geo_option], platform_source, selected_category
   )
 
   table_data = []
   for idx, item in enumerate(active_signals):
-    score = round(99.1 - (idx * 2.8), 1)
+    score = round(98.8 - (idx * 3.5), 1)
     stage = (
         "🌱 Emerging (Peak Pending)"
         if idx % 2 == 0
-        else "🔥 Active Viral Surge"
+        else "🔥 Active Viral Peak"
     )
     table_data.append({
-        "Asset Target": item["Keyword"],
+        "Filtered Asset": item["Keyword"],
         "Predictive Velocity": f"{score}%",
-        "Status": stage,
+        "Signal Status": stage,
     })
 
   df = pd.DataFrame(table_data)
   st.markdown(
-      f"**Active Signals:** `{selected_category}` | `{platform_source}`"
+      f"**Active Signals for:** `{selected_category}` | `{platform_source}` |"
+      f" `{geo_option}`"
   )
   st.dataframe(df, width="stretch", hide_index=True)
 
-  st.markdown("#### 📈 Projected 7-Day Growth Curve")
+  st.markdown("#### 📈 Predicted Velocity Curve")
   chart_data = pd.DataFrame({
       "Day": ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"],
-      "Virality Score": [35, 55, 88, 100, 95, 80, 65],
+      "Search Velocity": [25, 40, 68, 95, 100, 88, 70],
   }).set_index("Day")
 
   st.line_chart(chart_data)
@@ -285,13 +327,12 @@ with left_col:
     st.rerun()
 
 with right_col:
-  st.subheader("💡 30-Second Execution Co-Pilot")
+  st.subheader("💡 Actionable Intelligence Matrix")
 
   if not st.session_state["is_premium"]:
-    st.error("🔒 PREDICTIVE SUITE IS LOCKED")
+    st.error("🔒 PREDICTIVE EXECUTION SUITE IS LOCKED")
     st.info(
-        "Unlock full profit blueprints, script hooks, ad copies, and 30-sec"
-        " execution plans."
+        "Unlock full profit blueprints, ad copy variations, and action plans."
     )
     st.link_button(
         "🔥 Upgrade to Pro Member Tier",
@@ -302,25 +343,25 @@ with right_col:
   else:
     if custom_search.strip():
       target_keyword = custom_search.strip()
-      st.info(f"Analyzing Target Keyword: **{target_keyword}**")
+      st.info(f"Analyzing Custom Asset: **{target_keyword}**")
     else:
       keyword_list = [t["Keyword"] for t in active_signals]
-      target_keyword = st.selectbox("🎯 Select Target Keyword:", keyword_list)
+      target_keyword = st.selectbox("🎯 Select Filtered Asset:", keyword_list)
 
     user_role = st.radio(
         "👤 Operating Role:",
         [
-            "GenZ Content Creator",
-            "E-Commerce / Dropshipper",
+            "Content Creator / Influencer",
+            "E-Commerce Merchant / Dropshipper",
             "Agency Owner / Freelancer",
         ],
         horizontal=True,
     )
 
     if st.button(
-        "⚡ Generate 30-Sec Action Blueprint", type="primary", width="stretch"
+        "⚡ Generate Master Blueprint", type="primary", width="stretch"
     ):
-      with st.spinner("Processing viral execution matrix..."):
+      with st.spinner("Processing filtered signal matrices..."):
         result = generate_master_intelligence(
             target_keyword, selected_category, user_role, platform_source
         )
@@ -336,20 +377,21 @@ with right_col:
           st.info(f"**Timeline:** {result.get('prediction_window')}")
 
         with st.expander(
-            "💰 Monetization & Profit Blueprint", expanded=True
+            "💰 Monetization & Profit Strategy", expanded=True
         ):
           st.write(result.get("profit_model"))
 
-        with st.expander(
-            "🎬 High-Retention Script Hook (Copy & Use)", expanded=True
-        ):
+        with st.expander("🎬 High-Retention Visual Hook", expanded=True):
           st.code(f'"{result.get("execution_hook")}"', language="text")
 
-        with st.expander("🎵 Recommended Audio Vibe", expanded=True):
-          st.write(f"🔊 **Audio Suggestion:** {result.get('audio_suggestion')}")
+        if result.get("audio_suggestion"):
+          with st.expander("🎵 Recommended Audio Vibe", expanded=True):
+            st.write(
+                f"🔊 **Audio Suggestion:** {result.get('audio_suggestion')}"
+            )
 
-        with st.expander("📢 Ready-to-Use Caption / Ad Copy", expanded=True):
-          st.code(f"{result.get('ad_copy')}", language="text")
+        with st.expander("📢 Converting Ad Copy / Caption", expanded=True):
+          st.write(result.get("ad_copy"))
 
-        with st.expander("📝 30-Second Rapid Execution Plan", expanded=True):
+        with st.expander("📝 Execution Plan", expanded=True):
           st.write(result.get("action_blueprint"))
