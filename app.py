@@ -46,7 +46,6 @@ def process_cloud_analysis_text(trend_keyword):
         
     client = Groq(api_key=GROQ_API_KEY)
     
-    # Advanced master prompt to force detailed enterprise outcomes
     prompt = f"""
     You are an elite Enterprise B2B Data Analytics Engine and E-commerce Growth Strategist.
     Provide an exhaustive, deeply comprehensive commercial intelligence report for the trending keyword: '{trend_keyword}'.
@@ -155,10 +154,12 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
         
     else:
-        # Safely capture the very first trending topic name from the active records list
+        # FIXED: लिस्ट से डेटा निकालने का तरीका सुरक्षित किया गया ताकि बैकएंड क्रैश न हो
         selected_keyword = "Minimalist Office Setup Accessories"
         if isinstance(trends, list) and len(trends) > 0:
-            selected_keyword = trends[0].get("Topic", "Minimalist Office Setup Accessories")
+            first_row = trends[0]
+            if isinstance(first_row, dict):
+                selected_keyword = first_row.get("Topic", "Minimalist Office Setup Accessories")
         
         if st.button("⚡ Run Cloud Analysis Node", type="primary", use_container_width=True):
             if not GROQ_API_KEY:
@@ -180,9 +181,9 @@ with right_col:
             st.info("🔥 Live AI Analysis Completed Successfully!")
             st.text_area("📋 Live Enterprise Strategy Report", value=st.session_state["ai_report_output"], height=450)
             
-            # FIXED: Reformatted using secure multi-line blocks to avoid unclosed string errors
             final_download_text = f"""TRENDPULSE AI - OFFICIAL COMMERCIAL BLUEPRINT REPORT
 ======================================================
 
 {st.session_state['ai_report_output']}"""
                                  
+            st.download_button(
