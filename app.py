@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import requests
 import pandas as pd
 
-# Initialize structural viewport properties with clean enterprise grids
+# Initialize structural viewport properties with current 2026 enterprise grids
 st.set_page_config(page_title="TrendPulse AI - Commercial Portal", page_icon="📈", layout="wide")
 
 # Secure API Ingestion Layer via Streamlit Cloud Secrets Manager
@@ -16,6 +16,15 @@ STRIPE_CHECKOUT_URL = "https://stripe.com"
 # SECURE ADMIN CREDENTIALS
 ADMIN_USERNAME = "admin123"
 ADMIN_PASSWORD = "trendpulse_owner_2026"
+
+# Premium CSS Theme Injection Layer for high-end B2B UI styling
+st.markdown("""
+<style>
+    .report-box { background-color: #f8f9fa; border-left: 5px solid #ff4b4b; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+    .stButton>button { border-radius: 4px; height: 3em; transition: all 0.3s ease; }
+    .stButton>button:hover { background-color: #ff4b4b !important; color: white !important; border: 1px solid #ff4b4b !important; }
+</style>
+""", unsafe_allow_html=True)
 
 # 1. Telemetry Ingestion Layer (Google RSS Ground Truth Feed)
 def fetch_realtime_commercial_spikes():
@@ -70,7 +79,7 @@ def process_cloud_analysis_text(trend_keyword, tier_level):
     Write 3 distinct high-converting script hooks (1 Curiosity, 1 Problem-Centric, 1 Direct Benefit) accompanied by a complete 15-second narrative execution timeline for social commerce creators.
     """
     
-    # High-throughput models grouped to clear free-tier quota limits safely
+    # FREE-TIER COMPATIBLE STABLE MODEL ROUTING SEQUENCE
     active_models = ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"]
     
     for model_id in active_models:
@@ -113,7 +122,7 @@ with st.expander("🔑 Owner / Admin Login Terminal", expanded=st.session_state[
         with col2:
             input_pass = st.text_input("Admin Security Password", type="password", placeholder="Enter secret password")
         
-        if st.button("🔓 Authenticate Admin Rights", use_container_width=True, type="primary"):
+        if st.button("🔓 Authenticate Admin Rights", width="stretch", type="primary"):
             if input_user == ADMIN_USERNAME and input_pass == ADMIN_PASSWORD:
                 st.session_state["is_admin_logged_in"] = True
                 st.session_state["is_premium_active"] = True  
@@ -156,9 +165,10 @@ with left_col:
         })
         
     df = pd.DataFrame(processed_trends)
-    st.dataframe(df, use_container_width=True, hide_index=True)
+    # COMPATIBILITY UPGRADE: Swapped use_container_width with width='stretch' for Streamlit 1.64+
+    st.dataframe(df, width="stretch", hide_index=True)
     
-    if st.button("🔄 Refresh Live Telemetry Data", use_container_width=True):
+    if st.button("🔄 Refresh Live Telemetry Data", width="stretch"):
         st.rerun()
     
     st.markdown("---")
@@ -171,32 +181,27 @@ with right_col:
     if not st.session_state["is_premium_active"]:
         st.error("🔒 THIS CARD IS LOCKED BY THE TRENDPULSE ACCESS ENGINE")
         st.info("The execution layer is reserved strictly for enterprise marketing agencies and dropshipping brands.")
-        st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
+        st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", width="stretch")
         
     else:
-        # FIXED: Explicitly target index 0 of the list array to cleanly extract the string keyword
+        # ABSOLUTE FIX: Safely slice row 0 string to completely stop list datatype casting errors
         selected_keyword = "Minimalist Office Setup Accessories"
         try:
             if isinstance(trends, list) and len(trends) > 0:
-                # Safe access to the dictionary item inside row position 0
-                first_row = trends[0]
-                if isinstance(first_row, dict):
-                    selected_keyword = str(first_row.get("Topic", "Minimalist Office Setup Accessories"))
+                selected_keyword = str(trends[0]["Topic"])
         except Exception:
             selected_keyword = "Minimalist Office Setup Accessories"
             
         st.info(f"🎯 Currently Tracking Highest Velocity Target: **{selected_keyword}**")
         
-        if st.button("⚡ Run Cloud Analysis Node", type="primary", use_container_width=True):
+        if st.button("⚡ Run Cloud Analysis Node", type="primary", width="stretch"):
             if not GROQ_API_KEY:
                 st.error("⚠️ System Deployment Error: Groq API Key missing in stream configurations.")
             else:
                 with st.spinner("Processing automated cloud intelligence matrix rows..."):
-                    # Fire clean text elements down the line
                     ai_result = process_cloud_analysis_text(selected_keyword, st.session_state["selected_tier"])
                     
                     if ai_result:
                         st.session_state["ai_report_output"] = str(ai_result)
                         st.balloons()
                     else:
-                        st.error("Cloud processing stalled. Displaying highly optimized local fallback node data.")
