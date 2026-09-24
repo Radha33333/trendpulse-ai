@@ -16,7 +16,7 @@ st.set_page_config(
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
-# Dynamic Language Dictionary with Income & ROI Terminology
+# Dynamic Language Dictionary
 TEXTS = {
     "English": {
         "title": "⚡ TrendPulse AI: Commercial Signal Intelligence",
@@ -225,11 +225,13 @@ def fetch_filtered_radar_signals(region, platform_source, category, timeframe):
       for item in root.findall(".//item")[:4]:
         title = item.find("title")
         traffic = item.find("ht:approx_traffic", ns)
-        if title is not None:
+        if title is not None and title.text:
           raw_signals.append({
               "Keyword": f"{title.text} ({platform_source})",
               "Volume": (
-                  traffic.text if traffic is not None else "100K+ Queries"
+                  traffic.text
+                  if (traffic is not None and traffic.text)
+                  else "100K+ Queries"
               ),
           })
   except Exception:
@@ -269,17 +271,17 @@ def generate_master_intelligence(
             f"Peak Monetization Active on {platform} over {timeframe} window"
         ),
         "profit_model": (
-            f"Capitalize on '{keyword_asset}' under {category} using targeted"
+            f"Capitalize on {keyword_asset} under {category} using targeted"
             f" {target_role} monetization workflows to generate recurring"
             " sales."
         ),
         "execution_hook": (
-            f"Stop scrolling! Here is how '{keyword_asset}' is printing revenue"
-            f" on {platform}..."
+            f"Stop scrolling! Here is how {keyword_asset} is printing revenue on"
+            f" {platform}..."
         ),
         "audio_suggestion": "Trending Low-Fi Beats / High-Energy Phonk Track",
         "ad_copy": (
-            f"Unlock instant revenue using top-rated '{keyword_asset}'"
+            f"Unlock instant revenue using top-rated {keyword_asset}"
             " strategies today!"
         ),
         "action_blueprint": (
@@ -290,6 +292,8 @@ def generate_master_intelligence(
     }
 
   client = Groq(api_key=GROQ_API_KEY)
+
+  # Double braces {{ }} used for escaping in f-strings containing JSON
   prompt = f"""
     Analyze Keyword Asset: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform: '{platform}' | Timeframe: '{timeframe}' | Velocity Score: {velocity_score}%
     Language to respond in: {lang}
@@ -305,6 +309,7 @@ def generate_master_intelligence(
       "action_blueprint": "3-step rapid execution plan"
     }}
     """
+
   try:
     completion = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
@@ -319,12 +324,12 @@ def generate_master_intelligence(
         "roi_multiplier": "7.2x Revenue Potential",
         "prediction_window": f"Active Growth & High Revenue Phase ({timeframe})",
         "profit_model": (
-            f"Monetize '{keyword_asset}' immediately using high-converting"
+            f"Monetize {keyword_asset} immediately using high-converting"
             " funnels."
         ),
-        "execution_hook": f"Secret monetization strategy for '{keyword_asset}'!",
+        "execution_hook": f"Secret monetization strategy for {keyword_asset}!",
         "audio_suggestion": "Trending High-Tempo Track",
-        "ad_copy": f"Check out '{keyword_asset}' and multiply your income now!",
+        "ad_copy": f"Check out {keyword_asset} and multiply your income now!",
         "action_blueprint": (
             "1. Post High-Converting Content\n2. Add Direct CTA\n3. Scaled"
             " Sales Monetization"
@@ -336,7 +341,7 @@ def generate_master_intelligence(
 if "is_premium" not in st.session_state:
   st.session_state["is_premium"] = False
 
-# TOP BAR: Title Header & Clean Language Switcher
+# TOP BAR: Header & Language Selector
 head_col1, head_col2 = st.columns([3, 1])
 
 with head_col2:
@@ -425,7 +430,9 @@ with st.form(key="filter_form"):
         ],
     )
 
-  apply_filters = st.form_submit_button(t["apply_btn"], width="stretch")
+  apply_filters = st.form_submit_button(
+      t["apply_btn"], use_container_width=True
+  )
 
 st.markdown("---")
 
@@ -469,7 +476,7 @@ with left_col:
       f"**{t['active_signals_for']}** `{selected_category}` |"
       f" `{platform_source}` | `{geo_option}`"
   )
-  st.dataframe(df, width="stretch", hide_index=True)
+  st.dataframe(df, use_container_width=True, hide_index=True)
 
   # Dynamic Chart
   st.markdown(f"#### {t['chart_title']}")
@@ -511,7 +518,7 @@ with left_col:
       plot_bgcolor="rgba(0,0,0,0)",
       font=dict(color="white"),
   )
-  st.plotly_chart(fig, width="stretch")
+  st.plotly_chart(fig, use_container_width=True)
 
 with right_col:
   st.subheader(t["matrix_title"])
@@ -522,5 +529,4 @@ with right_col:
 
     first_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
 
-    teaser_html = (
-        '
+    teaser_html = f"""
