@@ -36,8 +36,8 @@ TEXTS = {
         "custom_search": "🔍 Custom Asset Search (Optional):",
         "active_signals_for": "Active Signals for:",
         "filtered_asset": "Filtered Trend Asset",
-        "est_revenue": "Est. Revenue Opportunity",
-        "saturation": "Saturation Window",
+        "est_revenue": "Est. Revenue Opportunity (INR)",
+        "saturation": "Saturation Level",
         "status": "Signal Status",
         "chart_title": "📈 Dynamic Velocity & Demand Forecast Curve",
         "matrix_title": "💡 Actionable Intelligence & Income Blueprint Matrix",
@@ -77,8 +77,8 @@ TEXTS = {
         "custom_search": "🔍 कस्टम एसेट सर्च (वैकल्पिक):",
         "active_signals_for": "सक्रिय सिग्नल:",
         "filtered_asset": "फ़िल्टर किया गया एसेट",
-        "est_revenue": "अनुमानित आय का अवसर (Revenue)",
-        "saturation": "सैचुरेशन विंडो (मांग)",
+        "est_revenue": "अनुमानित आय का अवसर (₹ INR)",
+        "saturation": "सैचुरेशन स्तर (मांग)",
         "status": "सिग्नल स्थिति",
         "chart_title": "📈 डायनेमिक वेलोसिटी और डिमांड फ़ोरकास्ट कर्व",
         "matrix_title": "💡 एक्शनएबल इंटेलिजेंस और इनकम ब्लूप्रिंट मैट्रिक्स",
@@ -273,7 +273,7 @@ def generate_master_intelligence(
         "profit_model": (
             f"Capitalize on {keyword_asset} under {category} using targeted"
             f" {target_role} monetization workflows to generate recurring"
-            " sales."
+            " sales in INR."
         ),
         "execution_hook": (
             f"Stop scrolling! Here is how {keyword_asset} is printing revenue on"
@@ -298,7 +298,7 @@ def generate_master_intelligence(
       f" Role: '{target_role}' | Platform: '{platform}' | Timeframe:"
       f" '{timeframe}' | Velocity Score: {velocity_score}%\n    Language to"
       f" respond in: {lang}\n    Generate an income execution blueprint."
-      ' Return STRICT JSON:\n    {\n      "viral_score":'
+      " Values in INR. Return STRICT JSON:\n    {\n      \"viral_score\":"
       f' "{velocity_score}%",\n      "roi_multiplier": "e.g., 5.5x - 11.2x'
       ' Revenue Potential",\n      "prediction_window": "Specific'
       f' monetization lifecycle window based on {timeframe}",\n'
@@ -452,34 +452,41 @@ with left_col:
       geo_map[geo_option], platform_source, selected_category, timeframe
   )
 
-  revenue_tiers = [
-      "$18,500/mo",
-      "$14,200/mo",
-      "$9,800/mo",
-      "$7,500/mo",
-      "$5,100/mo",
+  # Revenue Tiers updated to INR (Indian Rupees)
+  revenue_tiers_inr = [
+      "₹15,20,000 / month",
+      "₹11,50,000 / month",
+      "₹8,10,000 / month",
+      "₹6,20,000 / month",
+      "₹4,20,000 / month",
   ]
-  table_data = []
-  signal_scores = {}
-  for idx, item in enumerate(active_signals):
-    score = round(98.8 - (idx * 3.2), 1)
-    sat_val = 12 + (idx * 8)
-    sat_status = f"{sat_val}% (High ROI Window)"
-    table_data.append({
-        t["filtered_asset"]: item["Keyword"],
-        t["est_revenue"]: revenue_tiers[idx % len(revenue_tiers)],
-        t["saturation"]: sat_status,
-    })
-    signal_scores[item["Keyword"]] = score
 
-  df = pd.DataFrame(table_data)
+  signal_scores = {}
+
   st.markdown(
       f"**{t['active_signals_for']}** `{selected_category}` |"
       f" `{platform_source}` | `{geo_option}`"
   )
-  st.dataframe(df, use_container_width=True, hide_index=True)
 
-  # Dynamic Chart
+  # Visual KPI Cards Display for Revenue & Saturation
+  for idx, item in enumerate(active_signals):
+    score = round(98.8 - (idx * 3.2), 1)
+    sat_val = 12 + (idx * 14)  # Saturation %
+    rev_inr = revenue_tiers_inr[idx % len(revenue_tiers_inr)]
+    signal_scores[item["Keyword"]] = score
+
+    # Card layout
+    with st.container():
+      c1, c2 = st.columns([3, 2])
+      with c1:
+        st.markdown(f"**📌 {item['Keyword']}**")
+        st.caption(f"💰 {t['est_revenue']}: **{rev_inr}**")
+      with c2:
+        st.write(f"🎯 **{t['saturation']}:** `{sat_val}%`")
+        st.progress(sat_val / 100)
+    st.markdown("---")
+
+  # Dynamic Chart (Live Telemetry & Growth Forecast Curve)
   st.markdown(f"#### {t['chart_title']}")
 
   if custom_search.strip():
@@ -531,7 +538,7 @@ with right_col:
     first_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
 
     st.warning(f"💡 Pro Teaser Preview for: {first_keyword}")
-    st.write("🔒 **Estimated Revenue Multiplier:** 7.8x - 14.5x ROAS")
+    st.write("🔒 **Estimated Revenue Multiplier:** 7.8x - 14.5x ROAS (₹ INR)")
     st.write("🔒 **Monetization Blueprint:** [Locked - Pro Only]")
     st.write(
         '🔒 **Viral Script Hook:** "If you are not using this secret method'
