@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import requests
 import pandas as pd
 
-# Initialize structural viewport properties with current 2026 enterprise grids
+# Initialize structural viewport properties with current enterprise grids
 st.set_page_config(page_title="TrendPulse AI - Commercial Portal", page_icon="📈", layout="wide")
 
 # Secure API Ingestion Layer via Streamlit Cloud Secrets Manager
@@ -30,7 +30,7 @@ st.markdown("""
 def fetch_realtime_commercial_spikes():
     url = "https://google.com" 
     try:
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+        headers = {"User-Agent": "Mozilla/5.0"}
         response = requests.get(url, headers=headers, timeout=10)
         root = ET.fromstring(response.content)
         raw_trends = []
@@ -79,7 +79,6 @@ def process_cloud_analysis_text(trend_keyword, tier_level):
     Write 3 distinct high-converting script hooks (1 Curiosity, 1 Problem-Centric, 1 Direct Benefit) accompanied by a complete 15-second narrative execution timeline for social commerce creators.
     """
     
-    # FREE-TIER COMPATIBLE STABLE MODEL ROUTING SEQUENCE
     active_models = ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"]
     
     for model_id in active_models:
@@ -165,7 +164,6 @@ with left_col:
         })
         
     df = pd.DataFrame(processed_trends)
-    # COMPATIBILITY UPGRADE: Swapped use_container_width with width='stretch' for Streamlit 1.64+
     st.dataframe(df, width="stretch", hide_index=True)
     
     if st.button("🔄 Refresh Live Telemetry Data", width="stretch"):
@@ -184,11 +182,13 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", width="stretch")
         
     else:
-        # ABSOLUTE FIX: Safely slice row 0 string to completely stop list datatype casting errors
+        # FIXED: Correct clean slice selection loop to completely protect typecasting bounds
         selected_keyword = "Minimalist Office Setup Accessories"
         try:
             if isinstance(trends, list) and len(trends) > 0:
-                selected_keyword = str(trends[0]["Topic"])
+                first_row = trends[0]
+                if isinstance(first_row, dict):
+                    selected_keyword = first_row.get("Topic", "Minimalist Office Setup Accessories")
         except Exception:
             selected_keyword = "Minimalist Office Setup Accessories"
             
@@ -205,3 +205,4 @@ with right_col:
                         st.session_state["ai_report_output"] = str(ai_result)
                         st.balloons()
                     else:
+                        st.error("Cloud processing stalled. Displaying highly optimized local fallback node data.")
