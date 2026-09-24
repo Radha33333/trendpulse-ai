@@ -1,21 +1,24 @@
 import json
 import xml.etree.ElementTree as ET
 from groq import Groq
+import numpy as np
 import pandas as pd
 import plotly.express as px
 import requests
 import streamlit as st
 
+# 1. Page & Layout Configuration
 st.set_page_config(
     page_title="TrendPulse AI - Commercial Signal Intelligence",
     page_icon="⚡",
     layout="wide",
 )
 
+# Secrets & Constants
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
-# Custom CSS for styling
+# Custom Styling
 st.markdown(
     """
 
@@ -24,14 +27,13 @@ st.markdown(
 )
 
 
-# Complete Dynamic Signal Engine with all merged categories
+# 2. Dynamic Signal Radar Engine
 @st.cache_data(ttl=300)
-def fetch_filtered_radar_signals(region, platform_source, category):
+def fetch_filtered_radar_signals(region, platform_source, category, timeframe):
+  """Fetches live trends combined with comprehensive category keywords."""
   url = f"https://trends.google.com/trending/rss?geo={region}"
 
-  # Complete Combined Categories Matrix (Original + Expanded)
   category_signals = {
-      # Original Standard Categories
       "E-Commerce & Physical Products": [
           "Ergonomic Desk Setup Gadgets",
           "Aesthetic RGB Light Bars",
@@ -62,7 +64,6 @@ def fetch_filtered_radar_signals(region, platform_source, category):
           "Smart Fitness Ring Trackers",
           "Posture Correction Wearables",
       ],
-      # Expanded Niche & GenZ Categories
       "🤖 Generative AI & Automation Tools": [
           "Custom GPT Workflow Agents",
           "Voice Cloning CapCut Template",
@@ -121,7 +122,7 @@ def fetch_filtered_radar_signals(region, platform_source, category):
           raw_signals.append({
               "Keyword": f"{title.text} ({platform_source})",
               "Volume": (
-                  traffic.text if traffic is not None else "100K+"
+                  traffic.text if traffic is not None else "100K+ Queries"
               ),
           })
   except Exception:
@@ -135,7 +136,7 @@ def fetch_filtered_radar_signals(region, platform_source, category):
   for kw in default_keywords:
     combined.append({
         "Keyword": f"{kw} [{platform_source}]",
-        "Volume": "150K+ Surge",
+        "Volume": f"150K+ ({timeframe})",
     })
 
   for item in raw_signals:
@@ -144,13 +145,16 @@ def fetch_filtered_radar_signals(region, platform_source, category):
   return combined[:5]
 
 
+# 3. Synchronized AI Intelligence Engine
 def generate_master_intelligence(
-    keyword_asset, category, target_role, platform
+    keyword_asset, category, target_role, platform, timeframe, velocity_score
 ):
   if not GROQ_API_KEY:
     return {
-        "viral_score": "95.4%",
-        "prediction_window": f"Peak active on {platform} in Next 3-5 Days",
+        "viral_score": f"{velocity_score}%",
+        "prediction_window": (
+            f"Peak active on {platform} over {timeframe} window"
+        ),
         "profit_model": (
             f"Capitalize on '{keyword_asset}' under {category} using targeted"
             f" {target_role} monetization workflows."
@@ -159,29 +163,35 @@ def generate_master_intelligence(
             f"Stop scrolling! Here is how '{keyword_asset}' is trending on"
             f" {platform}..."
         ),
-        "audio_suggestion": "Trending Slowed + Reverb Lo-Fi / Phonk Track",
+        "audio_suggestion": "Trending Low-Fi Beats / High-Energy Phonk Track",
         "ad_copy": (
             f"Get instant access to top-rated '{keyword_asset}' solutions"
             " today!"
         ),
         "action_blueprint": (
-            "1. Launch campaign using selected platform signal\n2. Add suggested"
-            " trending audio\n3. Redirect to monetized CTA"
+            "1. Launch targeted content using keyword hook\n2. Integrate"
+            " recommended audio vibe\n3. Direct audience to monetized CTA"
         ),
-    }
+  }
 
   client = Groq(api_key=GROQ_API_KEY)
   prompt = f"""
-    Analyze Keyword: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform Source: '{platform}'.
-    Output strict JSON with keys:
+    Analyze Keyword Asset: '{keyword_asset}'
+    Category: '{category}'
+    Target Operating Role: '{target_role}'
+    Platform Source: '{platform}'
+    Timeframe Horizon: '{timeframe}'
+    Current Mathematical Velocity Score: {velocity_score}%
+
+    Generate an execution blueprint. Return STRICT JSON with these keys:
     {{
-      "viral_score": "e.g. 96.2%",
-      "prediction_window": "Lifecycle prediction window",
-      "profit_model": "Monetization strategy",
-      "execution_hook": "Platform-specific 3-second hook",
-      "audio_suggestion": "Recommended audio vibe or genre",
-      "ad_copy": "Meta/TikTok ad text or caption",
-      "action_blueprint": "3-step execution plan"
+      "viral_score": "{velocity_score}%",
+      "prediction_window": "Specific lifecycle window based on {timeframe}",
+      "profit_model": "Tailored monetization strategy for {target_role}",
+      "execution_hook": "High-retention 3-second hook for {platform}",
+      "audio_suggestion": "Recommended viral audio vibe or genre",
+      "ad_copy": "High-converting caption or ad copy text",
+      "action_blueprint": "Clear 3-step action plan"
     }}
     """
   try:
@@ -194,20 +204,21 @@ def generate_master_intelligence(
     return json.loads(completion.choices[0].message.content)
   except Exception:
     return {
-        "viral_score": "91.0%",
-        "prediction_window": "Active Growth Phase",
+        "viral_score": f"{velocity_score}%",
+        "prediction_window": f"Active Growth Phase ({timeframe})",
         "profit_model": f"Monetize '{keyword_asset}' immediately.",
         "execution_hook": f"Secret strategy for '{keyword_asset}'!",
-        "audio_suggestion": "Popular High-Tempo Phonk Track",
+        "audio_suggestion": "Trending High-Tempo Track",
         "ad_copy": f"Check out '{keyword_asset}' now!",
         "action_blueprint": "1. Post Content\n2. Add CTA\n3. Monetize",
     }
 
 
+# Session State Initialization
 if "is_premium" not in st.session_state:
   st.session_state["is_premium"] = False
 
-# Application Interface
+# Application Header
 st.title("⚡ TrendPulse AI: Commercial Signal Intelligence")
 st.caption(
     "Predictive Trend Intelligence | Automated Creator & Merchant Execution"
@@ -220,7 +231,7 @@ with st.expander("🔑 Enterprise Access Terminal"):
       "Simulate Pro Subscription Access", value=st.session_state["is_premium"]
   )
 
-# Extended Filter Setup
+# Signal Intelligence Filters Setup
 st.markdown("### 🎛️ Signal Intelligence Configuration")
 f_col1, f_col2, f_col3, f_col4 = st.columns(4)
 
@@ -281,6 +292,7 @@ st.markdown("---")
 
 left_col, right_col = st.columns([1, 1], gap="large")
 
+# Left Column: Telemetry & Dynamic Visualization
 with left_col:
   st.subheader("📊 Live Telemetry & Growth Forecast")
 
@@ -289,13 +301,15 @@ with left_col:
       placeholder="e.g. Ergonomic Keyboard, AI Content Generator",
   )
 
+  # Fetch Signals with all filters included
   active_signals = fetch_filtered_radar_signals(
-      geo_map[geo_option], platform_source, selected_category
+      geo_map[geo_option], platform_source, selected_category, timeframe
   )
 
   table_data = []
+  signal_scores = {}
   for idx, item in enumerate(active_signals):
-    score = round(98.8 - (idx * 3.5), 1)
+    score = round(98.8 - (idx * 3.2), 1)
     stage = (
         "🌱 Emerging (Peak Pending)"
         if idx % 2 == 0
@@ -306,6 +320,7 @@ with left_col:
         "Predictive Velocity": f"{score}%",
         "Signal Status": stage,
     })
+    signal_scores[item["Keyword"]] = score
 
   df = pd.DataFrame(table_data)
   st.markdown(
@@ -314,25 +329,60 @@ with left_col:
   )
   st.dataframe(df, width="stretch", hide_index=True)
 
-  st.markdown("#### 📈 Predicted Velocity Curve")
-  chart_data = pd.DataFrame({
-      "Day": ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"],
-      "Search Velocity": [25, 40, 68, 95, 100, 88, 70],
-  }).set_index("Day")
+  # Dynamic Chart Generation Linked directly to Asset
+  st.markdown("#### 📈 Dynamic Velocity Forecast Curve")
 
-  st.line_chart(chart_data)
+  if custom_search.strip():
+    chart_keyword = custom_search.strip()
+    base_score = 95.0
+  else:
+    chart_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
+    base_score = signal_scores.get(chart_keyword, 90.0)
+
+  # Generate synchronized trend curve based on calculated velocity score
+  days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"]
+  multiplier = base_score / 100.0
+  velocity_values = [
+      int(20 * multiplier),
+      int(45 * multiplier),
+      int(75 * multiplier),
+      int(100 * multiplier),
+      int(92 * multiplier),
+      int(80 * multiplier),
+      int(65 * multiplier),
+  ]
+
+  fig_df = pd.DataFrame({"Day": days, "Search Velocity": velocity_values})
+  fig = px.line(
+      fig_df,
+      x="Day",
+      y="Search Velocity",
+      title=f"7-Day Forecast Horizon: {chart_keyword[:30]}...",
+      markers=True,
+  )
+  fig.update_traces(line_color="#ff4b4b", line_width=3)
+  fig.update_layout(
+      margin=dict(l=20, r=20, t=40, b=20),
+      height=280,
+      paper_bgcolor="rgba(0,0,0,0)",
+      plot_bgcolor="rgba(0,0,0,0)",
+      font=dict(color="white"),
+  )
+  st.plotly_chart(fig, use_container_width=True)
 
   if st.button("🔄 Rescan Intelligence Streams", width="stretch"):
     st.cache_data.clear()
     st.rerun()
 
+# Right Column: Actionable Intelligence Matrix
 with right_col:
   st.subheader("💡 Actionable Intelligence Matrix")
 
   if not st.session_state["is_premium"]:
     st.error("🔒 PREDICTIVE EXECUTION SUITE IS LOCKED")
     st.info(
-        "Unlock full profit blueprints, ad copy variations, and action plans."
+        "Unlock full profit blueprints, script hooks, audio vibes, and 30-sec"
+        " execution plans."
     )
     st.link_button(
         "🔥 Upgrade to Pro Member Tier",
@@ -343,10 +393,12 @@ with right_col:
   else:
     if custom_search.strip():
       target_keyword = custom_search.strip()
+      target_score = 95.0
       st.info(f"Analyzing Custom Asset: **{target_keyword}**")
     else:
       keyword_list = [t["Keyword"] for t in active_signals]
       target_keyword = st.selectbox("🎯 Select Filtered Asset:", keyword_list)
+      target_score = signal_scores.get(target_keyword, 92.0)
 
     user_role = st.radio(
         "👤 Operating Role:",
@@ -361,9 +413,14 @@ with right_col:
     if st.button(
         "⚡ Generate Master Blueprint", type="primary", width="stretch"
     ):
-      with st.spinner("Processing filtered signal matrices..."):
+      with st.spinner("Processing fully synchronized signal matrices..."):
         result = generate_master_intelligence(
-            target_keyword, selected_category, user_role, platform_source
+            target_keyword,
+            selected_category,
+            user_role,
+            platform_source,
+            timeframe,
+            target_score,
         )
 
         st.success(f"🎯 Complete Intelligence Blueprint: **{target_keyword}**")
@@ -381,17 +438,16 @@ with right_col:
         ):
           st.write(result.get("profit_model"))
 
-        with st.expander("🎬 High-Retention Visual Hook", expanded=True):
+        with st.expander(
+            "🎬 High-Retention Visual Hook (Copy & Use)", expanded=True
+        ):
           st.code(f'"{result.get("execution_hook")}"', language="text")
 
-        if result.get("audio_suggestion"):
-          with st.expander("🎵 Recommended Audio Vibe", expanded=True):
-            st.write(
-                f"🔊 **Audio Suggestion:** {result.get('audio_suggestion')}"
-            )
+        with st.expander("🎵 Recommended Audio Vibe", expanded=True):
+          st.write(f"🔊 **Audio Suggestion:** {result.get('audio_suggestion')}")
 
-        with st.expander("📢 Converting Ad Copy / Caption", expanded=True):
-          st.write(result.get("ad_copy"))
+        with st.expander("📢 Ready-to-Use Caption / Ad Copy", expanded=True):
+          st.code(f"{result.get('ad_copy')}", language="text")
 
-        with st.expander("📝 Execution Plan", expanded=True):
+        with st.expander("📝 Rapid Execution Plan", expanded=True):
           st.write(result.get("action_blueprint"))
