@@ -6,13 +6,17 @@ import pandas as pd
 import json
 
 # Initialize structural viewport properties
-st.set_page_config(page_title="TrendPulse AI - Intelligence Portal", page_icon="📈", layout="wide")
+st.set_page_config(page_title="TrendPulse AI - Admin Portal", page_icon="📈", layout="wide")
 
 # Secure API Ingestion Layer via Streamlit Cloud Secrets Manager
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 
 # Stripe Gateway Checkout Link Setup
 STRIPE_CHECKOUT_URL = "https://stripe.com"
+
+# SECURE ADMIN CREDENTIALS (यहाँ अपनी मनपसंद ID और Password बदल सकते हैं)
+ADMIN_USERNAME = "admin123"
+ADMIN_PASSWORD = "trendpulse_owner_2026"
 
 # 1. Telemetry Ingestion Layer (Google RSS Ground Truth Feed)
 def fetch_realtime_commercial_spikes():
@@ -78,13 +82,15 @@ def get_fail_safe_local_blueprint(trend_keyword):
     return {
         "target_trend": f"{trend_keyword}",
         "business_pain_point": "High demand surge coupled with lack of specialized suppliers or high local pricing options.",
-        "monetization_execution": f"Source unique variations of '{trend_keyword}' via B2B trade networks. Launch a dedicated single-product Shopify store and scale targeted conversion ads directly to relevant agency managers.",
+        "monetization_execution": f"Source unique variations of '{trend_keyword}' via B2B trade networks. Launch a dedicated single-product Shopify store and scale targeted conversion ads directly to relevant marketing channels.",
         "high_retention_hook": f"Stop scrolling if you are still sourcing your '{trend_keyword}' manually. Here is how top brands do it 10x faster..."
     }
 
-# Initialize Application State Core
-if "is_premium_user" not in st.session_state:
-    st.session_state["is_premium_user"] = False
+# Initialize Session States
+if "is_admin_logged_in" not in st.session_state:
+    st.session_state["is_admin_logged_in"] = False
+if "is_premium_active" not in st.session_state:
+    st.session_state["is_premium_active"] = False
 
 # ==========================================
 # VISUAL RENDERING DASHBOARD
@@ -94,19 +100,38 @@ st.caption("24/7 Autonomous B2B trend tracking engine operating at zero overhead
 
 st.markdown("---")
 
-# FIXED UI PANEL: Clear and permanently visible admin simulator
-st.subheader("🔐 System Verification Hub")
-admin_col1, admin_col2 = st.columns([2, 1])
-with admin_col1:
-    st.session_state["is_premium_user"] = st.checkbox("Simulate Paid Account Active (Check this to toggle gates instantly)", value=st.session_state["is_premium_user"])
-with admin_col2:
-    if st.session_state["is_premium_user"]:
-        st.success("👑 Premium Server Online")
+# --- SECURE EXPANDABLE ADMIN LOGIN GATEWAY ---
+with st.expander("🔑 Owner / Admin Login Terminal", expanded=st.session_state["is_admin_logged_in"]):
+    if not st.session_state["is_admin_logged_in"]:
+        col1, col2 = st.columns(2)
+        with col1:
+            input_user = st.text_input("Admin User ID", placeholder="Enter admin username")
+        with col2:
+            input_pass = st.text_input("Admin Security Password", type="password", placeholder="Enter secret password")
+        
+        if st.button("🔓 Authenticate Admin Rights", use_container_width=True, type="primary"):
+            if input_user == ADMIN_USERNAME and input_pass == ADMIN_PASSWORD:
+                st.session_state["is_admin_logged_in"] = True
+                st.session_state["is_premium_active"] = True  # Admin gets auto-premium
+                st.success("🎯 Owner Identity Verified! Full Structural Rights Granted.")
+                st.rerun()
+            else:
+                st.error("❌ Invalid Admin Credentials. Access Denied.")
     else:
-        st.warning("⚠️ Sandbox Sandbox Active")
+        st.success("👑 Welcome Master Owner! You have absolute bypass control over the platform.")
+        
+        # Admin Special Rights: Toggle the paywall engine for testing in 1-click
+        st.subheader("🛠️ Super-User Command Center")
+        st.session_state["is_premium_active"] = st.checkbox("Bypass Paywall Gate (Turn premium mode ON/OFF instantly)", value=st.session_state["is_premium_active"])
+        
+        if st.button("🔒 Secure Logout from Admin Terminal", type="secondary"):
+            st.session_state["is_admin_logged_in"] = False
+            st.session_state["is_premium_active"] = False
+            st.rerun()
 
 st.markdown("---")
 
+# Main Dashboard Content Split
 left_col, right_col = st.columns(2, gap="large")
 
 with left_col:
@@ -117,7 +142,6 @@ with left_col:
     df = pd.DataFrame(trends)
     st.dataframe(df, use_container_width=True, hide_index=True)
     
-    # Clean UI interactivity trigger to pull data manually
     if st.button("🔄 Refresh Live Telemetry Data", use_container_width=True):
         st.rerun()
     
@@ -128,7 +152,8 @@ with left_col:
 with right_col:
     st.subheader("👑 Premium Actionable Monetization Blueprint")
     
-    if not st.session_state["is_premium_user"]:
+    # SYSTEM GATEKEEP CHECK
+    if not st.session_state["is_premium_active"]:
         st.error("🔒 THIS CARD IS LOCKED BY THE TRENDPULSE ACCESS ENGINE")
         st.info("The execution layer is reserved strictly for enterprise marketing agencies and dropshipping brands.")
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
