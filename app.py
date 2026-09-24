@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import requests
 import pandas as pd
 
-# 1. Initialize structural properties with current enterprise layout
+# Initialize structural viewport properties with current enterprise layout
 st.set_page_config(page_title="TrendPulse AI - Commercial Portal", page_icon="📈", layout="wide")
 
 # Secure API Ingestion Layer via Streamlit Cloud Secrets Manager
@@ -26,9 +26,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 2. Telemetry Ingestion Layer (Google RSS Ground Truth Feed)
+# 1. Telemetry Ingestion Layer (Google RSS Ground Truth Feed)
 def fetch_realtime_commercial_spikes():
-    # FIXED: Replaced standard homepage with the true operational Google Trends RSS feed URL
     url = "https://google.com" 
     try:
         headers = {"User-Agent": "Mozilla/5.0"}
@@ -49,7 +48,7 @@ def fetch_realtime_commercial_spikes():
     except Exception:
         return [{"Topic": "Minimalist Office Setup Accessories", "Search Volume Surge": "100K+"}]
 
-# 3. Cloud AI Processing Core (Optimized Text Pipeline)
+# 2. Cloud AI Processing Core (Optimized Text Pipeline)
 def process_cloud_analysis_text(trend_keyword, tier_level):
     if not GROQ_API_KEY:
         return None
@@ -80,7 +79,7 @@ def process_cloud_analysis_text(trend_keyword, tier_level):
     Write 3 distinct high-converting script hooks (1 Curiosity, 1 Problem-Centric, 1 Direct Benefit) accompanied by a complete 15-second narrative execution timeline for social commerce creators.
     """
     
-    # Active high-throughput models grouped to clear free-tier quota limits safely
+    # Fully supported active production models ordered by reliability matrix
     active_models = ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"]
     
     for model_id in active_models:
@@ -184,11 +183,11 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", width="stretch")
         
     else:
-        # FIXED: Extract data correctly by isolating row index zero strictly from the list sequence
+        # FIXED: 100% Correct List Unpacking logic targeting row 0 explicitly to stop structural drops
         selected_keyword = "Minimalist Office Setup Accessories"
         try:
             if isinstance(trends, list) and len(trends) > 0:
-                first_row = trends[0]  # Safe Extraction Code Fix
+                first_row = trends[0]  # Safely popped index 0 dictionary out of the array
                 if isinstance(first_row, dict):
                     selected_keyword = first_row.get("Topic", "Minimalist Office Setup Accessories")
         except Exception:
@@ -196,7 +195,6 @@ with right_col:
             
         st.info(f"🎯 Currently Tracking Highest Velocity Target: **{selected_keyword}**")
         
-        # RESTORED COMPONENTS: Full automated AI reasoning engine and text serialization modules
         if st.button("⚡ Run Cloud Analysis Node", type="primary", width="stretch"):
             if not GROQ_API_KEY:
                 st.error("⚠️ System Deployment Error: Groq API Key missing in stream configurations.")
@@ -204,3 +202,7 @@ with right_col:
                 with st.spinner("Processing automated cloud intelligence matrix rows..."):
                     ai_result = process_cloud_analysis_text(selected_keyword, st.session_state["selected_tier"])
                     
+                    if ai_result:
+                        st.session_state["ai_report_output"] = str(ai_result)
+                        st.balloons()
+                    else:
