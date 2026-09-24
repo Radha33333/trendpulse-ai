@@ -516,6 +516,7 @@ with right_col:
     st.error(t["locked_title"])
     st.info(t["locked_info"])
 
-    # Teaser Box to drive conversions
+    # Teaser Box without unterminated string syntax errors
+    first_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
     st.markdown(
-        f"""
+        '
