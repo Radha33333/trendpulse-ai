@@ -38,7 +38,6 @@ def fetch_realtime_commercial_spikes():
 
 # 2. Cloud AI Processing Core (Zero-Temperature Factual Filter)
 def process_cloud_analysis(trend_data):
-    # Isolated top trending keyword to use if fallbacks trigger
     primary_trend = trend_data[0]["Topic"] if trend_data else "Minimalist Office Setup Accessories"
     
     if not GROQ_API_KEY:
@@ -58,7 +57,6 @@ def process_cloud_analysis(trend_data):
     }}
     """
     
-    # FIXED: Replaced older deprecated models with official active production ones
     active_models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
     
     for model_id in active_models:
@@ -72,13 +70,11 @@ def process_cloud_analysis(trend_data):
             raw_output = completion.choices[0].message.content
             return json.loads(raw_output)
         except Exception:
-            continue  # Silently skip to the next active model node if one fails
+            continue  
             
-    # Bulletproof Backup: If cloud keys fail, generate an instant clean copy locally instead of crashing
     return get_fail_safe_local_blueprint(primary_trend)
 
 def get_fail_safe_local_blueprint(trend_keyword):
-    """Generates an instant, zero-overhead business blueprint to keep the app working error-free."""
     return {
         "target_trend": f"{trend_keyword}",
         "business_pain_point": "High demand surge coupled with lack of specialized suppliers or high local pricing options.",
@@ -145,5 +141,24 @@ with right_col:
                         
                     with st.expander("🎬 High-Retention 3-Second Video Hook", expanded=True):
                         st.code(f'"{report.get("high_retention_hook")}"', language="text")
+                    
+                    # NEW FEATURE: Structural White-label Report Exporter Functionality
+                    st.markdown("---")
+                    report_txt = (
+                        f"TRENDPULSE AI - COMMERCIAL INTELLIGENCE REPORT\n"
+                        f"==================================================\n"
+                        f"TARGET TREND: {report.get('target_trend')}\n\n"
+                        f"MONETIZATION STRATEGY:\n{report.get('monetization_execution')}\n\n"
+                        f"CONSUMER PAIN POINT:\n{report.get('business_pain_point')}\n\n"
+                        f"VIRAL VIDEO HOOK:\n\"{report.get('high_retention_hook')}\"\n"
+                    )
+                    
+                    st.download_button(
+                        label="📥 Download White-Label Executive Report (.txt)",
+                        data=report_txt,
+                        file_name=f"trendpulse_{report.get('target_trend').lower().replace(' ', '_')}_report.txt",
+                        mime="text/plain",
+                        use_container_width=True
+                    )
         else:
             st.warning("Click the engine execution toggle button above to parse data loops instantly.")
