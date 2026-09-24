@@ -319,16 +319,19 @@ def generate_master_intelligence(
 if "is_premium" not in st.session_state:
   st.session_state["is_premium"] = False
 
-# Sidebar Language Selection
-st.sidebar.markdown("## 🌐 Language Settings")
-selected_lang = st.sidebar.radio(
-    "Choose Language / भाषा चुनें:", ["English", "Hindi"]
-)
+# TOP BAR: Title Header & Clean Language Switcher Positioned at Top Right
+head_col1, head_col2 = st.columns([3, 1])
+
+with head_col2:
+  selected_lang = st.selectbox(
+      "🌐 Language / भाषा:", ["English", "Hindi"], index=0
+  )
+
 t = TEXTS[selected_lang]
 
-# Header
-st.title(t["title"])
-st.caption(t["subtitle"])
+with head_col1:
+  st.title(t["title"])
+  st.caption(t["subtitle"])
 
 st.markdown("---")
 
@@ -337,7 +340,7 @@ with st.expander(t["terminal"]):
       t["simulate_pro"], value=st.session_state["is_premium"]
   )
 
-# Signal Intelligence Configuration Form with APPLY BUTTON
+# Signal Intelligence Configuration Form
 st.markdown(f"### {t['config_title']}")
 
 with st.form(key="filter_form"):
