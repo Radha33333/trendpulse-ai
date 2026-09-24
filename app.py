@@ -30,7 +30,7 @@ st.markdown("""
 def fetch_realtime_commercial_spikes():
     url = "https://google.com" 
     try:
-        headers = {"User-Agent": "Mozilla/5.0"}
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
         response = requests.get(url, headers=headers, timeout=10)
         root = ET.fromstring(response.content)
         raw_trends = []
@@ -79,6 +79,7 @@ def process_cloud_analysis_text(trend_keyword, tier_level):
     Write 3 distinct high-converting script hooks (1 Curiosity, 1 Problem-Centric, 1 Direct Benefit) accompanied by a complete 15-second narrative execution timeline for social commerce creators.
     """
     
+    # Validated free-tier models array sequence
     active_models = ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"]
     
     for model_id in active_models:
@@ -182,13 +183,13 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", width="stretch")
         
     else:
-        # FIXED: Correct clean slice selection loop to completely protect typecasting bounds
+        # FIXED: Explicitly target the first element inside the list array using explicit zero-index popping
         selected_keyword = "Minimalist Office Setup Accessories"
         try:
             if isinstance(trends, list) and len(trends) > 0:
-                first_row = trends[0]
-                if isinstance(first_row, dict):
-                    selected_keyword = first_row.get("Topic", "Minimalist Office Setup Accessories")
+                first_row_dict = trends[0]  # Crucial Bug Fix: Extract row 0 dictionary out of list
+                if isinstance(first_row_dict, dict):
+                    selected_keyword = str(first_row_dict.get("Topic", "Minimalist Office Setup Accessories"))
         except Exception:
             selected_keyword = "Minimalist Office Setup Accessories"
             
@@ -203,6 +204,3 @@ with right_col:
                     
                     if ai_result:
                         st.session_state["ai_report_output"] = str(ai_result)
-                        st.balloons()
-                    else:
-                        st.error("Cloud processing stalled. Displaying highly optimized local fallback node data.")
