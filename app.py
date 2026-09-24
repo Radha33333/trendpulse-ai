@@ -71,7 +71,7 @@ def process_cloud_analysis_text(trend_keyword, tier_level):
     """
     
     # High-throughput models grouped to clear free-tier quota limits safely
-    active_models = ["llama-3.1-8b-instant", "llama-3.2-11b-vision-preview", "llama-3.3-70b-versatile"]
+    active_models = ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"]
     
     for model_id in active_models:
         try:
@@ -174,11 +174,14 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
         
     else:
-        # FIXED: Rock-solid parsing sequence extracting the raw dictionary item strictly by index targeting
+        # FIXED: Explicitly target index 0 of the list array to cleanly extract the string keyword
         selected_keyword = "Minimalist Office Setup Accessories"
         try:
             if isinstance(trends, list) and len(trends) > 0:
-                selected_keyword = str(trends[0]["Topic"])
+                # Safe access to the dictionary item inside row position 0
+                first_row = trends[0]
+                if isinstance(first_row, dict):
+                    selected_keyword = str(first_row.get("Topic", "Minimalist Office Setup Accessories"))
         except Exception:
             selected_keyword = "Minimalist Office Setup Accessories"
             
@@ -189,6 +192,7 @@ with right_col:
                 st.error("⚠️ System Deployment Error: Groq API Key missing in stream configurations.")
             else:
                 with st.spinner("Processing automated cloud intelligence matrix rows..."):
+                    # Fire clean text elements down the line
                     ai_result = process_cloud_analysis_text(selected_keyword, st.session_state["selected_tier"])
                     
                     if ai_result:
