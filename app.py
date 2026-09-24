@@ -56,7 +56,7 @@ def process_cloud_analysis(trend_data):
     """
     try:
         completion = client.chat.completions.create(
-            model="llama3-8b-8192", 
+           model="llama-3.1-8b-instant",
             messages=[{"role": "user", "content": system_instruction}],
             temperature=0.0, 
             response_format={"type": "json_object"}
