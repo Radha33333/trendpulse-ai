@@ -35,7 +35,7 @@ def fetch_realtime_commercial_spikes():
             
         blacklist = ["accident", "arrested", "match", "vs", "election", "died", "killed", "movie review", "ipl"]
         clean_trends = [t for t in raw_trends if not any(word in t["Topic"].lower() for word in blacklist)]
-        return clean_trends[:5] if clean_trends else [{"Topic": "Minimalist Office Setup Accessories", "Search Volume Surge": "100K+"}]
+        return clean_trends if clean_trends else [{"Topic": "Minimalist Office Setup Accessories", "Search Volume Surge": "100K+"}]
     except Exception:
         return [{"Topic": "Minimalist Office Setup Accessories", "Search Volume Surge": "100K+"}]
 
@@ -155,8 +155,10 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
         
     else:
-        # FIXED: Correctly isolate the first dictionary item safely from the trends list data flow
-        selected_keyword = trends[0]["Topic"] if trends else "Minimalist Office Setup Accessories"
+        # Safely capture the very first trending topic name from the active records list
+        selected_keyword = "Minimalist Office Setup Accessories"
+        if isinstance(trends, list) and len(trends) > 0:
+            selected_keyword = trends[0].get("Topic", "Minimalist Office Setup Accessories")
         
         if st.button("⚡ Run Cloud Analysis Node", type="primary", use_container_width=True):
             if not GROQ_API_KEY:
@@ -178,9 +180,9 @@ with right_col:
             st.info("🔥 Live AI Analysis Completed Successfully!")
             st.text_area("📋 Live Enterprise Strategy Report", value=st.session_state["ai_report_output"], height=450)
             
-            # White-label Download Trigger
-            final_download_text = f"TRENDPULSE AI - OFFICIAL COMMERCIAL BLUEPRINT REPORT\n" \
-                                 f"======================================================\n\n" \
-                                 f"{st.session_state['ai_report_output']}"
+            # FIXED: Reformatted using secure multi-line blocks to avoid unclosed string errors
+            final_download_text = f"""TRENDPULSE AI - OFFICIAL COMMERCIAL BLUEPRINT REPORT
+======================================================
+
+{st.session_state['ai_report_output']}"""
                                  
-            st.download_button(
