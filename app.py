@@ -105,8 +105,8 @@ TEXTS = {
 # Custom CSS styling
 st.markdown(
     """
-
-""",
+    
+    """,
     unsafe_allow_html=True,
 )
 
@@ -293,22 +293,23 @@ def generate_master_intelligence(
 
   client = Groq(api_key=GROQ_API_KEY)
 
-  # Double braces {{ }} used for escaping in f-strings containing JSON
-  prompt = f"""
-    Analyze Keyword Asset: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform: '{platform}' | Timeframe: '{timeframe}' | Velocity Score: {velocity_score}%
-    Language to respond in: {lang}
-    Generate an income execution blueprint. Return STRICT JSON:
-    {{
-      "viral_score": "{velocity_score}%",
-      "roi_multiplier": "e.g., 5.5x - 11.2x Revenue Potential",
-      "prediction_window": "Specific monetization lifecycle window based on {timeframe}",
-      "profit_model": "Actionable monetization strategy focused on increasing income for {target_role}",
-      "execution_hook": "High-retention 3-second hook designed for conversions on {platform}",
-      "audio_suggestion": "Recommended viral audio vibe",
-      "ad_copy": "High-converting ad copy text designed to multiply revenue",
-      "action_blueprint": "3-step rapid execution plan"
-    }}
-    """
+  prompt = (
+      f"Analyze Keyword Asset: '{keyword_asset}' | Category: '{category}' |"
+      f" Role: '{target_role}' | Platform: '{platform}' | Timeframe:"
+      f" '{timeframe}' | Velocity Score: {velocity_score}%\n    Language to"
+      f" respond in: {lang}\n    Generate an income execution blueprint."
+      ' Return STRICT JSON:\n    {\n      "viral_score":'
+      f' "{velocity_score}%",\n      "roi_multiplier": "e.g., 5.5x - 11.2x'
+      ' Revenue Potential",\n      "prediction_window": "Specific'
+      f' monetization lifecycle window based on {timeframe}",\n'
+      '      "profit_model": "Actionable monetization strategy focused on'
+      f' increasing income for {target_role}",\n      "execution_hook":'
+      f' "High-retention 3-second hook designed for conversions on {platform}",\n'
+      '      "audio_suggestion": "Recommended viral audio vibe",\n'
+      '      "ad_copy": "High-converting ad copy text designed to multiply'
+      ' revenue",\n      "action_blueprint": "3-step rapid execution plan"\n   '
+      " }"
+  )
 
   try:
     completion = client.chat.completions.create(
@@ -529,4 +530,80 @@ with right_col:
 
     first_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
 
-    teaser_html = f"""
+    st.warning(f"💡 Pro Teaser Preview for: {first_keyword}")
+    st.write("🔒 **Estimated Revenue Multiplier:** 7.8x - 14.5x ROAS")
+    st.write("🔒 **Monetization Blueprint:** [Locked - Pro Only]")
+    st.write(
+        '🔒 **Viral Script Hook:** "If you are not using this secret method'
+        ' to..." [Locked]'
+    )
+
+    st.link_button(
+        t["upgrade_btn"],
+        STRIPE_CHECKOUT_URL,
+        type="primary",
+        use_container_width=True,
+    )
+  else:
+    if custom_search.strip():
+      target_keyword = custom_search.strip()
+      target_score = 95.0
+      st.info(f"{t['analyzing_custom']} **{target_keyword}**")
+    else:
+      keyword_list = [item["Keyword"] for item in active_signals]
+      target_keyword = st.selectbox(t["select_asset"], keyword_list)
+      target_score = signal_scores.get(target_keyword, 92.0)
+
+    user_role = st.radio(
+        t["operating_role"],
+        [
+            "Content Creator / Influencer",
+            "E-Commerce Merchant / Dropshipper",
+            "Agency Owner / Freelancer",
+        ],
+        horizontal=True,
+    )
+
+    if st.button(t["gen_blueprint"], type="primary", use_container_width=True):
+      with st.spinner("Processing fully synchronized income matrices..."):
+        result = generate_master_intelligence(
+            target_keyword,
+            selected_category,
+            user_role,
+            platform_source,
+            timeframe,
+            target_score,
+            selected_lang,
+        )
+
+        st.success(
+            f"🎯 Revenue Intelligence Blueprint Generated: **{target_keyword}**"
+        )
+
+        col_m1, col_m2, col_m3 = st.columns(3)
+        with col_m1:
+          st.metric(
+              label="Predictive Viral Score", value=result.get("viral_score")
+          )
+        with col_m2:
+          st.metric(
+              label=t["roi_label"],
+              value=result.get("roi_multiplier", "8.4x Revenue Boost"),
+          )
+        with col_m3:
+          st.info(f"**Window:** {result.get('prediction_window')}")
+
+        with st.expander(t["monetization"], expanded=True):
+          st.write(result.get("profit_model"))
+
+        with st.expander(t["hook"], expanded=True):
+          st.code(f'"{result.get("execution_hook")}"', language="text")
+
+        with st.expander(t["audio"], expanded=True):
+          st.write(f"🔊 **Audio Suggestion:** {result.get('audio_suggestion')}")
+
+        with st.expander(t["caption"], expanded=True):
+          st.code(f"{result.get('ad_copy')}", language="text")
+
+        with st.expander(t["plan"], expanded=True):
+          st.write(result.get("action_blueprint"))
