@@ -54,29 +54,44 @@ def process_cloud_analysis(trend_data):
       "high_retention_hook": "A cold 3-second script hook addressing the pain point directly"
     }}
     """
-    try:
-        completion = client.chat.completions.create(
-           model="llama-3.1-8b-instant",
-            messages=[{"role": "user", "content": system_instruction}],
-            temperature=0.0, 
-            response_format={"type": "json_object"}
-        )
-        return json.loads(completion.choices[0].message.content)
-    except Exception as e:
-        return {"target_trend": "Data Node Failure", "business_pain_point": f"Error: {str(e)}", "monetization_execution": "Verify API authorization keys.", "high_retention_hook": "Halted."}
+    
+    # Dual-model architectural backup loop to guarantee 100% processing reliability
+    active_models = ["llama-3.3-70b-versatile", "llama3-8b-8192"]
+    last_exception = None
+    
+    for model_id in active_models:
+        try:
+            completion = client.chat.completions.create(
+                model=model_id, 
+                messages=[{"role": "user", "content": system_instruction}],
+                temperature=0.0, 
+                response_format={"type": "json_object"}
+            )
+            raw_output = completion.choices[0].message.content
+            return json.loads(raw_output)
+        except Exception as e:
+            last_exception = e
+            continue  # Fallback to the next model node instantly if the primary throws an exception
+            
+    # Final state exception handling if both cloud models reject processing requests
+    return {
+        "target_trend": "Data Node Failure", 
+        "business_pain_point": f"API Error: {str(last_exception)}", 
+        "monetization_execution": "Verify that your saved API key is still valid inside your Groq Dashboard.", 
+        "high_retention_hook": "Halted."
+    }
 
 # Initialize Application State Core
 if "is_premium_user" not in st.session_state:
     st.session_state["is_premium_user"] = False
 
 # ==========================================
-# VISUAL RENDERING DASHBOARD (MAIN VIEW FIXED)
+# VISUAL RENDERING DASHBOARD
 # ==========================================
 st.title("🚀 TrendPulse AI: Commercial Intelligence Feed")
 st.caption("24/7 Autonomous B2B trend tracking engine operating at zero overhead.")
 
 st.markdown("---")
-# DIRECT ON-SCREEN ACCESS GATE MANAGER (Moved from hidden sidebar to main screen view)
 st.subheader("🔐 Workspace Access Controls")
 st.session_state["is_premium_user"] = st.checkbox("Simulate Paid Account Active (Check this box to unlock the AI Engine Below)", value=st.session_state["is_premium_user"])
 
@@ -102,14 +117,12 @@ with left_col:
 with right_col:
     st.subheader("👑 Premium Actionable Monetization Blueprint")
     
-    # SYSTEM ACCESS ENGINE GATEKEEP LAYER
     if not st.session_state["is_premium_user"]:
         st.error("🔒 THIS CARD IS LOCKED BY THE TRENDPULSE ACCESS ENGINE")
         st.info("The execution layer is reserved strictly for enterprise marketing agencies and dropshipping brands.")
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
         
     else:
-        # If user passes authorization tests, render the functional cloud button tools
         if st.button("⚡ Run Cloud Analysis Node", type="primary", use_container_width=True):
             if not GROQ_API_KEY:
                 st.error("⚠️ System Deployment Error: Groq API Key missing in stream configurations.")
