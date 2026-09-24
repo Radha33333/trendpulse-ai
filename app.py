@@ -154,19 +154,18 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
         
     else:
-        # FIXED: लिस्ट से डेटा निकालने का तरीका सुरक्षित किया गया ताकि बैकएंड क्रैश न हो
+        # FIXED: Extracting trend string securely using index matching to completely isolate dictionary keys
         selected_keyword = "Minimalist Office Setup Accessories"
         if isinstance(trends, list) and len(trends) > 0:
-            first_row = trends[0]
-            if isinstance(first_row, dict):
-                selected_keyword = first_row.get("Topic", "Minimalist Office Setup Accessories")
+            first_element = trends[0]
+            if isinstance(first_element, dict):
+                selected_keyword = first_element.get("Topic", "Minimalist Office Setup Accessories")
         
         if st.button("⚡ Run Cloud Analysis Node", type="primary", use_container_width=True):
             if not GROQ_API_KEY:
                 st.error("⚠️ System Deployment Error: Groq API Key missing in stream configurations.")
             else:
                 with st.spinner("Processing automated cloud intelligence matrix rows..."):
-                    # Process the real live dynamic trend keyword through the cloud engine
                     ai_result = process_cloud_analysis_text(selected_keyword)
                     
                     if ai_result:
@@ -174,16 +173,13 @@ with right_col:
                         st.balloons()
                     else:
                         st.error("Cloud processing stalled. Displaying highly optimized local fallback node data.")
-                        st.session_state["ai_report_output"] = f"🎯 TARGET ASSIGNMENT:\n{selected_keyword}\n\n💼 MASTER BLUEPRINT:\nSource {selected_keyword} via verified B2B channels. Build a high-converting single-product storefront with 60%+ gross margins. Launch targeted Meta Advantage+ ad structures.\n\n🧠 CONSUMER PSYCHOLOGY:\nMassive digital demand spike meeting low immediate local market supply chain alternatives.\n\n🎬 VIDEO CREATIVE SCRIPTS:\nHook: 'Stop scrolling if you source your {selected_keyword} manually...'"
+                        st.session_state["ai_report_output"] = "🎯 TARGET ASSIGNMENT:\n" + selected_keyword + "\n\n💼 MASTER BLUEPRINT:\nSource " + selected_keyword + " via verified B2B channels. Build a high-converting storefront with 60%+ margins. Launch targeted Meta Advantage+ ad structures.\n\n🧠 CONSUMER PSYCHOLOGY:\nMassive digital demand spike meeting low immediate local market supply chain alternatives.\n\n🎬 VIDEO CREATIVE SCRIPTS:\nHook: 'Stop scrolling if you source your " + selected_keyword + " manually...'"
 
         # Show Output and Download button if data exists in memory
         if st.session_state["ai_report_output"]:
             st.info("🔥 Live AI Analysis Completed Successfully!")
             st.text_area("📋 Live Enterprise Strategy Report", value=st.session_state["ai_report_output"], height=450)
             
-            final_download_text = f"""TRENDPULSE AI - OFFICIAL COMMERCIAL BLUEPRINT REPORT
-======================================================
-
-{st.session_state['ai_report_output']}"""
-                                 
-            st.download_button(
+            # FIXED: Isolated payload structure from functional parenthesis block to resolve SyntaxError 
+            current_report = st.session_state["ai_report_output"]
+            download_payload = "TRENDPULSE AI - OFFICIAL COMMERCIAL BLUEPRINT REPORT\n======================================================\n\n" + current_report
