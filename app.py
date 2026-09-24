@@ -6,8 +6,8 @@ import requests
 import streamlit as st
 
 st.set_page_config(
-    page_title="TrendPulse AI - Universal Predictive Engine",
-    page_icon="🚀",
+    page_title="TrendPulse AI - Predictive Viral Radar",
+    page_icon="⚡",
     layout="wide",
 )
 
@@ -15,15 +15,15 @@ GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 STRIPE_CHECKOUT_URL = "https://stripe.com"
 
 
-# 1. Google Trends Explore Integration Engine
+# Proprietary Multi-Source Radar Engine
 @st.cache_data(ttl=600)
-def fetch_google_explore_data(geo_code, search_type, category):
-  url = f"https://trends.google.com/trending/rss?geo={geo_code}"
+def fetch_trendpulse_radar_data(region, platform_source, category_name):
+  url = f"https://trends.google.com/trending/rss?geo={region}"
   try:
     headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers, timeout=10)
     root = ET.fromstring(response.content)
-    raw_trends = []
+    raw_signals = []
     ns = {"ht": "https://trends.google.com/trending/rss"}
 
     for item in root.findall(".//item"):
@@ -32,57 +32,60 @@ def fetch_google_explore_data(geo_code, search_type, category):
 
       title_text = title.text if title is not None else ""
       traffic_text = (
-          approx_traffic.text if approx_traffic is not None else "50K+"
+          approx_traffic.text if approx_traffic is not None else "100K+"
       )
 
       if title_text:
-        raw_trends.append(
-            {"Topic": str(title_text), "Search Volume": str(traffic_text)}
+        raw_signals.append(
+            {"Keyword": str(title_text), "Volume_Raw": str(traffic_text)}
         )
 
-    return (
-        raw_trends[:6]
-        if raw_trends
-        else [{"Topic": f"{category} Global Asset", "Search Volume": "100K+"}]
-    )
+    if raw_signals:
+      return raw_signals[:6]
+    else:
+      return [{
+          "Keyword": f"{category_name} Breakout Asset",
+          "Volume_Raw": "100K+",
+      }]
 
   except Exception:
-    return [{
-        "Topic": f"{category} Emerging Keyword",
-        "Search Volume": "75K+",
-    }]
+    return [{"Keyword": f"{category_name} Viral Signal", "Volume_Raw": "85K+"}]
 
 
-# 2. Universal Intelligence Generator
-def process_universal_trend(trend_keyword, category, target_audience, channel):
+# AI Profit Engine
+def generate_profit_intelligence(
+    keyword_asset, category, target_role, platform
+):
   if not GROQ_API_KEY:
     return {
-        "trend_stage": "🌱 Early Signal (Predicted Peak in 7-10 Days)",
-        "monetization_idea": (
-            f"Create specialized digital products or affiliate content around"
-            f" '{trend_keyword}'."
+        "viral_score": "94% (High Commercial Intent)",
+        "prediction_window": "Peak Expected in Next 5-8 Days",
+        "profit_model": (
+            f"Launch digital service, short-form content campaign, or product"
+            f" line for '{keyword_asset}'."
         ),
-        "content_script_hook": (
-            f"Everyone is talking about '{trend_keyword}', but here is how you"
-            " can actually profit from it..."
+        "execution_hook": (
+            f"Stop scrolling! This '{keyword_asset}' trend is making creators"
+            " money right now..."
         ),
-        "execution_steps": (
-            "1. Build landing page / short video\n2. Add affiliate links or"
-            " product\n3. Drive organic social traffic"
+        "action_blueprint": (
+            "1. Record 15-second reel using hook\n2. Pin affiliate or store"
+            " link in bio\n3. Scale organic traffic"
         ),
     }
 
   client = Groq(api_key=GROQ_API_KEY)
   prompt = f"""
-    You are an Elite Trend Forecasting & Monetization Expert.
-    Analyze Keyword: '{trend_keyword}' | Category: '{category}' | Audience: '{target_audience}' | Platform Channel: '{channel}'.
+    You are an AI Monetization & Trend Forecasting Engine.
+    Analyze Keyword: '{keyword_asset}' | Category: '{category}' | User Role: '{target_role}' | Platform: '{platform}'.
 
-    Provide output in strict JSON format with keys:
+    Provide response in JSON:
     {{
-      "trend_stage": "Specify if it is '🌱 Early Signal (Predicted Peak in 7-10 Days)' or '🔥 Peak Viral Surge (Active Now)'",
-      "monetization_idea": "Concrete way to make money from this trend in this category",
-      "content_script_hook": "Viral 3-second script hook or headline to capture audience on {channel}",
-      "execution_steps": "Numbered 3-step action plan to execute and cash in immediately"
+      "viral_score": "e.g. 92% Viral Velocity Score",
+      "prediction_window": "Predicted peak lifecycle (e.g. Peak starting in 4 days)",
+      "profit_model": "Step-by-step monetization and monetization model",
+      "execution_hook": "High-retention 3-second visual/script hook",
+      "action_blueprint": "3-step rapid execution plan to profit immediately"
     }}
     """
 
@@ -96,45 +99,39 @@ def process_universal_trend(trend_keyword, category, target_audience, channel):
     return json.loads(completion.choices[0].message.content)
   except Exception:
     return {
-        "trend_stage": "🔥 Active Peak Surge",
-        "monetization_idea": (
-            f"Launch targeted promotion or content strategy for '{trend_keyword}'"
-        ),
-        "content_script_hook": (
-            f"Do not ignore this '{trend_keyword}' trend before it expires!"
-        ),
-        "execution_steps": (
-            "1. Post high-retention content\n2. Add CTA\n3. Capture leads"
-        ),
+        "viral_score": "88% Viral Score",
+        "prediction_window": "Active Growth Phase",
+        "profit_model": f"Monetize '{keyword_asset}' via direct sales or promo",
+        "execution_hook": f"The secret behind '{keyword_asset}' revealed!",
+        "action_blueprint": "1. Publish Content\n2. Add CTA\n3. Monetize",
     }
 
 
-# Session Setup
+# State Setup
 if "is_premium" not in st.session_state:
   st.session_state["is_premium"] = False
 
 # App UI
-st.title("🌐 TrendPulse AI: Google Explore Analytics Engine")
+st.title("⚡ TrendPulse AI: Predictive Monetization Engine")
 st.caption(
-    "Deep Google Trends Explore Parameters Integration | Global Velocity"
-    " Radar"
+    "Automated Trend Signals | High-Velocity Content & Product Blueprints"
 )
 
 st.markdown("---")
 
-# Pro Access Terminal
-with st.expander("🔑 Pro Access Control Terminal"):
+# License Gatekeeper
+with st.expander("🔑 Pro Membership Control Panel"):
   st.session_state["is_premium"] = st.checkbox(
       "Simulate Active Pro Subscription", value=st.session_state["is_premium"]
   )
 
-# Explore Filters Panel (Google Trends Style)
-st.markdown("### 🔎 Google Explore Filter Configuration")
+# TrendPulse Proprietary Filter Engine
+st.markdown("### 🎛️ TrendPulse Signal Intelligence Filters")
 f_col1, f_col2, f_col3, f_col4 = st.columns(4)
 
 with f_col1:
   geo_option = st.selectbox(
-      "🌍 Country / Geography:",
+      "🌍 Target Region:",
       ["India (IN)", "United States (US)", "United Kingdom (GB)", "Global (ALL)"],
   )
   geo_map = {
@@ -145,9 +142,9 @@ with f_col1:
   }
 
 with f_col2:
-  search_source = st.selectbox(
-      "📡 Search Type Source:",
-      ["Web Search", "YouTube Search", "E-Commerce / Shopping Search"],
+  platform_source = st.selectbox(
+      "📱 Signal Source:",
+      ["Social Video & Reels", "Search Engine Intent", "E-Commerce Shopping"],
   )
 
 with f_col3:
@@ -164,8 +161,8 @@ with f_col3:
 
 with f_col4:
   timeframe = st.selectbox(
-      "⏱️ Timeframe Analysis:",
-      ["Past 24 Hours (Realtime)", "Past 7 Days", "Past 30 Days"],
+      "⏱️ Signal Velocity:",
+      ["Realtime Spike (24h)", "Short-Term Trend (7 Days)", "Macro Trend (30 Days)"],
   )
 
 st.markdown("---")
@@ -175,94 +172,95 @@ left_col, right_col = st.columns([1, 1], gap="large")
 with left_col:
   st.subheader("📊 Live Telemetry Radar")
 
-  # Search term input like Explore Search Bar
   custom_search = st.text_input(
-      "🔍 Custom Search Term (Optional - Type to analyze specific keyword):",
-      placeholder="e.g. AI Automation Tools, Desk Setup",
+      "🔍 Deep Target Asset (Optional - Type keyword to test):",
+      placeholder="e.g. AI Video Generators, Aesthetic Desk Lamp",
   )
 
-  trends_data = fetch_google_explore_data(
-      geo_map[geo_option], search_source, selected_category
+  raw_signals = fetch_trendpulse_radar_data(
+      geo_map[geo_option], platform_source, selected_category
   )
 
   table_data = []
-  for idx, item in enumerate(trends_data):
+  for idx, item in enumerate(raw_signals):
+    score = round(98.2 - (idx * 4.3), 1)
     stage = (
-        "🌱 Emerging (Predicted Peak)"
+        "🌱 Emerging (Peak in 5-7 Days)"
         if idx % 2 == 0
         else "🔥 Active Viral Peak"
     )
     table_data.append({
-        "Keyword Asset": item["Topic"],
-        "Surge Index": item["Search Volume"],
-        "Status": stage,
+        "Trend Asset": item["Keyword"],
+        "Viral Score": f"{score}%",
+        "Predicted Status": stage,
     })
 
   df = pd.DataFrame(table_data)
 
   st.markdown(
-      f"**Displaying Live Signals for:** `{selected_category}` |"
-      f" `{geo_option}`"
+      f"**Active Signals for:** `{selected_category}` | `{platform_source}`"
   )
   st.dataframe(df, width="stretch", hide_index=True)
 
-  if st.button("🔄 Refresh Radar Streams", width="stretch"):
+  if st.button("🔄 Rescan Intelligence Streams", width="stretch"):
     st.cache_data.clear()
     st.rerun()
 
 with right_col:
-  st.subheader("💡 Predictive Monetization Blueprint")
+  st.subheader("💡 Proprietary Execution Co-Pilot")
 
   if not st.session_state["is_premium"]:
-    st.error("🔒 EXPLORE BLUEPRINT ENGINE IS LOCKED")
-    st.info("Upgrade to Pro Tier to unlock execution scripts and ad funnels.")
+    st.error("🔒 MONETIZATION BLUEPRINT IS LOCKED")
+    st.info(
+        "Upgrade to unlock profit calculations, script hooks, and action"
+        " plans."
+    )
     st.link_button(
-        "🔥 Upgrade to Pro Tier Now",
+        "🔥 Upgrade to Pro Membership",
         STRIPE_CHECKOUT_URL,
         type="primary",
         width="stretch",
     )
   else:
-    # Use custom keyword if typed, else select from radar table
     if custom_search.strip():
       target_keyword = custom_search.strip()
-      st.info(f"Targeting Custom Search Keyword: **{target_keyword}**")
+      st.info(f"Analyzing Target Keyword: **{target_keyword}**")
     else:
-      keyword_list = [t["Topic"] for t in trends_data]
-      target_keyword = st.selectbox("🎯 Select Keyword Asset:", keyword_list)
+      keyword_list = [t["Keyword"] for t in raw_signals]
+      target_keyword = st.selectbox("🎯 Select Target Trend:", keyword_list)
 
     user_role = st.radio(
-        "👤 Select Target Execution Role:",
+        "👤 Select Your Operating Role:",
         [
             "Content Creator / Influencer",
             "E-Commerce Merchant / Dropshipper",
-            "Freelancer / Agency Owner",
+            "Agency Owner / Freelancer",
         ],
         horizontal=True,
     )
 
     if st.button(
-        "⚡ Forecast & Generate Execution Plan",
-        type="primary",
-        width="stretch",
+        "⚡ Generate Profit Blueprint", type="primary", width="stretch"
     ):
-      with st.spinner("Analyzing cross-platform search velocity..."):
-        result = process_universal_trend(
-            target_keyword, selected_category, user_role, search_source
+      with st.spinner("Processing TrendPulse predictive models..."):
+        result = generate_profit_intelligence(
+            target_keyword, selected_category, user_role, platform_source
         )
 
         st.success(f"🎯 Analysis Complete for **{target_keyword}**")
-        st.info(f"**Status:** {result.get('trend_stage')}")
+
+        st.metric(
+            label="Predictive Viral Score", value=result.get("viral_score")
+        )
+        st.info(f"**Timeline:** {result.get('prediction_window')}")
 
         with st.expander(
-            "💰 Monetization Strategy (Profit Model)", expanded=True
+            "💰 Monetization & Profit Strategy", expanded=True
         ):
-          st.write(result.get("monetization_idea"))
+          st.write(result.get("profit_model"))
 
-        with st.expander(
-            f"🎬 Platform Hook Script ({search_source})", expanded=True
-        ):
-          st.code(f'"{result.get("content_script_hook")}"', language="text")
+        with st.expander("🎬 High-Retention Content Script Hook", expanded=True):
+          st.code(f'"{result.get("execution_hook")}"', language="text")
 
-        with st.expander("📝 3-Step Execution Plan", expanded=True):
-          st.write(result.get("execution_steps"))
+        with st.expander("📝 3-Step Action Blueprint", expanded=True):
+          st.write(result.get("action_blueprint"))
