@@ -21,7 +21,6 @@ st.set_page_config(
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
-# Dynamic Language Dictionary
 TEXTS = {
     "English": {
         "title": "⚡ TrendPulse AI: Commercial Signal Intelligence",
@@ -109,7 +108,6 @@ TEXTS = {
     },
 }
 
-# Custom CSS styling with Table Overflow Fix
 st.markdown(
     """
     
@@ -118,72 +116,11 @@ st.markdown(
 )
 
 
-def create_pdf_blueprint(
-    asset_name, category, role, viral_score, window, result
-):
-    """Generates a styled PDF document in memory."""
-    buffer = io.BytesIO()
-    doc = SimpleDocTemplate(
-        buffer,
-        pagesize=letter,
-        rightMargin=36,
-        leftMargin=36,
-        topMargin=36,
-        bottomMargin=36,
-    )
-    styles = getSampleStyleSheet()
-
-    title_style = ParagraphStyle(
-        "TitleStyle",
-        parent=styles["Heading1"],
-        fontSize=20,
-        textColor="#ff4b4b",
-        spaceAfter=12,
-    )
-    heading_style = ParagraphStyle(
-        "HeadingStyle",
-        parent=styles["Heading2"],
-        fontSize=14,
-        textColor="#1a1a1a",
-        spaceBefore=10,
-        spaceAfter=6,
-    )
-    body_style = ParagraphStyle(
-        "BodyStyle",
-        parent=styles["Normal"],
-        fontSize=10,
-        leading=14,
-        textColor="#333333",
-        spaceAfter=8,
-    )
-
-    story = []
-
-    story.append(
-        Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style)
-    )
-    story.append(
-        Paragraph(
-            f"**Asset:** {asset_name} | **Category:** {category} |"
-            f" **Role:** {role}",
-            body_style,
-        )
-    )
-    story.append(
-        Paragraph(
-            f"**Predictive Viral Score:** {viral_score} | **Monetization"
-            f" Window:** {window}",
-            body_style,
-        )
-    )
-    story.append(Spacer(1, 10))
-
-    sections = [
-        ("Monetization Model", result.get("profit_model", "")),
-        ("Execution Hook & Visual Script", result.get("execution_hook", "")),
-        ("Recommended Audio Vibe", result.get("audio_suggestion", "")),
-        ("High-ROAS Caption & CTA", result.get("ad_copy", "")),
-        ("Action Roadmap", result.get("action_blueprint", "")),
-    ]
-
-    break_tag = "
+def safe_xml_text(text):
+    """Safely sanitize text for ReportLab XML parser."""
+    return (
+        str(text)
+        .replace("&", "&")
+        .replace("<", "<")
+        .replace(">", ">")
+        .replace("\n", "
