@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import requests
 import pandas as pd
 
-# Initialize structural viewport properties with current enterprise layout
+# 1. Initialize structural properties with current enterprise layout
 st.set_page_config(page_title="TrendPulse AI - Commercial Portal", page_icon="📈", layout="wide")
 
 # Secure API Ingestion Layer via Streamlit Cloud Secrets Manager
@@ -26,7 +26,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 1. Telemetry Ingestion Layer (Google RSS Ground Truth Feed)
+# 2. Telemetry Ingestion Layer (Google RSS Ground Truth Feed)
 def fetch_realtime_commercial_spikes():
     url = "https://google.com" 
     try:
@@ -48,7 +48,7 @@ def fetch_realtime_commercial_spikes():
     except Exception:
         return [{"Topic": "Minimalist Office Setup Accessories", "Search Volume Surge": "100K+"}]
 
-# 2. Cloud AI Processing Core (Optimized Text Pipeline)
+# 3. Cloud AI Processing Core (Optimized Text Pipeline)
 def process_cloud_analysis_text(trend_keyword, tier_level):
     if not GROQ_API_KEY:
         return None
@@ -79,7 +79,6 @@ def process_cloud_analysis_text(trend_keyword, tier_level):
     Write 3 distinct high-converting script hooks (1 Curiosity, 1 Problem-Centric, 1 Direct Benefit) accompanied by a complete 15-second narrative execution timeline for social commerce creators.
     """
     
-    # Fully supported active production models ordered by reliability matrix
     active_models = ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"]
     
     for model_id in active_models:
@@ -183,11 +182,11 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", width="stretch")
         
     else:
-        # FIXED: 100% Correct List Unpacking logic targeting row 0 explicitly to stop structural drops
+        # FIXED: Pop the list element strict loop index matching to isolate string value topic names
         selected_keyword = "Minimalist Office Setup Accessories"
         try:
             if isinstance(trends, list) and len(trends) > 0:
-                first_row = trends[0]  # Safely popped index 0 dictionary out of the array
+                first_row = trends[0]
                 if isinstance(first_row, dict):
                     selected_keyword = first_row.get("Topic", "Minimalist Office Setup Accessories")
         except Exception:
@@ -206,3 +205,4 @@ with right_col:
                         st.session_state["ai_report_output"] = str(ai_result)
                         st.balloons()
                     else:
+                        st.error("Cloud processing stalled. Displaying highly optimized local fallback data.")
