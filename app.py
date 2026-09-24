@@ -16,6 +16,86 @@ st.set_page_config(
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
+# Dynamic Language Dictionary
+TEXTS = {
+    "English": {
+        "title": "⚡ TrendPulse AI: Commercial Signal Intelligence",
+        "subtitle": (
+            "Predictive Trend Intelligence | Automated Creator & Merchant"
+            " Execution"
+        ),
+        "terminal": "🔑 Enterprise Access Terminal",
+        "simulate_pro": "Simulate Pro Subscription Access",
+        "config_title": "🎛️ Signal Intelligence Configuration",
+        "region": "🌍 Target Region:",
+        "platform": "📱 Platform Source:",
+        "category": "📁 Niche Category:",
+        "velocity": "⏱️ Signal Velocity:",
+        "apply_btn": "🚀 Apply Configuration & Update Radar",
+        "telemetry_title": "📊 Live Telemetry & Growth Forecast",
+        "custom_search": "🔍 Custom Asset Search (Optional):",
+        "active_signals_for": "Active Signals for:",
+        "filtered_asset": "Filtered Asset",
+        "pred_velocity": "Predictive Velocity",
+        "status": "Signal Status",
+        "chart_title": "📈 Dynamic Velocity Forecast Curve",
+        "matrix_title": "💡 Actionable Intelligence Matrix",
+        "locked_title": "🔒 PREDICTIVE EXECUTION SUITE IS LOCKED",
+        "locked_info": (
+            "Unlock full profit blueprints, script hooks, audio vibes, and"
+            " 30-sec execution plans."
+        ),
+        "upgrade_btn": "🔥 Upgrade to Pro Member Tier",
+        "analyzing_custom": "Analyzing Custom Asset:",
+        "select_asset": "🎯 Select Filtered Asset:",
+        "operating_role": "👤 Operating Role:",
+        "gen_blueprint": "⚡ Generate Master Blueprint",
+        "monetization": "💰 Monetization & Profit Strategy",
+        "hook": "🎬 High-Retention Visual Hook (Copy & Use)",
+        "audio": "🎵 Recommended Audio Vibe",
+        "caption": "📢 Ready-to-Use Caption / Ad Copy",
+        "plan": "📝 Rapid Execution Plan",
+    },
+    "Hindi": {
+        "title": "⚡ TrendPulse AI: कमर्शियल सिग्नल इंटेलिजेंस",
+        "subtitle": (
+            "प्रेडिक्टिव ट्रेंड इंटेलिजेंस | ऑटोमेटेड क्रिएटर और मर्चेंट"
+            " एग्जीक्यूशन"
+        ),
+        "terminal": "🔑 एंटरप्राइज एक्सेस टर्मिनल",
+        "simulate_pro": "प्रो सब्सक्रिप्शन एक्सेस सिमुलेट करें",
+        "config_title": "🎛️ सिग्नल इंटेलिजेंस कॉन्फ़िगरेशन",
+        "region": "🌍 टारगेट रीजन (क्षेत्र):",
+        "platform": "📱 प्लेटफॉर्म सोर्स:",
+        "category": "📁 नीश कैटेगरी:",
+        "velocity": "⏱️ सिग्नल वेलोसिटी:",
+        "apply_btn": "🚀 कॉन्फ़िगरेशन लागू करें और रडार अपडेट करें",
+        "telemetry_title": "📊 लाइव टेलीमेट्री और ग्रोथ पूर्वानुमान",
+        "custom_search": "🔍 कस्टम एसेट सर्च (वैकल्पिक):",
+        "active_signals_for": "सक्रिय सिग्नल:",
+        "filtered_asset": "फ़िल्टर किया गया एसेट",
+        "pred_velocity": "अनुमानित गति (Velocity)",
+        "status": "सिग्नल स्थिति",
+        "chart_title": "📈 डायनेमिक वेलोसिटी फ़ोरकास्ट कर्व",
+        "matrix_title": "💡 एक्शनएबल इंटेलिजेंस मैट्रिक्स",
+        "locked_title": "🔒 प्रेडिक्टिव एग्जीक्यूशन सूट लॉक है",
+        "locked_info": (
+            "पूरे प्रॉफिट ब्लूप्रिंट, स्क्रिप्ट हुक, ऑडियो वाइब्स और 30-सेकंड"
+            " प्लान अनलॉक करें।"
+        ),
+        "upgrade_btn": "🔥 प्रो मेंबर टियर में अपग्रेड करें",
+        "analyzing_custom": "कस्टम एसेट का विश्लेषण:",
+        "select_asset": "🎯 फ़िल्टर किया गया एसेट चुनें:",
+        "operating_role": "👤 आपकी भूमिका (Role):",
+        "gen_blueprint": "⚡ मास्टर ब्लूप्रिंट जनरेट करें",
+        "monetization": "💰 मोनेटाइजेशन और प्रॉफिट रणनीति",
+        "hook": "🎬 हाई-रिटेंशन विजुअल हुक (कॉपी और उपयोग करें)",
+        "audio": "🎵 अनुशंसित ऑडियो वाइब",
+        "caption": "📢 तैयार कैप्शन / एड कॉपी",
+        "plan": "📝 त्वरित निष्पादन योजना (Execution Plan)",
+    },
+}
+
 # Custom CSS
 st.markdown(
     """
@@ -30,9 +110,7 @@ st.markdown(
 def fetch_filtered_radar_signals(region, platform_source, category, timeframe):
   url = f"https://trends.google.com/trending/rss?geo={region}"
 
-  # Categories with split items and newly added Fashion category
   category_signals = {
-      # Separated Categories
       "E-Commerce": [
           "Micro-Fulfillment Logistics",
           "D2C Brand Growth Strategies",
@@ -69,14 +147,12 @@ def fetch_filtered_radar_signals(region, platform_source, category, timeframe):
           "Sleep Optimization Gadgets",
           "Mindfulness & Mental Wellness Apps",
       ],
-      # Newly Added Category
       "👗 Fashion & Apparel": [
           "Y2K Vintage Streetwear",
           "Minimalist Capsule Wardrobe",
           "Sustainable Eco-Friendly Fabrics",
           "Oversized Aesthetic Hoodies",
       ],
-      # Other Intact Categories
       "Tech, AI & Software": [
           "Open Source AI Video Generators",
           "Automated Workflow Agents",
@@ -171,7 +247,13 @@ def fetch_filtered_radar_signals(region, platform_source, category, timeframe):
 
 
 def generate_master_intelligence(
-    keyword_asset, category, target_role, platform, timeframe, velocity_score
+    keyword_asset,
+    category,
+    target_role,
+    platform,
+    timeframe,
+    velocity_score,
+    lang,
 ):
   if not GROQ_API_KEY:
     return {
@@ -201,6 +283,7 @@ def generate_master_intelligence(
   client = Groq(api_key=GROQ_API_KEY)
   prompt = f"""
     Analyze Keyword Asset: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform: '{platform}' | Timeframe: '{timeframe}' | Velocity Score: {velocity_score}%
+    Language to respond in: {lang}
     Generate an execution blueprint. Return STRICT JSON:
     {{
       "viral_score": "{velocity_score}%",
@@ -232,31 +315,37 @@ def generate_master_intelligence(
     }
 
 
+# Session State Initialization
 if "is_premium" not in st.session_state:
   st.session_state["is_premium"] = False
 
-# Header
-st.title("⚡ TrendPulse AI: Commercial Signal Intelligence")
-st.caption(
-    "Predictive Trend Intelligence | Automated Creator & Merchant Execution"
+# Sidebar Language Selection
+st.sidebar.markdown("## 🌐 Language Settings")
+selected_lang = st.sidebar.radio(
+    "Choose Language / भाषा चुनें:", ["English", "Hindi"]
 )
+t = TEXTS[selected_lang]
+
+# Header
+st.title(t["title"])
+st.caption(t["subtitle"])
 
 st.markdown("---")
 
-with st.expander("🔑 Enterprise Access Terminal"):
+with st.expander(t["terminal"]):
   st.session_state["is_premium"] = st.checkbox(
-      "Simulate Pro Subscription Access", value=st.session_state["is_premium"]
+      t["simulate_pro"], value=st.session_state["is_premium"]
   )
 
 # Signal Intelligence Configuration Form with APPLY BUTTON
-st.markdown("### 🎛️ Signal Intelligence Configuration")
+st.markdown(f"### {t['config_title']}")
 
 with st.form(key="filter_form"):
   f_col1, f_col2, f_col3, f_col4 = st.columns(4)
 
   with f_col1:
     geo_option = st.selectbox(
-        "🌍 Target Region:",
+        t["region"],
         [
             "India (IN)",
             "United States (US)",
@@ -273,7 +362,7 @@ with st.form(key="filter_form"):
 
   with f_col2:
     platform_source = st.selectbox(
-        "📱 Platform Source:",
+        t["platform"],
         [
             "Social Video & Reels",
             "TikTok & Instagram Reels",
@@ -284,7 +373,7 @@ with st.form(key="filter_form"):
 
   with f_col3:
     selected_category = st.selectbox(
-        "📁 Niche Category:",
+        t["category"],
         [
             "E-Commerce",
             "Physical Products",
@@ -307,7 +396,7 @@ with st.form(key="filter_form"):
 
   with f_col4:
     timeframe = st.selectbox(
-        "⏱️ Signal Velocity:",
+        t["velocity"],
         [
             "Realtime Spike (24h)",
             "Short-Term Trend (7 Days)",
@@ -316,9 +405,8 @@ with st.form(key="filter_form"):
         ],
     )
 
-  # Explicit Apply Button to force update all elements
   apply_filters = st.form_submit_button(
-      "🚀 Apply Configuration & Update Radar", use_container_width=True
+      t["apply_btn"], use_container_width=True
   )
 
 st.markdown("---")
@@ -326,10 +414,10 @@ st.markdown("---")
 left_col, right_col = st.columns([1, 1], gap="large")
 
 with left_col:
-  st.subheader("📊 Live Telemetry & Growth Forecast")
+  st.subheader(t["telemetry_title"])
 
   custom_search = st.text_input(
-      "🔍 Custom Asset Search (Optional):",
+      t["custom_search"],
       placeholder="e.g. Ergonomic Keyboard, AI Content Generator",
   )
 
@@ -348,21 +436,21 @@ with left_col:
         else "🔥 Active Viral Peak"
     )
     table_data.append({
-        "Filtered Asset": item["Keyword"],
-        "Predictive Velocity": f"{score}%",
-        "Signal Status": stage,
+        t["filtered_asset"]: item["Keyword"],
+        t["pred_velocity"]: f"{score}%",
+        t["status"]: stage,
     })
     signal_scores[item["Keyword"]] = score
 
   df = pd.DataFrame(table_data)
   st.markdown(
-      f"**Active Signals for:** `{selected_category}` | `{platform_source}` |"
-      f" `{geo_option}`"
+      f"**{t['active_signals_for']}** `{selected_category}` |"
+      f" `{platform_source}` | `{geo_option}`"
   )
   st.dataframe(df, width="stretch", hide_index=True)
 
   # Dynamic Chart
-  st.markdown("#### 📈 Dynamic Velocity Forecast Curve")
+  st.markdown(f"#### {t['chart_title']}")
 
   if custom_search.strip():
     chart_keyword = custom_search.strip()
@@ -402,16 +490,13 @@ with left_col:
   st.plotly_chart(fig, use_container_width=True)
 
 with right_col:
-  st.subheader("💡 Actionable Intelligence Matrix")
+  st.subheader(t["matrix_title"])
 
   if not st.session_state["is_premium"]:
-    st.error("🔒 PREDICTIVE EXECUTION SUITE IS LOCKED")
-    st.info(
-        "Unlock full profit blueprints, script hooks, audio vibes, and 30-sec"
-        " execution plans."
-    )
+    st.error(t["locked_title"])
+    st.info(t["locked_info"])
     st.link_button(
-        "🔥 Upgrade to Pro Member Tier",
+        t["upgrade_btn"],
         STRIPE_CHECKOUT_URL,
         type="primary",
         width="stretch",
@@ -420,14 +505,14 @@ with right_col:
     if custom_search.strip():
       target_keyword = custom_search.strip()
       target_score = 95.0
-      st.info(f"Analyzing Custom Asset: **{target_keyword}**")
+      st.info(f"{t['analyzing_custom']} **{target_keyword}**")
     else:
       keyword_list = [t["Keyword"] for t in active_signals]
-      target_keyword = st.selectbox("🎯 Select Filtered Asset:", keyword_list)
+      target_keyword = st.selectbox(t["select_asset"], keyword_list)
       target_score = signal_scores.get(target_keyword, 92.0)
 
     user_role = st.radio(
-        "👤 Operating Role:",
+        t["operating_role"],
         [
             "Content Creator / Influencer",
             "E-Commerce Merchant / Dropshipper",
@@ -436,9 +521,7 @@ with right_col:
         horizontal=True,
     )
 
-    if st.button(
-        "⚡ Generate Master Blueprint", type="primary", width="stretch"
-    ):
+    if st.button(t["gen_blueprint"], type="primary", width="stretch"):
       with st.spinner("Processing fully synchronized signal matrices..."):
         result = generate_master_intelligence(
             target_keyword,
@@ -447,6 +530,7 @@ with right_col:
             platform_source,
             timeframe,
             target_score,
+            selected_lang,
         )
 
         st.success(f"🎯 Complete Intelligence Blueprint: **{target_keyword}**")
@@ -459,21 +543,17 @@ with right_col:
         with col_m2:
           st.info(f"**Timeline:** {result.get('prediction_window')}")
 
-        with st.expander(
-            "💰 Monetization & Profit Strategy", expanded=True
-        ):
+        with st.expander(t["monetization"], expanded=True):
           st.write(result.get("profit_model"))
 
-        with st.expander(
-            "🎬 High-Retention Visual Hook (Copy & Use)", expanded=True
-        ):
+        with st.expander(t["hook"], expanded=True):
           st.code(f'"{result.get("execution_hook")}"', language="text")
 
-        with st.expander("🎵 Recommended Audio Vibe", expanded=True):
+        with st.expander(t["audio"], expanded=True):
           st.write(f"🔊 **Audio Suggestion:** {result.get('audio_suggestion')}")
 
-        with st.expander("📢 Ready-to-Use Caption / Ad Copy", expanded=True):
+        with st.expander(t["caption"], expanded=True):
           st.code(f"{result.get('ad_copy')}", language="text")
 
-        with st.expander("📝 Rapid Execution Plan", expanded=True):
+        with st.expander(t["plan"], expanded=True):
           st.write(result.get("action_blueprint"))
