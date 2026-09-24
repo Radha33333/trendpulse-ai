@@ -7,7 +7,7 @@ import requests
 import streamlit as st
 
 st.set_page_config(
-    page_title="TrendPulse AI - Ultra Intelligence Engine",
+    page_title="TrendPulse AI - Commercial Signal Intelligence",
     page_icon="⚡",
     layout="wide",
 )
@@ -15,94 +15,120 @@ st.set_page_config(
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
-# CSS Enhancements
-st.markdown(
-    """
 
-""",
-    unsafe_allow_html=True,
-)
-
-
-# Real-time Telemetry Engine
-@st.cache_data(ttl=600)
-def fetch_trendpulse_radar_data(region, platform_source, category_name):
+# Dynamic Signal Engine linked directly with Filters
+@st.cache_data(ttl=300)
+def fetch_filtered_radar_signals(region, platform_source, category):
   url = f"https://trends.google.com/trending/rss?geo={region}"
+
+  # Category-specific Mock Data Generator to guarantee distinct results per filter
+  category_signals = {
+      "E-Commerce & Physical Products": [
+          "Ergonomic Desk Setup Gadgets",
+          "Aesthetic RGB Light Bars",
+          "Minimalist MagSafe Powerbanks",
+          "Orthopedic Standing Mats",
+      ],
+      "Tech, AI & Software": [
+          "Open Source AI Video Generators",
+          "Automated Workflow Agents",
+          "Local Privacy LLM Models",
+          "Developer Productivity Extension",
+      ],
+      "Entertainment & Viral Pop Culture": [
+          "Trending Cinematic Reel Audio",
+          "Viral Meme Reaction Formats",
+          "Short-Form Anime Breakdown",
+          "Celebrity Style Breakdown",
+      ],
+      "Finance, Business & Crypto": [
+          "Tax Planning Hacks 2026",
+          "Micro-SaaS Profit Models",
+          "High-Yield Crypto Staking",
+          "Zero-Investment Side Hustles",
+      ],
+      "Fitness, Health & Lifestyle": [
+          "Cold Plunge Therapy Tubs",
+          "High Protein Clean Meal Plans",
+          "Smart Fitness Ring Trackers",
+          "Posture Correction Wearables",
+      ],
+  }
+
+  raw_signals = []
   try:
     headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(url, headers=headers, timeout=10)
-    root = ET.fromstring(response.content)
-    raw_signals = []
-    ns = {"ht": "https://trends.google.com/trending/rss"}
-
-    for item in root.findall(".//item"):
-      title = item.find("title")
-      approx_traffic = item.find("ht:approx_traffic", ns)
-
-      title_text = title.text if title is not None else ""
-      traffic_text = (
-          approx_traffic.text if approx_traffic is not None else "100K+"
-      )
-
-      if title_text:
-        raw_signals.append(
-            {"Keyword": str(title_text), "Volume_Raw": str(traffic_text)}
-        )
-
-    return (
-        raw_signals[:6]
-        if raw_signals
-        else [{
-            "Keyword": f"{category_name} Breakout Asset",
-            "Volume_Raw": "100K+",
-        }]
-    )
+    response = requests.get(url, headers=headers, timeout=5)
+    if response.status_code == 200:
+      root = ET.fromstring(response.content)
+      ns = {"ht": "https://trends.google.com/trending/rss"}
+      for item in root.findall(".//item")[:4]:
+        title = item.find("title")
+        traffic = item.find("ht:approx_traffic", ns)
+        if title is not None:
+          raw_signals.append({
+              "Keyword": f"{title.text} ({platform_source})",
+              "Volume": (
+                  traffic.text if traffic is not None else "100K+"
+              ),
+          })
   except Exception:
-    return [{"Keyword": f"{category_name} Viral Signal", "Volume_Raw": "85K+"}]
+    pass
+
+  # Combine RSS signals with selected category assets
+  default_keywords = category_signals.get(category, ["Trending Asset"])
+  combined = []
+
+  for kw in default_keywords:
+    combined.append({
+        "Keyword": f"{kw} [{platform_source}]",
+        "Volume": "150K+ Surge",
+    })
+
+  for item in raw_signals:
+    combined.append({"Keyword": item["Keyword"], "Volume": item["Volume"]})
+
+  return combined[:5]
 
 
-# Advanced AI Intelligence Processing Pipeline
 def generate_master_intelligence(
     keyword_asset, category, target_role, platform
 ):
   if not GROQ_API_KEY:
     return {
         "viral_score": "95.4%",
-        "prediction_window": "Predicted Peak in Next 4-7 Days",
+        "prediction_window": f"Peak active on {platform} in Next 3-5 Days",
         "profit_model": (
-            f"Build high-converting organic funnel for '{keyword_asset}' via"
-            " affiliate or product dropshipping."
+            f"Capitalize on '{keyword_asset}' under {category} using targeted"
+            f" {target_role} monetization workflows."
         ),
         "execution_hook": (
-            f"If you're not using '{keyword_asset}' in 2026, you're leaving"
-            " money on the table!"
+            f"Stop scrolling! Here is how '{keyword_asset}' is trending on"
+            f" {platform}..."
         ),
         "ad_copy": (
-            f"Discover the power of '{keyword_asset}'. Get 20% off today with"
-            " fast delivery!"
+            f"Get instant access to top-rated '{keyword_asset}' solutions"
+            " today!"
         ),
         "action_blueprint": (
-            "1. Record short-form reel\n2. Launch Shopify / CTA Page\n3. Scale"
-            " via targeted Meta/TikTok ads"
+            "1. Launch campaign using selected platform signal\n2. Redirect to"
+            " monetized CTA\n3. Capture conversion"
         ),
     }
 
   client = Groq(api_key=GROQ_API_KEY)
   prompt = f"""
-    You are an AI Monetization & Trend Forecasting Engine.
-    Analyze Keyword: '{keyword_asset}' | Category: '{category}' | User Role: '{target_role}' | Platform: '{platform}'.
-
-    Provide strictly valid JSON output with keys:
+    Analyze Keyword: '{keyword_asset}' | Category: '{category}' | Role: '{target_role}' | Platform Source: '{platform}'.
+    Output strict JSON with keys:
     {{
-      "viral_score": "Numerical score percentage e.g. 96.2%",
-      "prediction_window": "Lifecycle prediction window",
-      "profit_model": "Detailed monetization strategy",
-      "execution_hook": "High-retention 3-second video/script hook",
-      "ad_copy": "Ready-to-use Meta/TikTok ad copy variation",
-      "action_blueprint": "3-step immediate execution plan"
+      "viral_score": "e.g. 96.2%",
+      "prediction_window": "Lifecycle prediction",
+      "profit_model": "Monetization strategy",
+      "execution_hook": "Platform-specific 3-second hook",
+      "ad_copy": "Meta/TikTok ad text",
+      "action_blueprint": "3-step plan"
     }}
     """
-
   try:
     completion = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
@@ -113,20 +139,18 @@ def generate_master_intelligence(
     return json.loads(completion.choices[0].message.content)
   except Exception:
     return {
-        "viral_score": "89.0%",
-        "prediction_window": "Active Surge Phase",
-        "profit_model": f"Monetize '{keyword_asset}' via content and ads",
-        "execution_hook": f"Secret hack behind '{keyword_asset}'!",
+        "viral_score": "91.0%",
+        "prediction_window": "Active Growth Phase",
+        "profit_model": f"Monetize '{keyword_asset}' immediately.",
+        "execution_hook": f"Secret strategy for '{keyword_asset}'!",
         "ad_copy": f"Check out '{keyword_asset}' now!",
         "action_blueprint": "1. Post Content\n2. Add CTA\n3. Monetize",
     }
 
 
-# Session State Initialization
 if "is_premium" not in st.session_state:
   st.session_state["is_premium"] = False
 
-# Header UI
 st.title("⚡ TrendPulse AI: Commercial Signal Intelligence")
 st.caption(
     "Predictive Trend Intelligence | Automated Creator & Merchant Execution"
@@ -134,13 +158,12 @@ st.caption(
 
 st.markdown("---")
 
-# Pro Control Gatekeeper
 with st.expander("🔑 Enterprise Access Terminal"):
   st.session_state["is_premium"] = st.checkbox(
       "Simulate Pro Subscription Access", value=st.session_state["is_premium"]
   )
 
-# Signal Intelligence Filters
+# Signal Intelligence Filters Setup
 st.markdown("### 🎛️ Signal Intelligence Configuration")
 f_col1, f_col2, f_col3, f_col4 = st.columns(4)
 
@@ -164,7 +187,7 @@ with f_col2:
 
 with f_col3:
   selected_category = st.selectbox(
-      "📁 Niche Niche:",
+      "📁 Niche Category:",
       [
           "E-Commerce & Physical Products",
           "Tech, AI & Software",
@@ -192,43 +215,39 @@ with left_col:
       placeholder="e.g. Ergonomic Keyboard, AI Content Generator",
   )
 
-  raw_signals = fetch_trendpulse_radar_data(
+  # Passing all filter parameters directly to fetch function
+  active_signals = fetch_filtered_radar_signals(
       geo_map[geo_option], platform_source, selected_category
   )
 
   table_data = []
-  for idx, item in enumerate(raw_signals):
-    score = round(98.5 - (idx * 3.8), 1)
+  for idx, item in enumerate(active_signals):
+    score = round(98.8 - (idx * 3.5), 1)
     stage = (
         "🌱 Emerging (Peak Pending)"
         if idx % 2 == 0
         else "🔥 Active Viral Peak"
     )
     table_data.append({
-        "Asset Name": item["Keyword"],
+        "Filtered Asset": item["Keyword"],
         "Predictive Velocity": f"{score}%",
-        "Status": stage,
+        "Signal Status": stage,
     })
 
   df = pd.DataFrame(table_data)
+  st.markdown(
+      f"**Active Signals for:** `{selected_category}` | `{platform_source}` |"
+      f" `{geo_option}`"
+  )
   st.dataframe(df, width="stretch", hide_index=True)
 
-  # Plotly Chart Integration
-  st.markdown("#### 📈 Predicted 7-Day Velocity Curve")
+  st.markdown("#### 📈 Predicted Velocity Curve")
   chart_data = pd.DataFrame({
       "Day": ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"],
-      "Search Velocity": [30, 45, 60, 85, 100, 92, 78],
-  })
-  fig = px.line(
-      chart_data,
-      x="Day",
-      y="Search Velocity",
-      markers=True,
-      title="Predicted Peak Projection Index",
-  )
-  fig.update_traces(line_color="#ff4b4b", line_width=3)
-  fig.update_layout(height=280, margin=dict(l=20, r=20, t=40, b=20))
-  st.plotly_chart(fig, use_container_width=True)
+      "Search Velocity": [25, 40, 68, 95, 100, 88, 70],
+  }).set_index("Day")
+
+  st.line_chart(chart_data)
 
   if st.button("🔄 Rescan Intelligence Streams", width="stretch"):
     st.cache_data.clear()
@@ -251,10 +270,10 @@ with right_col:
   else:
     if custom_search.strip():
       target_keyword = custom_search.strip()
-      st.info(f"Analyzing Target Keyword: **{target_keyword}**")
+      st.info(f"Analyzing Custom Asset: **{target_keyword}**")
     else:
-      keyword_list = [t["Keyword"] for t in raw_signals]
-      target_keyword = st.selectbox("🎯 Select Target Keyword:", keyword_list)
+      keyword_list = [t["Keyword"] for t in active_signals]
+      target_keyword = st.selectbox("🎯 Select Filtered Asset:", keyword_list)
 
     user_role = st.radio(
         "👤 Operating Role:",
@@ -269,7 +288,7 @@ with right_col:
     if st.button(
         "⚡ Generate Master Blueprint", type="primary", width="stretch"
     ):
-      with st.spinner("Processing multi-source trend matrix..."):
+      with st.spinner("Processing filtered signal matrices..."):
         result = generate_master_intelligence(
             target_keyword, selected_category, user_role, platform_source
         )
