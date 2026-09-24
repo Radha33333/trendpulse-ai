@@ -46,24 +46,28 @@ def process_cloud_analysis_text(trend_keyword):
         
     client = Groq(api_key=GROQ_API_KEY)
     
-    # Bulletproof prompt without tricky JSON parameters to stop failures
+    # Advanced master prompt to force detailed enterprise outcomes
     prompt = f"""
     You are an elite Enterprise B2B Data Analytics Engine and E-commerce Growth Strategist.
-    Provide a deeply comprehensive and detailed commercial intelligence report for the keyword: '{trend_keyword}'.
+    Provide an exhaustive, deeply comprehensive commercial intelligence report for the trending keyword: '{trend_keyword}'.
     
     Format the response EXACTLY like this with no conversational filler or intro:
     
     🎯 TARGET ASSIGNMENT:
-    [Write the isolated business keyword here]
+    {trend_keyword}
     
     💼 MASTER OPERATIONAL BLUEPRINT & MONETIZATION:
-    [Provide a comprehensive step-by-step master strategy. Include sourcing channels like Alibaba, specific pricing architectures with costs and high retail margins, Shopify design setup, and targeting parameters.]
+    [Provide a massive, highly-detailed step-by-step business blueprint. Break it down into four long paragraphs:
+    1. SOURCING LOGISTICS: Specific suppliers, private sourcing agents, and manufacturing hubs on networks like Alibaba.
+    2. PRICING ARCHITECTURE: Detailed mathematical breakdown of product unit cost, packaging costs, international shipping metrics, and an optimized premium retail price to ensure massive gross margins.
+    3. STOREFRONT & VISUAL FUNNEL: How to structure a premium single-product Shopify store, landing page conversion triggers, trust seals, and customer review placement strategies.
+    4. DIGITAL ACQUISITION CHANNELS: Exact Meta, TikTok, and Google ad targeting interests, lookalike scaling plans, and retargeting hooks to dominate custom buyer personas.]
     
     🧠 CONSUMER PSYCHOLOGY & MARKET PAIN POINTS:
-    [Provide a 3-sentence deep psychological breakdown of why people are desperately searching for this item right now and what shortage it solves.]
+    [Provide a detailed multi-sentence breakdown analyzing the emotional and practical reasons consumers are suddenly creating a massive search interest spike for this item. What specific friction, problem, or market supply bottleneck does it solve?]
     
     🎬 HIGH-RETENTION VIRAL VIDEO AD CREATIVE SCRIPTS:
-    [Write 3 distinct viral video ad hooks: 1 Curiosity Hook, 1 Pain-Point Hook, 1 Benefit Hook, followed by a detailed 15-second script outline for dropshipping content creators.]
+    [Write 3 complete, highly engaging viral video ad hooks: 1 Curiosity Hook, 1 Pain-Point Hook, 1 Benefit Hook. Follow this with a full, detailed 15-second visual script outline including on-screen text overlays (LN) and exact creator performance actions for dropshipping content conversion.]
     """
     
     active_models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
@@ -75,7 +79,7 @@ def process_cloud_analysis_text(trend_keyword):
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3
             )
-            return completion.choices[0].message.content
+            return completion.choices.message.content
         except Exception:
             continue  
             
@@ -151,7 +155,7 @@ with right_col:
         st.link_button("🔥 Upgrade to Agency Enterprise Tier Instantly", STRIPE_CHECKOUT_URL, type="primary", use_container_width=True)
         
     else:
-        # Pull the primary keyword currently trending
+        # FIXED: Correctly isolate the first dictionary item safely from the trends list data flow
         selected_keyword = trends[0]["Topic"] if trends else "Minimalist Office Setup Accessories"
         
         if st.button("⚡ Run Cloud Analysis Node", type="primary", use_container_width=True):
@@ -159,7 +163,7 @@ with right_col:
                 st.error("⚠️ System Deployment Error: Groq API Key missing in stream configurations.")
             else:
                 with st.spinner("Processing automated cloud intelligence matrix rows..."):
-                    # Execute direct raw text pipeline
+                    # Process the real live dynamic trend keyword through the cloud engine
                     ai_result = process_cloud_analysis_text(selected_keyword)
                     
                     if ai_result:
@@ -172,7 +176,7 @@ with right_col:
         # Show Output and Download button if data exists in memory
         if st.session_state["ai_report_output"]:
             st.info("🔥 Live AI Analysis Completed Successfully!")
-            st.text_area("📋 Live Enterprise Strategy Report", value=st.session_state["ai_report_output"], height=400)
+            st.text_area("📋 Live Enterprise Strategy Report", value=st.session_state["ai_report_output"], height=450)
             
             # White-label Download Trigger
             final_download_text = f"TRENDPULSE AI - OFFICIAL COMMERCIAL BLUEPRINT REPORT\n" \
@@ -180,11 +184,3 @@ with right_col:
                                  f"{st.session_state['ai_report_output']}"
                                  
             st.download_button(
-                label="📥 Download This White-Label Executive Report (.txt)",
-                data=final_download_text,
-                file_name=f"trendpulse_{selected_keyword.lower().replace(' ', '_')}_report.txt",
-                mime="text/plain",
-                use_container_width=True
-            )
-        else:
-            st.warning("Click the engine execution toggle button above to parse data loops instantly.")
