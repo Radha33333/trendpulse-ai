@@ -163,14 +163,15 @@ TEXTS = {
         "operating_role": "👤 Operating Role:",
         "gen_blueprint": "⚡ Generate Master Strategy Blueprint",
         "monetization": "💰 Direct High-ROI Monetization Model",
-        "hook": "🎬 Visual Script & High-Retention Hook (Plug & Play)",
-        "audio": "🎵 Recommended Audio / Tone Vibe",
+        "content_directives": "🎬 Role-Specific Content Directives & Story Blueprint",
+        "hook": "⚡ Visual Hook & Pattern Interrupt Script (0-3s)",
+        "audio": "🎵 Recommended Audio / Tone Directives",
         "caption": "📢 Caption, Call to Action & Copy Framework",
-        "plan": "📝 3-Step Rapid Execution Roadmap (Zero to Launch)",
+        "plan": "⏱️ Time-Chunked Action Roadmap (0-1h, 6h, 48h)",
         "score_label": "Predictive Viral Score",
         "export_pdf_btn": "📄 Download Blueprint PDF",
         "share_wa_btn": "💬 Share to WhatsApp",
-        "competitor_insight": "🕵️ Live Competitor Ad Intelligence",
+        "competitor_insight": "🕵️ Live Competitor Ad Intelligence & Benchmarks",
     },
     "Hindi": {
         "title": "⚡ TrendPulse AI: कमर्शियल सिग्नल इंटेलिजेंस",
@@ -200,10 +201,11 @@ TEXTS = {
         "operating_role": "👤 आपकी भूमिका (Role):",
         "gen_blueprint": "⚡ मास्टर स्ट्रैटेजी ब्लूप्रिंट जनरेट करें",
         "monetization": "💰 डायरेक्ट हाई-ROI मोनेटाइजेशन मॉडल",
-        "hook": "🎬 विजुअल स्क्रिप्ट और हाई-रिटेंशन हुक (प्लग एंड प्ले)",
-        "audio": "🎵 अनुशंसित ऑडियो / टोन वाइब",
+        "content_directives": "🎬 रोल-स्पेसिफिक कंटेंट डायरेक्टिव्स और स्टोरी ब्लूप्रिंट",
+        "hook": "⚡ विजुअल हुक और पैटर्न इंटरप्ट स्क्रिप्ट (0-3s)",
+        "audio": "🎵 अनुशंसित ऑडियो / टोन डायरेक्टिव्स",
         "caption": "📢 कैप्शन, कॉल टू एक्शन और कॉपी फ्रेमवर्क",
-        "plan": "📝 3-चरणीय त्वरित एग्जीक्यूशन रोडमैप",
+        "plan": "⏱️ टाइम-चंक्ड एक्शन रोडमैप (0-1h, 6h, 48h)",
         "score_label": "अनुमानित वायरल स्कोर",
         "export_pdf_btn": "📄 ब्लूप्रिंट PDF डाउनलोड करें",
         "share_wa_btn": "💬 व्हाट्सएप पर शेयर करें",
@@ -294,6 +296,7 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
 
     sections = [
         ("Monetization Model", result.get("profit_model", "")),
+        ("Role-Specific Content Directives", result.get("content_directives", "")),
         ("Execution Hook & Visual Script", result.get("execution_hook", "")),
         ("Recommended Audio / Tone Vibe", result.get("audio_suggestion", "")),
         ("Caption, CTA & Ad Copy", result.get("ad_copy", "")),
@@ -362,7 +365,7 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
     return combined[:5]
 
 # ==========================================
-# 6. GROQ LLM BLUEPRINT GENERATOR (WITH CATEGORY GATEKEEPING)
+# 6. GROQ LLM BLUEPRINT GENERATOR (ROLE-DRIVEN ENGINE)
 # ==========================================
 def generate_master_intelligence(
     keyword_asset,
@@ -388,6 +391,15 @@ def generate_master_intelligence(
             "profit_model": (
                 f"• **Primary Focus:** Strategic Policy Risk & Executive Briefing tailored for {target_role}.\n"
                 f"• **Execution Path:** Synthesize public sentiment and legislative impact on {clean_asset} into B2B advisory decks."
+            ),
+            "content_directives": (
+                f"• **Narrative Angle / Thesis:** Strategic evaluation of key regulatory shifts behind {clean_asset}.\n"
+                f"• **Key Talking Points:**\n"
+                f"  1. Key operational liabilities and compliance risks.\n"
+                f"  2. Macro economic impact across key sector stakeholders.\n"
+                f"  3. Policy timeline and expected legislative adjustments.\n"
+                f"• **Visual & B-Roll Assets:** Official parliamentary footage, executive slide overlays, statistical data charts.\n"
+                f"• **Category Guardrails:** Ensure 100% bipartisan neutrality; strictly avoid speculative claims."
             ),
             "execution_hook": (
                 f"• **0-3s Visual Cue:** Executive summary graphic displaying policy impact metrics for {clean_asset}.\n"
@@ -419,6 +431,15 @@ def generate_master_intelligence(
                 f"• **Primary Funnel:** Direct-to-Consumer Growth Engine tailored for {target_role}.\n"
                 f"• **Execution Path:** Monetize demand for {clean_asset} via automated keyword DMs and direct link triggers."
             ),
+            "content_directives": (
+                f"• **Narrative Angle / Thesis:** Highlighting the immediate, real-world transformation unlocked by {clean_asset}.\n"
+                f"• **Key Talking Points:**\n"
+                f"  1. The core bottleneck or inefficiency solved.\n"
+                f"  2. Live step-by-step demonstration/proof.\n"
+                f"  3. Clear, single-action call to action.\n"
+                f"• **Visual & B-Roll Assets:** High-contrast before/after UI shots, reaction cuts, zoomed-in product highlights.\n"
+                f"• **Category Guardrails:** Maintain high authenticity; avoid over-promising unverified results."
+            ),
             "execution_hook": (
                 f"• **0-3s Visual Cue:** Split-screen reaction cut with high-contrast text overlay on {clean_asset}.\n"
                 f"• **Text Overlay:** \"Did you see this coming? 🚨\"\n"
@@ -448,9 +469,9 @@ def generate_master_intelligence(
     try:
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
-You are TrendPulse AI, an enterprise-grade trend intelligence generator.
+You are TrendPulse AI's Master Strategy Blueprint Generator.
 
-Generate a strategy blueprint dossier for:
+Generate a comprehensive, role-driven operational execution blueprint for:
 - Asset / Topic: "{clean_asset}"
 - Category: "{clean_cat}"{sub_context}
 - Operating Role: "{target_role}"
@@ -460,33 +481,31 @@ Generate a strategy blueprint dossier for:
 - Target Language: {lang}
 
 =========================================
-STRICT CATEGORY GUARDRAILS & RULES:
+ROLE-DRIVEN DIRECTIVE RULES:
 =========================================
-1. CATEGORY PROTECTION & GATEKEEPING:
-   - IF Category is 'Politics, News & Civic Events' OR contains 'Civic/Political':
-     * STRICTLY BANNED: Consumer fluff, "Phonk music", "Comment 'SCALE'", B2C discount offers, and dropshipping tactics.
-     * MANDATORY: Institutional PR frameworks, policy risk briefs, media monitoring frameworks, executive crisis decks, and B2B retainers.
-   - IF Category is 'E-Commerce', 'Beauty', OR 'Digital Products':
-     * MANDATORY: Direct-response sales scripts, CAC/ROAS targets, ManyChat DM automation keywords, and upsell logic.
+1. OPERATING ROLE CUSTOMIZATION:
+   - Content Creator / Influencer: Focus on organic viral reach, Instagram/TikTok DM automation keywords, fast retention hooks, and audience engagement.
+   - E-Commerce Merchant / Dropshipper: Focus on direct-response conversions, problem-solution angles, pre-screening/lead qualification, and retargeting ads.
+   - Agency Owner / Freelancer: Focus on B2B high-ticket retainers ($3,500–$10,000/mo), white-label PDF audit deliverables, LinkedIn video pitches, and corporate ROI.
 
-2. ROLE ADAPTATION:
-   - Content Creator: Viral hooks (0-3s), retention arcs, DM automation, affiliate models.
-   - E-Commerce Merchant: PAS ad scripts, CAC/AOV/ROAS targets, post-checkout upsells.
-   - Agency Owner: Loom pitch angles, B2B retainers ($3.5k-$10k/mo), executive risk decks.
+2. CATEGORY GUARDRAILS:
+   - IF Category is 'Politics, News & Civic Events': Strictly BANNED from consumer fluff, discount offers, dropshipping, or casual music. MANDATORY institutional PR frameworks, policy risk briefs, and crisis management decks.
+   - IF Category is 'E-Commerce', 'Beauty', or 'Digital Products': MANDATORY direct-response script, conversion drivers, and comment DM triggers.
 
 =========================================
 JSON OUTPUT REQUIREMENTS:
 =========================================
-Return ONLY a valid JSON object with this key structure:
+Return ONLY a valid JSON object matching this structure EXACTLY:
 {{
   "viral_score": "{velocity_score}%",
-  "prediction_window": "Monetization lifecycle active window with timing details",
-  "profit_model": "Role-specific strategy description tailored to {target_role}",
-  "execution_hook": "• **0-3s Visual Cue:** [Opening camera shot/graphic]\n• **Text Overlay:** \"[3-7 word overlay]\"\n• **Spoken Script:** \"[Natural pattern interrupt script]\"",
-  "audio_suggestion": "Recommended audio or tone vibe matching category",
-  "ad_copy": "Targeted caption and CTA framework",
-  "action_blueprint": "1. HOUR 1: [Step 1]\n2. HOUR 6: [Step 2]\n3. DAY 2: [Step 3]",
-  "competitor_intelligence": "Competitor hook style and benchmarks"
+  "prediction_window": "Active lifecycle timing window details",
+  "profit_model": "Role-tailored high-ROI monetization model strategy for {target_role}",
+  "content_directives": "• **Narrative Angle / Thesis:** [Core story or thesis]\n• **Key Talking Points:**\n  1. [Beat 1]\n  2. [Beat 2]\n  3. [Beat 3]\n• **Visual & B-Roll Assets:** [Specific shot list and graphics]\n• **Category Guardrails:** [Do's and Don'ts]",
+  "execution_hook": "• **0-3s Visual Cue:** [Specific camera/graphic cue]\n• **Text Overlay:** \"[Punchy text]\"\n• **Spoken Script:** \"[Pattern interrupt script]\"",
+  "audio_suggestion": "Specific music genre, track vibe, or sound effect direction",
+  "ad_copy": "Complete caption, call-to-action, and hashtag framework",
+  "action_blueprint": "1. HOUR 1: [Immediate setup step]\n2. HOUR 6: [Deployment step]\n3. HOUR 48: [Optimization/Scaling step]",
+  "competitor_intelligence": "• **Top Competitor Focus:** [Style/Angle]\n• **Optimal Format/Duration:** [Format]\n• **Target Benchmarks:** [CTR / Growth Metrics]"
 }}
 """
 
@@ -786,6 +805,10 @@ with right_col:
 
             with st.expander(t["monetization"], expanded=True):
                 st.markdown(result.get("profit_model"))
+
+            if "content_directives" in result and result.get("content_directives"):
+                with st.expander(t["content_directives"], expanded=True):
+                    st.markdown(result.get("content_directives"))
 
             with st.expander(t["hook"], expanded=True):
                 st.markdown(result.get("execution_hook"))
