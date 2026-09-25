@@ -129,49 +129,6 @@ CATEGORY_SIGNALS_FALLBACK = {
     ],
 }
 
-SEARCH_QUERY_MAP = {
-    "🛒 E-Commerce & Viral Shopping": [
-        "bestselling products",
-        "trending ecommerce items",
-        "viral tiktok shop",
-    ],
-    "🏛️ Politics, News & Civic Events": [
-        "election rally updates",
-        "political protests news",
-        "assembly debate",
-    ],
-    "🛕 Faith, Festivals & Sacred Travel": [
-        "famous temple festival",
-        "hidden temples to visit",
-        "religious pilgrimage trend",
-    ],
-    "✈️ Travel, Hotels & Food": [
-        "hidden tourist places",
-        "best luxury hotels restaurants",
-        "viral food places",
-    ],
-    "🌟 Celebrities & Sports Stars": [
-        "sports person trending news",
-        "celebrity viral moment",
-        "cricket player update",
-    ],
-    "🏢 Real Estate & High-Ticket Props": [
-        "real estate investment trends",
-        "proptech smart homes",
-        "housing market updates",
-    ],
-    "💄 Beauty, Skincare & Lifestyle": [
-        "trending skincare products",
-        "viral beauty hacks",
-        "cosmetic product reviews",
-    ],
-    "💻 Digital Products & AI Tools": [
-        "best generative ai tools",
-        "micro saas software",
-        "digital templates online",
-    ],
-}
-
 # ==========================================
 # 3. TRANSLATIONS / LOCALIZATION
 # ==========================================
@@ -284,9 +241,7 @@ def sanitize_trend_input(text: str) -> str:
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     return cleaned
 
-def create_pdf_blueprint(
-    asset_name, category, role, viral_score, window, result
-):
+def create_pdf_blueprint(asset_name, category, role, viral_score, window, result):
     clean_asset = sanitize_trend_input(asset_name)
     clean_cat = sanitize_trend_input(category)
 
@@ -326,9 +281,7 @@ def create_pdf_blueprint(
     )
 
     story = []
-    story.append(
-        Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style)
-    )
+    story.append(Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style))
     story.append(
         Paragraph(
             f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b>"
@@ -495,19 +448,6 @@ STRICT QUALITY & CONTENT RULES:
    - Visual Cue: Specific camera shot, text placement, or rapid visual cut.
    - On-Screen Text: Punchy, high-curiosity 3-7 word overlay in high-contrast bold font.
    - Spoken Script: Natural, human-sounding 8-15 word pattern interrupt.
-
-=========================================
-FEW-SHOT EXAMPLES OF DESIRED HOOK STYLE:
-=========================================
-Example A (Sports / Fan Buzz):
-- Visual Cue: Quick 0.5s cut of a shocked reaction shot overlaid with a glowing red squad list graphic.
-- Text Overlay: "How did HE get dropped?! 😳"
-- Spoken Script: "They just announced the starting XI for the World Cup, and I cannot believe who got left on the bench..."
-
-Example B (E-Commerce / Gadget):
-- Visual Cue: Macro close-up shot testing a desk accessory side-by-side with a traditional setup under harsh lighting.
-- Text Overlay: "Your wrist is lying to you ❌"
-- Spoken Script: "If you're still using a flat mouse pad in 2026, here's why your wrist aches by 3 PM every single day..."
 
 =========================================
 JSON OUTPUT REQUIREMENTS:
