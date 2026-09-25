@@ -226,7 +226,6 @@ def safe_xml_text(text: str) -> str:
         .replace("<", "&lt;")
         .replace(">", "&gt;")
     )
-    # Convert Markdown **bold** to ReportLab <b>bold</b>
     clean = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', clean)
     return clean
 
@@ -345,7 +344,7 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
     default_keywords = CATEGORY_SIGNALS_FALLBACK.get(
         category, ["Trending Breakout Asset"]
     )
-    
+
     if sub_niche and sub_niche != "All Sub-Niches":
         combined = [
             {"Keyword": f"[{sub_niche}] {kw} [{platform_source}]", "Volume": f"180K+ ({timeframe})"}
@@ -383,7 +382,6 @@ def generate_master_intelligence(
 
     sub_context = f" | Sub-Niche: '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
 
-    # Dynamic Fallback Logic based on Category Protection
     if "Politics" in category or "Civic" in category:
         default_response = {
             "viral_score": f"{velocity_score}%",
@@ -813,51 +811,50 @@ with right_col:
             with st.expander(t["hook"], expanded=True):
                 st.markdown(result.get("execution_hook"))
 
-            with st.expander(t["audio"], expanded=True):
-                st.write(
-                    f"🔊 **Recommendation:**"
-                    f" {result.get('audio_suggestion')}"
-                )
+            with st.expander(t["audio"]):
+                st.markdown(f"**Vibe:** {result.get('audio_suggestion')}")
 
-            with st.expander(t["caption"], expanded=True):
-                st.code(f"{result.get('ad_copy')}", language="text")
+            with st.expander(t["caption"]):
+                st.code(result.get("ad_copy"), language="text")
 
-            with st.expander(t["plan"], expanded=True):
+            with st.expander(t["plan"]):
                 st.markdown(result.get("action_blueprint"))
 
-            with st.expander(t["competitor_insight"], expanded=False):
+            with st.expander(t["competitor_insight"]):
                 st.markdown(result.get("competitor_intelligence"))
 
-            pdf_buffer = create_pdf_blueprint(
-                active_target,
-                active_cat,
-                active_role,
-                result.get("viral_score"),
-                result.get("prediction_window"),
-                result,
-            )
+            st.markdown("---")
+            btn_pdf_col, btn_wa_col = st.columns(2)
 
-            wa_text = (
-                f"⚡ *TrendPulse AI Blueprint: {active_target}*\n\n🔥 *Viral"
-                f" Score:* {result.get('viral_score')}\n🎯 *Hook:*"
-                f" {result.get('execution_hook')[:120]}...\n\n📲 *Action Plan:*"
-                f" {result.get('action_blueprint')[:150]}..."
-            )
-            encoded_wa_text = urllib.parse.quote(wa_text)
-            wa_share_url = f"https://wa.me/?text={encoded_wa_text}"
-
-            export_col1, export_col2 = st.columns(2)
-            with export_col1:
+            with btn_pdf_col:
+                pdf_bytes = create_pdf_blueprint(
+                    active_target,
+                    active_cat,
+                    active_role,
+                    result.get("viral_score", "92%"),
+                    result.get("prediction_window", "7 Days"),
+                    result,
+                )
+                safe_file_name = re.sub(r'[^a-zA-Z0-9_]', '_', active_target[:20])
                 st.download_button(
                     label=t["export_pdf_btn"],
-                    data=pdf_buffer,
-                    file_name=f"TrendPulse_Blueprint_{sanitize_trend_input(active_target)[:15]}.pdf",
+                    data=pdf_bytes,
+                    file_name=f"TrendPulse_Blueprint_{safe_file_name}.pdf",
                     mime="application/pdf",
                     use_container_width=True,
                 )
-            with export_col2:
+
+            with btn_wa_col:
+                wa_msg = (
+                    f"⚡ *TrendPulse AI Blueprint*\n\n"
+                    f"🎯 *Asset:* {active_target}\n"
+                    f"📈 *Viral Score:* {result.get('viral_score')}\n"
+                    f"💰 *Monetization Model:* {result.get('profit_model')[:120]}...\n\n"
+                    f"Generated via TrendPulse AI Engine."
+                )
+                wa_url = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_msg)}"
                 st.link_button(
-                    label=t["share_wa_btn"],
-                    url=wa_share_url,
+                    t["share_wa_btn"],
+                    wa_url,
                     use_container_width=True,
                 )
