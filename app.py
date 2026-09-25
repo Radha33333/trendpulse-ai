@@ -1,5 +1,6 @@
 import io
 import json
+import re
 import urllib.parse
 import xml.etree.ElementTree as ET
 from groq import Groq
@@ -128,7 +129,6 @@ CATEGORY_SIGNALS_FALLBACK = {
     ],
 }
 
-# Dynamic search query keywords mapped to Google Trends RSS search parameters
 SEARCH_QUERY_MAP = {
     "🛒 E-Commerce & Viral Shopping": [
         "bestselling products",
@@ -275,9 +275,21 @@ def safe_xml_text(text):
         .replace(">", "&gt;")
     )
 
+def sanitize_trend_input(text: str) -> str:
+    """Strips system tags, bracketed metadata, and formatting artifacts."""
+    if not text:
+        return ""
+    cleaned = re.sub(r'\[.*?\]', '', text)
+    cleaned = re.sub(r'^\s*n\s+', '', cleaned)
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned
+
 def create_pdf_blueprint(
     asset_name, category, role, viral_score, window, result
 ):
+    clean_asset = sanitize_trend_input(asset_name)
+    clean_cat = sanitize_trend_input(category)
+
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
         buffer,
@@ -319,8 +331,8 @@ def create_pdf_blueprint(
     )
     story.append(
         Paragraph(
-            f"<b>Asset:</b> {safe_xml_text(asset_name)} | <b>Category:</b>"
-            f" {safe_xml_text(category)} | <b>Role:</b> {safe_xml_text(role)}",
+            f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b>"
+            f" {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}",
             body_style,
         )
     )
@@ -384,7 +396,6 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
         category, ["Trending Breakout Asset"]
     )
     
-    # Enrich keyword if sub_niche filter is active
     if sub_niche and sub_niche != "All Sub-Niches":
         combined = [
             {"Keyword": f"[{sub_niche}] {kw} [{platform_source}]", "Volume": f"180K+ ({timeframe})"}
@@ -416,37 +427,39 @@ def generate_master_intelligence(
     velocity_score,
     lang,
 ):
-    sub_context = f" | Sub-Niche: '{sub_niche}'" if sub_niche else ""
-    
+    clean_asset = sanitize_trend_input(keyword_asset)
+    clean_cat = sanitize_trend_input(category)
+    clean_sub = sanitize_trend_input(sub_niche)
+
+    sub_context = f" | Sub-Niche: '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
+
     default_response = {
         "viral_score": f"{velocity_score}%",
-        "prediction_window": (
-            f"Peak Trend Lifecycle Active ({timeframe} window)"
-        ),
+        "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
         "profit_model": (
-            f"• **Strategy:** Direct-to-Consumer Funnel & Automated Growth Model tailored for {target_role}.\n"
-            f"• **Execution Model:** Monetize target demand for {keyword_asset} using high-converting landing pages and direct audience triggers."
+            f"• **Primary Funnel:** Direct-to-Consumer Growth Engine tailored for {target_role}.\n"
+            f"• **Execution Path:** Monetize demand for {clean_asset} via automated keyword DMs and direct link triggers."
         ),
         "execution_hook": (
-            f"• **0-3s Visual Cue:** High-contrast opening visual highlighting the core issue or opportunity in {category}.\n"
-            f"• **Text Overlay:** \"The #1 mistake people are making with {keyword_asset} in 2026 ⚡\"\n"
-            f"• **Spoken Script:** \"If you want to capitalize on this trend right now, here is the exact framework...\""
+            f"• **0-3s Visual Cue:** Split-screen reaction cut with high-contrast text overlay on {clean_asset}.\n"
+            f"• **Text Overlay:** \"Did you see this coming? 🚨\"\n"
+            f"• **Spoken Script:** \"Everyone is talking about {clean_asset}, but almost nobody noticed this one detail...\""
         ),
         "audio_suggestion": "Upbeat Phonk / Fast-Paced Rhythmic Ambient",
         "ad_copy": (
-            f"Unlocking maximum impact with {keyword_asset} 🚀📈\n\n"
-            "Tested across top channels with unmatched engagement. Drop 'SCALE' below for the exact strategy link directly in your inbox!\n\n"
-            "#GrowthStrategy #MarketIntelligence #TrendPulse2026"
+            f"The latest updates on {clean_asset} are trending fast! 🔥\n\n"
+            "Comment 'SCALE' below for the exact strategy link delivered straight to your DMs!\n\n"
+            f"#{clean_asset.replace(' ', '')} #MarketIntelligence #TrendPulse"
         ),
         "action_blueprint": (
-            "1. HOUR 1: Create 9:16 high-retention social media creative optimized for platform algorithm.\n"
-            "2. HOUR 6: Launch automated keyword DM and comment auto-responder sequence.\n"
-            "3. DAY 2: Review early retention metrics and scale ad budgets on highest converting variants."
+            "1. HOUR 1: Record a 9:16 vertical clip using the visual hook and script above.\n"
+            "2. HOUR 6: Launch comment auto-responder sequence for keyword 'SCALE'.\n"
+            "3. DAY 2: Review retention metrics and scale budget on winning variations."
         ),
         "competitor_intelligence": (
-            f"• **Top Competitor Hook Style:** *'Stop ignoring this major update regarding {keyword_asset}...'*\n"
-            "• **Optimal Video Duration:** 12 - 18 seconds\n"
-            "• **Estimated Engagement Benchmark:** High (4.9% CTR / Rapid comment growth)"
+            f"• **Top Competitor Hook Style:** *'The real reason behind {clean_asset}...'*\n"
+            "• **Optimal Video Duration:** 11 - 16 seconds\n"
+            "• **Estimated Engagement Benchmark:** High (5.2% CTR / Rapid comment growth)"
         ),
     }
 
@@ -456,29 +469,66 @@ def generate_master_intelligence(
     try:
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
-        You are an elite commercial growth strategist and enterprise trend intelligence consultant.
-        Analyze Asset: '{keyword_asset}' | Category: '{category}'{sub_context} | Role: '{target_role}' | Platform: '{platform}' | Timeframe: '{timeframe}' | Velocity: {velocity_score}%
-        Language: {lang}
-        
-        Provide hyper-specific, highly tactical, actionable intelligence tailored precisely to the asset and user role ({target_role}). Avoid generic filler. Create professional-grade strategies ready for immediate commercial deployment.
+You are an elite $100M+ Digital Growth Architect and Short-Form Content Strategist specializing in viral video hooks, high-ROAS social ads, and automated conversion funnels.
 
-        Return STRICT JSON format:
-        {{
-          "viral_score": "{velocity_score}%",
-          "prediction_window": "Monetization lifecycle active window with specific timing details",
-          "profit_model": "Detailed, specific monetization strategy and conversion steps",
-          "execution_hook": "Specific 0-3s visual cue, exact text overlay, and high-retention script",
-          "audio_suggestion": "Precise trending audio genre or vibe descriptor",
-          "ad_copy": "High-ROAS caption with professional CTA and targeted hashtags",
-          "action_blueprint": "Clear 3-step rapid execution roadmap with time markers",
-          "competitor_intelligence": "Detailed competitor benchmark data including hook style, video duration, and expected CTR"
-        }}
-        """
+Generate an enterprise-grade growth blueprint for:
+- Asset / Topic: "{clean_asset}"
+- Category: "{clean_cat}"{sub_context}
+- Operating Role: "{target_role}"
+- Platform Focus: "{platform}"
+- Timeframe: "{timeframe}"
+- Viral Score: {velocity_score}%
+- Target Language: {lang}
+
+=========================================
+STRICT QUALITY & CONTENT RULES:
+=========================================
+1. NO AI CLICHÉS OR TEMPLATE FILLER:
+   - FORBIDDEN PHRASES: "The #1 mistake people are making...", "Unlocking maximum impact with...", "Here is the exact framework...", "Stop ignoring this major update...".
+   - Never output raw formatting codes, literal '\\n', or stray 'n' characters.
+
+2. ASSET-SPECIFIC REALISM:
+   - The visual cue, spoken script, and caption MUST directly reference specific details of "{clean_asset}" (e.g., if sports/entertainment, reference player snubs, squad reveals, fan debates; if ecommerce/tech, reference pain points or workflow hacks).
+   - Tailor the monetization strategy explicitly to the Operating Role ({target_role}).
+
+3. HOOK STRUCTURE (0-3 Seconds):
+   - Visual Cue: Specific camera shot, text placement, or rapid visual cut.
+   - On-Screen Text: Punchy, high-curiosity 3-7 word overlay in high-contrast bold font.
+   - Spoken Script: Natural, human-sounding 8-15 word pattern interrupt.
+
+=========================================
+FEW-SHOT EXAMPLES OF DESIRED HOOK STYLE:
+=========================================
+Example A (Sports / Fan Buzz):
+- Visual Cue: Quick 0.5s cut of a shocked reaction shot overlaid with a glowing red squad list graphic.
+- Text Overlay: "How did HE get dropped?! 😳"
+- Spoken Script: "They just announced the starting XI for the World Cup, and I cannot believe who got left on the bench..."
+
+Example B (E-Commerce / Gadget):
+- Visual Cue: Macro close-up shot testing a desk accessory side-by-side with a traditional setup under harsh lighting.
+- Text Overlay: "Your wrist is lying to you ❌"
+- Spoken Script: "If you're still using a flat mouse pad in 2026, here's why your wrist aches by 3 PM every single day..."
+
+=========================================
+JSON OUTPUT REQUIREMENTS:
+=========================================
+Return ONLY a valid JSON object matching this schema:
+{{
+  "viral_score": "{velocity_score}%",
+  "prediction_window": "Monetization lifecycle active window with specific timing details",
+  "profit_model": "• **Primary Funnel:** [Detailed role-specific monetization tactic for {target_role}]\n• **Execution Path:** [Step-by-step conversion mechanic using bio link / automated DM keywords]",
+  "execution_hook": "• **0-3s Visual Cue:** [Specific, high-energy opening camera shot & graphics]\n• **Text Overlay:** \"[Punchy 3-7 word viral overlay]\"\n• **Spoken Script:** \"[Natural, conversational 8-15 word pattern interrupt script]\"",
+  "audio_suggestion": "[Specific trending audio genre or viral sound vibe]",
+  "ad_copy": "[High-converting caption with direct CTA and 3 targeted hashtags]",
+  "action_blueprint": "1. HOUR 1: [Immediate creative assembly & platform publishing step]\n2. HOUR 6: [DM auto-responder setup & engagement trigger launch]\n3. DAY 2: [Metrics tracking, audience retention analysis, and scaling plan]",
+  "competitor_intelligence": "• **Top Competitor Hook Style:** *'[Real competitor hook example tailored to {clean_asset}]'*\n• **Optimal Video Duration:** [e.g., 11 - 15 seconds]\n• **Estimated Engagement Benchmark:** [e.g., 5.8% CTR / 12% Save Rate]"
+}}
+"""
 
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.3,
+            temperature=0.35,
             response_format={"type": "json_object"},
         )
         return json.loads(completion.choices[0].message.content)
@@ -809,19 +859,17 @@ with right_col:
             wa_share_url = f"https://wa.me/?text={encoded_wa_text}"
 
             export_col1, export_col2 = st.columns(2)
-
             with export_col1:
                 st.download_button(
                     label=t["export_pdf_btn"],
                     data=pdf_buffer,
-                    file_name=(
-                        f"blueprint_{active_target.replace(' ', '_')}.pdf"
-                    ),
+                    file_name=f"TrendPulse_Blueprint_{sanitize_trend_input(active_target)[:15]}.pdf",
                     mime="application/pdf",
                     use_container_width=True,
                 )
-
             with export_col2:
                 st.link_button(
-                    t["share_wa_btn"], wa_share_url, use_container_width=True
+                    label=t["share_wa_btn"],
+                    url=wa_share_url,
+                    use_container_width=True,
                 )
