@@ -382,82 +382,124 @@ def generate_master_intelligence(
 
     sub_context = f" | Sub-Niche: '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
 
-    if "Politics" in category or "Civic" in category:
+    # ==========================================
+    # DYNAMIC ROLE-BASED FALLBACK TEMPLATES
+    # ==========================================
+    if target_role == "Agency Owner / Freelancer":
         default_response = {
             "viral_score": f"{velocity_score}%",
             "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
             "profit_model": (
-                f"• **Primary Focus:** Strategic Policy Risk & Executive Briefing tailored for {target_role}.\n"
-                f"• **Execution Path:** Synthesize public sentiment and legislative impact on {clean_asset} into B2B advisory decks."
+                f"• **Primary Funnel:** B2B High-Ticket Client Acquisition & White-Label Audits.\n"
+                f"• **Execution Path:** Package '{clean_asset}' insights into a $2,500/mo trend-jacking retainer deck for e-commerce or corporate brands."
             ),
             "content_directives": (
-                f"• **Narrative Angle / Thesis:** Strategic evaluation of key regulatory shifts behind {clean_asset}.\n"
+                f"• **Narrative Angle / Thesis:** Explaining how businesses can turn the demand around '{clean_asset}' into predictable revenue.\n"
                 f"• **Key Talking Points:**\n"
-                f"  1. Key operational liabilities and compliance risks.\n"
-                f"  2. Macro economic impact across key sector stakeholders.\n"
-                f"  3. Policy timeline and expected legislative adjustments.\n"
-                f"• **Visual & B-Roll Assets:** Official parliamentary footage, executive slide overlays, statistical data charts.\n"
-                f"• **Category Guardrails:** Ensure 100% bipartisan neutrality; strictly avoid speculative claims."
+                f"  1. The missed ROI opportunity most brands are ignoring regarding {clean_asset}.\n"
+                f"  2. Step-by-step breakdown of the client campaign workflow.\n"
+                f"  3. Expected CAC reduction and conversion metrics.\n"
+                f"• **Visual & B-Roll Assets:** LinkedIn PDF slide overlays, agency ROI spreadsheets, screen recordings of campaign setups.\n"
+                f"• **Category Guardrails:** Keep communication professional, metric-driven, and focused on business bottom-line growth."
             ),
             "execution_hook": (
-                f"• **0-3s Visual Cue:** Executive summary graphic displaying policy impact metrics for {clean_asset}.\n"
-                f"• **Text Overlay:** \"Legislative Alert: {clean_asset[:20]}...\"\n"
-                f"• **Spoken Script:** \"Here is the key breakdown of how {clean_asset} impacts strategic operations...\""
+                f"• **0-3s Visual Cue:** Screen recording of client dashboard showing traffic spikes overlaying '{clean_asset}'.\n"
+                f"• **Text Overlay:** \"How to turn {clean_asset[:20]} into $10k in client retainers...\"\n"
+                f"• **Spoken Script:** \"If you run an agency or consult brands, here is the exact framework we're using to turn {clean_asset} into high-converting client campaigns this week...\""
             ),
-            "audio_suggestion": "Corporate / Analytical & Neutral Audio Vibe",
+            "audio_suggestion": "Low-fi Instrumental Chill / Professional Corporate Narrative Background",
             "ad_copy": (
-                f"Executive Briefing on {clean_asset}.\n\n"
-                "Download the complete regulatory impact report and media framework.\n\n"
-                f"#{clean_asset.replace(' ', '')} #PolicyBrief #TrendPulse"
+                f"We just published our B2B Strategy Briefing on capitalizing on {clean_asset}. 💼\n\n"
+                "Comment 'AGENCY' below to get our complete pitch deck and client outreach templates sent directly to your DMs!\n\n"
+                f"#{clean_asset.replace(' ', '')} #AgencyGrowth #B2BStrategy #TrendPulse"
             ),
             "action_blueprint": (
-                "1. HOUR 1: Compile legislative data into executive risk summary.\n"
-                "2. HOUR 6: Dispatch policy briefing deck to institutional partners and media channels.\n"
-                "3. DAY 2: Monitor sentiment telemetry and update response protocols."
+                "1. HOUR 1: Turn this trend data into a 5-page PDF Strategy Audit deck.\n"
+                "2. HOUR 6: Launch cold email & LinkedIn video pitches targeting brand CMOs using the framework.\n"
+                "3. DAY 2: Set up automated discovery call calendars for incoming DM leads."
             ),
             "competitor_intelligence": (
-                f"• **Top Competitor Focus:** Strategic analysis of {clean_asset}.\n"
-                "• **Optimal Document Format:** Executive Summary Briefing / PDF Deck\n"
-                "• **Estimated Engagement:** High institutional readership"
+                f"• **Top Competitor Hook Style:** *'How agencies are scaling with {clean_asset}...'*\n"
+                "• **Optimal Video Duration:** 45 - 60 seconds (LinkedIn/YouTube Shorts)\n"
+                "• **Estimated Engagement Benchmark:** 8.4% Lead Conversion Rate on DMs"
             ),
         }
-    else:
+    elif target_role == "E-Commerce Merchant / Dropshipper":
         default_response = {
             "viral_score": f"{velocity_score}%",
             "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
             "profit_model": (
-                f"• **Primary Funnel:** Direct-to-Consumer Growth Engine tailored for {target_role}.\n"
-                f"• **Execution Path:** Monetize demand for {clean_asset} via automated keyword DMs and direct link triggers."
+                f"• **Primary Funnel:** Direct-to-Consumer Impulse Sales & Flash Offer Drops.\n"
+                f"• **Execution Path:** Source or bundle product inventory related to '{clean_asset}' and leverage TikTok Shop / Reels ad spark posts."
             ),
             "content_directives": (
-                f"• **Narrative Angle / Thesis:** Highlighting the immediate, real-world transformation unlocked by {clean_asset}.\n"
+                f"• **Narrative Angle / Thesis:** Highlighting problem-solution angles and immediate transformation tied to {clean_asset}.\n"
                 f"• **Key Talking Points:**\n"
-                f"  1. The core bottleneck or inefficiency solved.\n"
-                f"  2. Live step-by-step demonstration/proof.\n"
-                f"  3. Clear, single-action call to action.\n"
-                f"• **Visual & B-Roll Assets:** High-contrast before/after UI shots, reaction cuts, zoomed-in product highlights.\n"
-                f"• **Category Guardrails:** Maintain high authenticity; avoid over-promising unverified results."
+                f"  1. Pain point before discovering this trend asset.\n"
+                f"  2. Live product unboxing / stress-test demonstration.\n"
+                f"  3. Scarcity & limited stock warning.\n"
+                f"• **Visual & B-Roll Assets:** Close-up macro product shots, rapid 0.5x reaction cuts, fast unboxing, aesthetic lifestyle usage.\n"
+                f"• **Category Guardrails:** Emphasize fast shipping, high visual contrast, and immediate impulse buy triggers."
             ),
             "execution_hook": (
-                f"• **0-3s Visual Cue:** Split-screen reaction cut with high-contrast text overlay on {clean_asset}.\n"
-                f"• **Text Overlay:** \"Did you see this coming? 🚨\"\n"
-                f"• **Spoken Script:** \"Everyone is talking about {clean_asset}, but almost nobody noticed this one detail...\""
+                f"• **0-3s Visual Cue:** Rapid hands-on product demonstration with price tag flash overlay for '{clean_asset}'.\n"
+                f"• **Text Overlay:** \"Stop scrolling! This {clean_asset[:20]} sold out 3x this week 🚨\"\n"
+                f"• **Spoken Script:** \"If you've been looking for {clean_asset}, stop buying cheap knockoffs. Here is why everyone is ordering this exact one...\""
             ),
-            "audio_suggestion": "Upbeat Phonk / Fast-Paced Rhythmic Ambient",
+            "audio_suggestion": "Upbeat Phonk / Trending TikTok Sound Effect Accent",
             "ad_copy": (
-                f"The latest updates on {clean_asset} are trending fast! 🔥\n\n"
-                "Comment 'SCALE' below for the exact strategy link delivered straight to your DMs!\n\n"
-                f"#{clean_asset.replace(' ', '')} #MarketIntelligence #TrendPulse"
+                f"The demand for {clean_asset} is breaking the internet! 🛒\n\n"
+                "Tap the 'Shop Now' button or click the link in bio to claim 20% OFF before our flash stock runs out!\n\n"
+                f"#{clean_asset.replace(' ', '')} #TikTokMadeMeBuyIt #EcomTrends #TrendPulse"
             ),
             "action_blueprint": (
-                "1. HOUR 1: Record a 9:16 vertical clip using the visual hook and script above.\n"
-                "2. HOUR 6: Launch comment auto-responder sequence for keyword 'SCALE'.\n"
-                "3. DAY 2: Review retention metrics and scale budget on winning variations."
+                "1. HOUR 1: Create a high-converting single-product landing page or TikTok Shop listing.\n"
+                "2. HOUR 6: Launch 3 user-generated video ad variants targeting broad interest stacks.\n"
+                "3. DAY 2: Scale ad spend on winning creative and trigger cart abandonment emails."
             ),
             "competitor_intelligence": (
-                f"• **Top Competitor Hook Style:** *'The real reason behind {clean_asset}...'*\n"
-                "• **Optimal Video Duration:** 11 - 16 seconds\n"
-                "• **Estimated Engagement Benchmark:** High (5.2% CTR / Rapid comment growth)"
+                f"• **Top Competitor Hook Style:** *'Why everyone is obsessed with {clean_asset}...'*\n"
+                "• **Optimal Video Duration:** 9 - 15 seconds\n"
+                "• **Estimated Engagement Benchmark:** High (4.8% Direct Purchase CTR)"
+            ),
+        }
+    else:  # Content Creator / Influencer
+        default_response = {
+            "viral_score": f"{velocity_score}%",
+            "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
+            "profit_model": (
+                f"• **Primary Funnel:** Organic Viral Reach, Follower Growth & ManyChat DM Automation.\n"
+                f"• **Execution Path:** Use pattern-interrupt commentary on '{clean_asset}' to drive thousands of keyword comments and grow audience loyalty."
+            ),
+            "content_directives": (
+                f"• **Narrative Angle / Thesis:** Delivering a unique hot-take or deep-dive breakdown behind '{clean_asset}' that nobody else is mentioning.\n"
+                f"• **Key Talking Points:**\n"
+                f"  1. What everyone gets wrong about this topic.\n"
+                f"  2. The hidden detail or story behind the trend.\n"
+                f"  3. Open-ended controversial question to spark debate.\n"
+                f"• **Visual & B-Roll Assets:** Face-cam with green screen background, fast cutaways, dramatic text pop-ups, meme overlays.\n"
+                f"• **Category Guardrails:** Maximize retention, avoid corporate jargon, focus on entertainment and curiosity."
+            ),
+            "execution_hook": (
+                f"• **0-3s Visual Cue:** Green-screen reaction in front of a trending headline about '{clean_asset}'.\n"
+                f"• **Text Overlay:** \"Nobody is talking about this detail... 😳\"\n"
+                f"• **Spoken Script:** \"Everyone is posting about {clean_asset}, but almost nobody noticed what actually happened behind the scenes...\""
+            ),
+            "audio_suggestion": "Viral Rhythmic Beat / Dramatic Tension Sound Effect",
+            "ad_copy": (
+                f"What's your take on {clean_asset}? 💬\n\n"
+                "Comment 'TRUTH' below and I'll send the full breakdown video straight to your DMs!\n\n"
+                f"#{clean_asset.replace(' ', '')} #ViralTrends #CreatorEconomy #TrendPulse"
+            ),
+            "action_blueprint": (
+                "1. HOUR 1: Film a 9:16 vertical video using green screen overlay and script above.\n"
+                "2. HOUR 6: Activate auto-DM responder for keyword 'TRUTH' to boost post velocity.\n"
+                "3. DAY 2: Pin top engaging comments and post a follow-up story poll."
+            ),
+            "competitor_intelligence": (
+                f"• **Top Competitor Hook Style:** *'The secret behind {clean_asset} revealed...'*\n"
+                "• **Optimal Video Duration:** 15 - 30 seconds\n"
+                "• **Estimated Engagement Benchmark:** Very High (8.5%+ Comment/Share Ratio)"
             ),
         }
 
@@ -466,10 +508,19 @@ def generate_master_intelligence(
 
     try:
         client = Groq(api_key=GROQ_API_KEY)
+
+        # ==========================================
+        # STRICT ROLE-DRIVEN PROMPT ENGINE
+        # ==========================================
         prompt = f"""
 You are TrendPulse AI's Master Strategy Blueprint Generator.
 
-Generate a comprehensive, role-driven operational execution blueprint for:
+Generate a highly customized, role-specific operational execution blueprint.
+You MUST follow the strict role rules below. DO NOT output generic filler.
+
+=========================================
+INPUT DATA:
+=========================================
 - Asset / Topic: "{clean_asset}"
 - Category: "{clean_cat}"{sub_context}
 - Operating Role: "{target_role}"
@@ -479,30 +530,41 @@ Generate a comprehensive, role-driven operational execution blueprint for:
 - Target Language: {lang}
 
 =========================================
-ROLE-DRIVEN DIRECTIVE RULES:
+STRICT ROLE-DRIVEN STRATEGY INSTRUCTIONS:
 =========================================
-1. OPERATING ROLE CUSTOMIZATION:
-   - Content Creator / Influencer: Focus on organic viral reach, Instagram/TikTok DM automation keywords, fast retention hooks, and audience engagement.
-   - E-Commerce Merchant / Dropshipper: Focus on direct-response conversions, problem-solution angles, pre-screening/lead qualification, and retargeting ads.
-   - Agency Owner / Freelancer: Focus on B2B high-ticket retainers ($3,500–$10,000/mo), white-label PDF audit deliverables, LinkedIn video pitches, and corporate ROI.
+You are writing SPECIFICALLY for the role: "{target_role}".
 
-2. CATEGORY GUARDRAILS:
-   - IF Category is 'Politics, News & Civic Events': Strictly BANNED from consumer fluff, discount offers, dropshipping, or casual music. MANDATORY institutional PR frameworks, policy risk briefs, and crisis management decks.
-   - IF Category is 'E-Commerce', 'Beauty', or 'Digital Products': MANDATORY direct-response script, conversion drivers, and comment DM triggers.
+IF Role is "Agency Owner / Freelancer":
+- Monetization Model: B2B retainers ($2,500–$10,000/mo), selling trends as strategic services, white-label client audits, CMO pitch decks.
+- Hook Style: "How to turn [Asset] into client revenue...", "How agencies are monetizing..."
+- CTA / Ad Copy: "Comment 'AGENCY' to get our free pitch deck & client outreach workflow."
+- Action Plan: Focus on creating pitch decks, cold outbound, and closing retainers.
+
+IF Role is "E-Commerce Merchant / Dropshipper":
+- Monetization Model: Direct product sales, impulse buying, flash sales, TikTok Shop listings, high ROAS ad campaigns.
+- Hook Style: "Stop buying cheap knockoffs...", "This [Asset] product sold out 3x this week..."
+- CTA / Ad Copy: "Tap 'Shop Now' or click link in bio to get 20% OFF today!"
+- Action Plan: Focus on store setup, video ads targeting buyers, and scaling ad spend.
+
+IF Role is "Content Creator / Influencer":
+- Monetization Model: Organic viral reach, engagement farming, brand deal positioning, audience building via ManyChat DM automation.
+- Hook Style: "Nobody noticed this one detail about [Asset]...", "The truth about..."
+- CTA / Ad Copy: "Comment 'TRUTH' below for the full breakdown sent to your DMs!"
+- Action Plan: Focus on green-screen reels, community engagement, and story polls.
 
 =========================================
 JSON OUTPUT REQUIREMENTS:
 =========================================
-Return ONLY a valid JSON object matching this structure EXACTLY:
+Return ONLY a valid JSON object matching this structure EXACTLY (do not wrap in markdown tags):
 {{
   "viral_score": "{velocity_score}%",
   "prediction_window": "Active lifecycle timing window details",
-  "profit_model": "Role-tailored high-ROI monetization model strategy for {target_role}",
-  "content_directives": "• **Narrative Angle / Thesis:** [Core story or thesis]\n• **Key Talking Points:**\n  1. [Beat 1]\n  2. [Beat 2]\n  3. [Beat 3]\n• **Visual & B-Roll Assets:** [Specific shot list and graphics]\n• **Category Guardrails:** [Do's and Don'ts]",
-  "execution_hook": "• **0-3s Visual Cue:** [Specific camera/graphic cue]\n• **Text Overlay:** \"[Punchy text]\"\n• **Spoken Script:** \"[Pattern interrupt script]\"",
-  "audio_suggestion": "Specific music genre, track vibe, or sound effect direction",
-  "ad_copy": "Complete caption, call-to-action, and hashtag framework",
-  "action_blueprint": "1. HOUR 1: [Immediate setup step]\n2. HOUR 6: [Deployment step]\n3. HOUR 48: [Optimization/Scaling step]",
+  "profit_model": "Role-tailored high-ROI monetization model strategy tailored strictly for {target_role}",
+  "content_directives": "• **Narrative Angle / Thesis:** [Core story tailored to {target_role}]\n• **Key Talking Points:**\n  1. [Beat 1]\n  2. [Beat 2]\n  3. [Beat 3]\n• **Visual & B-Roll Assets:** [Specific shot list for {target_role}]\n• **Category Guardrails:** [Do's and Don'ts]",
+  "execution_hook": "• **0-3s Visual Cue:** [Specific camera/graphic cue for {target_role}]\n• **Text Overlay:** \"[Punchy text tailored to {target_role}]\"\n• **Spoken Script:** \"[Script tailored specifically to {target_role}]\"",
+  "audio_suggestion": "Specific music genre or sound vibe matching {target_role}",
+  "ad_copy": "Complete caption with CTA keyword tailored strictly to {target_role}",
+  "action_blueprint": "1. HOUR 1: [Immediate setup step for {target_role}]\n2. HOUR 6: [Deployment step for {target_role}]\n3. HOUR 48: [Optimization step for {target_role}]",
   "competitor_intelligence": "• **Top Competitor Focus:** [Style/Angle]\n• **Optimal Format/Duration:** [Format]\n• **Target Benchmarks:** [CTR / Growth Metrics]"
 }}
 """
@@ -683,178 +745,136 @@ with left_col:
         )
         base_score = signal_scores.get(chart_keyword, 90.0)
 
+    # Historical & Velocity Forecast Plot
     days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"]
-    multiplier = base_score / 100.0
-    velocity_values = [
-        int(25 * multiplier),
-        int(50 * multiplier),
-        int(85 * multiplier),
-        int(100 * multiplier),
-        int(94 * multiplier),
-        int(82 * multiplier),
-        int(70 * multiplier),
+    velocity_curve = [
+        round(base_score * 0.6, 1),
+        round(base_score * 0.72, 1),
+        round(base_score * 0.85, 1),
+        round(base_score * 0.94, 1),
+        round(base_score, 1),
+        round(base_score * 1.08, 1),
+        round(base_score * 1.15, 1),
     ]
 
-    fig_df = pd.DataFrame(
-        {"Day": days, "Demand Trajectory": velocity_values}
-    )
+    fig_df = pd.DataFrame({"Timeline": days, "Signal Velocity Index": velocity_curve})
     fig = px.line(
         fig_df,
-        x="Day",
-        y="Demand Trajectory",
-        title=f"7-Day Trend Velocity Curve: {chart_keyword[:35]}...",
+        x="Timeline",
+        y="Signal Velocity Index",
         markers=True,
+        line_shape="spline",
+        title=f"Demand Index Trajectory for '{sanitize_trend_input(chart_keyword)}'",
     )
-    fig.update_traces(line_color="#ff4b4b", line_width=3)
+    fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=8)
     fig.update_layout(
-        margin=dict(l=20, r=20, t=40, b=20),
-        height=280,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white"),
+        font_color="#ffffff" if st.get_option("theme.base") == "dark" else "#000000",
+        height=320,
     )
     st.plotly_chart(fig, use_container_width=True)
 
+# ==========================================
+# 8. RIGHT COLUMN: MASTER BLUEPRINT GENERATOR
+# ==========================================
 with right_col:
     st.subheader(t["matrix_title"])
 
     if not st.session_state["is_premium"]:
-        st.error(t["locked_title"])
+        st.warning(t["locked_title"])
         st.info(t["locked_info"])
-
-        first_keyword = (
-            active_signals[0]["Keyword"] if active_signals else "Asset"
-        )
-
-        st.warning(f"💡 Pro Teaser Preview for: {first_keyword}")
-        st.write("🔒 **Predictive Growth Rate:** 85% - 98% Viral Probability")
-        st.write("🔒 **Trend Blueprint:** [Locked - Pro Only]")
-        st.write(
-            '🔒 **Viral Script Hook:** "The ultimate lifestyle upgrade everyone'
-            ' is switching to..." [Locked]'
-        )
-
-        st.link_button(
-            t["upgrade_btn"],
-            STRIPE_CHECKOUT_URL,
-            type="primary",
-            use_container_width=True,
+        st.markdown(
+            f'<a href="{STRIPE_CHECKOUT_URL}" target="_blank"><button style="background-color:#ff4b4b;color:white;border:none;padding:12px 20px;border-radius:6px;font-weight:bold;cursor:pointer;width:100%;">{t["upgrade_btn"]}</button></a>',
+            unsafe_allow_html=True,
         )
     else:
+        available_keywords = [item["Keyword"] for item in active_signals]
         if custom_search.strip():
-            target_keyword = custom_search.strip()
-            target_score = 95.0
-            st.info(f"{t['analyzing_custom']} **{target_keyword}**")
-        else:
-            keyword_list = [item["Keyword"] for item in active_signals]
-            target_keyword = st.selectbox(t["select_asset"], keyword_list)
-            target_score = signal_scores.get(target_keyword, 92.0)
+            available_keywords.insert(0, custom_search.strip())
 
-        user_role = st.radio(
+        selected_asset = st.selectbox(t["select_asset"], options=available_keywords, index=0)
+        target_role = st.selectbox(
             t["operating_role"],
             [
                 "Content Creator / Influencer",
                 "E-Commerce Merchant / Dropshipper",
                 "Agency Owner / Freelancer",
             ],
-            horizontal=True,
+            index=0,
         )
 
-        gen_btn_clicked = st.button(t["gen_blueprint"], type="primary", use_container_width=True)
+        gen_click = st.button(t["gen_blueprint"], use_container_width=True)
 
-        if gen_btn_clicked:
-            with st.spinner("Processing fully synchronized trend matrices..."):
-                st.session_state["blueprint_result"] = generate_master_intelligence(
-                    target_keyword,
+        if gen_click or "active_blueprint" not in st.session_state:
+            with st.spinner("Generating role-specific AI strategy..."):
+                current_score = signal_scores.get(selected_asset, 89.2)
+                blueprint = generate_master_intelligence(
+                    selected_asset,
                     selected_category,
                     selected_sub_niche,
-                    user_role,
+                    target_role,
                     platform_source,
                     timeframe,
-                    target_score,
+                    current_score,
                     selected_lang,
                 )
-                st.session_state["target_keyword"] = target_keyword
-                st.session_state["selected_category"] = selected_category
-                st.session_state["user_role"] = user_role
+                st.session_state["active_blueprint"] = blueprint
+                st.session_state["active_asset"] = selected_asset
+                st.session_state["active_role"] = target_role
 
-        if "blueprint_result" in st.session_state and st.session_state["blueprint_result"]:
-            result = st.session_state["blueprint_result"]
-            active_target = st.session_state.get("target_keyword", target_keyword)
-            active_cat = st.session_state.get("selected_category", selected_category)
-            active_role = st.session_state.get("user_role", user_role)
+        bp = st.session_state.get("active_blueprint", {})
+        curr_asset = st.session_state.get("active_asset", selected_asset)
+        curr_role = st.session_state.get("active_role", target_role)
 
-            st.success(
-                f"🎯 Signal Strategy Blueprint Generated: **{active_target}**"
+        if bp:
+            st.success(f"{t['score_label']}: {bp.get('viral_score', '90.0%')}")
+
+            with st.container(border=True):
+                st.markdown(f"#### {t['monetization']}")
+                st.markdown(bp.get("profit_model", ""))
+
+                st.markdown(f"#### {t['content_directives']}")
+                st.markdown(bp.get("content_directives", ""))
+
+                st.markdown(f"#### {t['hook']}")
+                st.markdown(bp.get("execution_hook", ""))
+
+                st.markdown(f"#### {t['audio']}")
+                st.write(bp.get("audio_suggestion", ""))
+
+                st.markdown(f"#### {t['caption']}")
+                st.code(bp.get("ad_copy", ""), language="markdown")
+
+                st.markdown(f"#### {t['plan']}")
+                st.markdown(bp.get("action_blueprint", ""))
+
+                st.markdown(f"#### {t['competitor_insight']}")
+                st.markdown(bp.get("competitor_intelligence", ""))
+
+            # Exporting Actions
+            pdf_buf = create_pdf_blueprint(
+                curr_asset,
+                selected_category,
+                curr_role,
+                bp.get("viral_score", "90.0%"),
+                bp.get("prediction_window", timeframe),
+                bp,
             )
 
-            st.markdown("#### 📊 Live Strategy Telemetry")
-            col_m1, col_m2 = st.columns(2)
-            with col_m1:
-                st.metric(
-                    label=t["score_label"], value=result.get("viral_score")
-                )
-            with col_m2:
-                st.info(
-                    f"**Monetization Window:**\n{result.get('prediction_window')}"
-                )
+            st.download_button(
+                t["export_pdf_btn"],
+                data=pdf_buf,
+                file_name=f"TrendPulse_Blueprint_{sanitize_trend_input(curr_asset)[:15]}.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+            )
 
-            st.markdown("---")
-
-            with st.expander(t["monetization"], expanded=True):
-                st.markdown(result.get("profit_model"))
-
-            if "content_directives" in result and result.get("content_directives"):
-                with st.expander(t["content_directives"], expanded=True):
-                    st.markdown(result.get("content_directives"))
-
-            with st.expander(t["hook"], expanded=True):
-                st.markdown(result.get("execution_hook"))
-
-            with st.expander(t["audio"]):
-                st.markdown(f"**Vibe:** {result.get('audio_suggestion')}")
-
-            with st.expander(t["caption"]):
-                st.code(result.get("ad_copy"), language="text")
-
-            with st.expander(t["plan"]):
-                st.markdown(result.get("action_blueprint"))
-
-            with st.expander(t["competitor_insight"]):
-                st.markdown(result.get("competitor_intelligence"))
-
-            st.markdown("---")
-            btn_pdf_col, btn_wa_col = st.columns(2)
-
-            with btn_pdf_col:
-                pdf_bytes = create_pdf_blueprint(
-                    active_target,
-                    active_cat,
-                    active_role,
-                    result.get("viral_score", "92%"),
-                    result.get("prediction_window", "7 Days"),
-                    result,
-                )
-                safe_file_name = re.sub(r'[^a-zA-Z0-9_]', '_', active_target[:20])
-                st.download_button(
-                    label=t["export_pdf_btn"],
-                    data=pdf_bytes,
-                    file_name=f"TrendPulse_Blueprint_{safe_file_name}.pdf",
-                    mime="application/pdf",
-                    use_container_width=True,
-                )
-
-            with btn_wa_col:
-                wa_msg = (
-                    f"⚡ *TrendPulse AI Blueprint*\n\n"
-                    f"🎯 *Asset:* {active_target}\n"
-                    f"📈 *Viral Score:* {result.get('viral_score')}\n"
-                    f"💰 *Monetization Model:* {result.get('profit_model')[:120]}...\n\n"
-                    f"Generated via TrendPulse AI Engine."
-                )
-                wa_url = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_msg)}"
-                st.link_button(
-                    t["share_wa_btn"],
-                    wa_url,
-                    use_container_width=True,
-                )
+            wa_text = urllib.parse.quote(
+                f"TrendPulse AI Strategy for {sanitize_trend_input(curr_asset)} ({curr_role}):\n"
+                f"Hook: {bp.get('execution_hook', '')[:100]}..."
+            )
+            st.markdown(
+                f'<a href="https://api.whatsapp.com/send?text={wa_text}" target="_blank"><button style="background-color:#25D366;color:white;border:none;padding:10px 15px;border-radius:6px;font-weight:bold;cursor:pointer;width:100%;margin-top:8px;">{t["share_wa_btn"]}</button></a>',
+                unsafe_allow_html=True,
+            )
