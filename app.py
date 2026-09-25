@@ -1,5 +1,6 @@
 import io
 import json
+import os
 import re
 import urllib.parse
 import xml.etree.ElementTree as ET
@@ -21,11 +22,12 @@ st.set_page_config(
     layout="wide",
 )
 
-GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", "")
+# API Key fallback check (Supports Streamlit secrets or OS Environment Variable)
+GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY", ""))
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
 # ==========================================
-# 2. UPDATED CATEGORY ARCHITECTURE & MAPPINGS
+# 2. CATEGORY ARCHITECTURE & MAPPINGS
 # ==========================================
 UPDATED_NICHE_CATEGORIES = {
     "🛒 E-Commerce & Viral Shopping": [
@@ -135,10 +137,7 @@ CATEGORY_SIGNALS_FALLBACK = {
 TEXTS = {
     "English": {
         "title": "⚡ TrendPulse AI: Commercial Signal Intelligence",
-        "subtitle": (
-            "Predictive Trend Intelligence | Automated Creator & Merchant"
-            " Signal Engine"
-        ),
+        "subtitle": "Predictive Trend Intelligence | Automated Creator & Merchant Signal Engine",
         "terminal": "🔑 Enterprise Access Terminal",
         "simulate_pro": "Simulate Pro Subscription Access",
         "config_title": "🎛️ Signal Intelligence Configuration",
@@ -157,10 +156,7 @@ TEXTS = {
         "chart_title": "📈 Dynamic Velocity & Demand Forecast Curve",
         "matrix_title": "💡 Actionable Intelligence & Strategy Matrix",
         "locked_title": "🔒 MULTI-CHANNEL BLUEPRINT IS LOCKED",
-        "locked_info": (
-            "Unlock high-converting scripts, viral hooks, ad copy, and"
-            " step-by-step execution plan."
-        ),
+        "locked_info": "Unlock high-converting scripts, viral hooks, ad copy, and step-by-step execution plan.",
         "upgrade_btn": "🔥 Upgrade to Pro & Unlock Full Engine",
         "analyzing_custom": "Analyzing Signal Potential for:",
         "select_asset": "🎯 Select Filtered Asset:",
@@ -168,8 +164,8 @@ TEXTS = {
         "gen_blueprint": "⚡ Generate Master Strategy Blueprint",
         "monetization": "💰 Direct High-ROI Monetization Model",
         "hook": "🎬 Visual Script & High-Retention Hook (Plug & Play)",
-        "audio": "🎵 Recommended High-Converting Audio Vibe",
-        "caption": "📢 High-ROAS Caption & CTA Framework",
+        "audio": "🎵 Recommended Audio / Tone Vibe",
+        "caption": "📢 Caption, Call to Action & Copy Framework",
         "plan": "📝 3-Step Rapid Execution Roadmap (Zero to Launch)",
         "score_label": "Predictive Viral Score",
         "export_pdf_btn": "📄 Download Blueprint PDF",
@@ -178,10 +174,7 @@ TEXTS = {
     },
     "Hindi": {
         "title": "⚡ TrendPulse AI: कमर्शियल सिग्नल इंटेलिजेंस",
-        "subtitle": (
-            "प्रेडिक्टिव ट्रेंड इंटेलिजेंस | ऑटोमेटेड क्रिएटर और मर्चेंट"
-            " सिग्नल इंजन"
-        ),
+        "subtitle": "प्रेडिक्टिव ट्रेंड इंटेलिजेंस | ऑटोमेटेड क्रिएटर और मर्चेंट सिग्नल इंजन",
         "terminal": "🔑 एंटरप्राइज एक्सेस टर्मिनल",
         "simulate_pro": "प्रो सब्सक्रिप्शन एक्सेस सिमुलेट करें",
         "config_title": "🎛️ सिग्नल इंटेलिजेंस कॉन्फ़िगरेशन",
@@ -200,10 +193,7 @@ TEXTS = {
         "chart_title": "📈 डायनेमिक वेलोसिटी और डिमांड फ़ोरकास्ट कर्व",
         "matrix_title": "💡 एक्शनएबल इंटेलिजेंस और स्ट्रैटेजी मैट्रिक्स",
         "locked_title": "🔒 मल्टी-चैनल ब्लूप्रिंट लॉक है",
-        "locked_info": (
-            "हाई-कन्वर्टिंग स्क्रिप्ट, वायरल हुक, एड कॉपी और एग्जीक्यूशन प्लान"
-            " अनलॉक करें।"
-        ),
+        "locked_info": "हाई-कन्वर्टिंग स्क्रिप्ट, वायरल हुक, एड कॉपी और एग्जीक्यूशन प्लान अनलॉक करें।",
         "upgrade_btn": "🔥 प्रो में अपग्रेड करें और पूरा इंजन अनलॉक करें",
         "analyzing_custom": "सिग्नल क्षमता का विश्लेषण:",
         "select_asset": "🎯 फ़िल्टर किया गया एसेट चुनें:",
@@ -211,8 +201,8 @@ TEXTS = {
         "gen_blueprint": "⚡ मास्टर स्ट्रैटेजी ब्लूप्रिंट जनरेट करें",
         "monetization": "💰 डायरेक्ट हाई-ROI मोनेटाइजेशन मॉडल",
         "hook": "🎬 विजुअल स्क्रिप्ट और हाई-रिटेंशन हुक (प्लग एंड प्ले)",
-        "audio": "🎵 अनुशंसित हाई-कन्वर्टिंग ऑडियो वाइब",
-        "caption": "📢 हाई-ROAS कैप्शन और CTA फ्रेमवर्क",
+        "audio": "🎵 अनुशंसित ऑडियो / टोन वाइब",
+        "caption": "📢 कैप्शन, कॉल टू एक्शन और कॉपी फ्रेमवर्क",
         "plan": "📝 3-चरणीय त्वरित एग्जीक्यूशन रोडमैप",
         "score_label": "अनुमानित वायरल स्कोर",
         "export_pdf_btn": "📄 ब्लूप्रिंट PDF डाउनलोड करें",
@@ -224,13 +214,19 @@ TEXTS = {
 # ==========================================
 # 4. HELPER FUNCTIONS & PDF ENGINE
 # ==========================================
-def safe_xml_text(text):
-    return (
+def safe_xml_text(text: str) -> str:
+    """Escapes XML elements and converts basic Markdown bold into ReportLab tags."""
+    if not text:
+        return ""
+    clean = (
         str(text)
         .replace("&", "&amp;")
         .replace("<", "&lt;")
         .replace(">", "&gt;")
     )
+    # Convert Markdown **bold** to ReportLab <b>bold</b>
+    clean = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', clean)
+    return clean
 
 def sanitize_trend_input(text: str) -> str:
     """Strips system tags, bracketed metadata, and formatting artifacts."""
@@ -266,7 +262,7 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     heading_style = ParagraphStyle(
         "HeadingStyle",
         parent=styles["Heading2"],
-        fontSize=14,
+        fontSize=13,
         textColor="#1a1a1a",
         spaceBefore=10,
         spaceAfter=6,
@@ -284,15 +280,13 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     story.append(Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style))
     story.append(
         Paragraph(
-            f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b>"
-            f" {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}",
+            f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}",
             body_style,
         )
     )
     story.append(
         Paragraph(
-            f"<b>Predictive Viral Score:</b> {safe_xml_text(viral_score)} |"
-            f" <b>Monetization Window:</b> {safe_xml_text(window)}",
+            f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Monetization Window:</b> {safe_xml_text(str(window))}",
             body_style,
         )
     )
@@ -301,8 +295,8 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     sections = [
         ("Monetization Model", result.get("profit_model", "")),
         ("Execution Hook & Visual Script", result.get("execution_hook", "")),
-        ("Recommended Audio Vibe", result.get("audio_suggestion", "")),
-        ("High-ROAS Caption & CTA", result.get("ad_copy", "")),
+        ("Recommended Audio / Tone Vibe", result.get("audio_suggestion", "")),
+        ("Caption, CTA & Ad Copy", result.get("ad_copy", "")),
         ("Action Roadmap", result.get("action_blueprint", "")),
         ("Competitor Ad Intelligence", result.get("competitor_intelligence", "")),
     ]
@@ -310,7 +304,7 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     for title, text in sections:
         story.append(Paragraph(title, heading_style))
         story.append(Paragraph(safe_xml_text(text), body_style))
-        story.append(Spacer(1, 6))
+        story.append(Spacer(1, 4))
 
     doc.build(story)
     buffer.seek(0)
@@ -368,7 +362,7 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
     return combined[:5]
 
 # ==========================================
-# 6. GROQ LLM BLUEPRINT GENERATOR
+# 6. GROQ LLM BLUEPRINT GENERATOR (WITH CATEGORY GATEKEEPING)
 # ==========================================
 def generate_master_intelligence(
     keyword_asset,
@@ -386,35 +380,67 @@ def generate_master_intelligence(
 
     sub_context = f" | Sub-Niche: '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
 
-    default_response = {
-        "viral_score": f"{velocity_score}%",
-        "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
-        "profit_model": (
-            f"• **Primary Funnel:** Direct-to-Consumer Growth Engine tailored for {target_role}.\n"
-            f"• **Execution Path:** Monetize demand for {clean_asset} via automated keyword DMs and direct link triggers."
-        ),
-        "execution_hook": (
-            f"• **0-3s Visual Cue:** Split-screen reaction cut with high-contrast text overlay on {clean_asset}.\n"
-            f"• **Text Overlay:** \"Did you see this coming? 🚨\"\n"
-            f"• **Spoken Script:** \"Everyone is talking about {clean_asset}, but almost nobody noticed this one detail...\""
-        ),
-        "audio_suggestion": "Upbeat Phonk / Fast-Paced Rhythmic Ambient",
-        "ad_copy": (
-            f"The latest updates on {clean_asset} are trending fast! 🔥\n\n"
-            "Comment 'SCALE' below for the exact strategy link delivered straight to your DMs!\n\n"
-            f"#{clean_asset.replace(' ', '')} #MarketIntelligence #TrendPulse"
-        ),
-        "action_blueprint": (
-            "1. HOUR 1: Record a 9:16 vertical clip using the visual hook and script above.\n"
-            "2. HOUR 6: Launch comment auto-responder sequence for keyword 'SCALE'.\n"
-            "3. DAY 2: Review retention metrics and scale budget on winning variations."
-        ),
-        "competitor_intelligence": (
-            f"• **Top Competitor Hook Style:** *'The real reason behind {clean_asset}...'*\n"
-            "• **Optimal Video Duration:** 11 - 16 seconds\n"
-            "• **Estimated Engagement Benchmark:** High (5.2% CTR / Rapid comment growth)"
-        ),
-    }
+    # Dynamic Fallback Logic based on Category Protection
+    if "Politics" in category or "Civic" in category:
+        default_response = {
+            "viral_score": f"{velocity_score}%",
+            "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
+            "profit_model": (
+                f"• **Primary Focus:** Strategic Policy Risk & Executive Briefing tailored for {target_role}.\n"
+                f"• **Execution Path:** Synthesize public sentiment and legislative impact on {clean_asset} into B2B advisory decks."
+            ),
+            "execution_hook": (
+                f"• **0-3s Visual Cue:** Executive summary graphic displaying policy impact metrics for {clean_asset}.\n"
+                f"• **Text Overlay:** \"Legislative Alert: {clean_asset[:20]}...\"\n"
+                f"• **Spoken Script:** \"Here is the key breakdown of how {clean_asset} impacts strategic operations...\""
+            ),
+            "audio_suggestion": "Corporate / Analytical & Neutral Audio Vibe",
+            "ad_copy": (
+                f"Executive Briefing on {clean_asset}.\n\n"
+                "Download the complete regulatory impact report and media framework.\n\n"
+                f"#{clean_asset.replace(' ', '')} #PolicyBrief #TrendPulse"
+            ),
+            "action_blueprint": (
+                "1. HOUR 1: Compile legislative data into executive risk summary.\n"
+                "2. HOUR 6: Dispatch policy briefing deck to institutional partners and media channels.\n"
+                "3. DAY 2: Monitor sentiment telemetry and update response protocols."
+            ),
+            "competitor_intelligence": (
+                f"• **Top Competitor Focus:** Strategic analysis of {clean_asset}.\n"
+                "• **Optimal Document Format:** Executive Summary Briefing / PDF Deck\n"
+                "• **Estimated Engagement:** High institutional readership"
+            ),
+        }
+    else:
+        default_response = {
+            "viral_score": f"{velocity_score}%",
+            "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
+            "profit_model": (
+                f"• **Primary Funnel:** Direct-to-Consumer Growth Engine tailored for {target_role}.\n"
+                f"• **Execution Path:** Monetize demand for {clean_asset} via automated keyword DMs and direct link triggers."
+            ),
+            "execution_hook": (
+                f"• **0-3s Visual Cue:** Split-screen reaction cut with high-contrast text overlay on {clean_asset}.\n"
+                f"• **Text Overlay:** \"Did you see this coming? 🚨\"\n"
+                f"• **Spoken Script:** \"Everyone is talking about {clean_asset}, but almost nobody noticed this one detail...\""
+            ),
+            "audio_suggestion": "Upbeat Phonk / Fast-Paced Rhythmic Ambient",
+            "ad_copy": (
+                f"The latest updates on {clean_asset} are trending fast! 🔥\n\n"
+                "Comment 'SCALE' below for the exact strategy link delivered straight to your DMs!\n\n"
+                f"#{clean_asset.replace(' ', '')} #MarketIntelligence #TrendPulse"
+            ),
+            "action_blueprint": (
+                "1. HOUR 1: Record a 9:16 vertical clip using the visual hook and script above.\n"
+                "2. HOUR 6: Launch comment auto-responder sequence for keyword 'SCALE'.\n"
+                "3. DAY 2: Review retention metrics and scale budget on winning variations."
+            ),
+            "competitor_intelligence": (
+                f"• **Top Competitor Hook Style:** *'The real reason behind {clean_asset}...'*\n"
+                "• **Optimal Video Duration:** 11 - 16 seconds\n"
+                "• **Estimated Engagement Benchmark:** High (5.2% CTR / Rapid comment growth)"
+            ),
+        }
 
     if not GROQ_API_KEY:
         return default_response
@@ -422,9 +448,9 @@ def generate_master_intelligence(
     try:
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
-You are an elite $100M+ Digital Growth Architect and Short-Form Content Strategist specializing in viral video hooks, high-ROAS social ads, and automated conversion funnels.
+You are TrendPulse AI, an enterprise-grade trend intelligence generator.
 
-Generate an enterprise-grade growth blueprint for:
+Generate a strategy blueprint dossier for:
 - Asset / Topic: "{clean_asset}"
 - Category: "{clean_cat}"{sub_context}
 - Operating Role: "{target_role}"
@@ -434,41 +460,40 @@ Generate an enterprise-grade growth blueprint for:
 - Target Language: {lang}
 
 =========================================
-STRICT QUALITY & CONTENT RULES:
+STRICT CATEGORY GUARDRAILS & RULES:
 =========================================
-1. NO AI CLICHÉS OR TEMPLATE FILLER:
-   - FORBIDDEN PHRASES: "The #1 mistake people are making...", "Unlocking maximum impact with...", "Here is the exact framework...", "Stop ignoring this major update...".
-   - Never output raw formatting codes, literal '\\n', or stray 'n' characters.
+1. CATEGORY PROTECTION & GATEKEEPING:
+   - IF Category is 'Politics, News & Civic Events' OR contains 'Civic/Political':
+     * STRICTLY BANNED: Consumer fluff, "Phonk music", "Comment 'SCALE'", B2C discount offers, and dropshipping tactics.
+     * MANDATORY: Institutional PR frameworks, policy risk briefs, media monitoring frameworks, executive crisis decks, and B2B retainers.
+   - IF Category is 'E-Commerce', 'Beauty', OR 'Digital Products':
+     * MANDATORY: Direct-response sales scripts, CAC/ROAS targets, ManyChat DM automation keywords, and upsell logic.
 
-2. ASSET-SPECIFIC REALISM:
-   - The visual cue, spoken script, and caption MUST directly reference specific details of "{clean_asset}" (e.g., if sports/entertainment, reference player snubs, squad reveals, fan debates; if ecommerce/tech, reference pain points or workflow hacks).
-   - Tailor the monetization strategy explicitly to the Operating Role ({target_role}).
-
-3. HOOK STRUCTURE (0-3 Seconds):
-   - Visual Cue: Specific camera shot, text placement, or rapid visual cut.
-   - On-Screen Text: Punchy, high-curiosity 3-7 word overlay in high-contrast bold font.
-   - Spoken Script: Natural, human-sounding 8-15 word pattern interrupt.
+2. ROLE ADAPTATION:
+   - Content Creator: Viral hooks (0-3s), retention arcs, DM automation, affiliate models.
+   - E-Commerce Merchant: PAS ad scripts, CAC/AOV/ROAS targets, post-checkout upsells.
+   - Agency Owner: Loom pitch angles, B2B retainers ($3.5k-$10k/mo), executive risk decks.
 
 =========================================
 JSON OUTPUT REQUIREMENTS:
 =========================================
-Return ONLY a valid JSON object matching this schema:
+Return ONLY a valid JSON object with this key structure:
 {{
   "viral_score": "{velocity_score}%",
-  "prediction_window": "Monetization lifecycle active window with specific timing details",
-  "profit_model": "• **Primary Funnel:** [Detailed role-specific monetization tactic for {target_role}]\n• **Execution Path:** [Step-by-step conversion mechanic using bio link / automated DM keywords]",
-  "execution_hook": "• **0-3s Visual Cue:** [Specific, high-energy opening camera shot & graphics]\n• **Text Overlay:** \"[Punchy 3-7 word viral overlay]\"\n• **Spoken Script:** \"[Natural, conversational 8-15 word pattern interrupt script]\"",
-  "audio_suggestion": "[Specific trending audio genre or viral sound vibe]",
-  "ad_copy": "[High-converting caption with direct CTA and 3 targeted hashtags]",
-  "action_blueprint": "1. HOUR 1: [Immediate creative assembly & platform publishing step]\n2. HOUR 6: [DM auto-responder setup & engagement trigger launch]\n3. DAY 2: [Metrics tracking, audience retention analysis, and scaling plan]",
-  "competitor_intelligence": "• **Top Competitor Hook Style:** *'[Real competitor hook example tailored to {clean_asset}]'*\n• **Optimal Video Duration:** [e.g., 11 - 15 seconds]\n• **Estimated Engagement Benchmark:** [e.g., 5.8% CTR / 12% Save Rate]"
+  "prediction_window": "Monetization lifecycle active window with timing details",
+  "profit_model": "Role-specific strategy description tailored to {target_role}",
+  "execution_hook": "• **0-3s Visual Cue:** [Opening camera shot/graphic]\n• **Text Overlay:** \"[3-7 word overlay]\"\n• **Spoken Script:** \"[Natural pattern interrupt script]\"",
+  "audio_suggestion": "Recommended audio or tone vibe matching category",
+  "ad_copy": "Targeted caption and CTA framework",
+  "action_blueprint": "1. HOUR 1: [Step 1]\n2. HOUR 6: [Step 2]\n3. DAY 2: [Step 3]",
+  "competitor_intelligence": "Competitor hook style and benchmarks"
 }}
 """
 
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.35,
+            temperature=0.3,
             response_format={"type": "json_object"},
         )
         return json.loads(completion.choices[0].message.content)
@@ -571,7 +596,7 @@ with left_col:
     st.subheader(t["telemetry_title"])
     custom_search = st.text_input(
         t["custom_search"],
-        placeholder="e.g. Ergonomic Desk, AI Workflow Tools, Pilgrimage Circuits",
+        placeholder="e.g. Ergonomic Desk, State Infrastructure Bill, Pilgrimage Circuits",
     )
 
     active_signals = fetch_filtered_radar_signals(
