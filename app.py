@@ -401,7 +401,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
                 ("Secret Welcome Bonus Credit Card Sign-Up Surge", "Fintech Reward Tracker")
             ]
         },
-        "🎓 Education, Careers & Jobs": [
+        "🎓 Education, Careers & Jobs": {
             "AI Upskilling & Tech Roadmaps": [
                 ("GenAI Prompt Engineering & LangChain Masterclass Surge", "Scaler & IIT Guwahati GenAI Track"),
                 ("Full-Stack Software Engineering Career Sprint", "100xEngineers Full-Stack Cohort"),
@@ -414,8 +414,8 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
                 ("Financial Modeling & Investment Banking Career Track", "CFI & Wall Street Prep Bootcamp"),
                 ("Digital Marketing & Performance Growth Hacking Hub", "CXL Institute Growth Track")
             ]
-        ],
-        "✈️ Travel, Hotels & Food": [
+        },
+        "✈️ Travel, Hotels & Food": {
             "Hidden Tourist Places": [
                 ("Hidden Valley Trekking Expedition Surge", "Zuluk, East Sikkim"),
                 ("Offbeat Cliffside Sunset Viewpoint Trend", "Vagamon Pine Forest, Kerala"),
@@ -428,7 +428,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
                 ("Hidden Blue Lagoon Natural Pool Spot", "Kakoti, Arunachal Pradesh"),
                 ("Ancient Cliff Fortress Exploration Trend", "Gingee Fort, Villupuram")
             ]
-        ]
+        }
     }
 
     # Fallback generator for categories/sub-niches not explicitly hardcoded above
@@ -442,7 +442,6 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
         ]
         
     if not active_pool:
-        # Pull any available list from the category or generate clean domain-specific items
         for s_key, s_list in cat_dict.items():
             active_pool.extend(s_list)
             
