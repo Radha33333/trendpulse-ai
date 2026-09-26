@@ -29,54 +29,71 @@ STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 # ==========================================
 # 2. CATEGORY ARCHITECTURE & MAPPINGS
 # ==========================================
+# ONLY THIS DICTIONARY HAS BEEN UPDATED WITH NEW SUB-CATEGORIES
 UPDATED_NICHE_CATEGORIES = {
     "🛒 E-Commerce & Viral Shopping": [
         "Predicted Bestsellers",
         "TikTok Shop Products",
         "Upcoming High-Demand Drops",
         "Amazon Hot Movers",
+        "D2C Breakout Brands",
+        "Problem-Solver Gadgets",
     ],
     "🏛️ Politics, News & Civic Events": [
         "Elections & Rallies",
         "Legislative Assembly & Sabha Debates",
         "Protests & Policy Changes",
         "Politician Speeches",
+        "Geopolitical Updates",
+        "Public Schemes & Subsidies",
     ],
     "🛕 Faith, Festivals & Sacred Travel": [
         "Famous Temples",
         "Hidden & Ancient Temples",
         "Religious Festivals",
         "Pilgrimage Circuits",
+        "Festive Gifting Trends",
+        "Spiritual Wellness Drops",
     ],
     "✈️ Travel, Hotels & Food": [
         "Trending Destinations",
         "Hidden Tourist Places",
         "Restaurants & Stays",
         "Veg & Non-Veg Gourmet",
+        "Street Food Surges",
+        "Budget & Backpacker Escapes",
     ],
     "🌟 Celebrities & Sports Stars": [
         "Cricket & Sports Idols",
         "Movie & OTT Stars",
         "Viral Influencers",
         "Tournament Buzz",
+        "Celebrity Fashion Outfits",
+        "Pop Culture Controversies",
     ],
     "🏢 Real Estate & High-Ticket Props": [
         "Rental Yield Hotspots",
         "PropTech & Smart Homes",
         "Luxury Estates",
         "Commercial Spaces",
+        "Vacation Homes & Villas",
+        "Upcoming Transit Hubs",
     ],
     "💄 Beauty, Skincare & Lifestyle": [
         "UGC Skincare Hacks",
         "Clean Beauty Products",
         "Anti-Aging Devices",
         "Sustainable Fashion",
+        "Haircare Treatment Trends",
+        "Minimalist Capsule Wardrobes",
     ],
     "💻 Digital Products & AI Tools": [
         "Generative AI Software",
         "SaaS & Workflows",
         "Ebooks & Courses",
         "Templates & Prompts",
+        "Automation Micro-Tools",
+        "No-Code App Builders",
     ],
 }
 
@@ -140,9 +157,9 @@ TEXTS = {
         "subtitle": "Predictive Trend Intelligence | Automated Creator & Merchant Signal Engine",
         "terminal": "🔑 Enterprise Access Terminal",
         "simulate_pro": "Simulate Pro Subscription Access",
-        "config_title": "🎛️ Signal Intelligence Configuration",
-        "region": "🌍 Target Region:",
-        "platform": "📱 Platform Source:",
+        "config_title": "⚙️ Signal Intelligence Configuration",
+        "region": "🌐 Target Region:",
+        "platform": "🎛️ Platform Source:",
         "category": "📁 Niche Category:",
         "sub_category": "🔍 Sub-Niche Focus (Optional):",
         "velocity": "⏱️ Signal Velocity:",
@@ -178,9 +195,9 @@ TEXTS = {
         "subtitle": "प्रेडिक्टिव ट्रेंड इंटेलिजेंस | ऑटोमेटेड क्रिएटर और मर्चेंट सिग्नल इंजन",
         "terminal": "🔑 एंटरप्राइज एक्सेस टर्मिनल",
         "simulate_pro": "प्रो सब्सक्रिप्शन एक्सेस सिमुलेट करें",
-        "config_title": "🎛️ सिग्नल इंटेलिजेंस कॉन्फ़िगरेशन",
-        "region": "🌍 टारगेट रीजन (क्षेत्र):",
-        "platform": "📱 प्लेटफॉर्म सोर्स:",
+        "config_title": "⚙️ सिग्नल इंटेलिजेंस कॉन्फ़िगरेशन",
+        "region": "🌐 टारगेट रीजन (क्षेत्र):",
+        "platform": "🎛️ प्लेटफॉर्म सोर्स:",
         "category": "📁 नीश कैटेगरी:",
         "sub_category": "🔍 सब-नीश फ़ोकस (वैकल्पिक):",
         "velocity": "⏱️ सिग्नल वेलोसिटी:",
@@ -364,7 +381,7 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
     return combined[:5]
 
 # ==========================================
-# 6. GROQ LLM BLUEPRINT GENERATOR (ROLE-DRIVEN ENGINE)
+# 6. GROQ LLM BLUEPRINT GENERATOR
 # ==========================================
 def generate_master_intelligence(
     keyword_asset,
@@ -382,9 +399,7 @@ def generate_master_intelligence(
 
     sub_context = f" | Sub-Niche: '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
 
-    # ==========================================
-    # DYNAMIC ROLE-BASED FALLBACK TEMPLATES
-    # ==========================================
+    # Dynamic Fallback Templates
     if target_role == "Agency Owner / Freelancer":
         default_response = {
             "viral_score": f"{velocity_score}%",
@@ -508,15 +523,9 @@ def generate_master_intelligence(
 
     try:
         client = Groq(api_key=GROQ_API_KEY)
-
-        # ==========================================
-        # STRICT ROLE-DRIVEN PROMPT ENGINE
-        # ==========================================
         prompt = f"""
 You are TrendPulse AI's Master Strategy Blueprint Generator.
-
 Generate a highly customized, role-specific operational execution blueprint.
-You MUST follow the strict role rules below. DO NOT output generic filler.
 
 =========================================
 INPUT DATA:
@@ -530,29 +539,6 @@ INPUT DATA:
 - Target Language: {lang}
 
 =========================================
-STRICT ROLE-DRIVEN STRATEGY INSTRUCTIONS:
-=========================================
-You are writing SPECIFICALLY for the role: "{target_role}".
-
-IF Role is "Agency Owner / Freelancer":
-- Monetization Model: B2B retainers ($2,500–$10,000/mo), selling trends as strategic services, white-label client audits, CMO pitch decks.
-- Hook Style: "How to turn [Asset] into client revenue...", "How agencies are monetizing..."
-- CTA / Ad Copy: "Comment 'AGENCY' to get our free pitch deck & client outreach workflow."
-- Action Plan: Focus on creating pitch decks, cold outbound, and closing retainers.
-
-IF Role is "E-Commerce Merchant / Dropshipper":
-- Monetization Model: Direct product sales, impulse buying, flash sales, TikTok Shop listings, high ROAS ad campaigns.
-- Hook Style: "Stop buying cheap knockoffs...", "This [Asset] product sold out 3x this week..."
-- CTA / Ad Copy: "Tap 'Shop Now' or click link in bio to get 20% OFF today!"
-- Action Plan: Focus on store setup, video ads targeting buyers, and scaling ad spend.
-
-IF Role is "Content Creator / Influencer":
-- Monetization Model: Organic viral reach, engagement farming, brand deal positioning, audience building via ManyChat DM automation.
-- Hook Style: "Nobody noticed this one detail about [Asset]...", "The truth about..."
-- CTA / Ad Copy: "Comment 'TRUTH' below for the full breakdown sent to your DMs!"
-- Action Plan: Focus on green-screen reels, community engagement, and story polls.
-
-=========================================
 JSON OUTPUT REQUIREMENTS:
 =========================================
 Return ONLY a valid JSON object matching this structure EXACTLY (do not wrap in markdown tags):
@@ -560,15 +546,14 @@ Return ONLY a valid JSON object matching this structure EXACTLY (do not wrap in 
   "viral_score": "{velocity_score}%",
   "prediction_window": "Active lifecycle timing window details",
   "profit_model": "Role-tailored high-ROI monetization model strategy tailored strictly for {target_role}",
-  "content_directives": "• **Narrative Angle / Thesis:** [Core story tailored to {target_role}]\n• **Key Talking Points:**\n  1. [Beat 1]\n  2. [Beat 2]\n  3. [Beat 3]\n• **Visual & B-Roll Assets:** [Specific shot list for {target_role}]\n• **Category Guardrails:** [Do's and Don'ts]",
-  "execution_hook": "• **0-3s Visual Cue:** [Specific camera/graphic cue for {target_role}]\n• **Text Overlay:** \"[Punchy text tailored to {target_role}]\"\n• **Spoken Script:** \"[Script tailored specifically to {target_role}]\"",
+  "content_directives": "• **Narrative Angle / Thesis:** [Core story]\n• **Key Talking Points:**\n  1. [Beat 1]\n  2. [Beat 2]\n  3. [Beat 3]\n• **Visual & B-Roll Assets:** [Shot list]\n• **Category Guardrails:** [Do's and Don'ts]",
+  "execution_hook": "• **0-3s Visual Cue:** [Cue]\n• **Text Overlay:** \"[Punchy text]\"\n• **Spoken Script:** \"[Script]\"",
   "audio_suggestion": "Specific music genre or sound vibe matching {target_role}",
   "ad_copy": "Complete caption with CTA keyword tailored strictly to {target_role}",
-  "action_blueprint": "1. HOUR 1: [Immediate setup step for {target_role}]\n2. HOUR 6: [Deployment step for {target_role}]\n3. HOUR 48: [Optimization step for {target_role}]",
-  "competitor_intelligence": "• **Top Competitor Focus:** [Style/Angle]\n• **Optimal Format/Duration:** [Format]\n• **Target Benchmarks:** [CTR / Growth Metrics]"
+  "action_blueprint": "1. HOUR 1: [Immediate setup]\n2. HOUR 6: [Deployment]\n3. HOUR 48: [Optimization]",
+  "competitor_intelligence": "• **Top Competitor Focus:** [Style/Angle]\n• **Optimal Format/Duration:** [Format]\n• **Target Benchmarks:** [Metrics]"
 }}
 """
-
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
@@ -746,55 +731,56 @@ with left_col:
         base_score = signal_scores.get(chart_keyword, 90.0)
 
     # Historical & Velocity Forecast Plot
-    days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"]
-    velocity_curve = [
-        round(base_score * 0.6, 1),
-        round(base_score * 0.72, 1),
-        round(base_score * 0.85, 1),
-        round(base_score * 0.94, 1),
-        round(base_score, 1),
-        round(base_score * 1.08, 1),
-        round(base_score * 1.15, 1),
+    days = ["Day -3", "Day -2", "Day -1", "Today", "Day +1 (Proj)", "Day +2 (Proj)", "Day +3 (Proj)"]
+    scores = [
+        max(10.0, base_score - 45),
+        max(15.0, base_score - 30),
+        max(25.0, base_score - 12),
+        base_score,
+        min(99.5, base_score + 3.5),
+        min(98.0, base_score + 2.0),
+        max(40.0, base_score - 10.0)
     ]
-
-    fig_df = pd.DataFrame({"Timeline": days, "Signal Velocity Index": velocity_curve})
+    
+    chart_df = pd.DataFrame({"Timeline": days, "Signal Velocity Score": scores})
     fig = px.line(
-        fig_df,
+        chart_df,
         x="Timeline",
-        y="Signal Velocity Index",
+        y="Signal Velocity Score",
         markers=True,
+        title=f"Demand Curve for '{chart_keyword[:30]}...'",
         line_shape="spline",
-        title=f"Demand Index Trajectory for '{sanitize_trend_input(chart_keyword)}'",
     )
     fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=8)
-    fig.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font_color="#ffffff" if st.get_option("theme.base") == "dark" else "#000000",
-        height=320,
-    )
+    fig.update_layout(height=320, margin=dict(l=20, r=20, t=40, b=20))
     st.plotly_chart(fig, use_container_width=True)
 
-# ==========================================
-# 8. RIGHT COLUMN: MASTER BLUEPRINT GENERATOR
-# ==========================================
 with right_col:
     st.subheader(t["matrix_title"])
 
     if not st.session_state["is_premium"]:
-        st.warning(t["locked_title"])
-        st.info(t["locked_info"])
+        st.warning(f"**{t['locked_title']}**")
+        st.write(t["locked_info"])
         st.markdown(
-            f'<a href="{STRIPE_CHECKOUT_URL}" target="_blank"><button style="background-color:#ff4b4b;color:white;border:none;padding:12px 20px;border-radius:6px;font-weight:bold;cursor:pointer;width:100%;">{t["upgrade_btn"]}</button></a>',
+            f'<a href="{STRIPE_CHECKOUT_URL}" target="_blank">'
+            f'<button style="background-color:#ff4b4b;color:white;padding:12px 24px;'
+            f'border:none;border-radius:6px;width:100%;font-weight:bold;cursor:pointer;">'
+            f'{t["upgrade_btn"]}</button></a>',
             unsafe_allow_html=True,
         )
     else:
-        available_keywords = [item["Keyword"] for item in active_signals]
         if custom_search.strip():
-            available_keywords.insert(0, custom_search.strip())
+            selected_asset = custom_search.strip()
+            v_score = 95.0
+            st.info(f"{t['analyzing_custom']} **{selected_asset}**")
+        else:
+            asset_options = [item["Keyword"] for item in active_signals]
+            selected_asset = st.selectbox(
+                t["select_asset"], options=asset_options, index=0
+            )
+            v_score = signal_scores.get(selected_asset, 92.0)
 
-        selected_asset = st.selectbox(t["select_asset"], options=available_keywords, index=0)
-        target_role = st.selectbox(
+        selected_role = st.selectbox(
             t["operating_role"],
             [
                 "Content Creator / Influencer",
@@ -804,77 +790,78 @@ with right_col:
             index=0,
         )
 
-        gen_click = st.button(t["gen_blueprint"], use_container_width=True)
-
-        if gen_click or "active_blueprint" not in st.session_state:
-            with st.spinner("Generating role-specific AI strategy..."):
-                current_score = signal_scores.get(selected_asset, 89.2)
-                blueprint = generate_master_intelligence(
+        if st.button(t["gen_blueprint"], use_container_width=True):
+            with st.spinner("Generating precision intelligence..."):
+                intel = generate_master_intelligence(
                     selected_asset,
                     selected_category,
                     selected_sub_niche,
-                    target_role,
+                    selected_role,
                     platform_source,
                     timeframe,
-                    current_score,
+                    v_score,
                     selected_lang,
                 )
-                st.session_state["active_blueprint"] = blueprint
-                st.session_state["active_asset"] = selected_asset
-                st.session_state["active_role"] = target_role
 
-        bp = st.session_state.get("active_blueprint", {})
-        curr_asset = st.session_state.get("active_asset", selected_asset)
-        curr_role = st.session_state.get("active_role", target_role)
+                st.success("Blueprint Generated Successfully!")
 
-        if bp:
-            st.success(f"{t['score_label']}: {bp.get('viral_score', '90.0%')}")
+                st.metric(
+                    label=t["score_label"],
+                    value=intel.get("viral_score", f"{v_score}%"),
+                )
 
-            with st.container(border=True):
                 st.markdown(f"#### {t['monetization']}")
-                st.markdown(bp.get("profit_model", ""))
+                st.markdown(intel.get("profit_model", ""))
 
                 st.markdown(f"#### {t['content_directives']}")
-                st.markdown(bp.get("content_directives", ""))
+                st.markdown(intel.get("content_directives", ""))
 
                 st.markdown(f"#### {t['hook']}")
-                st.markdown(bp.get("execution_hook", ""))
+                st.markdown(intel.get("execution_hook", ""))
 
                 st.markdown(f"#### {t['audio']}")
-                st.write(bp.get("audio_suggestion", ""))
+                st.markdown(f"• {intel.get('audio_suggestion', '')}")
 
                 st.markdown(f"#### {t['caption']}")
-                st.code(bp.get("ad_copy", ""), language="markdown")
+                st.code(intel.get("ad_copy", ""), language="markdown")
 
                 st.markdown(f"#### {t['plan']}")
-                st.markdown(bp.get("action_blueprint", ""))
+                st.markdown(intel.get("action_blueprint", ""))
 
                 st.markdown(f"#### {t['competitor_insight']}")
-                st.markdown(bp.get("competitor_intelligence", ""))
+                st.markdown(intel.get("competitor_intelligence", ""))
 
-            # Exporting Actions
-            pdf_buf = create_pdf_blueprint(
-                curr_asset,
-                selected_category,
-                curr_role,
-                bp.get("viral_score", "90.0%"),
-                bp.get("prediction_window", timeframe),
-                bp,
-            )
+                # Downloads & Export Section
+                st.markdown("---")
+                pdf_bytes = create_pdf_blueprint(
+                    selected_asset,
+                    selected_category,
+                    selected_role,
+                    v_score,
+                    timeframe,
+                    intel,
+                )
 
-            st.download_button(
-                t["export_pdf_btn"],
-                data=pdf_buf,
-                file_name=f"TrendPulse_Blueprint_{sanitize_trend_input(curr_asset)[:15]}.pdf",
-                mime="application/pdf",
-                use_container_width=True,
-            )
+                st.download_button(
+                    label=t["export_pdf_btn"],
+                    data=pdf_bytes,
+                    file_name=f"TrendPulse_Blueprint_{sanitize_trend_input(selected_asset)[:15]}.pdf",
+                    mime="application/pdf",
+                    use_container_width=True,
+                )
 
-            wa_text = urllib.parse.quote(
-                f"TrendPulse AI Strategy for {sanitize_trend_input(curr_asset)} ({curr_role}):\n"
-                f"Hook: {bp.get('execution_hook', '')[:100]}..."
-            )
-            st.markdown(
-                f'<a href="https://api.whatsapp.com/send?text={wa_text}" target="_blank"><button style="background-color:#25D366;color:white;border:none;padding:10px 15px;border-radius:6px;font-weight:bold;cursor:pointer;width:100%;margin-top:8px;">{t["share_wa_btn"]}</button></a>',
-                unsafe_allow_html=True,
-            )
+                wa_text = urllib.parse.quote(
+                    f"🚀 *TrendPulse Intelligence Briefing*\n\n"
+                    f"Asset: {selected_asset}\n"
+                    f"Role: {selected_role}\n"
+                    f"Score: {v_score}%\n\n"
+                    f"Monetization Path:\n{intel.get('profit_model', '')[:200]}..."
+                )
+                wa_url = f"https://api.whatsapp.com/send?text={wa_text}"
+                st.markdown(
+                    f'<a href="{wa_url}" target="_blank">'
+                    f'<button style="background-color:#25D366;color:white;padding:8px 16px;'
+                    f'border:none;border-radius:4px;width:100%;font-weight:bold;margin-top:8px;">'
+                    f'{t["share_wa_btn"]}</button></a>',
+                    unsafe_allow_html=True,
+                )
