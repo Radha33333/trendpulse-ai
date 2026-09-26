@@ -95,6 +95,65 @@ UPDATED_NICHE_CATEGORIES = {
     ],
 }
 
+CATEGORY_SIGNALS_FALLBACK = {
+    "🛒 E-Commerce & Viral Shopping": [
+        "Next-Gen Ergonomic Desk Accessories",
+        "Smart Pet Grooming Hardware",
+        "Self-Cleaning Water Bottles",
+        "Aesthetic MagSafe Powerbanks",
+        "Portable Thermal Printers",
+    ],
+    "🏛️ Politics, News & Civic Events": [
+        "Assembly Election Rallies & Turnout",
+        "Parliament Digital Economy Policy Debates",
+        "State Infrastructure Bill & Public Protests",
+        "Civic Reform & Election Key Speeches",
+        "Cabinet Subsidies & Policy Framework",
+    ],
+    "🛕 Faith, Festivals & Sacred Travel": [
+        "Unexplored Ancient Temples Circuit Travel",
+        "Upcoming Festival Handicrafts & Festive Decor",
+        "Pilgrimage Eco-Resorts & VIP Pass Trends",
+        "Historic Temple Heritage Restoration",
+        "Spiritual Wellness Sacred Oils",
+    ],
+    "✈️ Travel, Hotels & Food": [
+        "Hidden Hill Station Stays & Eco-Resorts",
+        "Regional Non-Veg Fusion Food Spots",
+        "Fine Dining Cloud Kitchen Collaborations",
+        "Offbeat Coastal Escapes & Stays",
+        "Authentic Local Street Food Trails",
+    ],
+    "🌟 Celebrities & Sports Stars": [
+        "World Cup Squad Announcements & Fan Buzz",
+        "OTT Blockbuster Movie Trailer Drops",
+        "Athlete Fitness Routines & Brand Endorsements",
+        "Viral Pop Culture Influencer Moments",
+        "Celebrity Airport Outfit Lookbooks",
+    ],
+    "🏢 Real Estate & High-Ticket Props": [
+        "High Yield Tier-2 City Commercial Hubs",
+        "AI-Integrated PropTech Smart Homes",
+        "Luxury Gated Communities & Villas",
+        "Co-Living & Flexible Work Spaces",
+        "Expressway Corridor Land Plots",
+    ],
+    "💄 Beauty, Skincare & Lifestyle": [
+        "Micro-Needling & Anti-Aging At-Home Devices",
+        "Korean Glass-Skin Serum UGC Campaigns",
+        "Sustainable Organic Linen Capsule Wardrobe",
+        "Clean Eco-Friendly Cosmetics",
+        "Scalp Exfoliation Scrubs & Hair Oils",
+    ],
+    "💻 Digital Products & AI Tools": [
+        "Automated AI Workflow & Prompt Libraries",
+        "Micro-SaaS Invoicing & Booking Plugins",
+        "Digital Notion Planners & Finance Dashboards",
+        "Generative Video Editing Extensions",
+        "No-Code Marketplace Frameworks",
+    ],
+}
+
 SUBNICHE_SIGNALS_FALLBACK = {
     "Predicted Bestsellers": ["Ergonomic Desk Accessories", "Self-Cleaning Water Bottles", "MagSafe Powerbanks", "Aesthetic Desk Lamp"],
     "TikTok Shop Products": ["Viral Sunset Lamp", "Micro-Needling Patch", "Aesthetic Ice Roller", "Heatless Hair Curler"],
@@ -180,16 +239,15 @@ TEXTS = {
         "locked_title": "🔒 MULTI-CHANNEL BLUEPRINT IS LOCKED",
         "locked_info": "Unlock high-converting scripts, viral hooks, ad copy, and step-by-step execution plan.",
         "upgrade_btn": "🔥 Upgrade to Pro & Unlock Full Engine",
+        "analyzing_custom": "Analyzing Signal Potential for:",
         "select_asset": "🎯 Select Filtered Asset:",
         "operating_role": "👤 Operating Role:",
         "gen_blueprint": "⚡ Generate Master Strategy Blueprint",
-        "locations": "📍 Specific Hotspots & Locations:",
         "monetization": "💰 Direct High-ROI Monetization Model",
         "content_directives": "🎬 Role-Specific Content Directives & Story Blueprint",
         "hook": "⚡ Visual Hook & Pattern Interrupt Script (0-3s)",
         "audio": "🎵 Recommended Audio / Tone Directives",
         "caption": "📢 Caption, Call to Action & Copy Framework",
-        "ready_prompt": "🎨 Ready-To-Use GenAI Prompt (For Visuals / Assets):",
         "plan": "⏱️ Time-Chunked Action Roadmap (0-1h, 6h, 48h)",
         "score_label": "Predictive Viral Score",
         "export_pdf_btn": "📄 Download Blueprint PDF",
@@ -219,16 +277,15 @@ TEXTS = {
         "locked_title": "🔒 मल्टी-चैनल ब्लूप्रिंट लॉक है",
         "locked_info": "हाई-कन्वर्टिंग स्क्रिप्ट, वायरल हुक, एड कॉपी और एग्जीक्यूशन प्लान अनलॉक करें।",
         "upgrade_btn": "🔥 प्रो में अपग्रेड करें और पूरा इंजन अनलॉक करें",
+        "analyzing_custom": "सिग्नल क्षमता का विश्लेषण:",
         "select_asset": "🎯 फ़िल्टर किया गया एसेट चुनें:",
         "operating_role": "👤 आपकी भूमिका (Role):",
         "gen_blueprint": "⚡ मास्टर स्ट्रैटेजी ब्लूप्रिंट जनरेट करें",
-        "locations": "📍 विशिष्ट स्थान / हॉटस्पॉट्स:",
         "monetization": "💰 डायरेक्ट हाई-ROI मोनेटाइजेशन मॉडल",
         "content_directives": "🎬 रोल-स्पेसिफिक कंटेंट डायरेक्टिव्स और स्टोरी ब्लूप्रिंट",
         "hook": "⚡ विजुअल हुक और पैटर्न इंटरप्ट स्क्रिप्ट (0-3s)",
         "audio": "🎵 अनुशंसित ऑडियो / टोन डायरेक्टिव्स",
         "caption": "📢 कैप्शन, कॉल टू एक्शन और कॉपी फ्रेमवर्क",
-        "ready_prompt": "🎨 रेडी-टू-यूज़ GenAI प्रॉम्प्ट (विजुअल्स/एसेट्स के लिए):",
         "plan": "⏱️ टाइम-चंक्ड एक्शन रोडमैप (0-1h, 6h, 48h)",
         "score_label": "अनुमानित वायरल स्कोर",
         "export_pdf_btn": "📄 ब्लूप्रिंट PDF डाउनलोड करें",
@@ -243,7 +300,12 @@ TEXTS = {
 def safe_xml_text(text: str) -> str:
     if not text:
         return ""
-    clean = str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    clean = (
+        str(text)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
     clean = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', clean)
     return clean
 
@@ -251,7 +313,7 @@ def sanitize_trend_input(text: str) -> str:
     if not text:
         return ""
     cleaned = re.sub(r'\[.*?\]', '', text)
-    cleaned = re.sub(r'[^\w\s\-\.\,\/\&\(\)]', '', cleaned)
+    cleaned = re.sub(r'^\s*n\s+', '', cleaned)
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     return cleaned
 
@@ -261,83 +323,127 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
 
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
-        buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36
+        buffer,
+        pagesize=letter,
+        rightMargin=36,
+        leftMargin=36,
+        topMargin=36,
+        bottomMargin=36,
     )
     styles = getSampleStyleSheet()
 
-    title_style = ParagraphStyle("TitleStyle", parent=styles["Heading1"], fontSize=18, textColor="#ff4b4b", spaceAfter=12)
-    heading_style = ParagraphStyle("HeadingStyle", parent=styles["Heading2"], fontSize=11, textColor="#1a1a1a", spaceBefore=8, spaceAfter=4)
-    body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=8.5, leading=12, textColor="#333333", spaceAfter=6)
+    title_style = ParagraphStyle(
+        "TitleStyle",
+        parent=styles["Heading1"],
+        fontSize=20,
+        textColor="#ff4b4b",
+        spaceAfter=12,
+    )
+    heading_style = ParagraphStyle(
+        "HeadingStyle",
+        parent=styles["Heading2"],
+        fontSize=13,
+        textColor="#1a1a1a",
+        spaceBefore=10,
+        spaceAfter=6,
+    )
+    body_style = ParagraphStyle(
+        "BodyStyle",
+        parent=styles["Normal"],
+        fontSize=10,
+        leading=14,
+        textColor="#333333",
+        spaceAfter=8,
+    )
 
-    story = [
-        Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style),
-        Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}", body_style),
-        Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
-        Spacer(1, 8)
-    ]
+    story = []
+    story.append(Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style))
+    story.append(
+        Paragraph(
+            f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}",
+            body_style,
+        )
+    )
+    story.append(
+        Paragraph(
+            f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Monetization Window:</b> {safe_xml_text(str(window))}",
+            body_style,
+        )
+    )
+    story.append(Spacer(1, 10))
 
     sections = [
-        ("📍 Targeted Locations / Specific Hotspots", result.get("targeted_locations", "")),
         ("Monetization Model", result.get("profit_model", "")),
         ("Role-Specific Content Directives", result.get("content_directives", "")),
         ("Execution Hook & Visual Script", result.get("execution_hook", "")),
         ("Recommended Audio / Tone Vibe", result.get("audio_suggestion", "")),
         ("Caption, CTA & Ad Copy", result.get("ad_copy", "")),
-        ("🎨 Ready-To-Use GenAI Prompt", result.get("ready_prompt", "")),
         ("Action Roadmap", result.get("action_blueprint", "")),
         ("Competitor Ad Intelligence", result.get("competitor_intelligence", "")),
     ]
 
     for title, text in sections:
-        if text:
-            story.append(Paragraph(title, heading_style))
-            story.append(Paragraph(safe_xml_text(text), body_style))
-            story.append(Spacer(1, 3))
+        story.append(Paragraph(title, heading_style))
+        story.append(Paragraph(safe_xml_text(text), body_style))
+        story.append(Spacer(1, 4))
 
     doc.build(story)
     buffer.seek(0)
     return buffer
 
 # ==========================================
-# 5. FULLY SYNCED PIPELINE WITH ZERO GAPS
+# 5. DATA PIPELINE WITH PLATFORM + CATEGORY FILTER FIX
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, timeframe):
+    """
+    FIXED: Platform, Category & Sub-Niche-specific signal isolation.
+    """
     results = []
     
-    region_term = "India" if region == "IN" else ("US" if region == "US" else "")
+    # 1. Clean query context string
     sub_ctx = f"{sub_niche}" if (sub_niche and sub_niche != "All Sub-Niches") else ""
-    query_text = f"{category.split()[-1]} {sub_ctx} {region_term}".strip()
+    query_text = f"{category.split()[-1]} {sub_ctx}".strip()
     search_query = urllib.parse.quote(query_text)
     
+    # Platform tag formatting
     platform_name = platform_source.split()[1] if len(platform_source.split()) > 1 else platform_source
 
+    # 2. PLATFORM SPECIFIC FETCHING LOGIC
     if "Reddit" in platform_source:
         try:
             url = f"https://www.reddit.com/search.json?q={search_query}&sort=hot&limit=10"
             headers = {"User-Agent": "Mozilla/5.0 TrendPulseAI/2.0"}
-            res = requests.get(url, headers=headers, timeout=4)
-            if res.status_code == 200:
-                data = res.json()
+            response = requests.get(url, headers=headers, timeout=4)
+            if response.status_code == 200:
+                data = response.json()
                 for post in data.get("data", {}).get("children", []):
                     title = post["data"].get("title", "")
                     score = post["data"].get("score", 0)
+                    comments = post["data"].get("num_comments", 0)
                     if title:
-                        results.append({"Keyword": f"[Reddit] {title[:70]}...", "Volume": f"{score:,} Upvotes"})
+                        results.append({
+                            "Keyword": f"[Reddit] {title[:75]}...",
+                            "Volume": f"{score:,} Upvotes | {comments:,} Comments"
+                        })
         except Exception:
             pass
 
     elif "YouTube" in platform_source:
         try:
             url = f"https://www.youtube.com/feeds/videos.xml?search_query={search_query}"
-            res = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=4)
-            if res.status_code == 200:
-                root = ET.fromstring(res.content)
+            headers = {"User-Agent": "Mozilla/5.0"}
+            response = requests.get(url, headers=headers, timeout=4)
+            if response.status_code == 200:
+                root = ET.fromstring(response.content)
                 ns = {"atom": "http://www.w3.org/2005/Atom"}
                 for entry in root.findall("atom:entry", ns):
                     title_elem = entry.find("atom:title", ns)
                     if title_elem is not None and title_elem.text:
-                        results.append({"Keyword": f"[YouTube] {title_elem.text[:70]}", "Volume": f"High Demand ({timeframe})"})
+                        results.append({
+                            "Keyword": f"[YouTube] {title_elem.text[:75]}",
+                            "Volume": f"High Video Search ({timeframe})"
+                        })
         except Exception:
             pass
 
@@ -345,35 +451,41 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
         try:
             geo_code = region if region != "ALL" else ""
             url = f"https://trends.google.com/trends/trendingsearches/daily/rss?geo={geo_code}"
-            res = requests.get(url, timeout=4)
-            if res.status_code == 200:
-                root = ET.fromstring(res.content)
+            response = requests.get(url, timeout=4)
+            if response.status_code == 200:
+                root = ET.fromstring(response.content)
                 for item in root.findall(".//item"):
                     title = item.find("title")
                     traffic = item.find("{https://trends.google.com/trends/trendingsearches/daily}approx_traffic")
                     if title is not None and title.text:
-                        results.append({"Keyword": f"[Google] {title.text}", "Volume": f"{traffic.text if traffic is not None else '100K+'} Searches"})
+                        vol = traffic.text if traffic is not None else "100K+"
+                        results.append({
+                            "Keyword": f"[Google] {title.text}",
+                            "Volume": f"{vol} Searches"
+                        })
         except Exception:
             pass
 
+    # 3. DYNAMIC PLATFORM + CATEGORY FALLBACK
     if len(results) < 5:
         if sub_niche in SUBNICHE_SIGNALS_FALLBACK:
             base_pool = SUBNICHE_SIGNALS_FALLBACK[sub_niche]
         else:
-            base_pool = [f"{category.split()[-1]} Surge", f"Viral {sub_niche}", f"Top Choice {region_term}", "Breakout Signal"]
+            base_pool = CATEGORY_SIGNALS_FALLBACK.get(category, ["Trending Topic"])
 
-        platform_mods = {
-            "TikTok": ["Viral Hook", "Shop Hot Seller", "POV Trend"],
-            "Instagram": ["Reels Audio Surge", "Ad Spurt", "Carousel Trend"],
-            "Google": ["High Intent Query", "Breakout Search", "Volume Surge"],
-            "X (Twitter)": ["Realtime Hashtag", "Trending Thread"],
-            "Reddit": ["Community Spike", "AMA Viral Post"],
-            "Amazon": ["Movers & Shakers", "Bestsellers Category"],
-            "YouTube": ["Shorts Viral Clip", "High CTR Topic"]
+        platform_modifiers = {
+            "TikTok": ["Viral Challenge", "Trending Sound Blueprint", "TikTok Shop Best Seller", "POV Hook Trend"],
+            "Instagram": ["Reels Audio Surge", "Aesthetic Carousel Trend", "Viral Story Angle", "Ad Creative Spurt"],
+            "Google": ["High Intent Search", "Breakout Query", "Volume Spike Keyword", "Trending Organic Search"],
+            "Pinterest": ["Visual Aesthetic Moodboard", "DIY Pin Surge", "Design Inspiration Vector"],
+            "X (Twitter)": ["Realtime Hashtag Buzz", "Trending Thread Topic", "Breaking Sentiment Wave"],
+            "Reddit": ["Community Discussion Spike", "AMA Viral Post", "Megathread Discussion"],
+            "Amazon": ["Movers & Shakers Surge", "High Conversion Product", "Bestsellers Category Rank"],
+            "YouTube": ["Shorts Viral Clip", "High CTR Video Topic", "Search Demand Surge"]
         }
-        
+
         current_mod = ["Trending Signal"]
-        for p_key, mods in platform_mods.items():
+        for p_key, mods in platform_modifiers.items():
             if p_key in platform_source:
                 current_mod = mods
                 break
@@ -383,34 +495,58 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
                 break
             mod = current_mod[i % len(current_mod)]
             results.append({
-                "Keyword": f"[{platform_name}] {item} ({mod})",
-                "Volume": f"{(95 - i * 11) * 10}K+ Interactions ({region})"
+                "Keyword": f"[{platform_name}] {item} - {mod}",
+                "Volume": f"{(100 - i * 12) * 10}K+ Interactions ({timeframe})"
             })
 
     return results[:5]
 
 # ==========================================
-# 6. GROQ LLM BLUEPRINT GENERATOR (DYNAMIC ENHANCED)
+# 6. GROQ LLM BLUEPRINT GENERATOR
 # ==========================================
-def generate_master_intelligence(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
+def generate_master_intelligence(
+    keyword_asset,
+    category,
+    sub_niche,
+    target_role,
+    platform,
+    timeframe,
+    velocity_score,
+    lang,
+):
     clean_asset = sanitize_trend_input(keyword_asset)
     clean_cat = sanitize_trend_input(category)
     clean_sub = sanitize_trend_input(sub_niche)
 
-    sub_ctx = f" focusing on '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
+    sub_context_str = f" strictly targeting '{clean_sub}' under '{clean_cat}'" if clean_sub and clean_sub != "All Sub-Niches" else f" in '{clean_cat}'"
 
     default_response = {
         "viral_score": f"{velocity_score}%",
-        "prediction_window": f"Active Timing Window ({timeframe})",
-        "targeted_locations": f"📍 Relevant Hotspots: Key locations, platforms, or specific sub-regions associated with {clean_asset}.",
-        "profit_model": f"• **Primary Funnel:** Direct High-ROI Strategy for {target_role} in {clean_cat}{sub_ctx}.\n• **Execution Path:** Monetize '{clean_asset}' through targeted ads/content.",
-        "content_directives": f"• **Narrative Angle:** Capturing momentum of '{clean_asset}'.\n• **Core Message:** Solution-focused value proposition.",
-        "execution_hook": f"• **0-3s Cue:** Dynamic visual introducing {clean_asset}.\n• **Text Overlay:** \"Why everyone is talking about {clean_asset[:20]}...\"\n• **Script:** \"Here is what you need to know about {clean_asset}...\"",
-        "audio_suggestion": "Upbeat Commercial Audio / High-Energy Vibe",
-        "ad_copy": f"Discover how {clean_asset} is trending in {clean_cat}. Tap link to learn more! #{clean_asset.replace(' ', '')}",
-        "ready_prompt": f"Create a high-converting 8K realistic thumbnail or visual asset for {clean_asset} targeted at {target_role}. Professional lighting, dramatic overlay text.",
-        "action_blueprint": "1. HOUR 1: Prepare assets and hook.\n2. HOUR 6: Launch campaign on platform.\n3. DAY 2: Optimize based on engagement.",
-        "competitor_intelligence": "• **Benchmark:** Top 15% retention performance tier.",
+        "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
+        "profit_model": (
+            f"• **Primary Funnel:** Direct High-ROI Conversion Channel{sub_context_str}.\n"
+            f"• **Execution Path:** Capitalize on '{clean_asset}' by creating role-specific offers targeting active demand."
+        ),
+        "content_directives": (
+            f"• **Narrative Angle:** Explaining how to leverage {clean_asset} in {clean_sub if clean_sub else clean_cat}.\n"
+            f"• **Key Points:**\n"
+            f"  1. Primary opportunity in {clean_asset}.\n"
+            f"  2. Sub-niche implementation strategy.\n"
+            f"  3. Conversion & retention hook."
+        ),
+        "execution_hook": (
+            f"• **0-3s Visual Cue:** High-contrast visual introducing '{clean_asset}'.\n"
+            f"• **Text Overlay:** \"What everyone missed about {clean_asset[:20]}...\"\n"
+            f"• **Spoken Script:** \"Here is how to take advantage of {clean_asset} right now...\""
+        ),
+        "audio_suggestion": "Trending Beat / Industry Narrative Tone",
+        "ad_copy": f"Discover how {clean_asset} is changing {clean_sub if clean_sub else clean_cat}. Tap link to learn more! #{clean_asset.replace(' ', '')}",
+        "action_blueprint": (
+            "1. HOUR 1: Draft content or offer around this signal.\n"
+            "2. HOUR 6: Launch test campaign or video.\n"
+            "3. DAY 2: Optimize based on engagement analytics."
+        ),
+        "competitor_intelligence": "• **Benchmark:** High initial hook retention (Top 10% performance tier)",
     }
 
     if not GROQ_API_KEY:
@@ -419,38 +555,36 @@ def generate_master_intelligence(keyword_asset, category, sub_niche, target_role
     try:
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
-Return ONLY a raw valid JSON object (no markdown, no backticks).
-Analyze:
-Asset: "{clean_asset}"
-Category: "{clean_cat}"
-Sub-Niche: "{clean_sub}"
-Role: "{target_role}"
-Platform: "{platform}"
-Language: {lang}
+You are TrendPulse AI's Master Strategy Blueprint Generator.
+Generate a highly customized, role-specific operational execution blueprint.
 
-IMPORTANT SPECIAL INSTRUCTIONS:
-1. "targeted_locations": List 3 to 4 specific real-world locations, landmarks, hubs, or sub-regions highly relevant to "{clean_asset}" in "{clean_cat}".
-2. "ready_prompt": Create a ready-to-use, copy-paste AI prompt (for Midjourney/ChatGPT/Sora/Canva) tailored specifically for a {target_role} to build high-converting marketing visuals or ad assets.
+INPUT DATA:
+- Asset / Topic: "{clean_asset}"
+- Main Category: "{clean_cat}"
+- Target Sub-Niche: "{clean_sub if clean_sub else 'General'}"
+- Operating Role: "{target_role}"
+- Platform Focus: "{platform}"
+- Timeframe: "{timeframe}"
+- Viral Score: {velocity_score}%
+- Target Language: {lang}
 
-JSON Format:
+Return ONLY a valid JSON object matching this structure EXACTLY:
 {{
   "viral_score": "{velocity_score}%",
-  "prediction_window": "Lifecycle timing details",
-  "targeted_locations": "📍 Specific hot spots / real-world places / specific platforms related to this asset",
-  "profit_model": "Step by step monetization model",
-  "content_directives": "• **Narrative Angle:** ...\\n• **Key Points:** ...",
-  "execution_hook": "• **0-3s Cue:** ...\\n• **Overlay:** ...\\n• **Script:** ...",
-  "audio_suggestion": "Audio vibe",
-  "ad_copy": "Ad copy and hashtags",
-  "ready_prompt": "Ready-to-use AI Generation Prompt",
-  "action_blueprint": "1. HOUR 1: ...\\n2. HOUR 6: ...\\n3. DAY 2: ...",
-  "competitor_intelligence": "• **Benchmark:** ..."
+  "prediction_window": "Active timing window details",
+  "profit_model": "Role-tailored strategy for {target_role} in {clean_sub if clean_sub else clean_cat}",
+  "content_directives": "• **Narrative Angle:** [Angle]\n• **Key Points:** [Points]",
+  "execution_hook": "• **0-3s Cue:** [Cue]\n• **Overlay:** \"[Text]\"\n• **Script:** \"[Script]\"",
+  "audio_suggestion": "Audio style",
+  "ad_copy": "Caption and CTA",
+  "action_blueprint": "1. HOUR 1: [Setup]\n2. HOUR 6: [Launch]\n3. HOUR 48: [Scale]",
+  "competitor_intelligence": "• **Competitor Angle:** [Style]"
 }}
 """
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.2,
+            temperature=0.3,
             response_format={"type": "json_object"},
         )
         return json.loads(completion.choices[0].message.content)
@@ -477,16 +611,21 @@ with head_col1:
 st.markdown("---")
 
 with st.expander(t["terminal"]):
-    st.session_state["is_premium"] = st.checkbox(t["simulate_pro"], value=st.session_state["is_premium"])
+    st.session_state["is_premium"] = st.checkbox(
+        t["simulate_pro"], value=st.session_state["is_premium"]
+    )
 
 st.markdown(f"### {t['config_title']}")
 
-# Dynamic Filter Form
+# Dynamic UI Filter Form
 with st.form(key="filter_form"):
     f_col1, f_col2, f_col3, f_col4, f_col5 = st.columns(5)
 
     with f_col1:
-        geo_option = st.selectbox(t["region"], ["India (IN)", "United States (US)", "United Kingdom (GB)", "Global (ALL)"])
+        geo_option = st.selectbox(
+            t["region"],
+            ["India (IN)", "United States (US)", "United Kingdom (GB)", "Global (ALL)"],
+        )
         geo_map = {"India (IN)": "IN", "United States (US)": "US", "United Kingdom (GB)": "GB", "Global (ALL)": "ALL"}
 
     with f_col2:
@@ -506,14 +645,25 @@ with st.form(key="filter_form"):
         )
 
     with f_col3:
-        selected_category = st.selectbox(t["category"], options=list(UPDATED_NICHE_CATEGORIES.keys()), index=0)
+        selected_category = st.selectbox(
+            t["category"],
+            options=list(UPDATED_NICHE_CATEGORIES.keys()),
+            index=0
+        )
 
     with f_col4:
         sub_niche_options = UPDATED_NICHE_CATEGORIES.get(selected_category, [])
-        selected_sub_niche = st.selectbox(t["sub_category"], options=["All Sub-Niches"] + sub_niche_options, index=0)
+        selected_sub_niche = st.selectbox(
+            t["sub_category"],
+            options=["All Sub-Niches"] + sub_niche_options,
+            index=0
+        )
 
     with f_col5:
-        timeframe = st.selectbox(t["velocity"], ["Realtime Spike (24h)", "Short-Term Trend (7 Days)", "Viral Surge (3-7 Days)", "Macro Trend (30 Days)"])
+        timeframe = st.selectbox(
+            t["velocity"],
+            ["Realtime Spike (24h)", "Short-Term Trend (7 Days)", "Viral Surge (3-7 Days)", "Macro Trend (30 Days)"],
+        )
 
     apply_filters = st.form_submit_button(t["apply_btn"], use_container_width=True)
 
@@ -523,22 +673,26 @@ left_col, right_col = st.columns([1.3, 0.7], gap="large")
 
 with left_col:
     st.subheader(t["telemetry_title"])
-    
     custom_search = st.text_input(
         t["custom_search"],
         placeholder="e.g. Ergonomic Desk, State Infrastructure Bill, Pilgrimage Circuits",
     )
 
     active_signals = fetch_filtered_radar_signals(
-        geo_map[geo_option], platform_source, selected_category, selected_sub_niche, timeframe
+        geo_map[geo_option], 
+        platform_source, 
+        selected_category, 
+        selected_sub_niche, 
+        timeframe
     )
 
-    if custom_search.strip():
-        custom_item = {"Keyword": f"[Custom Search] {custom_search.strip()}", "Volume": f"Realtime Query ({geo_option})"}
-        if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
-            active_signals.insert(0, custom_item)
-
-    future_forecast_options = ["🔥 High Growth (7 Days)", "🚀 Viral Peak Expected", "📈 Steady Surge", "⚡ Breakout Candidate", "📊 Emerging Trend"]
+    future_forecast_options = [
+        "🔥 High Growth (Next 7 Days)",
+        "🚀 Viral Peak Expected",
+        "📈 Steady Upward Surge",
+        "⚡ Breakout Candidate",
+        "📊 Emerging Trend",
+    ]
 
     table_data = []
     signal_scores = {}
@@ -556,12 +710,19 @@ with left_col:
 
     df = pd.DataFrame(table_data)
     sub_title_ctx = f" | Sub: `{selected_sub_niche}`" if selected_sub_niche != "All Sub-Niches" else ""
-    st.markdown(f"**{t['active_signals_for']}** `{selected_category}`{sub_title_ctx} | `{platform_source}` | `{geo_option}`")
-    st.dataframe(df, use_container_width=True, hide_index=True)
+    st.markdown(
+        f"**{t['active_signals_for']}** `{selected_category}`{sub_title_ctx} | `{platform_source}` | `{geo_option}`"
+    )
+
+    st.dataframe(
+        df,
+        use_container_width=True,
+        hide_index=True,
+    )
 
     st.markdown(f"#### {t['chart_title']}")
 
-    chart_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
+    chart_keyword = custom_search.strip() if custom_search.strip() else (active_signals[0]["Keyword"] if active_signals else "Asset")
     base_score = signal_scores.get(chart_keyword, 90.0)
 
     days = ["Day -3", "Day -2", "Day -1", "Today", "Day +1 (Proj)", "Day +2 (Proj)", "Day +3 (Proj)"]
@@ -576,7 +737,14 @@ with left_col:
     ]
 
     chart_df = pd.DataFrame({"Timeline": days, "Velocity Score": scores})
-    fig = px.line(chart_df, x="Timeline", y="Velocity Score", markers=True, line_shape="spline", title=f"Trajectory: {chart_keyword}")
+    fig = px.line(
+        chart_df,
+        x="Timeline",
+        y="Velocity Score",
+        markers=True,
+        line_shape="spline",
+        title=f"Trajectory: {chart_keyword}",
+    )
     fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=8)
     st.plotly_chart(fig, use_container_width=True)
 
@@ -591,6 +759,9 @@ with right_col:
         st.success("🔓 PRO ENGINE ACTIVE")
 
         asset_list = [item["Keyword"] for item in active_signals]
+        if custom_search.strip():
+            asset_list.insert(0, f"[Custom] {custom_search.strip()}")
+
         selected_asset = st.selectbox(t["select_asset"], options=asset_list, index=0)
 
         target_role = st.selectbox(
@@ -610,7 +781,7 @@ with right_col:
         if gen_btn or "last_result" in st.session_state:
             if gen_btn:
                 curr_score = signal_scores.get(selected_asset, 94.5)
-                with st.spinner("Generating Multi-Channel Commercial Strategy..."):
+                with st.spinner("Processing Commercial Signals & Multi-Channel Script Engine..."):
                     result = generate_master_intelligence(
                         selected_asset,
                         selected_category,
@@ -636,11 +807,6 @@ with right_col:
             m_col2.metric("Lifecycle Window", result.get("prediction_window", timeframe))
 
             st.markdown("---")
-
-            # 1. NEW: Target Locations/Hotspots Display
-            st.markdown(f"#### {t['locations']}")
-            st.info(result.get("targeted_locations", ""))
-
             st.markdown(f"#### {t['monetization']}")
             st.markdown(result.get("profit_model", ""))
 
@@ -656,10 +822,6 @@ with right_col:
             st.markdown(f"#### {t['caption']}")
             st.code(result.get("ad_copy", ""), language="text")
 
-            # 2. NEW: Ready to Use GenAI Prompt Display
-            st.markdown(f"#### {t['ready_prompt']}")
-            st.code(result.get("ready_prompt", ""), language="text")
-
             st.markdown(f"#### {t['plan']}")
             st.text(result.get("action_blueprint", ""))
 
@@ -668,8 +830,14 @@ with right_col:
 
             st.markdown("---")
 
+            # PDF Generator Download
             pdf_bytes = create_pdf_blueprint(
-                selected_asset, selected_category, target_role, curr_score, timeframe, result
+                selected_asset,
+                selected_category,
+                target_role,
+                curr_score,
+                timeframe,
+                result,
             )
 
             d_col1, d_col2 = st.columns(2)
@@ -692,7 +860,7 @@ with right_col:
                 )
                 st.markdown(
                     f'<a href="https://wa.me/?text={wa_text}" target="_blank">'
-                    f'<button style="width:100%; padding:8px; border-radius:5px; background-color:#25D366; color:white; border:none; font-weight:bold; cursor:pointer;">'
+                    f'<button style="width:100%; padding:8px; border-radius:5px; background-color:#25D366; color:white; border:none; fontweight:bold; cursor:pointer;">'
                     f'{t["share_wa_btn"]}</button></a>',
                     unsafe_allow_html=True,
                 )
