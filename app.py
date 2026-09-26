@@ -2,6 +2,7 @@ import io
 import json
 import os
 import re
+import sqlite3
 import urllib.parse
 import xml.etree.ElementTree as ET
 from groq import Groq
@@ -14,21 +15,17 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 import streamlit as st
 
 # ==========================================
-# 1. PAGE CONFIG & GLOBAL STYLING (PHASE 1 UI)
+# 1. PAGE CONFIG & GLOBAL STYLING (PHASE 2)
 # ==========================================
 st.set_page_config(
-    page_title="TrendPulse AI - Commercial Signal Intelligence",
+    page_title="TrendPulse AI - System Architecture & Enterprise Backend",
     page_icon="⚡",
     layout="wide",
 )
 
-# Custom CSS Injection for Enterprise UI/UX (Phase 1 Glassmorphism)
 st.markdown("""
 <style>
-    .main {
-        background-color: #0e1117;
-        color: #fafafa;
-    }
+    .main { background-color: #0e1117; color: #fafafa; }
     div[data-testid="stMetric"] {
         background: linear-gradient(135deg, #1e222b 0%, #11141d 100%);
         border: 1px solid #2d3748;
@@ -36,25 +33,15 @@ st.markdown("""
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
-    h1, h2, h3 {
-        font-family: 'Inter', sans-serif;
-        letter-spacing: -0.5px;
-    }
+    h1, h2, h3 { font-family: 'Inter', sans-serif; letter-spacing: -0.5px; }
     .stButton>button {
         background: linear-gradient(90deg, #ff4b4b 0%, #ff6b6b 100%);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
+        color: white; border: none; border-radius: 6px; font-weight: 600;
         transition: all 0.3s ease;
     }
     .stButton>button:hover {
         background: linear-gradient(90deg, #e03e3e 0%, #ff4b4b 100%);
         box-shadow: 0 4px 12px rgba(255, 75, 75, 0.4);
-    }
-    .streamlit-expanderHeader {
-        background-color: #1a1e29;
-        border-radius: 6px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -63,199 +50,189 @@ GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY", ""))
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
 # ==========================================
-# 2. FINAL 20 MASTER CATEGORIES & 120 SUB-NICHES
+# 2. PHASE 2: DATABASE INITIALIZATION (SQL)
+# ==========================================
+def init_database():
+    conn = sqlite3.connect("trendpulse_architecture.db", check_same_thread=False)
+    cursor = conn.cursor()
+
+    # Users Table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users_table (
+            user_id TEXT PRIMARY KEY,
+            email TEXT,
+            selected_role TEXT,
+            preferences TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    # Platform Signals Table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS platform_signals (
+            signal_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            source_platform TEXT,
+            keyword TEXT,
+            engagement_metrics TEXT,
+            region TEXT,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    # Niches Master Table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS niches_table (
+            category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            category_name TEXT,
+            sub_niche_name TEXT
+        )
+    """)
+
+    # Trends Table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS trends_table (
+            trend_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            trend_name TEXT,
+            category_name TEXT,
+            velocity_score REAL,
+            saturation_index TEXT,
+            emergence_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    # Blueprints Table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS blueprints_table (
+            blueprint_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            trend_name TEXT,
+            role_type TEXT,
+            generated_script TEXT,
+            ad_copy TEXT,
+            prompts TEXT,
+            funnel_steps TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    conn.commit()
+    return conn
+
+db_conn = init_database()
+
+# ==========================================
+# 3. FINAL 20 MASTER CATEGORIES & 120 SUB-NICHES
 # ==========================================
 UPDATED_NICHE_CATEGORIES = {
     "🛒 E-Commerce & Viral Shopping": [
-        "TikTok Shop & Live Deals",
-        "Amazon Hot Movers & Bestsellers",
-        "D2C Breakout & DTC Brands",
-        "Problem-Solver Gadgets",
-        "Print-on-Demand & Custom Merch",
-        "Upcoming High-Demand Drops",
+        "TikTok Shop & Live Deals", "Amazon Hot Movers & Bestsellers", "D2C Breakout & DTC Brands",
+        "Problem-Solver Gadgets", "Print-on-Demand & Custom Merch", "Upcoming High-Demand Drops"
     ],
     "🏢 Real Estate & High-Ticket Props": [
-        "Rental Yield Hotspots",
-        "PropTech & Smart Homes",
-        "Luxury Estates & Villas",
-        "Commercial & Co-Working Spaces",
-        "Fractional Real Estate & REITs",
-        "Upcoming Transit & Metro Hubs",
+        "Rental Yield Hotspots", "PropTech & Smart Homes", "Luxury Estates & Villas",
+        "Commercial & Co-Working Spaces", "Fractional Real Estate & REITs", "Upcoming Transit & Metro Hubs"
     ],
     "🚗 Automobile, EV & Mobility": [
-        "EV Launches & Battery Tech",
-        "ADAS, Dashcams & Smart Tech",
-        "Car & Bike Accessories / Gadgets",
-        "Auto Reviews & Mileage Hacks",
-        "Custom Bike & Supercar Buzz",
-        "Commuter Vehicle Price Drops",
+        "EV Launches & Battery Tech", "ADAS, Dashcams & Smart Tech", "Car & Bike Accessories / Gadgets",
+        "Auto Reviews & Mileage Hacks", "Custom Bike & Supercar Buzz", "Commuter Vehicle Price Drops"
     ],
     "👶 Parenting, Baby Care & Kids": [
-        "Baby Gear & Smart Strollers",
-        "Early Childhood EdTech & Toys",
-        "Modern Parenting & Routine Hacks",
-        "Kids Nutrition & Organic Foods",
-        "Maternity & Postpartum Care",
-        "Family Lifestyle & Travel Gear",
+        "Baby Gear & Smart Strollers", "Early Childhood EdTech & Toys", "Modern Parenting & Routine Hacks",
+        "Kids Nutrition & Organic Foods", "Maternity & Postpartum Care", "Family Lifestyle & Travel Gear"
     ],
     "🐾 Pets & Animal Care": [
-        "Pet Health & Nutrition",
-        "Dog & Cat Training Hacks",
-        "Smart Pet Accessories & Tech",
-        "Cute & Funny Pet Virals",
-        "Grooming & Hygiene Products",
-        "Breed Guides & Adoption Signals",
+        "Pet Health & Nutrition", "Dog & Cat Training Hacks", "Smart Pet Accessories & Tech",
+        "Cute & Funny Pet Virals", "Grooming & Hygiene Products", "Breed Guides & Adoption Signals"
     ],
     "💰 Finance, Crypto & Wealth Building": [
-        "Credit Card & Reward Hacks",
-        "Stock Market & Algo Trading Bots",
-        "Crypto & Web3 Signals",
-        "Side Hustles & Passive Income",
-        "Personal Tax & Saving Strategies",
-        "Real Estate & Fractional Investing",
+        "Credit Card & Reward Hacks", "Stock Market & Algo Trading Bots", "Crypto & Web3 Signals",
+        "Side Hustles & Passive Income", "Personal Tax & Saving Strategies", "Real Estate & Fractional Investing"
     ],
     "💼 Business, Startups & Entrepreneurship": [
-        "Startup Funding & Pitch Decks",
-        "Solopreneur & One-Person Business",
-        "AI Automation Agencies (AAA)",
-        "Freelancing & Agency Scaling",
-        "Growth Hacking & B2B Marketing",
-        "E-Commerce Supply Chain & Fulfillment",
+        "Startup Funding & Pitch Decks", "Solopreneur & One-Person Business", "AI Automation Agencies (AAA)",
+        "Freelancing & Agency Scaling", "Growth Hacking & B2B Marketing", "E-Commerce Supply Chain & Fulfillment"
     ],
     "💻 Digital Products & AI Tools": [
-        "Vibe Coding & Code Extensions",
-        "Generative AI & SaaS Tools",
-        "Notion & Productivity Dashboards",
-        "Digital Ebooks & Online Courses",
-        "UI/UX Templates & Prompt Packs",
-        "No-Code App Builders & Micro-Tools",
+        "Vibe Coding & Code Extensions", "Generative AI & SaaS Tools", "Notion & Productivity Dashboards",
+        "Digital Ebooks & Online Courses", "UI/UX Templates & Prompt Packs", "No-Code App Builders & Micro-Tools"
     ],
     "🎓 Education, Careers & Jobs": [
-        "Govt Exam Dates & Prep Hacks",
-        "AI Upskilling & Tech Roadmaps",
-        "Study Abroad Scholarships & Visas",
-        "Resume, Portfolio & Interview Hacks",
-        "Remote Job & Hiring Alerts",
-        "College Campus & Placement Trends",
+        "Govt Exam Dates & Prep Hacks", "AI Upskilling & Tech Roadmaps", "Study Abroad Scholarships & Visas",
+        "Resume, Portfolio & Interview Hacks", "Remote Job & Hiring Alerts", "College Campus & Placement Trends"
     ],
     "🌿 Sustainability & Green Tech": [
-        "Solar Power & Home Energy",
-        "Zero-Waste Lifestyle & Reusables",
-        "Organic & Sustainable Fashion",
-        "Clean Tech & Carbon Offsets",
-        "Eco-Friendly Packaging Solutions",
-        "Electric Mobility & Micro-Transit",
+        "Solar Power & Home Energy", "Zero-Waste Lifestyle & Reusables", "Organic & Sustainable Fashion",
+        "Clean Tech & Carbon Offsets", "Eco-Friendly Packaging Solutions", "Electric Mobility & Micro-Transit"
     ],
     "🎬 Movies, OTT & Series": [
-        "Box Office Collections & Predictions",
-        "OTT Releases & Platform Buzz",
-        "Teasers, Trailers & Fan Theories",
-        "Celebrity Cast Interviews & BTS",
-        "Regional Cinema Surges",
-        "Reviews, Recaps & Ending Explained",
+        "Box Office Collections & Predictions", "OTT Releases & Platform Buzz", "Teasers, Trailers & Fan Theories",
+        "Celebrity Cast Interviews & BTS", "Regional Cinema Surges", "Reviews, Recaps & Ending Explained"
     ],
     "🎵 Music & Viral Sound Tracks": [
-        "Trending TikTok & Reels Sounds",
-        "Album Drops & Concert Tours",
-        "Regional & Folk Remix Surges",
-        "Indie Artists & Unsigned Talent",
-        "Lo-Fi & Instrumental Tracks",
-        "Dance Challenges & Cover Videos",
+        "Trending TikTok & Reels Sounds", "Album Drops & Concert Tours", "Regional & Folk Remix Surges",
+        "Indie Artists & Unsigned Talent", "Lo-Fi & Instrumental Tracks", "Dance Challenges & Cover Videos"
     ],
     "🎭 Pop Culture, Memes & Drama": [
-        "Viral Meme Formats & Parodies",
-        "Creator Scandals & Internet Drama",
-        "Nostalgia & Throwback Trends",
-        "Fan Theories & Fandom Culture",
-        "Viral Challenges & Trends",
-        "Reality TV & Live Broadcast Buzz",
+        "Viral Meme Formats & Parodies", "Creator Scandals & Internet Drama", "Nostalgia & Throwback Trends",
+        "Fan Theories & Fandom Culture", "Viral Challenges & Trends", "Reality TV & Live Broadcast Buzz"
     ],
     "🐉 Anime, Gaming & Fandom": [
-        "Esports Tournaments & Highlights",
-        "Mobile & PC Gaming Drops",
-        "Anime Episode Releases & Manga Leaks",
-        "Cosplay & Comic Conventions",
-        "Streamer Highlights & Clipped Moments",
-        "Gaming PC, Console & Gear Drops",
+        "Esports Tournaments & Highlights", "Mobile & PC Gaming Drops", "Anime Episode Releases & Manga Leaks",
+        "Cosplay & Comic Conventions", "Streamer Highlights & Clipped Moments", "Gaming PC, Console & Gear Drops"
     ],
     "🌟 Celebrities & Sports Stars": [
-        "Cricket & Sports Idols",
-        "Movie & OTT Stars",
-        "Viral Influencers & Vloggers",
-        "Tournament & League Buzz",
-        "Celebrity Fashion & Outfits",
-        "Pop Culture Controversies",
+        "Cricket & Sports Idols", "Movie & OTT Stars", "Viral Influencers & Vloggers",
+        "Tournament & League Buzz", "Celebrity Fashion & Outfits", "Pop Culture Controversies"
     ],
     "💄 Beauty, Skincare & Lifestyle": [
-        "UGC Skincare Hacks",
-        "K-Beauty & Glass Skin Trends",
-        "Anti-Aging & Beauty Devices",
-        "Men's Grooming & Beard Care",
-        "Haircare Treatment Trends",
-        "Minimalist Capsule Wardrobes",
+        "UGC Skincare Hacks", "K-Beauty & Glass Skin Trends", "Anti-Aging & Beauty Devices",
+        "Men's Grooming & Beard Care", "Haircare Treatment Trends", "Minimalist Capsule Wardrobes"
     ],
     "🏋️ Health, Fitness & Biohacking": [
-        "Gym & Home Workout Gear",
-        "Whey & Supplement Drops",
-        "Biohacking & Wearable Tech (Oura/Whoop)",
-        "Weight Loss & Nutrition Diets",
-        "Mental Health & Burnout Recovery",
-        "Recovery Gear & Cold Plunges",
+        "Gym & Home Workout Gear", "Whey & Supplement Drops", "Biohacking & Wearable Tech (Oura/Whoop)",
+        "Weight Loss & Nutrition Diets", "Mental Health & Burnout Recovery", "Recovery Gear & Cold Plunges"
     ],
     "✈️ Travel, Hotels & Food": [
-        "Trending Destinations",
-        "Hidden Tourist Places",
-        "Luxury Hotels & Resort Stays",
-        "Gourmet & Regional Cuisines",
-        "Street Food Surges",
-        "Budget & Backpacker Escapes",
+        "Trending Destinations", "Hidden Tourist Places", "Luxury Hotels & Resort Stays",
+        "Gourmet & Regional Cuisines", "Street Food Surges", "Budget & Backpacker Escapes"
     ],
     "🛕 Faith, Festivals & Sacred Travel": [
-        "Famous Temples & Shrines",
-        "Hidden & Ancient Temples",
-        "Religious Festivals & Pujas",
-        "Pilgrimage Circuits & Yatras",
-        "Festive Gifting Trends",
-        "Spiritual Wellness & Meditation Drops",
+        "Famous Temples & Shrines", "Hidden & Ancient Temples", "Religious Festivals & Pujas",
+        "Pilgrimage Circuits & Yatras", "Festive Gifting Trends", "Spiritual Wellness & Meditation Drops"
     ],
     "🏛️ Politics, News & Civic Events": [
-        "Elections & Campaign Rallies",
-        "Legislative Debates & Laws",
-        "Protests & Policy Changes",
-        "Politician Speeches & Interviews",
-        "Geopolitical & Diplomatic Updates",
-        "Public Schemes & Subsidies",
+        "Elections & Campaign Rallies", "Legislative Debates & Laws", "Protests & Policy Changes",
+        "Politician Speeches & Interviews", "Geopolitical & Diplomatic Updates", "Public Schemes & Subsidies"
     ],
 }
 
 # ==========================================
-# 3. TRANSLATIONS (ENGLISH & HINDI)
+# 4. LOCAL TEXT DICTIONARIES
 # ==========================================
 TEXTS = {
     "English": {
-        "title": "⚡ TrendPulse AI: Commercial Signal Intelligence",
-        "subtitle": "Predictive Trend Intelligence | Phase 1 Enterprise Dashboard",
+        "title": "⚡ TrendPulse AI: System Architecture & Backend Engine",
+        "subtitle": "Phase 2 Pipeline, Data Ingestion & Enterprise Database",
         "terminal": "🔑 Enterprise Access Terminal",
         "simulate_pro": "Simulate Pro Subscription Access",
-        "config_title": "⚙️ Signal Intelligence Configuration",
+        "config_title": "⚙️ Data Ingestion Pipeline & Signal Filter",
         "region": "🌐 Target Region:",
         "platform": "🎛️ Platform Source (12 Master Sources):",
         "category": "📁 Niche Category (20 Categories):",
         "sub_category": "🔍 Sub-Niche Focus (120 Sub-Niches):",
-        "velocity": "⏱️ Signal Velocity:",
-        "apply_btn": "🚀 Apply Configuration & Update Radar",
-        "telemetry_title": "📊 Live Telemetry & Growth Forecast",
-        "custom_search": "🔍 Custom Asset Search (Optional):",
-        "active_signals_for": "Active Signals for:",
-        "filtered_asset": "Trending Signal",
-        "search_volume": "Search Volume",
-        "future_forecast": "Future Trend Forecast",
-        "chart_title": "📈 Dynamic Velocity & Demand Forecast Curve",
+        "velocity": "⏱️ Signal Velocity & Timeframe:",
+        "apply_btn": "🚀 Execute Ingestion Pipeline & Update DB",
+        "telemetry_title": "📊 Live Telemetry & Database Signals",
+        "custom_search": "🔍 Custom Asset Injection:",
+        "active_signals_for": "Active Ingested Signals for:",
+        "filtered_asset": "Trending Asset Signal",
+        "search_volume": "Engagement / Volume",
+        "future_forecast": "Velocity Status",
+        "chart_title": "📈 Signal Velocity & Pipeline Demand Curve",
         "matrix_title": "💡 Actionable Intelligence & Strategy Matrix",
         "locked_title": "🔒 MULTI-CHANNEL BLUEPRINT IS LOCKED",
         "locked_info": "Unlock high-converting scripts, viral hooks, ad copy, and step-by-step execution plan.",
         "upgrade_btn": "🔥 Upgrade to Pro & Unlock Full Engine",
-        "select_asset": "🎯 Select Filtered Asset:",
+        "select_asset": "🎯 Select Ingested Asset:",
         "operating_role": "👤 Operating Role (6 User Modes):",
         "gen_blueprint": "⚡ Generate Master Strategy Blueprint",
         "monetization": "💰 Direct High-ROI Monetization Model",
@@ -267,35 +244,35 @@ TEXTS = {
         "score_label": "Predictive Viral Score",
         "export_pdf_btn": "📄 Download Blueprint PDF",
         "share_wa_btn": "💬 Share to WhatsApp",
-        "competitor_insight": "🕵️ Live Competitor Ad Intelligence & Benchmarks",
-        "tab_radar": "📡 Radar & Telemetry",
+        "competitor_insight": "🕵️ Competitor Ad Intelligence & Benchmarks",
+        "tab_radar": "📡 Ingestion Radar & Telemetry",
         "tab_blueprint": "🚀 AI Strategy Blueprint",
-        "tab_competitor": "🕵️ Competitor Intel",
+        "tab_db": "🗄️ Database Inspector & Pipeline Logs",
     },
     "Hindi": {
-        "title": "⚡ TrendPulse AI: कमर्शियल सिग्नल इंटेलिजेंस",
-        "subtitle": "प्रेडिक्टिव ट्रेंड इंटेलिजेंस | फेज 1 एंटरप्राइज डैशबोर्ड",
+        "title": "⚡ TrendPulse AI: सिस्टम आर्किटेक्चर और बैकएंड इंजन",
+        "subtitle": "फेज 2 पाइपलाइन, डेटा इंजेक्शन और एंटरप्राइज डेटाबेस",
         "terminal": "🔑 एंटरप्राइज एक्सेस टर्मिनल",
         "simulate_pro": "प्रो सब्सक्रिप्शन एक्सेस सिमुलेट करें",
-        "config_title": "⚙️ सिग्नल इंटेलिजेंस कॉन्फ़िगरेशन",
+        "config_title": "⚙️ डेटा इंजेक्शन पाइपलाइन और सिग्नल फ़िल्टर",
         "region": "🌐 टारगेट रीजन (क्षेत्र):",
         "platform": "🎛️ प्लेटफॉर्म सोर्स (12 मास्टर):",
         "category": "📁 नीश कैटेगरी (20 कैटेगरी):",
         "sub_category": "🔍 सब-नीश फ़ोकस (120 सब-नीश):",
-        "velocity": "⏱️ सिग्नल वेलोसिटी:",
-        "apply_btn": "🚀 कॉन्फ़िगरेशन लागू करें और रडार अपडेट करें",
-        "telemetry_title": "📊 लाइव टेलीमेट्री और ग्रोथ पूर्वानुमान",
-        "custom_search": "🔍 कस्टम एसेट सर्च (वैकल्पिक):",
-        "active_signals_for": "सक्रिय सिग्नल:",
-        "filtered_asset": "ट्रेंडिंग सिग्नल",
-        "search_volume": "सर्च वॉल्यूम",
-        "future_forecast": "फ्यूचर ट्रेंड फोरकास्ट",
-        "chart_title": "📈 डायनेमिक वेलोसिटी और डिमांड फ़ोरकास्ट कर्व",
+        "velocity": "⏱️ सिग्नल वेलोसिटी और टाइमफ्रेम:",
+        "apply_btn": "🚀 इंजेक्शन पाइपलाइन चलाएं और DB अपडेट करें",
+        "telemetry_title": "📊 लाइव टेलीमेट्री और डेटाबेस सिग्नल",
+        "custom_search": "🔍 कस्टम एसेट इंजेक्शन:",
+        "active_signals_for": "सक्रिय इंजेस्टेड सिग्नल:",
+        "filtered_asset": "ट्रेंडिंग एसेट सिग्नल",
+        "search_volume": "इंगेजमेंट / वॉल्यूम",
+        "future_forecast": "वेलोसिटी स्टेटस",
+        "chart_title": "📈 सिग्नल वेलोसिटी और डिमांड कर्व",
         "matrix_title": "💡 एक्शनएबल इंटेलिजेंस और स्ट्रैटेजी मैट्रिक्स",
         "locked_title": "🔒 मल्टी-चैनल ब्लूप्रिंट लॉक है",
         "locked_info": "हाई-कन्वर्टिंग स्क्रिप्ट, वायरल हुक, एड कॉपी और एग्जीक्यूशन प्लान अनलॉक करें।",
         "upgrade_btn": "🔥 प्रो में अपग्रेड करें और पूरा इंजन अनलॉक करें",
-        "select_asset": "🎯 फ़िल्टर किया गया एसेट चुनें:",
+        "select_asset": "🎯 इंजेस्टेड एसेट चुनें:",
         "operating_role": "👤 आपकी भूमिका (6 ऑपरेटिंग रोल्स):",
         "gen_blueprint": "⚡ मास्टर स्ट्रैटेजी ब्लूप्रिंट जनरेट करें",
         "monetization": "💰 डायरेक्ट हाई-ROI मोनेटाइजेशन मॉडल",
@@ -307,15 +284,15 @@ TEXTS = {
         "score_label": "अनुमानित वायरल स्कोर",
         "export_pdf_btn": "📄 ब्लूप्रिंट PDF डाउनलोड करें",
         "share_wa_btn": "💬 व्हाट्सएप पर शेयर करें",
-        "competitor_insight": "🕵️ लाइव कॉम्पिटिटर एड इंटेलिजेंस",
-        "tab_radar": "📡 रडार और टेलीमेट्री",
+        "competitor_insight": "🕵️ कॉम्पिटिटर एड इंटेलिजेंस",
+        "tab_radar": "📡 इंजेक्शन रडार और टेलीमेट्री",
         "tab_blueprint": "🚀 AI रणनीति ब्लूप्रिंट",
-        "tab_competitor": "🕵️ प्रतियोगी खुफिया जानकारी",
+        "tab_db": "🗄️ डेटाबेस इंस्पेक्टर और पाइपलाइन लॉग्स",
     },
 }
 
 # ==========================================
-# 4. HELPER FUNCTIONS & PDF ENGINE
+# 5. HELPER FUNCTIONS & PDF ENGINE
 # ==========================================
 def safe_xml_text(text: str) -> str:
     if not text:
@@ -347,7 +324,7 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=9, leading=13, textColor="#333333", spaceAfter=8)
 
     story = [
-        Paragraph("TrendPulse AI - Phase 1 Master Strategy Blueprint", title_style),
+        Paragraph("TrendPulse AI - Phase 2 Enterprise Blueprint", title_style),
         Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}", body_style),
         Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
         Spacer(1, 10)
@@ -373,10 +350,10 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     return buffer
 
 # ==========================================
-# 5. PIPELINE & RADAR DATA ENGINE (12 PLATFORMS)
+# 6. PIPELINE & RADAR DATA ENGINE (DB LOGGING)
 # ==========================================
 @st.cache_data(ttl=300)
-def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, timeframe):
+def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     results = []
     region_term = "India" if region == "IN" else ("US" if region == "US" else "")
     sub_ctx = f"{sub_niche}" if (sub_niche and sub_niche != "All Sub-Niches") else ""
@@ -442,10 +419,22 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
                 "Volume": f"{(95 - i * 11) * 10}K+ Interactions ({region})"
             })
 
+    # Log to SQLite Database (Phase 2 Pipeline Architecture)
+    try:
+        cursor = db_conn.cursor()
+        for r in results:
+            cursor.execute(
+                "INSERT INTO platform_signals (source_platform, keyword, engagement_metrics, region) VALUES (?, ?, ?, ?)",
+                (platform_source, r["Keyword"], r["Volume"], region)
+            )
+        db_conn.commit()
+    except Exception:
+        pass
+
     return results[:5]
 
 # ==========================================
-# 6. GROQ LLM GENERATOR (6 OPERATING ROLES)
+# 7. GROQ LLM GENERATOR
 # ==========================================
 def generate_master_intelligence(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
     clean_asset = sanitize_trend_input(keyword_asset)
@@ -460,9 +449,9 @@ def generate_master_intelligence(keyword_asset, category, sub_niche, target_role
         "content_directives": f"• **Narrative Angle:** Capitalizing on real-time momentum of '{clean_asset}'.\n• **Core Message:** High-converting value proposition tailored for {target_role}.",
         "execution_hook": f"• **0-3s Cue:** Dynamic visual introducing {clean_asset}.\n• **Text Overlay:** \"Why top operators are scaling {clean_asset[:20]}...\"\n• **Script:** \"Here is the exact framework to capitalize on {clean_asset}...\"",
         "audio_suggestion": "Upbeat Commercial Audio / High-Energy Vibe",
-        "ad_copy": f"Discover how {clean_asset} is breaking records in {clean_cat}. Tap link to access Phase 1 intelligence! #{clean_asset.replace(' ', '')}",
+        "ad_copy": f"Discover how {clean_asset} is breaking records in {clean_cat}. Tap link to access Phase 2 intelligence! #{clean_asset.replace(' ', '')}",
         "action_blueprint": "1. HOUR 1: Deploy target tracking & asset setup.\n2. HOUR 6: Launch cross-channel ad campaigns.\n3. DAY 2: Optimize based on telemetry.",
-        "competitor_intelligence": "• **Phase 1 Benchmark:** Top 10% market retention and CTR performance tier.",
+        "competitor_intelligence": "• **Phase 2 Benchmark:** Top 5% market retention and CTR performance tier.",
     }
 
     if not GROQ_API_KEY:
@@ -504,7 +493,7 @@ JSON Format:
         return default_response
 
 # ==========================================
-# 7. PHASE 1 POLISHED UI LAYOUT
+# 8. PHASE 2 UI LAYOUT & BACKEND INSPECTOR
 # ==========================================
 if "is_premium" not in st.session_state:
     st.session_state["is_premium"] = False
@@ -517,7 +506,7 @@ t = TEXTS[selected_lang]
 
 with head_col1:
     st.title(t["title"])
-    st.caption(f"{t['subtitle']} | ⚡ Phase 1 UI/UX Architecture & 20 Master Categories")
+    st.caption(f"{t['subtitle']} | ⚡ SQLite Database & Ingestion Pipeline Architecture")
 
 st.markdown("---")
 
@@ -566,7 +555,7 @@ with st.form(key="filter_form"):
 
 st.markdown("---")
 
-active_signals = fetch_filtered_radar_signals(
+active_signals = fetch_and_store_signals(
     geo_map[geo_option], platform_source, selected_category, selected_sub_niche, timeframe
 )
 
@@ -576,7 +565,7 @@ table_data = []
 signal_scores = {}
 
 for idx, item in enumerate(active_signals):
-    score = round(98.8 - (idx * 3.2), 1)
+    score = round(99.2 - (idx * 2.8), 1)
     forecast = future_forecast_options[idx % len(future_forecast_options)]
     table_data.append({
         t["filtered_asset"]: item["Keyword"],
@@ -587,8 +576,8 @@ for idx, item in enumerate(active_signals):
 
 df = pd.DataFrame(table_data)
 
-# TABBED WORKFLOW UI
-tab_radar, tab_blueprint, tab_competitor = st.tabs([t["tab_radar"], t["tab_blueprint"], t["tab_competitor"]])
+# TABBED WORKFLOW UI (PHASE 2)
+tab_radar, tab_blueprint, tab_db = st.tabs([t["tab_radar"], t["tab_blueprint"], t["tab_db"]])
 
 with tab_radar:
     st.subheader(t["telemetry_title"])
@@ -598,7 +587,7 @@ with tab_radar:
     )
 
     if custom_search.strip():
-        custom_item = {"Keyword": f"[Custom Search] {custom_search.strip()}", "Volume": f"Realtime Query ({geo_option})"}
+        custom_item = {"Keyword": f"[Custom Injection] {custom_search.strip()}", "Volume": f"Realtime Query ({geo_option})"}
         if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
             active_signals.insert(0, custom_item)
 
@@ -608,7 +597,7 @@ with tab_radar:
 
     st.markdown(f"#### {t['chart_title']}")
     chart_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
-    base_score = signal_scores.get(chart_keyword, 90.0)
+    base_score = signal_scores.get(chart_keyword, 92.0)
 
     days = ["Day -3", "Day -2", "Day -1", "Today", "Day +1 (Proj)", "Day +2 (Proj)", "Day +3 (Proj)"]
     scores = [
@@ -622,7 +611,7 @@ with tab_radar:
     ]
 
     chart_df = pd.DataFrame({"Timeline": days, "Velocity Score": scores})
-    fig = px.line(chart_df, x="Timeline", y="Velocity Score", markers=True, line_shape="spline", title=f"Trajectory: {chart_keyword}")
+    fig = px.line(chart_df, x="Timeline", y="Velocity Score", markers=True, line_shape="spline", title=f"Backend Pipeline Trajectory: {chart_keyword}")
     fig.update_layout(plot_bgcolor="#0e1117", paper_bgcolor="#0e1117", font_color="#fafafa")
     fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=8)
     st.plotly_chart(fig, use_container_width=True)
@@ -635,7 +624,7 @@ with tab_blueprint:
         st.info(t["locked_info"])
         st.link_button(t["upgrade_btn"], STRIPE_CHECKOUT_URL, use_container_width=True)
     else:
-        st.success("🔓 PRO ENGINE ACTIVE (PHASE 1)")
+        st.success("🔓 PRO ENGINE ACTIVE (PHASE 2 ARCHITECTURE)")
 
         asset_list = [item["Keyword"] for item in active_signals]
         selected_asset = st.selectbox(t["select_asset"], options=asset_list, index=0)
@@ -657,8 +646,8 @@ with tab_blueprint:
 
         if gen_btn or "last_result" in st.session_state:
             if gen_btn:
-                curr_score = signal_scores.get(selected_asset, 94.5)
-                with st.spinner("Generating Phase 1 Multi-Channel Commercial Strategy..."):
+                curr_score = signal_scores.get(selected_asset, 95.0)
+                with st.spinner("Executing Phase 2 Pipeline & Database Orchestration..."):
                     result = generate_master_intelligence(
                         selected_asset,
                         selected_category,
@@ -713,14 +702,14 @@ with tab_blueprint:
                 st.download_button(
                     label=t["export_pdf_btn"],
                     data=pdf_bytes,
-                    file_name=f"TrendPulse_Phase1_Blueprint_{sanitize_trend_input(selected_asset)[:15]}.pdf",
+                    file_name=f"TrendPulse_Phase2_Blueprint_{sanitize_trend_input(selected_asset)[:15]}.pdf",
                     mime="application/pdf",
                     use_container_width=True,
                 )
 
             with d_col2:
                 wa_text = urllib.parse.quote(
-                    f"⚡ *TrendPulse AI Phase 1 Blueprint*\n\n"
+                    f"⚡ *TrendPulse AI Phase 2 Blueprint*\n\n"
                     f"Asset: {sanitize_trend_input(selected_asset)}\n"
                     f"Category: {sanitize_trend_input(selected_category)}\n"
                     f"Viral Score: {curr_score}%\n\n"
@@ -732,9 +721,23 @@ with tab_blueprint:
                     use_container_width=True,
                 )
 
-with tab_competitor:
-    st.subheader(t["competitor_insight"])
-    if "last_result" in st.session_state:
-        st.markdown(st.session_state["last_result"].get("competitor_intelligence", "Generate a strategy blueprint in the 'AI Strategy Blueprint' tab to unlock live competitor ad intelligence benchmarks."))
-    else:
-        st.info("💡 Generate a Master Strategy Blueprint in the previous tab to view real-time competitor ad intelligence and performance tier benchmarks.")
+with tab_db:
+    st.subheader("🗄️ Database Inspector & Ingestion Logs")
+    st.markdown("Inspect backend SQLite tables (`platform_signals`, `blueprints_table`, `trends_table`) logged by the Phase 2 pipeline.")
+    
+    try:
+        db_df = pd.read_sql("SELECT * FROM platform_signals ORDER BY timestamp DESC LIMIT 50", db_conn)
+        st.markdown(f"**Total Ingested Signals Logged in SQLite:** `{len(db_df)}` records")
+        st.dataframe(db_df, use_container_width=True, hide_index=True)
+    except Exception as e:
+        st.error(f"Database read error: {e}")
+
+    if st.button("🧹 Clear Pipeline Logs", use_container_width=False):
+        try:
+            cursor = db_conn.cursor()
+            cursor.execute("DELETE FROM platform_signals")
+            db_conn.commit()
+            st.success("Pipeline logs cleared successfully!")
+            st.rerun()
+        except Exception as e:
+            st.error(f"Error clearing logs: {e}")
