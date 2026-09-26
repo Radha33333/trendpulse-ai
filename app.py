@@ -29,7 +29,6 @@ STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 # ==========================================
 # 2. CATEGORY ARCHITECTURE & MAPPINGS
 # ==========================================
-# ONLY THIS DICTIONARY HAS BEEN UPDATED WITH NEW SUB-CATEGORIES
 UPDATED_NICHE_CATEGORIES = {
     "🛒 E-Commerce & Viral Shopping": [
         "Predicted Bestsellers",
@@ -146,6 +145,73 @@ CATEGORY_SIGNALS_FALLBACK = {
         "Digital Notion Planners & Finance Dashboards",
         "Generative Video Editing Extensions",
     ],
+}
+
+# DYNAMIC SUB-NICHE SIGNAL MAPPER
+SUBNICHE_SIGNALS_FALLBACK = {
+    # 🛒 E-Commerce & Viral Shopping
+    "Predicted Bestsellers": ["Ergonomic Desk Accessories", "Self-Cleaning Water Bottles", "MagSafe Powerbanks", "Aesthetic Desk Lamp"],
+    "TikTok Shop Products": ["Viral Sunset Lamp", "Micro-Needling Patch", "Aesthetic Ice Roller", "Heatless Hair Curler"],
+    "Upcoming High-Demand Drops": ["Limited Edition Sneakers", "Modular Travel Backpacks", "Smart Ring Fitness Tracker"],
+    "Amazon Hot Movers": ["Portable Espresso Maker", "Smart Cable Organizer", "Mini Thermal Label Printer"],
+    "D2C Breakout Brands": ["Organic Matcha Blends", "Zero-Waste Toothpaste Bits", "Bamboo Fiber Apparel"],
+    "Problem-Solver Gadgets": ["Anti-Spill Pet Bowl", "Sonic Jewelry Cleaner", "Electric Jar Opener"],
+
+    # 🏛️ Politics, News & Civic Events
+    "Elections & Rallies": ["Assembly Election Turnout", "Campaign Speech Highlights", "Voter Registration Drives"],
+    "Legislative Assembly & Sabha Debates": ["Digital Privacy Bill Debates", "Tax Reform Proposals", "Public Infrastructure Budget"],
+    "Protests & Policy Changes": ["Labor Law Policy Adjustments", "Agrarian Policy Protests", "Urban Transport Reform"],
+    "Politician Speeches": ["Keynote Economy Address", "Townhall Press Briefing", "National Security Statement"],
+    "Geopolitical Updates": ["Cross-Border Trade Treaties", "Global Summit Agreements", "Maritime Corridor Deals"],
+    "Public Schemes & Subsidies": ["Green Energy Subsidies", "Small Business Housing Grants", "Student Loan Waiver Policy"],
+
+    # 🛕 Faith, Festivals & Sacred Travel
+    "Famous Temples": ["VIP Darshan Slot Booking", "Temple Corridor Expansion", "Heritage Sanctum Restoration"],
+    "Hidden & Ancient Temples": ["Unexplored Cave Temple Circuit", "10th Century Rock Sculptures", "Secret Forest Shrines"],
+    "Religious Festivals": ["Festive Eco-Diya Handicrafts", "Procession Route Guidelines", "Seasonal Ritual Offerings"],
+    "Pilgrimage Circuits": ["Char Dham Yatra Bus Pass", "High-Altitude Trek Passes", "Spiritual River Trail Stays"],
+    "Festive Gifting Trends": ["Handcrafted Brass Puja Thalis", "Organic Sweet Hampers", "Silver Idol Gift Sets"],
+    "Spiritual Wellness Drops": ["Aromatherapy Incense Blends", "Sandalwood Mala Beads", "Copper Water Vessels"],
+
+    # ✈️ Travel, Hotels & Food
+    "Trending Destinations": ["Offbeat Hill Stations", "Coastal Secret Escapes", "High-Altitude Glamping"],
+    "Hidden Tourist Places": ["Unmapped Waterfall Hikes", "Heritage Fort Villages", "Secluded Island Stays"],
+    "Restaurants & Stays": ["Boutique Eco-Resorts", "Rooftop Experiential Dining", "Farm-to-Table Homestays"],
+    "Veg & Non-Veg Gourmet": ["Regional Smoked Meat Fusion", "Artisanal Sourdough Outlets", "Traditional Clay-Pot Curries"],
+    "Street Food Surges": ["Night Market Food Trails", "Fusion Cheese Street Snacks", "Authentic Local Breakfast Stalls"],
+    "Budget & Backpacker Escapes": ["Hostel Co-Working Spaces", "Budget Overnight Trains", "Free Walking Tour Trails"],
+
+    # 🌟 Celebrities & Sports Stars
+    "Cricket & Sports Idols": ["World Cup Squad Announcements", "Player Fitness Routines", "Franchise Auction Buzz"],
+    "Movie & OTT Stars": ["Blockbuster Teaser Drop", "Celebrity Red Carpet Outfits", "Exclusive OTT Series Leaks"],
+    "Viral Influencers": ["Trend Challenge Breakouts", "Podcast Interview Clips", "Creator Brand Collabs"],
+    "Tournament Buzz": ["Playoff Final Tickets", "Underdog Team Comebacks", "Stadium Fan Zone Activations"],
+    "Celebrity Fashion Outfits": ["Airport Style Lookbooks", "Vintage Met Gala Recreations", "Streetwear Capsule Drops"],
+    "Pop Culture Controversies": ["Award Show Feuds", "Viral Interview Debates", "Social Media Account Audits"],
+
+    # 🏢 Real Estate & High-Ticket Props
+    "Rental Yield Hotspots": ["IT Hub Studio Apartments", "University Corridor Housing", "Tier-2 Metro Outskirts"],
+    "PropTech & Smart Homes": ["Automated Keyless Locks", "AI Energy Efficiency Systems", "Smart Solar Roofing"],
+    "Luxury Estates": ["Oceanfront Gated Villas", "Penthouse Sky Mansions", "Private Golf Course Residences"],
+    "Commercial Spaces": ["Co-Working Plug & Play Hubs", "High-Street Retail Outlets", "Logistics Micro-Warehouses"],
+    "Vacation Homes & Villas": ["Hill Station Wooden Chalets", "Poolside Countryside Homestays", "Off-Grid Eco Cabins"],
+    "Upcoming Transit Hubs": ["Metro Extension Corridor Plots", "Expressway Junction Warehouses", "Airport Adjacent Townships"],
+
+    # 💄 Beauty, Skincare & Lifestyle
+    "UGC Skincare Hacks": ["Korean Glass Skin Routine", "Ice Facial Sculpting", "Rice Water Hair Rinses"],
+    "Clean Beauty Products": ["Sulfate-Free Botanical Serums", "Refillable Lip Tints", "Vegan Sunscreen Sticks"],
+    "Anti-Aging Devices": ["LED Light Therapy Masks", "Micro-Current Facial Toners", "Thermal Eye Wand Sculptors"],
+    "Sustainable Fashion": ["Upcycled Denim Jackets", "Organic Linen Shirts", "Thrifted Vintage Outfits"],
+    "Haircare Treatment Trends": ["Scalp Exfoliation Scrubs", "Rosemary Hair Growth Oils", "Bond Repairing Masks"],
+    "Minimalist Capsule Wardrobes": ["Neutral Blazer Essentials", "Tailored Wide-Leg Trousers", "Monochrome Streetwear"],
+
+    # 💻 Digital Products & AI Tools
+    "Generative AI Software": ["Text-to-Video Generators", "AI Voice Cloning Plugins", "Code Refactoring Copilots"],
+    "SaaS & Workflows": ["Automated Invoicing Plugins", "Micro-SaaS CRM Dashboards", "All-in-One Booking Engines"],
+    "Ebooks & Courses": ["Solopreneur Playbook Guides", "No-Code Masterclasses", "Algorithmic Trading Guides"],
+    "Templates & Prompts": ["Notion Finance Trackers", "Midjourney Architecture Prompts", "Figma UI Design Kits"],
+    "Automation Micro-Tools": ["Zapier Email Webhooks", "Social Media Auto-Responders", "Web Scraping Extensions"],
+    "No-Code App Builders": ["Drag-and-Drop Marketplace Builders", "PWA Web App Frameworks", "Database Portals"],
 }
 
 # ==========================================
@@ -343,7 +409,7 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
         if response.status_code == 200:
             root = ET.fromstring(response.content)
             ns = {"ht": "https://trends.google.com/trending/rss"}
-            for item in root.findall(".//item")[:4]:
+            for item in root.findall(".//item"):
                 title = item.find("title")
                 traffic = item.find("ht:approx_traffic", ns)
                 if title is not None and title.text:
@@ -358,9 +424,21 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
     except Exception:
         pass
 
-    default_keywords = CATEGORY_SIGNALS_FALLBACK.get(
-        category, ["Trending Breakout Asset"]
-    )
+    # Sub-Niche Specific RSS Filtering
+    if sub_niche and sub_niche != "All Sub-Niches":
+        sub_words = [w.lower() for w in sub_niche.split() if len(w) > 2]
+        matched_rss = [
+            item for item in raw_signals 
+            if any(word in item["Keyword"].lower() for word in sub_words)
+        ]
+        if matched_rss:
+            raw_signals = matched_rss
+
+    # Target Sub-Niche Keyword Resolution
+    if sub_niche in SUBNICHE_SIGNALS_FALLBACK:
+        default_keywords = SUBNICHE_SIGNALS_FALLBACK[sub_niche]
+    else:
+        default_keywords = CATEGORY_SIGNALS_FALLBACK.get(category, ["Trending Breakout Asset"])
 
     if sub_niche and sub_niche != "All Sub-Niches":
         combined = [
@@ -373,7 +451,7 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
             for kw in default_keywords
         ]
 
-    for item in raw_signals:
+    for item in raw_signals[:2]:
         combined.append(
             {"Keyword": item["Keyword"], "Volume": item["Volume"]}
         )
@@ -397,7 +475,7 @@ def generate_master_intelligence(
     clean_cat = sanitize_trend_input(category)
     clean_sub = sanitize_trend_input(sub_niche)
 
-    sub_context = f" | Sub-Niche: '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
+    sub_context_str = f" strictly targeting the '{clean_sub}' sub-niche under '{clean_cat}'" if clean_sub and clean_sub != "All Sub-Niches" else f" in '{clean_cat}'"
 
     # Dynamic Fallback Templates
     if target_role == "Agency Owner / Freelancer":
@@ -405,26 +483,26 @@ def generate_master_intelligence(
             "viral_score": f"{velocity_score}%",
             "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
             "profit_model": (
-                f"• **Primary Funnel:** B2B High-Ticket Client Acquisition & White-Label Audits.\n"
-                f"• **Execution Path:** Package '{clean_asset}' insights into a $2,500/mo trend-jacking retainer deck for e-commerce or corporate brands."
+                f"• **Primary Funnel:** B2B High-Ticket Client Acquisition & White-Label Audits{sub_context_str}.\n"
+                f"• **Execution Path:** Package '{clean_asset}' insights into a $2,500/mo trend-jacking retainer deck for brands operating in '{clean_sub if clean_sub else clean_cat}'."
             ),
             "content_directives": (
-                f"• **Narrative Angle / Thesis:** Explaining how businesses can turn the demand around '{clean_asset}' into predictable revenue.\n"
+                f"• **Narrative Angle / Thesis:** Explaining how businesses in '{clean_sub if clean_sub else clean_cat}' can turn demand around '{clean_asset}' into predictable revenue.\n"
                 f"• **Key Talking Points:**\n"
-                f"  1. The missed ROI opportunity most brands are ignoring regarding {clean_asset}.\n"
-                f"  2. Step-by-step breakdown of the client campaign workflow.\n"
+                f"  1. The missed ROI opportunity most brands ignore regarding {clean_asset}.\n"
+                f"  2. Step-by-step breakdown of the sub-niche client campaign workflow.\n"
                 f"  3. Expected CAC reduction and conversion metrics.\n"
-                f"• **Visual & B-Roll Assets:** LinkedIn PDF slide overlays, agency ROI spreadsheets, screen recordings of campaign setups.\n"
+                f"• **Visual & B-Roll Assets:** LinkedIn PDF slide overlays, ROI spreadsheets, screen recordings of campaign setups.\n"
                 f"• **Category Guardrails:** Keep communication professional, metric-driven, and focused on business bottom-line growth."
             ),
             "execution_hook": (
                 f"• **0-3s Visual Cue:** Screen recording of client dashboard showing traffic spikes overlaying '{clean_asset}'.\n"
                 f"• **Text Overlay:** \"How to turn {clean_asset[:20]} into $10k in client retainers...\"\n"
-                f"• **Spoken Script:** \"If you run an agency or consult brands, here is the exact framework we're using to turn {clean_asset} into high-converting client campaigns this week...\""
+                f"• **Spoken Script:** \"If you run an agency or consult brands in {clean_sub if clean_sub else clean_cat}, here is the exact framework we're using to turn {clean_asset} into high-converting client campaigns this week...\""
             ),
             "audio_suggestion": "Low-fi Instrumental Chill / Professional Corporate Narrative Background",
             "ad_copy": (
-                f"We just published our B2B Strategy Briefing on capitalizing on {clean_asset}. 💼\n\n"
+                f"We just published our B2B Strategy Briefing on capitalizing on {clean_asset} ({clean_sub if clean_sub else clean_cat}). 💼\n\n"
                 "Comment 'AGENCY' below to get our complete pitch deck and client outreach templates sent directly to your DMs!\n\n"
                 f"#{clean_asset.replace(' ', '')} #AgencyGrowth #B2BStrategy #TrendPulse"
             ),
@@ -444,13 +522,13 @@ def generate_master_intelligence(
             "viral_score": f"{velocity_score}%",
             "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
             "profit_model": (
-                f"• **Primary Funnel:** Direct-to-Consumer Impulse Sales & Flash Offer Drops.\n"
+                f"• **Primary Funnel:** Direct-to-Consumer Impulse Sales & Flash Offer Drops{sub_context_str}.\n"
                 f"• **Execution Path:** Source or bundle product inventory related to '{clean_asset}' and leverage TikTok Shop / Reels ad spark posts."
             ),
             "content_directives": (
-                f"• **Narrative Angle / Thesis:** Highlighting problem-solution angles and immediate transformation tied to {clean_asset}.\n"
+                f"• **Narrative Angle / Thesis:** Highlighting problem-solution angles and immediate transformation tied to {clean_asset} in the {clean_sub if clean_sub else clean_cat} market.\n"
                 f"• **Key Talking Points:**\n"
-                f"  1. Pain point before discovering this trend asset.\n"
+                f"  1. Main buyer pain point before discovering this sub-niche asset.\n"
                 f"  2. Live product unboxing / stress-test demonstration.\n"
                 f"  3. Scarcity & limited stock warning.\n"
                 f"• **Visual & B-Roll Assets:** Close-up macro product shots, rapid 0.5x reaction cuts, fast unboxing, aesthetic lifestyle usage.\n"
@@ -459,7 +537,7 @@ def generate_master_intelligence(
             "execution_hook": (
                 f"• **0-3s Visual Cue:** Rapid hands-on product demonstration with price tag flash overlay for '{clean_asset}'.\n"
                 f"• **Text Overlay:** \"Stop scrolling! This {clean_asset[:20]} sold out 3x this week 🚨\"\n"
-                f"• **Spoken Script:** \"If you've been looking for {clean_asset}, stop buying cheap knockoffs. Here is why everyone is ordering this exact one...\""
+                f"• **Spoken Script:** \"If you've been looking for {clean_asset}, stop buying cheap knockoffs. Here is why everyone in {clean_sub if clean_sub else clean_cat} is ordering this exact one...\""
             ),
             "audio_suggestion": "Upbeat Phonk / Trending TikTok Sound Effect Accent",
             "ad_copy": (
@@ -483,14 +561,14 @@ def generate_master_intelligence(
             "viral_score": f"{velocity_score}%",
             "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
             "profit_model": (
-                f"• **Primary Funnel:** Organic Viral Reach, Follower Growth & ManyChat DM Automation.\n"
+                f"• **Primary Funnel:** Organic Viral Reach, Follower Growth & ManyChat DM Automation{sub_context_str}.\n"
                 f"• **Execution Path:** Use pattern-interrupt commentary on '{clean_asset}' to drive thousands of keyword comments and grow audience loyalty."
             ),
             "content_directives": (
-                f"• **Narrative Angle / Thesis:** Delivering a unique hot-take or deep-dive breakdown behind '{clean_asset}' that nobody else is mentioning.\n"
+                f"• **Narrative Angle / Thesis:** Delivering a unique hot-take or deep-dive breakdown behind '{clean_asset}' in '{clean_sub if clean_sub else clean_cat}' that nobody else is mentioning.\n"
                 f"• **Key Talking Points:**\n"
                 f"  1. What everyone gets wrong about this topic.\n"
-                f"  2. The hidden detail or story behind the trend.\n"
+                f"  2. The hidden detail or story behind the sub-niche trend.\n"
                 f"  3. Open-ended controversial question to spark debate.\n"
                 f"• **Visual & B-Roll Assets:** Face-cam with green screen background, fast cutaways, dramatic text pop-ups, meme overlays.\n"
                 f"• **Category Guardrails:** Maximize retention, avoid corporate jargon, focus on entertainment and curiosity."
@@ -498,7 +576,7 @@ def generate_master_intelligence(
             "execution_hook": (
                 f"• **0-3s Visual Cue:** Green-screen reaction in front of a trending headline about '{clean_asset}'.\n"
                 f"• **Text Overlay:** \"Nobody is talking about this detail... 😳\"\n"
-                f"• **Spoken Script:** \"Everyone is posting about {clean_asset}, but almost nobody noticed what actually happened behind the scenes...\""
+                f"• **Spoken Script:** \"Everyone is posting about {clean_asset}, but almost nobody in {clean_sub if clean_sub else clean_cat} noticed what actually happened behind the scenes...\""
             ),
             "audio_suggestion": "Viral Rhythmic Beat / Dramatic Tension Sound Effect",
             "ad_copy": (
@@ -523,20 +601,30 @@ def generate_master_intelligence(
 
     try:
         client = Groq(api_key=GROQ_API_KEY)
+        sub_niche_prompt_rule = (
+            f"STRICT SUB-NICHE MANDATE: All content hooks, spoken scripts, profit models, and talking points MUST BE EXCLUSIVELY "
+            f"tailored to the '{clean_sub}' sub-niche under '{clean_cat}'. DO NOT broaden to general '{clean_cat}'."
+            if clean_sub and clean_sub != "All Sub-Niches"
+            else f"Focus on the '{clean_cat}' category."
+        )
+
         prompt = f"""
 You are TrendPulse AI's Master Strategy Blueprint Generator.
 Generate a highly customized, role-specific operational execution blueprint.
 
 =========================================
-INPUT DATA:
+INPUT DATA & MANDATES:
 =========================================
 - Asset / Topic: "{clean_asset}"
-- Category: "{clean_cat}"{sub_context}
+- Main Category: "{clean_cat}"
+- Target Sub-Niche: "{clean_sub if clean_sub else 'General'}"
 - Operating Role: "{target_role}"
 - Platform Focus: "{platform}"
 - Timeframe: "{timeframe}"
 - Viral Score: {velocity_score}%
 - Target Language: {lang}
+
+{sub_niche_prompt_rule}
 
 =========================================
 JSON OUTPUT REQUIREMENTS:
@@ -545,7 +633,7 @@ Return ONLY a valid JSON object matching this structure EXACTLY (do not wrap in 
 {{
   "viral_score": "{velocity_score}%",
   "prediction_window": "Active lifecycle timing window details",
-  "profit_model": "Role-tailored high-ROI monetization model strategy tailored strictly for {target_role}",
+  "profit_model": "Role-tailored high-ROI monetization model strategy tailored strictly for {target_role} in {clean_sub if clean_sub else clean_cat}",
   "content_directives": "• **Narrative Angle / Thesis:** [Core story]\n• **Key Talking Points:**\n  1. [Beat 1]\n  2. [Beat 2]\n  3. [Beat 3]\n• **Visual & B-Roll Assets:** [Shot list]\n• **Category Guardrails:** [Do's and Don'ts]",
   "execution_hook": "• **0-3s Visual Cue:** [Cue]\n• **Text Overlay:** \"[Punchy text]\"\n• **Spoken Script:** \"[Script]\"",
   "audio_suggestion": "Specific music genre or sound vibe matching {target_role}",
