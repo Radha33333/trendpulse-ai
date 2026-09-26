@@ -392,24 +392,29 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     return buffer
 
 # ==========================================
-# 5. FIXED CATEGORY & SUB-NICHE DATA PIPELINE
+# 5. DATA PIPELINE WITH PLATFORM + CATEGORY FILTER FIX
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, timeframe):
     """
-    CATEGORY & SUB-NICHE BINDING FIXED:
-    Fetches strictly relevant signals based on selected Category and Sub-Niche.
+    FIXED: Platform, Category & Sub-Niche-specific signal isolation.
     """
     results = []
-    query_topic = sub_niche if (sub_niche and sub_niche != "All Sub-Niches") else category.split()[-1]
+    
+    # 1. Clean query context string
+    sub_ctx = f"{sub_niche}" if (sub_niche and sub_niche != "All Sub-Niches") else ""
+    query_text = f"{category.split()[-1]} {sub_ctx}".strip()
+    search_query = urllib.parse.quote(query_text)
+    
+    # Platform tag formatting
+    platform_name = platform_source.split()[1] if len(platform_source.split()) > 1 else platform_source
 
-    # 1. REDDIT
+    # 2. PLATFORM SPECIFIC FETCHING LOGIC
     if "Reddit" in platform_source:
         try:
-            search_query = urllib.parse.quote(f"{category} {sub_niche if sub_niche != 'All Sub-Niches' else ''}")
             url = f"https://www.reddit.com/search.json?q={search_query}&sort=hot&limit=10"
             headers = {"User-Agent": "Mozilla/5.0 TrendPulseAI/2.0"}
-            response = requests.get(url, headers=headers, timeout=5)
+            response = requests.get(url, headers=headers, timeout=4)
             if response.status_code == 200:
                 data = response.json()
                 for post in data.get("data", {}).get("children", []):
@@ -418,55 +423,83 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
                     comments = post["data"].get("num_comments", 0)
                     if title:
                         results.append({
-                            "Keyword": title[:80] + ("..." if len(title) > 80 else ""),
+                            "Keyword": f"[Reddit] {title[:75]}...",
                             "Volume": f"{score:,} Upvotes | {comments:,} Comments"
                         })
         except Exception:
             pass
 
-    # 2. YOUTUBE
     elif "YouTube" in platform_source:
         try:
-            search_query = urllib.parse.quote(f"{category} {sub_niche if sub_niche != 'All Sub-Niches' else ''}")
             url = f"https://www.youtube.com/feeds/videos.xml?search_query={search_query}"
             headers = {"User-Agent": "Mozilla/5.0"}
-            response = requests.get(url, headers=headers, timeout=5)
+            response = requests.get(url, headers=headers, timeout=4)
             if response.status_code == 200:
                 root = ET.fromstring(response.content)
-                ns = {"atom": "http://www.w3.org/2005/Atom", "media": "http://search.yahoo.com/mrss/"}
+                ns = {"atom": "http://www.w3.org/2005/Atom"}
                 for entry in root.findall("atom:entry", ns):
                     title_elem = entry.find("atom:title", ns)
                     if title_elem is not None and title_elem.text:
                         results.append({
-                            "Keyword": title_elem.text[:80],
-                            "Volume": "High Engagement Spike"
+                            "Keyword": f"[YouTube] {title_elem.text[:75]}",
+                            "Volume": f"High Video Search ({timeframe})"
                         })
         except Exception:
             pass
 
-    # 3. CATEGORY/SUB-NICHE DYNAMIC FALLBACK ENFORCEMENT
-    # Always pull category & sub-niche matched items if API results don't closely match
-    matched_pool = []
-    if sub_niche in SUBNICHE_SIGNALS_FALLBACK:
-        matched_pool = SUBNICHE_SIGNALS_FALLBACK[sub_niche]
-    else:
-        matched_pool = CATEGORY_SIGNALS_FALLBACK.get(category, ["Trending Industry Signal"])
+    elif "Google Trends" in platform_source:
+        try:
+            geo_code = region if region != "ALL" else ""
+            url = f"https://trends.google.com/trends/trendingsearches/daily/rss?geo={geo_code}"
+            response = requests.get(url, timeout=4)
+            if response.status_code == 200:
+                root = ET.fromstring(response.content)
+                for item in root.findall(".//item"):
+                    title = item.find("title")
+                    traffic = item.find("{https://trends.google.com/trends/trendingsearches/daily}approx_traffic")
+                    if title is not None and title.text:
+                        vol = traffic.text if traffic is not None else "100K+"
+                        results.append({
+                            "Keyword": f"[Google] {title.text}",
+                            "Volume": f"{vol} Searches"
+                        })
+        except Exception:
+            pass
 
-    final_results = []
-    for item in results:
-        final_results.append(item)
+    # 3. DYNAMIC PLATFORM + CATEGORY FALLBACK
+    if len(results) < 5:
+        if sub_niche in SUBNICHE_SIGNALS_FALLBACK:
+            base_pool = SUBNICHE_SIGNALS_FALLBACK[sub_niche]
+        else:
+            base_pool = CATEGORY_SIGNALS_FALLBACK.get(category, ["Trending Topic"])
 
-    # Ensure output is strictly relevant to the chosen category & sub-niche
-    for kw in matched_pool:
-        if len(final_results) >= 5:
-            break
-        label_prefix = f"[{sub_niche}] " if sub_niche != "All Sub-Niches" else f"[{category.split()[1] if len(category.split())>1 else category}] "
-        final_results.append({
-            "Keyword": f"{label_prefix}{kw}",
-            "Volume": f"180K+ ({timeframe})"
-        })
+        platform_modifiers = {
+            "TikTok": ["Viral Challenge", "Trending Sound Blueprint", "TikTok Shop Best Seller", "POV Hook Trend"],
+            "Instagram": ["Reels Audio Surge", "Aesthetic Carousel Trend", "Viral Story Angle", "Ad Creative Spurt"],
+            "Google": ["High Intent Search", "Breakout Query", "Volume Spike Keyword", "Trending Organic Search"],
+            "Pinterest": ["Visual Aesthetic Moodboard", "DIY Pin Surge", "Design Inspiration Vector"],
+            "X (Twitter)": ["Realtime Hashtag Buzz", "Trending Thread Topic", "Breaking Sentiment Wave"],
+            "Reddit": ["Community Discussion Spike", "AMA Viral Post", "Megathread Discussion"],
+            "Amazon": ["Movers & Shakers Surge", "High Conversion Product", "Bestsellers Category Rank"],
+            "YouTube": ["Shorts Viral Clip", "High CTR Video Topic", "Search Demand Surge"]
+        }
 
-    return final_results[:5]
+        current_mod = ["Trending Signal"]
+        for p_key, mods in platform_modifiers.items():
+            if p_key in platform_source:
+                current_mod = mods
+                break
+
+        for i, item in enumerate(base_pool):
+            if len(results) >= 5:
+                break
+            mod = current_mod[i % len(current_mod)]
+            results.append({
+                "Keyword": f"[{platform_name}] {item} - {mod}",
+                "Volume": f"{(100 - i * 12) * 10}K+ Interactions ({timeframe})"
+            })
+
+    return results[:5]
 
 # ==========================================
 # 6. GROQ LLM BLUEPRINT GENERATOR
@@ -492,11 +525,11 @@ def generate_master_intelligence(
         "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
         "profit_model": (
             f"• **Primary Funnel:** Direct High-ROI Conversion Channel{sub_context_str}.\n"
-            f"• **Execution Path:** Capitalize on '{clean_asset}' by creating role-specific offers targeting the active demand wave."
+            f"• **Execution Path:** Capitalize on '{clean_asset}' by creating role-specific offers targeting active demand."
         ),
         "content_directives": (
-            f"• **Narrative Angle:** Explaining how to leverage {clean_asset} in the {clean_sub if clean_sub else clean_cat} market.\n"
-            f"• **Key Talking Points:**\n"
+            f"• **Narrative Angle:** Explaining how to leverage {clean_asset} in {clean_sub if clean_sub else clean_cat}.\n"
+            f"• **Key Points:**\n"
             f"  1. Primary opportunity in {clean_asset}.\n"
             f"  2. Sub-niche implementation strategy.\n"
             f"  3. Conversion & retention hook."
@@ -535,7 +568,7 @@ INPUT DATA:
 - Viral Score: {velocity_score}%
 - Target Language: {lang}
 
-Return ONLY a valid JSON object matching this structure EXACTLY (no markdown wrappers):
+Return ONLY a valid JSON object matching this structure EXACTLY:
 {{
   "viral_score": "{velocity_score}%",
   "prediction_window": "Active timing window details",
@@ -559,7 +592,7 @@ Return ONLY a valid JSON object matching this structure EXACTLY (no markdown wra
         return default_response
 
 # ==========================================
-# 7. UI LAYOUT
+# 7. UI LAYOUT & RENDERING ENGINE
 # ==========================================
 if "is_premium" not in st.session_state:
     st.session_state["is_premium"] = False
@@ -696,90 +729,138 @@ with left_col:
     scores = [
         max(10.0, base_score - 45),
         max(15.0, base_score - 30),
-        max(25.0, base_score - 12),
+        max(25.0, base_score - 15),
         base_score,
-        min(99.5, base_score + 3.5),
-        min(98.0, base_score + 2.0),
-        max(40.0, base_score - 10.0)
+        min(99.9, base_score + 5),
+        min(99.9, base_score + 8),
+        min(99.9, base_score + 4),
     ]
-    
-    chart_df = pd.DataFrame({"Timeline": days, "Signal Velocity Score": scores})
+
+    chart_df = pd.DataFrame({"Timeline": days, "Velocity Score": scores})
     fig = px.line(
         chart_df,
         x="Timeline",
-        y="Signal Velocity Score",
+        y="Velocity Score",
         markers=True,
-        title=f"Demand Curve for '{chart_keyword[:30]}...'",
         line_shape="spline",
+        title=f"Trajectory: {chart_keyword}",
     )
     fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=8)
-    fig.update_layout(height=320, margin=dict(l=20, r=20, t=40, b=20))
     st.plotly_chart(fig, use_container_width=True)
 
 with right_col:
     st.subheader(t["matrix_title"])
 
     if not st.session_state["is_premium"]:
-        st.warning(f"**{t['locked_title']}**")
-        st.write(t["locked_info"])
-        st.markdown(
-            f'<a href="{STRIPE_CHECKOUT_URL}" target="_blank">'
-            f'<button style="background-color:#ff4b4b;color:white;padding:12px 24px;'
-            f'border:none;border-radius:6px;width:100%;font-weight:bold;cursor:pointer;">'
-            f'{t["upgrade_btn"]}</button></a>',
-            unsafe_allow_html=True,
-        )
+        st.warning(t["locked_title"])
+        st.info(t["locked_info"])
+        st.link_button(t["upgrade_btn"], STRIPE_CHECKOUT_URL, use_container_width=True)
     else:
-        selected_asset = custom_search.strip() if custom_search.strip() else st.selectbox(
-            t["select_asset"], options=[item["Keyword"] for item in active_signals], index=0
-        )
-        v_score = signal_scores.get(selected_asset, 92.0)
+        st.success("🔓 PRO ENGINE ACTIVE")
 
-        selected_role = st.selectbox(
+        asset_list = [item["Keyword"] for item in active_signals]
+        if custom_search.strip():
+            asset_list.insert(0, f"[Custom] {custom_search.strip()}")
+
+        selected_asset = st.selectbox(t["select_asset"], options=asset_list, index=0)
+
+        target_role = st.selectbox(
             t["operating_role"],
-            ["Content Creator / Influencer", "E-Commerce Merchant / Dropshipper", "Agency Owner / Freelancer"],
+            [
+                "🛍️ E-Commerce Seller / Merchant",
+                "🎬 Content Creator / Influencer",
+                "📢 Affiliate Marketer / Media Buyer",
+                "🏢 Local Business / Real Estate Broker",
+                "💻 SaaS Founder / Digital Product Creator",
+            ],
             index=0,
         )
 
-        if st.button(t["gen_blueprint"], use_container_width=True):
-            with st.spinner("Generating precision intelligence..."):
-                intel = generate_master_intelligence(
-                    selected_asset,
-                    selected_category,
-                    selected_sub_niche,
-                    selected_role,
-                    platform_source,
-                    timeframe,
-                    v_score,
-                    selected_lang,
-                )
+        gen_btn = st.button(t["gen_blueprint"], use_container_width=True)
 
-                st.success("Blueprint Generated Successfully!")
-                st.metric(label=t["score_label"], value=intel.get("viral_score", f"{v_score}%"))
-                st.markdown(f"#### {t['monetization']}")
-                st.markdown(intel.get("profit_model", ""))
-                st.markdown(f"#### {t['content_directives']}")
-                st.markdown(intel.get("content_directives", ""))
-                st.markdown(f"#### {t['hook']}")
-                st.markdown(intel.get("execution_hook", ""))
-                st.markdown(f"#### {t['audio']}")
-                st.markdown(f"• {intel.get('audio_suggestion', '')}")
-                st.markdown(f"#### {t['caption']}")
-                st.code(intel.get("ad_copy", ""), language="markdown")
-                st.markdown(f"#### {t['plan']}")
-                st.markdown(intel.get("action_blueprint", ""))
-                st.markdown(f"#### {t['competitor_insight']}")
-                st.markdown(intel.get("competitor_intelligence", ""))
+        if gen_btn or "last_result" in st.session_state:
+            if gen_btn:
+                curr_score = signal_scores.get(selected_asset, 94.5)
+                with st.spinner("Processing Commercial Signals & Multi-Channel Script Engine..."):
+                    result = generate_master_intelligence(
+                        selected_asset,
+                        selected_category,
+                        selected_sub_niche,
+                        target_role,
+                        platform_source,
+                        timeframe,
+                        curr_score,
+                        selected_lang,
+                    )
+                    st.session_state["last_result"] = result
+                    st.session_state["last_asset"] = selected_asset
+                    st.session_state["last_role"] = target_role
+                    st.session_state["last_score"] = curr_score
+            else:
+                result = st.session_state["last_result"]
+                selected_asset = st.session_state["last_asset"]
+                target_role = st.session_state["last_role"]
+                curr_score = st.session_state["last_score"]
 
-                st.markdown("---")
-                pdf_bytes = create_pdf_blueprint(
-                    selected_asset, selected_category, selected_role, v_score, timeframe, intel
-                )
+            m_col1, m_col2 = st.columns(2)
+            m_col1.metric(t["score_label"], result.get("viral_score", f"{curr_score}%"))
+            m_col2.metric("Lifecycle Window", result.get("prediction_window", timeframe))
 
+            st.markdown("---")
+            st.markdown(f"#### {t['monetization']}")
+            st.markdown(result.get("profit_model", ""))
+
+            st.markdown(f"#### {t['content_directives']}")
+            st.markdown(result.get("content_directives", ""))
+
+            st.markdown(f"#### {t['hook']}")
+            st.markdown(result.get("execution_hook", ""))
+
+            st.markdown(f"#### {t['audio']}")
+            st.caption(result.get("audio_suggestion", ""))
+
+            st.markdown(f"#### {t['caption']}")
+            st.code(result.get("ad_copy", ""), language="text")
+
+            st.markdown(f"#### {t['plan']}")
+            st.text(result.get("action_blueprint", ""))
+
+            st.markdown(f"#### {t['competitor_insight']}")
+            st.markdown(result.get("competitor_intelligence", ""))
+
+            st.markdown("---")
+
+            # PDF Generator Download
+            pdf_bytes = create_pdf_blueprint(
+                selected_asset,
+                selected_category,
+                target_role,
+                curr_score,
+                timeframe,
+                result,
+            )
+
+            d_col1, d_col2 = st.columns(2)
+            with d_col1:
                 st.download_button(
                     label=t["export_pdf_btn"],
                     data=pdf_bytes,
                     file_name=f"TrendPulse_Blueprint_{sanitize_trend_input(selected_asset)[:15]}.pdf",
                     mime="application/pdf",
                     use_container_width=True,
+                )
+
+            with d_col2:
+                wa_text = urllib.parse.quote(
+                    f"⚡ *TrendPulse AI Blueprint*\n\n"
+                    f"Asset: {sanitize_trend_input(selected_asset)}\n"
+                    f"Category: {sanitize_trend_input(selected_category)}\n"
+                    f"Viral Score: {curr_score}%\n\n"
+                    f"Hook: {result.get('execution_hook', '')[:100]}..."
+                )
+                st.markdown(
+                    f'<a href="https://wa.me/?text={wa_text}" target="_blank">'
+                    f'<button style="width:100%; padding:8px; border-radius:5px; background-color:#25D366; color:white; border:none; fontweight:bold; cursor:pointer;">'
+                    f'{t["share_wa_btn"]}</button></a>',
+                    unsafe_allow_html=True,
                 )
