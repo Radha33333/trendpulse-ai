@@ -330,77 +330,139 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     return buffer
 
 # ==========================================
-# 6. PIPELINE & RADAR DATA ENGINE
+# 6. PIPELINE & RADAR DATA ENGINE (FULL SYNCHRONIZATION)
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     results = []
     
-    specific_pools = {
-        "Hidden Tourist Places": [
-            ("Hidden Valley Trekking Expedition Surge", "Zuluk, East Sikkim", "🔥 High Growth"),
-            ("Offbeat Cliffside Sunset Viewpoint Trend", "Vagamon Pine Forest, Kerala", "⚡ Accelerating"),
-            ("Secret Waterfall Camping Spot Discovery", "Tirthan Valley, Himachal Pradesh", "🚀 Explosive Surge"),
-            ("Stargazing Eco-Lodge Weekend Getaway", "Yercaud Hills, Tamil Nadu", "📈 Trending"),
-            ("Unexplored Caves & Limestone Formations", "Kurnool Caves, Andhra Pradesh", "🔥 High Growth"),
-            ("Misty Tea Estate Heritage Homestay Wave", "Agumbe Rainforest, Karnataka", "⚡ Accelerating"),
-            ("Floating Breakfast & Lakeside Villa Retreat", "Dawki River, Meghalaya", "🚀 Explosive Surge"),
-            ("Scenic Mountain Pass Road Trip Hotspot", "Sach Pass, Chamba", "📈 Trending"),
-            ("Hidden Blue Lagoon Natural Pool Spot", "Kakoti, Arunachal Pradesh", "🔥 High Growth"),
-            ("Ancient Cliff Fortress Exploration Trend", "Gingee Fort, Villupuram", "⚡ Accelerating")
+    comprehensive_templates = {
+        "🛒 E-Commerce & Viral Shopping": {
+            "TikTok Shop & Live Deals": [
+                ("Viral TikTok Shop Kitchen Gadget Restock Surge", "MegaShop Live Deals"),
+                ("LED Crystal Sunset Lamp Flash Sale Bundle", "TikTok viral impulse buy"),
+                ("Auto-Stirring Self Mixing Mug Live Drop", "ShopViral Direct Dropship"),
+                ("Neck Fan Portable Cooler Flash Deals", "Summer 2026 TikTok Trend"),
+                ("Mini Thermal Pocket Printer Viral Haul", "TikTok Stationery Hub"),
+                ("Gravity Car Phone Mount Live Showcase", "GadgetStore Live Shopper"),
+                ("Silicone Stretch Lids Food Saver Boom", "EcoShop TikTok Live"),
+                ("Galaxy Star Projector Night Light Viral Trend", "HomeDecor Live Deals"),
+                ("Electric Lint Remover Fabric Shaver Spike", "HomeHack Deals Hub"),
+                ("Smart LED Strip Lights Color Sync Pack", "LightingDirect Live Shop")
+            ],
+            "Amazon Hot Movers & Bestsellers": [
+                ("Ergonomic Mesh Office Chair Bestseller Surge", "Amazon Home Office Movers"),
+                ("HEPA Air Purifier Allergy Relief Hot Mover", "Amazon Health & Home"),
+                ("Cast Iron Skillet Pre-Seasoned Pan Spike", "KitchenBestsellers Daily"),
+                ("Stainless Steel Insulated Tumbler Flask Drop", "Drinkware Movers Hub"),
+                ("Dumbbell Adjustable Weight Set Surge", "FitnessEquipment Amazon"),
+                ("Wireless Charging Station 3-in-1 Bestseller", "TechAccessories Daily"),
+                ("Memory Foam Pillow Cervical Support Spike", "BeddingBestSellers Hub"),
+                ("Instant Read Digital Meat Thermometer Mover", "KitchenGadgets Daily"),
+                ("Standing Desk Converter Adjustable Riser", "OfficeTech Bestseller"),
+                ("Portable Bluetooth Speaker Waterproof Spike", "AudioTech Movers")
+            ]
+        },
+        "💰 Finance, Crypto & Wealth Building": {
+            "Crypto & Web3 Signals": [
+                ("Layer-2 Token Ecosystem Volume Breakout", "Ethereum L2 Scaling Hub"),
+                ("DeFi Yield Farming Smart Contract Staking Wave", "Solana Liquidity Pools"),
+                ("Bitcoin Halving Cycle Momentum & Whale Accumulation", "CryptoQuant On-Chain Index"),
+                ("AI Agent Tokens & Decentralized Compute Surge", "Fetch & Render Network Signals"),
+                ("Real-World Asset (RWA) Tokenization Protocol Spike", "BlackRock & Ondo Finance Track"),
+                ("Memecoin Community Liquidity Rotation Wave", "Base & Solana Meme Hub"),
+                ("Zero-Knowledge Rollups Mainnet Activity Surge", "ZK-Sync & Starknet Ecosystem"),
+                ("Cross-Chain Bridge Volume & Liquidity Spike", "Stargate & Wormhole Tracker"),
+                ("Liquid Staking Derivatives Yield Maximizer", "Lido & EigenLayer Vaults"),
+                ("Web3 Gaming & Play-to-Earn Token Rebound", "Immutable X & Ronin Network")
+            ],
+            "Stock Market & Algo Trading Bots": [
+                ("Quant Momentum Algorithmic Trading Strategy Surge", "Nifty & S&P500 Algo Hub"),
+                ("High-Frequency Options Selling Gamma Squeeze Alert", "NSE/BSE Derivatives Tracker"),
+                ("AI-Powered Stock Screener & Sentiment Bot", "WallStreet AI Analytics"),
+                ("Semiconductor Chip Stock Supply Chain Breakout", "Nvidia & TSMC Supply Tracker"),
+                ("EV Battery Mineral Stock Accumulation Wave", "Lithium & Cobalt Futures"),
+                ("Banking Sector Net Interest Margin Expansion Spike", "Large Cap Financials Hub"),
+                ("Small-Cap Breakout Momentum Scanner Alert", "Multibagger Stocks Radar"),
+                ("Dividend Aristocrat Income Portfolio Rebalancing", "Yield Investment Tracker"),
+                ("REITs Real Estate Investment Yield Spike", "Commercial Realty Index"),
+                ("IPO Grey Market Premium Surge Alert", "Upcoming Mainboard IPO Tracker")
+            ],
+            "Credit Card & Reward Hacks": [
+                ("Lifetime Free Travel Credit Card Milestone Reward Hack", "Cardexpert Rewards Hub"),
+                ("Airport Lounge Access Credit Card Optimizer Surge", "Fincrew Points Tracker"),
+                ("Fuel Surcharge Waiver & Reward Point Multiplier Hack", "BankCredit Deals India"),
+                ("Co-Branded Shopping Credit Card Cashback Wave", "Flipkart & Amazon Card Hub"),
+                ("International Forex Markup Zero Fee Card Spike", "Niyo & Fi Money Tracker"),
+                ("Utility Bill Payment Reward Rate Maximizer", "Cred & Tata Neu Points Hub"),
+                ("Business Corporate Credit Card Expense Reward Hack", "SME Spend Optimizer"),
+                ("Hotel Loyalty Program Status Match Fast-Track", "Marriott & Hilton Point Hack"),
+                ("Reward Point Redemption Transfer Partner Value Spike", "Miles & Points India"),
+                ("Secret Welcome Bonus Credit Card Sign-Up Surge", "Fintech Reward Tracker")
+            ]
+        },
+        "🎓 Education, Careers & Jobs": [
+            "AI Upskilling & Tech Roadmaps": [
+                ("GenAI Prompt Engineering & LangChain Masterclass Surge", "Scaler & IIT Guwahati GenAI Track"),
+                ("Full-Stack Software Engineering Career Sprint", "100xEngineers Full-Stack Cohort"),
+                ("Data Science & Machine Learning Bootcamp Surge", "UpGrad Executive PG Pathway"),
+                ("Product Management Leadership & Agile Certification", "Pragmatic Institute Track"),
+                ("Cybersecurity Ethical Hacking & Red Teaming Camp", "EC-Council Certified Security Professional"),
+                ("Cloud DevOps & Kubernetes Multi-Cloud Architect Blueprint", "AWS & Google Cloud Professional Track"),
+                ("UI/UX Design Systems & Advanced Figma Masterclass", "Designership & growth school"),
+                ("High-Paying Remote Tech Jobs & Freelancing Blueprint", "Toptal & Turing Global Hiring Pools"),
+                ("Financial Modeling & Investment Banking Career Track", "CFI & Wall Street Prep Bootcamp"),
+                ("Digital Marketing & Performance Growth Hacking Hub", "CXL Institute Growth Track")
+            ]
         ],
-        "Viral Creator Scandals & Internet Drama": [
-            ("Exposed: Fake Giveaway & Sponsorship Controversy", "Creator House LA", "🔥 High Growth"),
-            ("Creator House Eviction & Secret Fallout Breakdown", "Mumbai Creator Pod", "🚀 Explosive Surge"),
-            ("The 3AM Podcast Apology Video Record Break", "Delhi Influencer Hub", "⚡ Accelerating"),
-            ("Behind-The-Scenes Agency Pay Cut Leak", "Supercreator Agency", "📈 Trending"),
-            ("Reality Show Feud & Physical Altercation Drama", "MTV Splitsvilla Cast", "🔥 High Growth"),
-            ("Brand Owner Calls Out Ungrateful Tier-1 Creator", "D2C Founder Network", "⚡ Accelerating"),
-            ("Milestone Party Safety Hazard Scandal", "Dubai Yacht Party", "🚀 Explosive Surge"),
-            ("Stolen Content Accusations Between Giants", "Short-Form Rivals", "📈 Trending"),
-            ("Unfiltered DM Screenshots Leaked by Editor", "Anonymous Leaks", "🔥 High Growth"),
-            ("Rise and Fall of Influencer Mastermind Group", "Crypto/Wealth Influencers", "⚡ Accelerating")
-        ],
-        "TikTok Shop & Live Deals": [
-            ("Flash Drop: Korean Glass Skin Skincare Bundle", "Laneige & Innisfree Kits", "🚀 Explosive Surge"),
-            ("Viral Sunset Projector Lamp Restock Surge", "RGB Ambient Lights", "🔥 High Growth"),
-            ("50% Off Portable Neck Fan Heatwave Special", "JisuLife Fans", "⚡ Accelerating"),
-            ("Aesthetic Corduroy Tote Bags College Drop", "Minimalist Canvas Co.", "📈 Trending"),
-            ("Mini Wireless Car Vacuum 3-Hour Sellout", "Baseus Auto", "🔥 High Growth"),
-            ("Smart Bluetooth Water Bottle Hydration Tracker", "HidrateSpark", "⚡ Accelerating"),
-            ("Ergonomic Memory Foam Seat Cushion WFH", "AromaEase Set", "🚀 Explosive Surge"),
-            ("Reusable Silicone Food Storage Bags Zero-Waste", "Stasher Bags", "📈 Trending"),
-            ("Matte Black Air Fryer Liners Bulk Pack", "KitchenEssentials", "🔥 High Growth"),
-            ("Handheld Garment Steamer Travel Edition", "Philips Steam&Go", "⚡ Accelerating")
-        ],
-        "Stock Market & Algo Trading Bots": [
-            ("Nifty 50 Intraday Breakout & Critical Support Level", "Nifty 50 Index", "🔥 High Growth"),
-            ("Bank Nifty Weekly Options Chain Open Interest Spike", "Bank Nifty Futures", "🚀 Explosive Surge"),
-            ("Algorithmic Momentum Crossover Strategy Setup", "Quant Scalpers Bot", "⚡ Accelerating"),
-            ("FII/DII Net Cash Flow Reversal Signal", "NSE Institutional Flow", "📈 Trending"),
-            ("Smallcap Sector Rotation & Volume Accumulation", "BSE Smallcap Index", "🔥 High Growth"),
-            ("High-Beta Breakout Stocks Momentum Scanner", "Nifty Midcap 100", "⚡ Accelerating"),
-            ("Volatility Index (VIX) Sudden Drop Risk & Hedging", "India VIX", "🚀 Explosive Surge"),
-            ("Breakout Trendline Retest in PSU Bank Sector", "State Bank of India", "📈 Trending"),
-            ("Auto Sector Monthly Sales Data vs Expectation", "Tata Motors & M&M", "🔥 High Growth"),
-            ("Intraday VWAP Crossover Blueprint for Equities", "Reliance Industries", "⚡ Accelerating")
+        "✈️ Travel, Hotels & Food": [
+            "Hidden Tourist Places": [
+                ("Hidden Valley Trekking Expedition Surge", "Zuluk, East Sikkim"),
+                ("Offbeat Cliffside Sunset Viewpoint Trend", "Vagamon Pine Forest, Kerala"),
+                ("Secret Waterfall Camping Spot Discovery", "Tirthan Valley, Himachal Pradesh"),
+                ("Stargazing Eco-Lodge Weekend Getaway", "Yercaud Hills, Tamil Nadu"),
+                ("Unexplored Caves & Limestone Formations", "Kurnool Caves, Andhra Pradesh"),
+                ("Misty Tea Estate Heritage Homestay Wave", "Agumbe Rainforest, Karnataka"),
+                ("Floating Breakfast & Lakeside Villa Retreat", "Dawki River, Meghalaya"),
+                ("Scenic Mountain Pass Road Trip Hotspot", "Sach Pass, Chamba"),
+                ("Hidden Blue Lagoon Natural Pool Spot", "Kakoti, Arunachal Pradesh"),
+                ("Ancient Cliff Fortress Exploration Trend", "Gingee Fort, Villupuram")
+            ]
         ]
     }
 
-    default_pool = [
-        (f"High-Intent Search Spike in {sub_niche if sub_niche else category}", f"Asset Target #{i+1}", "🔥 High Growth" if i%2==0 else "⚡ Accelerating")
-        for i in range(10)
-    ]
+    # Fallback generator for categories/sub-niches not explicitly hardcoded above
+    cat_dict = comprehensive_templates.get(category, {})
+    active_pool = cat_dict.get(sub_niche, []) if sub_niche and sub_niche != "All Sub-Niches" else []
+    
+    if not active_pool and sub_niche and sub_niche != "All Sub-Niches":
+        active_pool = [
+            (f"High-Intent Consumer Spike in {sub_niche} #{i+1}", f"Verified Entity #{i+1} ({sub_niche})")
+            for i in range(10)
+        ]
+        
+    if not active_pool:
+        # Pull any available list from the category or generate clean domain-specific items
+        for s_key, s_list in cat_dict.items():
+            active_pool.extend(s_list)
+            
+    if not active_pool:
+        target_label = sub_niche if sub_niche and sub_niche != "All Sub-Niches" else category
+        active_pool = [
+            (f"Market Growth & Consumer Interest Surge in {target_label} #{i+1}", f"Enterprise Verified Target #{i+1} ({category})")
+            for i in range(10)
+        ]
 
-    items = specific_pools.get(sub_niche, default_pool)
+    velocity_status_list = ["🔥 High Growth", "⚡ Accelerating", "🚀 Explosive Surge", "📈 Trending"]
 
-    for i, (item, entity, velocity) in enumerate(items):
-        base_vol = 1250000 - (i * 95400)
+    for i, (item, entity) in enumerate(active_pool[:10]):
+        base_vol = 1450000 - (i * 85400)
+        v_status = velocity_status_list[i % len(velocity_status_list)]
         results.append({
             "Keyword": item,
             "Entity": entity,
             "Volume": f"{base_vol:,} Interactions ({region})",
-            "Velocity": velocity
+            "Velocity": v_status
         })
 
     try:
@@ -408,7 +470,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
         for r in results:
             cursor.execute(
                 "INSERT INTO platform_signals (source_platform, keyword, engagement_metrics, region) VALUES (?, ?, ?, ?)",
-                (platform_source, f"{r['Keyword']} ({r['Entity']})", r["Volume"], region)
+                (platform_source, f"{r['Keyword']} | Entity: {r['Entity']}", r["Volume"], region)
             )
         db_conn.commit()
     except Exception:
@@ -417,7 +479,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
     return results
 
 # ==========================================
-# 7. MASTER LLM DOSSIER GENERATOR (WITH REVENUE & SCALING SUITE)
+# 7. MASTER LLM DOSSIER GENERATOR
 # ==========================================
 def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
     clean_asset = sanitize_trend_input(keyword_asset)
@@ -534,11 +596,11 @@ with st.form(key="filter_form"):
         )
 
     with f_col3:
-        selected_category = st.selectbox(t["category"], options=list(UPDATED_NICHE_CATEGORIES.keys()), index=0)
+        selected_category = st.selectbox(t["category"], options=list(UPDATED_NICHE_CATEGORIES.keys()), index=5)
 
     with f_col4:
         sub_niche_options = UPDATED_NICHE_CATEGORIES.get(selected_category, [])
-        selected_sub_niche = st.selectbox(t["sub_category"], options=["All Sub-Niches"] + sub_niche_options, index=0)
+        selected_sub_niche = st.selectbox(t["sub_category"], options=["All Sub-Niches"] + sub_niche_options, index=2)
 
     with f_col5:
         timeframe = st.selectbox(t["velocity"], ["Realtime Spike (24h)", "Short-Term Trend (7 Days)", "Viral Surge (3-7 Days)", "Macro Trend (30 Days)"])
@@ -559,7 +621,7 @@ tab_radar, tab_blueprint, tab_db = st.tabs([t["tab_radar"], t["tab_blueprint"], 
 
 with tab_radar:
     st.subheader(t["telemetry_title"])
-    custom_search = st.text_input(t["custom_search"], placeholder="e.g. Misty Tea Estate Heritage Homestay Wave, K-Beauty Glass Skin")
+    custom_search = st.text_input(t["custom_search"], placeholder="e.g. Layer-2 Token Ecosystem, Solana Liquidity Pools")
     if custom_search.strip():
         custom_item = {"Keyword": custom_search.strip(), "Entity": "Custom Injection Target", "Volume": f"Realtime Query ({geo_option})", "Velocity": "🔥 High Growth"}
         if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
@@ -625,8 +687,13 @@ with tab_blueprint:
                     selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, velocity_score, selected_lang
                 )
 
-                st.markdown(f"### 📑 Enterprise Master Dossier: {selected_asset}")
-                st.caption(f"Role: {target_role} | Platform: {platform_source} | Predictive Score: {velocity_score}%")
+                st.markdown(f"""
+                # ⚡ TrendPulse AI — Master Intelligence & Revenue Scale Dossier
+                > **Asset Target:** `{selected_asset}`  
+                > **Category:** {selected_category} | **Operating Role:** {target_role}  
+                > **Predictive Viral Score:** **{velocity_score} / 100** | **Timing Window:** {timeframe} | **Revenue Multiplier Mode:** 🟢 Active
+                """)
+                st.markdown("---")
 
                 pdf_buffer = create_pdf_dossier(selected_asset, selected_category, target_role, velocity_score, timeframe, dossier_result)
                 st.download_button(
@@ -636,6 +703,7 @@ with tab_blueprint:
                     mime="application/pdf",
                     use_container_width=True
                 )
+                st.markdown("---")
 
                 sections_meta = [
                     ("1. Advanced Monetization, Rate Card & Unit Economics Vault", dossier_result.get("unit_economics", "")),
@@ -651,20 +719,21 @@ with tab_blueprint:
                 ]
 
                 for sec_title, sec_content in sections_meta:
-                    with st.expander(sec_title, expanded=False):
-                        st.markdown(sec_content)
+                    st.markdown(f"### {sec_title}")
+                    st.markdown(sec_content)
+                    st.markdown("")
 
 with tab_db:
     st.subheader("🗄️ SQLite Database Inspector & Execution Logs")
     try:
-        cursor = db_conn.cursor()
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = [row[0] for row in cursor.fetchall()]
-        st.write(f"**Active Tables in Database:** `{tables}`")
-
-        selected_table = st.selectbox("Inspect Table Records:", options=tables)
+        cursor_db = db_conn.cursor()
+        cursor_db.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = [row[0] for row in cursor_db.fetchall()]
+        st.markdown(f"**Active Tables in Database:** `{tables}`")
+        
+        selected_table = st.selectbox("Inspect Table Records:", options=tables, index=0 if tables else None)
         if selected_table:
             df_table = pd.read_sql_query(f"SELECT * FROM {selected_table} ORDER BY rowid DESC LIMIT 50", db_conn)
             st.dataframe(df_table, use_container_width=True)
     except Exception as e:
-        st.error(f"Database Inspection Error: {e}")
+        st.error(f"Database inspection error: {e}")
