@@ -330,151 +330,55 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     return buffer
 
 # ==========================================
-# 6. BULLETPROOF SYNCHRONIZED SIGNAL ENGINE
+# 6. UNIVERSAL DYNAMIC DOMAIN-SMART SIGNAL ENGINE
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     results = []
     
-    # Comprehensive domain-mapped records for every single sub-niche across all categories
-    master_deep_database = {
-        "🛒 E-Commerce & Viral Shopping": {
-            "TikTok Shop & Live Deals": [
-                ("Viral TikTok Shop Kitchen Gadget Restock Surge", "MegaShop Live Deals Hub"),
-                ("LED Crystal Sunset Lamp Flash Sale Bundle", "TikTok Viral Impulse Buy Store"),
-                ("Auto-Stirring Self Mixing Mug Live Drop", "ShopViral Direct Dropship"),
-                ("Neck Fan Portable Cooler Flash Deals", "Summer 2026 TikTok Trend Store"),
-                ("Mini Thermal Pocket Printer Viral Haul", "TikTok Stationery Hub"),
-                ("Gravity Car Phone Mount Live Showcase", "GadgetStore Live Shopper"),
-                ("Silicone Stretch Lids Food Saver Boom", "EcoShop TikTok Live"),
-                ("Galaxy Star Projector Night Light Trend", "HomeDecor Live Deals"),
-                ("Electric Lint Remover Fabric Shaver Spike", "HomeHack Deals Hub"),
-                ("Smart LED Strip Lights Color Sync Pack", "LightingDirect Live Shop")
-            ],
-            "Amazon Hot Movers & Bestsellers": [
-                ("Ergonomic Mesh Office Chair Bestseller Surge", "Amazon Home Office Movers"),
-                ("HEPA Air Purifier Allergy Relief Hot Mover", "Amazon Health & Home Hub"),
-                ("Cast Iron Skillet Pre-Seasoned Pan Spike", "KitchenBestsellers Daily"),
-                ("Stainless Steel Insulated Tumbler Flask Drop", "Drinkware Movers Hub"),
-                ("Dumbbell Adjustable Weight Set Surge", "FitnessEquipment Amazon Store"),
-                ("Wireless Charging Station 3-in-1 Bestseller", "TechAccessories Daily"),
-                ("Memory Foam Pillow Cervical Support Spike", "BeddingBestSellers Hub"),
-                ("Instant Read Digital Meat Thermometer Mover", "KitchenGadgets Daily"),
-                ("Standing Desk Converter Adjustable Riser", "OfficeTech Bestseller Store"),
-                ("Portable Bluetooth Speaker Waterproof Spike", "AudioTech Movers")
-            ],
-            "D2C Breakout & DTC Brands": [
-                ("Minimalist Skincare Vitamin C Serum D2C Boom", "DermaCo & Plum Direct"),
-                ("Oversized Heavyweight Cotton Streetwear Drop", "Bewakoof & Snitch Trendline"),
-                ("Plant-Based Protein Powder Clean Label Surge", "Kapiva & Wellbeing Nutrition"),
-                ("Smart Ergonomic Footwear Cloud Slides", "Solethreads & Campus Direct"),
-                ("Bamboo Toothbrush Zero Waste Kit Mover", "Beco Eco D2C Hub"),
-                ("Aura Quartz Crystal Perfume Oil Surge", "Nasoking Fragrance Brand"),
-                ("Customized Name Engraved Leather Wallet Drop", "Ello Leather Direct"),
-                ("Matte Liquid Lipstick Long-Wear Kit", "Mars Cosmetics D2C Spike"),
-                ("Copper Water Bottle Hammered Finish Wave", "PantryEssentials Brand"),
-                ("Anti-Chafing Thigh Band Comfort Spike", "CurvyLove Direct Store")
-            ]
-        },
-        "💰 Finance, Crypto & Wealth Building": {
-            "Crypto & Web3 Signals": [
-                ("Layer-2 Token Ecosystem Volume Breakout", "Ethereum L2 Scaling Hub"),
-                ("DeFi Yield Farming Smart Contract Staking Wave", "Solana Liquidity Pools"),
-                ("Bitcoin Halving Cycle Momentum & Whale Accumulation", "CryptoQuant On-Chain Index"),
-                ("AI Agent Tokens & Decentralized Compute Surge", "Fetch & Render Network Signals"),
-                ("Real-World Asset (RWA) Tokenization Protocol Spike", "BlackRock & Ondo Finance Track"),
-                ("Memecoin Community Liquidity Rotation Wave", "Base & Solana Meme Hub"),
-                ("Zero-Knowledge Rollups Mainnet Activity Surge", "ZK-Sync & Starknet Ecosystem"),
-                ("Cross-Chain Bridge Volume & Liquidity Spike", "Stargate & Wormhole Tracker"),
-                ("Liquid Staking Derivatives Yield Maximizer", "Lido & EigenLayer Vaults"),
-                ("Web3 Gaming & Play-to-Earn Token Rebound", "Immutable X & Ronin Network")
-            ],
-            "Stock Market & Algo Trading Bots": [
-                ("Quant Momentum Algorithmic Trading Strategy Surge", "Nifty & S&P500 Algo Hub"),
-                ("High-Frequency Options Selling Gamma Squeeze Alert", "NSE/BSE Derivatives Tracker"),
-                ("AI-Powered Stock Screener & Sentiment Bot", "WallStreet AI Analytics"),
-                ("Semiconductor Chip Stock Supply Chain Breakout", "Nvidia & TSMC Supply Tracker"),
-                ("EV Battery Mineral Stock Accumulation Wave", "Lithium & Cobalt Futures"),
-                ("Banking Sector Net Interest Margin Expansion Spike", "Large Cap Financials Hub"),
-                ("Small-Cap Breakout Momentum Scanner Alert", "Multibagger Stocks Radar"),
-                ("Dividend Aristocrat Income Portfolio Rebalancing", "Yield Investment Tracker"),
-                ("REITs Real Estate Investment Yield Spike", "Commercial Realty Index"),
-                ("IPO Grey Market Premium Surge Alert", "Upcoming Mainboard IPO Tracker")
-            ],
-            "Credit Card & Reward Hacks": [
-                ("Lifetime Free Travel Credit Card Milestone Reward Hack", "Cardexpert Rewards Hub"),
-                ("Airport Lounge Access Credit Card Optimizer Surge", "Fincrew Points Tracker"),
-                ("Fuel Surcharge Waiver & Reward Point Multiplier Hack", "BankCredit Deals India"),
-                ("Co-Branded Shopping Credit Card Cashback Wave", "Flipkart & Amazon Card Hub"),
-                ("International Forex Markup Zero Fee Card Spike", "Niyo & Fi Money Tracker"),
-                ("Utility Bill Payment Reward Rate Maximizer", "Cred & Tata Neu Points Hub"),
-                ("Business Corporate Credit Card Expense Reward Hack", "SME Spend Optimizer"),
-                ("Hotel Loyalty Program Status Match Fast-Track", "Marriott & Hilton Point Hack"),
-                ("Reward Point Redemption Transfer Partner Value Spike", "Miles & Points India"),
-                ("Secret Welcome Bonus Credit Card Sign-Up Surge", "Fintech Reward Tracker")
-            ]
-        },
-        "🎓 Education, Careers & Jobs": {
-            "AI Upskilling & Tech Roadmaps": [
-                ("GenAI Prompt Engineering & LangChain Masterclass Surge", "Scaler & IIT Guwahati GenAI Track"),
-                ("Full-Stack Software Engineering Career Sprint", "100xEngineers Full-Stack Cohort"),
-                ("Data Science & Machine Learning Bootcamp Surge", "UpGrad Executive PG Pathway"),
-                ("Product Management Leadership & Agile Certification", "Pragmatic Institute Track"),
-                ("Cybersecurity Ethical Hacking & Red Teaming Camp", "EC-Council Certified Security Professional"),
-                ("Cloud DevOps & Kubernetes Multi-Cloud Architect Blueprint", "AWS & Google Cloud Professional Track"),
-                ("UI/UX Design Systems & Advanced Figma Masterclass", "Designership & growth school"),
-                ("High-Paying Remote Tech Jobs & Freelancing Blueprint", "Toptal & Turing Global Hiring Pools"),
-                ("Financial Modeling & Investment Banking Career Track", "CFI & Wall Street Prep Bootcamp"),
-                ("Digital Marketing & Performance Growth Hacking Hub", "CXL Institute Growth Track")
-            ]
-        },
-        "✈️ Travel, Hotels & Food": {
-            "Hidden Tourist Places": [
-                ("Hidden Valley Trekking Expedition Surge", "Zuluk, East Sikkim"),
-                ("Offbeat Cliffside Sunset Viewpoint Trend", "Vagamon Pine Forest, Kerala"),
-                ("Secret Waterfall Camping Spot Discovery", "Tirthan Valley, Himachal Pradesh"),
-                ("Stargazing Eco-Lodge Weekend Getaway", "Yercaud Hills, Tamil Nadu"),
-                ("Unexplored Caves & Limestone Formations", "Kurnool Caves, Andhra Pradesh"),
-                ("Misty Tea Estate Heritage Homestay Wave", "Agumbe Rainforest, Karnataka"),
-                ("Floating Breakfast & Lakeside Villa Retreat", "Dawki River, Meghalaya"),
-                ("Scenic Mountain Pass Road Trip Hotspot", "Sach Pass, Chamba"),
-                ("Hidden Blue Lagoon Natural Pool Spot", "Kakoti, Arunachal Pradesh"),
-                ("Ancient Cliff Fortress Exploration Trend", "Gingee Fort, Villupuram")
-            ]
-        }
-    }
-
-    # Fetch pool based on precise Category and Sub-Niche selection
-    cat_dict = master_deep_database.get(category, {})
-    active_pool = []
+    sub_label = sub_niche if sub_niche and sub_niche != "All Sub-Niches" else category
     
-    if sub_niche and sub_niche != "All Sub-Niches":
-        active_pool = cat_dict.get(sub_niche, [])
-        if not active_pool:
-            # Dynamic precise fallback generator tailored to the exact selected sub-niche
-            active_pool = [
-                (f"High-Intent Consumer Search Spike in {sub_niche} #{i+1}", f"Verified Enterprise Entity #{i+1} ({sub_niche})")
-                for i in range(10)
-            ]
-    else:
-        # If All Sub-Niches selected, aggregate all available sub-niche pools in this category
-        if cat_dict:
-            for s_name, s_items in cat_dict.items():
-                active_pool.extend(s_items)
-        if not active_pool:
-            active_pool = [
-                (f"High-Intent Market Surge in {category} #{i+1}", f"Verified Global Target #{i+1}")
-                for i in range(10)
-            ]
+    category_context_map = {
+        "E-Commerce": ("Viral Product Spike & Flash Deal", "D2C Verified Store Hub"),
+        "Real Estate": ("High-Yield Property & Smart Space Demand", "PropTech Asset Network"),
+        "Automobile": ("EV & Smart Mobility Launch Wave", "Automotive Innovation Hub"),
+        "Parenting": ("Smart Kids Gear & Routine Trend", "Family Care Direct Hub"),
+        "Pets": ("Pet Health & Care Product Surge", "Animal Care Verified Brand"),
+        "Finance": ("Wealth Asset & Yield Breakout", "Quant & FinTech Hub"),
+        "Business": ("Startup Growth & Scaling Signal", "Enterprise B2B Network"),
+        "Digital Products": ("SaaS & AI Tool Adoption Surge", "Cloud Stack & Dev Hub"),
+        "Education": ("Upskilling & Career Track Surge", "Global EdTech & Certification Hub"),
+        "Sustainability": ("Green Tech & Eco-Friendly Shift", "CleanEnergy Verified Network"),
+        "Movies": ("Box Office & OTT Stream Surge", "Cinematic Media Hub"),
+        "Music": ("Viral Sound & Remix Wave", "Artist & Audio Distribution Hub"),
+        "Pop Culture": ("Viral Trend & Meme Surge", "Creator Drama & Fandom Hub"),
+        "Anime": ("Gaming & Fandom Epic Drop", "Esports & Animation Hub"),
+        "Celebrities": ("Star Power & Fashion Trend", "Influencer Media Hub"),
+        "Beauty": ("Skincare & Glow Trend Wave", "D2C Cosmetics Hub"),
+        "Health": ("Biohacking & Fitness Protocol Surge", "Wellness & Performance Hub"),
+        "Travel": ("Offbeat Destination & Resort Spike", "Travel Explorer Network"),
+        "Faith": ("Spiritual & Heritage Gathering Wave", "Sacred Trails & Events Hub"),
+        "Politics": ("Civic & Policy Discussion Surge", "Public Affairs Tracker")
+    }
+    
+    matched_prefix = ("Market Demand Spike", "Enterprise Verified Hub")
+    for cat_key, ctx_val in category_context_map.items():
+        if cat_key.lower() in category.lower():
+            matched_prefix = ctx_val
+            break
 
     velocity_status_list = ["🔥 High Growth", "⚡ Accelerating", "🚀 Explosive Surge", "📈 Trending"]
 
-    for i, (item, entity) in enumerate(active_pool[:10]):
+    for i in range(10):
         base_vol = 1450000 - (i * 85400)
         v_status = velocity_status_list[i % len(velocity_status_list)]
+        
+        item_keyword = f"{sub_label} - {matched_prefix[0]} #{i+1}"
+        entity_name = f"{matched_prefix[1]} ({sub_label})"
+        
         results.append({
-            "Keyword": item,
-            "Entity": entity,
+            "Keyword": item_keyword,
+            "Entity": entity_name,
             "Volume": f"{base_vol:,} Interactions ({region})",
             "Velocity": v_status
         })
@@ -547,207 +451,174 @@ JSON Format:
   "scale_kill_rules": "• **The Kill Rule:** INR 4,000/day threshold ...\\n• **The Scaling Rule:** ...",
   "virality_formula": "• **Algorithm Core Logic:** ...\\n• **Formula:** Virality Score = ((3s Watch Retention * Shares) / Impressions) * (1 + Comment Sentiment Weight)\\n• **Pipeline Monitoring Rule:** ...",
   "syndication_matrix": "• **Instagram Reels Strategy:** ...\\n• **YouTube Shorts Strategy:** ...\\n• **Cross-Platform Retargeting:** ...",
-  "action_roadmap": "1. HOUR 1-6: Setup & affiliate integration...\\n2. HOUR 24: Micro-testing...\\n3. DAY 3: Optimization...\\n4. DAY 10: Scaling..."
+  "action_roadmap": "1. HOUR 1-6: Setup & affiliate integration.\\n2. HOUR 24: Micro-Testing.\\n3. DAY 3: Optimization.\\n4. DAY 10: Scaling."
 }}
-"""
-        completion = client.chat.completions.create(
+        """
+        
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a JSON-only response engine. Return strictly valid JSON without code blocks."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
             model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
-            response_format={"type": "json_object"},
-        )
-        return json.loads(completion.choices[0].message.content)
+            max_tokens=2500
+        ]
+        
+        content = chat_completion.choices[0].message.content.strip()
+        if content.startswith("```json"):
+            content = content[7:]
+        if content.startswith("```"):
+            content = content[3:]
+        if content.endswith("```"):
+            content = content[:-3]
+            
+        parsed_json = json.loads(content.strip())
+        return parsed_json
     except Exception:
         return default_response
 
 # ==========================================
-# 8. MAIN UI LAYOUT & BACKEND INSPECTOR
+# 8. STREAMLIT ENTERPRISE UI INTERFACE
 # ==========================================
-if "is_premium" not in st.session_state:
-    st.session_state["is_premium"] = False
+def main():
+    st.sidebar.markdown("### 🌐 Language Selector / भाषा")
+    selected_lang = st.sidebar.selectbox("Choose Language / भाषा चुनें", ["English", "Hindi"])
+    t = TEXTS[selected_lang]
 
-head_col1, head_col2 = st.columns([3, 1])
-with head_col2:
-    selected_lang = st.selectbox("🌐 Language / भाषा:", ["English", "Hindi"], index=0)
-
-t = TEXTS[selected_lang]
-
-with head_col1:
-    st.title(t["title"])
-    st.caption(f"{t['subtitle']} | ⚡ Complete Master Dossier & 5-Table SQLite Architecture")
-
-st.markdown("---")
-
-with st.expander(t["terminal"], expanded=False):
-    st.session_state["is_premium"] = st.checkbox(t["simulate_pro"], value=st.session_state["is_premium"])
-
-st.markdown(f"### {t['config_title']}")
-with st.form(key="filter_form"):
-    f_col1, f_col2, f_col3, f_col4, f_col5 = st.columns(5)
-
-    with f_col1:
-        geo_option = st.selectbox(t["region"], ["India (IN)", "United States (US)", "United Kingdom (GB)", "Global (ALL)"])
-        geo_map = {"India (IN)": "IN", "United States (US)": "US", "United Kingdom (GB)": "GB", "Global (ALL)": "ALL"}
-
-    with f_col2:
-        platform_source = st.selectbox(
-            t["platform"],
-            [
-                "🎵 TikTok Trends & Creative Center",
-                "📸 Instagram Reels & Meta Ad Library",
-                "🔎 Google Trends & Search Intent",
-                "📌 Pinterest Trends & Visual Discovery",
-                "🧵 X (Twitter) Realtime Trends",
-                "👽 Reddit Viral & Community Buzz",
-                "🛒 Amazon Movers & E-Com Marketplaces",
-                "▶️ YouTube Shorts & Video Popularity",
-                "💼 LinkedIn Business & B2B Signals",
-                "🚀 Product Hunt & GitHub Trending",
-                "🛍️ Etsy & D2C Niche Marketplaces",
-                "📰 Google News & Newsletter Aggregators",
-            ],
-            index=0,
-        )
-
-    with f_col3:
-        selected_category = st.selectbox(t["category"], options=list(UPDATED_NICHE_CATEGORIES.keys()), index=5)
-
-    with f_col4:
-        sub_niche_options = UPDATED_NICHE_CATEGORIES.get(selected_category, [])
-        selected_sub_niche = st.selectbox(t["sub_category"], options=["All Sub-Niches"] + sub_niche_options, index=2)
-
-    with f_col5:
-        timeframe = st.selectbox(t["velocity"], ["Realtime Spike (24h)", "Short-Term Trend (7 Days)", "Viral Surge (3-7 Days)", "Macro Trend (30 Days)"])
-
-    apply_filters = st.form_submit_button(t["apply_btn"], use_container_width=True)
-
-st.markdown("---")
-
-active_signals = fetch_and_store_signals(
-    geo_map[geo_option], platform_source, selected_category, selected_sub_niche, timeframe
-)
-
-signal_scores = {item["Keyword"]: round(99.4 - (i * 2.1), 1) for i, item in enumerate(active_signals)}
-df_signals = pd.DataFrame(active_signals)
-
-# TABBED WORKFLOW UI
-tab_radar, tab_blueprint, tab_db = st.tabs([t["tab_radar"], t["tab_blueprint"], t["tab_db"]])
-
-with tab_radar:
-    st.subheader(t["telemetry_title"])
-    custom_search = st.text_input(t["custom_search"], placeholder="e.g. Layer-2 Token Ecosystem, Solana Liquidity Pools")
-    if custom_search.strip():
-        custom_item = {"Keyword": custom_search.strip(), "Entity": "Custom Injection Target", "Volume": f"Realtime Query ({geo_option})", "Velocity": "🔥 High Growth"}
-        if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
-            active_signals.insert(0, custom_item)
-            df_signals = pd.DataFrame(active_signals)
-
-    st.markdown(f"**{t['active_signals_for']}** `{selected_category}` | `{selected_sub_niche}` | `{platform_source}` | `{geo_option}`")
+    st.sidebar.markdown("---")
+    st.sidebar.markdown(f"### {t['terminal']}")
+    simulate_pro = st.sidebar.checkbox(t["simulate_pro"], value=True)
     
-    st.dataframe(
-        df_signals.rename(columns={
-            "Keyword": "Trending Asset Signal",
-            "Entity": "Specific Entity / Target",
-            "Volume": "Engagement / Volume",
-            "Velocity": "Velocity Status"
-        }),
-        use_container_width=True,
-        hide_index=True
-    )
+    st.markdown(f"# {t['title']}")
+    st.markdown(f"### {t['subtitle']}")
+    st.markdown("---")
 
-    st.markdown("#### 📈 Signal Velocity & Pipeline Demand Curve")
-    chart_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
-    base_score = signal_scores.get(chart_keyword, 94.0)
-    chart_df = pd.DataFrame({
-        "Timeline": ["Day -3", "Day -2", "Day -1", "Today", "Day +1 (Proj)", "Day +2 (Proj)", "Day +3 (Proj)"],
-        "Velocity Score": [max(10.0, base_score - 45), max(15.0, base_score - 30), max(25.0, base_score - 15), base_score, min(99.9, base_score + 5), min(99.9, base_score + 8), min(99.9, base_score + 4)]
-    })
-    fig = px.line(chart_df, x="Timeline", y="Velocity Score", markers=True, line_shape="spline", title=f"Backend Pipeline Trajectory: {chart_keyword}")
-    fig.update_layout(plot_bgcolor="#0e1117", paper_bgcolor="#0e1117", font_color="#fafafa")
-    fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=8)
-    st.plotly_chart(fig, use_container_width=True)
+    st.markdown(f"### {t['config_title']}")
+    col1, col2, col3, col4, col5 = st.columns(5)
 
-with tab_blueprint:
-    st.subheader("🚀 Master Intelligence & Revenue Dossier Engine")
+    with col1:
+        region = st.selectbox(t["region"], ["India (IN)", "United States (US)", "United Kingdom (GB)", "Global (ALL)"])
+    with col2:
+        platform_source = st.selectbox(t["platform"], [
+            "TikTok Shop / Viral", "Instagram Reels", "Google Trends", "Amazon Movers",
+            "YouTube Shorts", "Twitter / X Trends", "Reddit Viral Subs", "Product Hunt",
+            "Substack / Newsletters", "LinkedIn B2B Trends", "App Store Charts", "Telegram Crypto Channels"
+        ])
+    with col3:
+        category_options = list(UPDATED_NICHE_CATEGORIES.keys())
+        selected_category = st.selectbox(t["category"], category_options)
+    with col4:
+        sub_niches_list = ["All Sub-Niches"] + UPDATED_NICHE_CATEGORIES.get(selected_category, [])
+        selected_sub_niche = st.selectbox(t["sub_category"], sub_niches_list)
+    with col5:
+        timeframe = st.selectbox(t["velocity"], ["Realtime Spike (24h)", "7 Days Rolling", "30 Days Momentum", "90 Days Macro Trend"])
 
-    if not st.session_state["is_premium"]:
-        st.warning("🔒 MASTER INTELLIGENCE & REVENUE SUITE IS LOCKED")
-        st.info("Unlock all monetization rate cards, video retention storyboards, virality prediction formulas, and scaling rules.")
-        st.link_button("🔥 Upgrade to Pro & Unlock Master Engine", STRIPE_CHECKOUT_URL, use_container_width=True)
-    else:
-        st.success("🔓 MASTER PRO ENGINE ACTIVE (FULL REVENUE SUITE)")
+    execute_btn = st.button(t["apply_btn"], use_container_width=True)
 
-        asset_list = [item["Keyword"] for item in active_signals]
-        selected_asset = st.selectbox("🎯 Select Ingested Asset:", options=asset_list, index=0)
+    tab1, tab2, tab3 = st.tabs([t["tab_radar"], t["tab_blueprint"], t["tab_db"]])
 
-        target_role = st.selectbox(
-            "👤 Operating Role (6 User Modes):",
-            [
-                "🛍️ E-Commerce Merchants & D2C Brands",
-                "🎬 Viral Content Creators & Media Houses",
-                "💸 Affiliate Marketers & Arbitrage Traders",
-                "🏢 Real Estate Agents & High-Ticket Brokers",
-                "💻 SaaS Founders, AI Builders & Solopreneurs",
-                "📈 Stock & Crypto Traders / Market Analysts"
-            ],
-            index=0
-        )
+    with tab1:
+        st.markdown(f"### {t['telemetry_title']}")
+        custom_query = st.text_input(t["custom_search"], placeholder="Type any keyword or asset name to track instantly...")
+        
+        signals_data = fetch_and_store_signals(region, platform_source, selected_category, selected_sub_niche, timeframe)
+        
+        if custom_query:
+            signals_data.insert(0, {
+                "Keyword": f"Custom Injected Asset: {custom_query}",
+                "Entity": "Custom User Target Hub",
+                "Volume": f"1,850,000 Interactions ({region})",
+                "Velocity": "🔥 Explosive Custom Spike"
+            })
 
-        velocity_score = signal_scores.get(selected_asset, 94.2)
+        st.markdown(f"**{t['active_signals_for']} {selected_category} -> {selected_sub_niche}**")
+        df_signals = pd.DataFrame(signals_data)
+        st.dataframe(df_signals, use_container_width=True, hide_index=True)
 
-        if st.button("🚀 Generate Master Intelligence & Revenue Dossier", use_container_width=True):
-            with st.spinner("⚡ Synthesizing Master Dossier with Advanced Revenue & Scaling Modules..."):
-                dossier_result = generate_master_enterprise_dossier(
-                    selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, velocity_score, selected_lang
+        st.markdown("#### 📈 Realtime Velocity Score Curve")
+        chart_data = pd.DataFrame({
+            "Day": [f"Day {i+1}" for i in range(7)],
+            "Engagement Velocity Score": [45, 62, 78, 85, 92, 96, 99]
+        })
+        fig = px.line(chart_data, x="Day", y="Engagement Velocity Score", markers=True, line_shape="spline")
+        fig.update_traces(line_color="#ff4b4b", line_width=3)
+        fig.update_layout(plot_bgcolor="#161b22", paper_bgcolor="#0e1117", font_color="#fafafa")
+        st.plotly_chart(fig, use_container_width=True)
+
+    with tab2:
+        st.markdown(f"### {t['tab_blueprint']}")
+        
+        if not simulate_pro:
+            st.warning("🔒 Pro Subscription Required for Full Commercial Dossier Engine. Please activate Pro mode in the Enterprise Terminal sidebar.")
+            st.markdown(f"[🚀 Click Here to Upgrade via Stripe]({STRIPE_CHECKOUT_URL})", unsafe_allow_html=True)
+        else:
+            asset_options = [s["Keyword"] for s in signals_data]
+            selected_asset = st.selectbox("Select Asset / Signal to Generate Dossier:", asset_options)
+            
+            role_options = list(ROLE_SPECIFIC_METRICS.keys())
+            selected_role = st.selectbox("Select Target Operating Role:", role_options)
+            
+            if st.button("🚀 Generate Master Intelligence & Revenue Dossier", use_container_width=True):
+                with st.spinner("Executing multi-agent enterprise synthesis & financial modeling..."):
+                    dossier = generate_master_enterprise_dossier(
+                        selected_asset, selected_category, selected_sub_niche, 
+                        selected_role, platform_source, timeframe, 98.4, selected_lang
+                    )
+                    
+                    st.session_state["last_dossier"] = dossier
+                    st.session_state["last_asset"] = selected_asset
+                    st.session_state["last_role"] = selected_role
+
+            if "last_dossier" in st.session_state:
+                d = st.session_state["last_dossier"]
+                
+                pdf_file = create_pdf_dossier(
+                    st.session_state["last_asset"], selected_category, 
+                    st.session_state["last_role"], d["viral_score"], timeframe, d
                 )
-
-                st.markdown(f"""
-                # ⚡ TrendPulse AI — Master Intelligence & Revenue Scale Dossier
-                > **Asset Target:** `{selected_asset}`  
-                > **Category:** {selected_category} / `{selected_sub_niche}` | **Operating Role:** {target_role}  
-                > **Predictive Viral Score:** **{velocity_score} / 100** | **Timing Window:** {timeframe} | **Revenue Multiplier Mode:** 🟢 Active
-                """)
-                st.markdown("---")
-
-                pdf_buffer = create_pdf_dossier(selected_asset, selected_category, target_role, velocity_score, timeframe, dossier_result)
                 st.download_button(
                     label="📥 Download Official PDF Commercial & Revenue Dossier",
-                    data=pdf_buffer,
-                    file_name=f"TrendPulse_Revenue_Dossier_{sanitize_trend_input(selected_asset)[:20]}.pdf",
+                    data=pdf_file,
+                    file_name="TrendPulse_Master_Revenue_Dossier.pdf",
                     mime="application/pdf",
                     use_container_width=True
                 )
-                st.markdown("---")
 
-                sections_meta = [
-                    ("1. Advanced Monetization, Rate Card & Unit Economics Vault", dossier_result.get("unit_economics", "")),
-                    ("2. Geo-Targeting & Regional Hotspot Mapping", dossier_result.get("geo_mapping", "")),
-                    ("3. Psychological Hook Matrix & Video Storyboard (0-3s)", dossier_result.get("hook_matrix", "")),
-                    ("4. Ready-to-Deploy Multi-Angle Copywriting Vault", dossier_result.get("copywriting_vault", "")),
-                    ("5. Competitor & Market Saturation Threat Matrix", dossier_result.get("saturation_matrix", "")),
-                    ("6. AI Prompt Engineering & Script Generation Pack", dossier_result.get("tech_prompts", "")),
-                    ("7. Algorithmic Scale vs Kill Risk Management Rules", dossier_result.get("scale_kill_rules", "")),
-                    ("8. Realtime Audience Sentiment & Virality Predictive Formula", dossier_result.get("virality_formula", "")),
-                    ("9. Multi-Platform Syndication & Marketing Matrix", dossier_result.get("syndication_matrix", "")),
-                    ("10. Automated 10-Day Master Execution & Scaling Roadmap", dossier_result.get("action_roadmap", ""))
+                st.markdown("---")
+                sections_mapping = [
+                    ("1. Advanced Monetization, Rate Card & Unit Economics Vault", d.get("unit_economics", "")),
+                    ("2. Geo-Targeting & Regional Hotspot Mapping", d.get("geo_mapping", "")),
+                    ("3. Psychological Hook Matrix & Video Storyboard (0-3s)", d.get("hook_matrix", "")),
+                    ("4. Ready-to-Deploy Multi-Angle Copywriting Vault", d.get("copywriting_vault", "")),
+                    ("5. Competitor & Market Saturation Threat Matrix", d.get("saturation_matrix", "")),
+                    ("6. AI Prompt Engineering & Script Generation Pack", d.get("tech_prompts", "")),
+                    ("7. Algorithmic Scale vs Kill Risk Management Rules", d.get("scale_kill_rules", "")),
+                    ("8. Realtime Audience Sentiment & Virality Predictive Formula", d.get("virality_formula", "")),
+                    ("9. Multi-Platform Syndication & Marketing Matrix", d.get("syndication_matrix", "")),
+                    ("10. Automated 10-Day Master Execution & Scaling Roadmap", d.get("action_roadmap", ""))
                 ]
 
-                for sec_title, sec_content in sections_meta:
-                    st.markdown(f"### {sec_title}")
-                    st.markdown(sec_content)
-                    st.markdown("")
+                for sec_title, sec_content in sections_mapping:
+                    with st.expander(sec_title, expanded=True):
+                        st.markdown(sec_content)
 
-with tab_db:
-    st.subheader("🗄️ SQLite Database Inspector & Execution Logs")
-    try:
-        cursor_db = db_conn.cursor()
-        cursor_db.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = [row[0] for row in cursor_db.fetchall()]
-        st.markdown(f"**Active Tables in Database:** `{tables}`")
-        
-        selected_table = st.selectbox("Inspect Table Records:", options=tables, index=0 if tables else None)
-        if selected_table:
-            df_table = pd.read_sql_query(f"SELECT * FROM {selected_table} ORDER BY rowid DESC LIMIT 50", db_conn)
-            st.dataframe(df_table, use_container_width=True)
-    except Exception as e:
-        st.error(f"Database inspection error: {e}")
+    with tab3:
+        st.markdown(f"### {t['tab_db']}")
+        try:
+            cursor = db_conn.cursor()
+            cursor.execute("SELECT * FROM platform_signals ORDER BY timestamp DESC LIMIT 50")
+            rows = cursor.fetchall()
+            df_db = pd.DataFrame(rows, columns=["Signal ID", "Platform Source", "Keyword & Entity", "Engagement Metrics", "Region", "Timestamp"])
+            st.dataframe(df_db, use_container_width=True, hide_index=True)
+        except Exception as e:
+            st.error(f"Database Inspection Error: {e}")
+
+if __name__ == "__main__":
+    main()
