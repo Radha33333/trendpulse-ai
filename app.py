@@ -141,13 +141,9 @@ SUB_NICHE_SIGNALS_FALLBACK = {
     "Religious Festivals": ["Eco-Friendly Festival Decor", "Handloom Festival Wear", "Spiritual Retreat Bundles"]
 }
 
-CATEGORY_FALLBACK = {
-    "🛒 E-Commerce & Viral Shopping": ["Ergonomic Desk Accessories", "Smart Pet Hardware", "Wireless Charging Docks"],
-    "💻 Digital Products & AI Tools": ["Generative AI Workflows", "Micro-SaaS Software", "Automation Scripts"],
-    "✈️ Travel, Hotels & Food": ["Boutique Eco Stays", "Culinary Food Tours", "Adventure Travel Gear"],
-    "🏛️ Politics, News & Civic Events": ["Civic Engagement Portals", "Public Policy Dashboards", "Electoral Analysis"],
-    "🛕 Faith, Festivals & Sacred Travel": ["Heritage Sacred Circuits", "Pilgrimage Booking Hubs", "Festival Handicrafts"]
-}
+CATEGORY_FALLBACK = [
+    "Ergonomic Desk Accessories", "Smart Pet Hardware", "Generative AI Workflows", "Micro-SaaS Software"
+]
 
 # ==========================================
 # 4. HELPER FUNCTIONS & EXPORTER ENGINE
@@ -225,18 +221,10 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
     except Exception:
         pass
 
-    # FIXED: Direct fallback handling per Sub-Niche or Category fallback
     if sub_niche != "All Sub-Niches" and sub_niche in SUB_NICHE_SIGNALS_FALLBACK:
         default_keywords = SUB_NICHE_SIGNALS_FALLBACK[sub_niche]
-    elif category in CATEGORY_FALLBACK:
-        default_keywords = CATEGORY_FALLBACK[category]
     else:
-        # Fallback across all available sub-niches under current category
-        category_sub_niches = UPDATED_NICHE_CATEGORIES.get(category, [])
-        default_keywords = []
-        for sn in category_sub_niches:
-            if sn in SUB_NICHE_SIGNALS_FALLBACK:
-                default_keywords.extend(SUB_NICHE_SIGNALS_FALLBACK[sn][:1])
+        default_keywords = CATEGORY_FALLBACK
 
     combined = [
         {"Keyword": f"{kw} [{platform_source}]", "Volume": f"150K+ ({timeframe})"}
