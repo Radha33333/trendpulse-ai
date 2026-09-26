@@ -1,4 +1,3 @@
-import html
 import io
 import json
 import os
@@ -21,414 +20,487 @@ st.set_page_config(
     page_title="TrendPulse AI - Commercial Signal Intelligence",
     page_icon="⚡",
     layout="wide",
-    initial_sidebar_state="expanded",
 )
 
+# API Key fallback check (Supports Streamlit secrets or OS Environment Variable)
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY", ""))
-
-# Authentication Credentials
-USER_CREDENTIALS = {
-    "admin": "trendpulse2026",
-    "creator": "viral123"
-}
-
-# Language Dictionaries
-TRANSLATIONS = {
-    "English": {
-        "title": "TRENDPULSE",
-        "subtitle": "Commercial Signal Intelligence | Automated Creator & Merchant Strategy Engine",
-        "pro_badge": "🟢 PRO TERMINAL ACTIVE",
-        "login_header": "🔐 User Authentication",
-        "login_btn": "Login",
-        "logout_btn": "Logout",
-        "auth_failed": "Invalid Username or Password",
-        "region": "🌍 Region:",
-        "source": "📱 Source:",
-        "niche_cat": "📁 Niche Category:",
-        "sub_niche": "🔍 Sub-Niche:",
-        "velocity_win": "⏱️ Velocity Window:",
-        "telemetry_title": "📊 Signal Telemetry",
-        "active_sub_filter": "Active Sub-Niche Filter:",
-        "custom_search_label": "🔍 Custom Asset Search:",
-        "custom_search_placeholder": "Enter keyword to override...",
-        "predictive_title": "📈 Predictive Trajectory",
-        "signal_cfg": "🎯 Signal Configuration",
-        "target_signal": "Target Signal:",
-        "operating_role": "Operating Role:",
-        "gen_btn": "⚡ Generate Strategy Blueprint",
-        "blueprint_title": "💡 Master Strategy Blueprint",
-        "monetization": "💰 Monetization Model",
-        "role_directives": "🎬 Role Directives",
-        "hook_script": "⚡ 0-3s Visual Hook Script",
-        "ad_copy": "📢 Caption & Ad Copy",
-        "roadmap": "⏱️ 48-Hour Action Roadmap",
-        "competitor": "🕵️ Competitor Benchmarks",
-        "prompt_title": "🚀 Ready-to-Use AI Video & Content Production Prompt",
-        "download_pdf": "📄 Download Complete PDF Blueprint",
-        "select_prompt": "👈 Select a target signal and click 'Generate Strategy Blueprint' to view actionable tactics.",
-        "lang_label": "🌐 Language / भाषा:"
-    },
-    "हिन्दी": {
-        "title": "ट्रेंडपल्स",
-        "subtitle": "कमर्शियल सिग्नल इंटेलिजेंस | स्वचालित क्रिएटर और मर्चेंट रणनीति इंजन",
-        "pro_badge": "🟢 प्रो टर्मिनल सक्रिय",
-        "login_header": "🔐 उपयोगकर्ता प्रमाणीकरण",
-        "login_btn": "लॉग इन करें",
-        "logout_btn": "लॉग आउट करें",
-        "auth_failed": "अमान्य उपयोगकर्ता नाम या पासवर्ड",
-        "region": "🌍 क्षेत्र:",
-        "source": "📱 स्रोत:",
-        "niche_cat": "📁 नीश श्रेणी:",
-        "sub_niche": "🔍 उप-नीश (Sub-Niche):",
-        "velocity_win": "⏱️ गति विंडो (Velocity Window):",
-        "telemetry_title": "📊 सिग्नल टेलीमेट्री",
-        "active_sub_filter": "सक्रिय उप-नीश फ़िल्टर:",
-        "custom_search_label": "🔍 कस्टम एसेट खोज:",
-        "custom_search_placeholder": "ओवरराइड करने के लिए कीवर्ड दर्ज करें...",
-        "predictive_title": "📈 प्रेडिक्टिव प्रक्षेपवक्र (Trajectory)",
-        "signal_cfg": "🎯 सिग्नल कॉन्फ़िगरेशन",
-        "target_signal": "लक्ष्य सिग्नल:",
-        "operating_role": "ऑपरेटिंग भूमिका:",
-        "gen_btn": "⚡ रणनीति खाका तैयार करें",
-        "blueprint_title": "💡 मास्टर रणनीति खाका (Strategy Blueprint)",
-        "monetization": "💰 मुद्रीकरण मॉडल (Monetization)",
-        "role_directives": "🎬 भूमिका निर्देश",
-        "hook_script": "⚡ 0-3s विज़ुअल हुक स्क्रिप्ट",
-        "ad_copy": "📢 कैप्शन्स और विज्ञापन कॉपी",
-        "roadmap": "⏱️ 48-घंटे का एक्शन रोडमैप",
-        "competitor": "🕵️ प्रतियोगी बेंचमार्क",
-        "prompt_title": "🚀 उपयोग के लिए तैयार AI वीडियो और सामग्री प्रॉम्प्ट",
-        "download_pdf": "📄 संपूर्ण PDF ब्लूप्रिंट डाउनलोड करें",
-        "select_prompt": "👈 कार्रवाई योग्य रणनीति देखने के लिए एक लक्ष्य सिग्नल चुनें और 'रणनीति खाका तैयार करें' पर क्लिक करें।",
-        "lang_label": "🌐 Language / भाषा:"
-    }
-}
+STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
 # ==========================================
-# 2. INJECT DARK GLASSMORPHISM BENTO CSS
+# 2. CATEGORY ARCHITECTURE & MAPPINGS
 # ==========================================
-st.markdown("""
-<style>
-    .stApp {
-        background-color: #0b0f17;
-        color: #e2e8f0;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    div[data-testid="stVerticalBlock"] > div[style*="border"] {
-        background: rgba(17, 24, 39, 0.6) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 14px !important;
-        padding: 18px !important;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        transition: border-color 0.2s ease;
-    }
-
-    div[data-testid="stVerticalBlock"] > div[style*="border"]:hover {
-        border-color: rgba(255, 75, 75, 0.3) !important;
-    }
-
-    .stButton > button {
-        background: linear-gradient(135deg, #ff4b4b 0%, #d32f2f 100%) !important;
-        color: #ffffff !important;
-        border: none !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.5px;
-        box-shadow: 0 0 15px rgba(255, 75, 75, 0.4);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-    
-    .stButton > button:hover {
-        box-shadow: 0 0 25px rgba(255, 75, 75, 0.8) !important;
-        transform: translateY(-1px);
-    }
-
-    .metric-badge {
-        background: rgba(255, 75, 75, 0.1);
-        border: 1px solid rgba(255, 75, 75, 0.3);
-        color: #ff4b4b;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        display: inline-block;
-    }
-
-    h1, h2, h3, h4 {
-        color: #ffffff !important;
-        font-weight: 700 !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# ==========================================
-# 3. COMPLETE RESTORED CATEGORY ARCHITECTURE
-# ==========================================
-ALL_NICHE_CATEGORIES = {
+UPDATED_NICHE_CATEGORIES = {
     "🛒 E-Commerce & Viral Shopping": [
-        "Predicted Bestsellers", "TikTok Shop Products", "Upcoming High-Demand Drops", "Amazon Hot Movers"
-    ],
-    "💻 Digital Products & AI Tools": [
-        "Generative AI Software", "SaaS & Workflows", "Ebooks & Courses", "Templates & Prompts"
-    ],
-    "✈️ Travel, Hotels & Food": [
-        "Trending Destinations", "Hidden Tourist Places", "Restaurants & Stays", "Gourmet Food Shifts"
+        "Predicted Bestsellers",
+        "TikTok Shop Products",
+        "Upcoming High-Demand Drops",
+        "Amazon Hot Movers",
     ],
     "🏛️ Politics, News & Civic Events": [
-        "Elections & Rallies", "Legislative Assembly Debates", "Protests & Policy Changes"
+        "Elections & Rallies",
+        "Legislative Assembly & Sabha Debates",
+        "Protests & Policy Changes",
+        "Politician Speeches",
     ],
     "🛕 Faith, Festivals & Sacred Travel": [
-        "Famous Temples", "Hidden & Ancient Temples", "Religious Festivals"
+        "Famous Temples",
+        "Hidden & Ancient Temples",
+        "Religious Festivals",
+        "Pilgrimage Circuits",
     ],
-    "🏋️ Fitness, Health & Wellness": [
-        "Home Gym Equipment", "Supplements & Biohacking", "Workout Routines & Apps"
+    "✈️ Travel, Hotels & Food": [
+        "Trending Destinations",
+        "Hidden Tourist Places",
+        "Restaurants & Stays",
+        "Veg & Non-Veg Gourmet",
     ],
-    "🎮 Gaming & Esports": [
-        "Viral Indie Games", "Esports Tournaments", "Gaming Hardware & Gear"
+    "🌟 Celebrities & Sports Stars": [
+        "Cricket & Sports Idols",
+        "Movie & OTT Stars",
+        "Viral Influencers",
+        "Tournament Buzz",
     ],
-    "👗 Fashion & Personal Style": [
-        "Streetwear Drops", "Sustainable Fashion", "Luxury & Dupes"
+    "🏢 Real Estate & High-Ticket Props": [
+        "Rental Yield Hotspots",
+        "PropTech & Smart Homes",
+        "Luxury Estates",
+        "Commercial Spaces",
     ],
-    "💵 Personal Finance & Crypto": [
-        "Crypto Trends & Altcoins", "Budgeting Tools", "Investment Strategies"
+    "💄 Beauty, Skincare & Lifestyle": [
+        "UGC Skincare Hacks",
+        "Clean Beauty Products",
+        "Anti-Aging Devices",
+        "Sustainable Fashion",
     ],
-    "🚗 Automotive & Mobility": [
-        "Electric Vehicles (EVs)", "Car Accessories & Mods", "Commuter Hardware"
-    ]
+    "💻 Digital Products & AI Tools": [
+        "Generative AI Software",
+        "SaaS & Workflows",
+        "Ebooks & Courses",
+        "Templates & Prompts",
+    ],
 }
 
-SUB_NICHE_SIGNALS_FALLBACK = {
-    # E-Commerce
-    "Predicted Bestsellers": ["Ergonomic Mechanical Keyboards", "Smart LED Desk Mat", "Self-Cleaning Water Bottles"],
-    "TikTok Shop Products": ["Sunset Projection Lamp", "MagSafe Pocket Powerbank", "Viral Lip Oils"],
-    "Upcoming High-Demand Drops": ["Thermal Label Printers", "Modular Travel Backpacks", "Portable Mini Espresso Makers"],
-    "Amazon Hot Movers": ["Posture Corrector Wearables", "Foldable Electric Scooters", "Air Purifier Desk Fans"],
-
-    # Digital Products
-    "Generative AI Software": ["AI Video Rendering Plugins", "Generative Voice Cloning SaaS", "AI Presentation Builders"],
-    "SaaS & Workflows": ["Automated Invoicing Integrations", "Micro-SaaS CRM Dashboards", "No-Code Database Sync"],
-    "Ebooks & Courses": ["Solopreneur Agency Playbooks", "Prompt Engineering Guides", "Algorithmic Trading Guides"],
-    "Templates & Prompts": ["Notion Finance Trackers", "Figma UI Component Systems", "Midjourney Prompt Vaults"],
-
-    # Travel & Food
-    "Trending Destinations": ["Varkala Cliff Beach Stays", "Spiti Valley Roadtrip Circuit", "Coorg Eco-Resorts"],
-    "Hidden Tourist Places": ["Gokarna Secret Beaches", "Tirthan Valley River Cabins", "Mawlynnong Clean Village"],
-    "Restaurants & Stays": ["Cloud Kitchen Burger Collabs", "Heritage Fort Boutique Stays", "Artisanal Coffee Roasteries"],
-    "Gourmet Food Shifts": ["Matcha Specialty Cafes", "Korean Street Food Popups", "Plant-Based Protein Snacks"],
-
-    # Politics & News
-    "Elections & Rallies": ["Assembly Election Campaigns", "Youth Voter Registration Drives", "Political Rally Live-Streams"],
-    "Legislative Assembly Debates": ["Digital Economy Regulation Bills", "Tech Infrastructure Budgets", "Civic Land Usage Acts"],
-    "Protests & Policy Changes": ["Gig Worker Welfare Directives", "Environmental Zoning Laws", "Tax Policy Adjustments"],
-
-    # Faith & Sacred Travel
-    "Famous Temples": ["Kashi Vishwanath Corridor Travel", "Tirupati Balaji VIP Pilgrimage", "Kedarnath Yatra Packages"],
-    "Hidden & Ancient Temples": ["Bhimashankar Forest Temple Trail", "Khajuraho Ancient Architecture", "Lepakshi Hanging Pillar Temple"],
-    "Religious Festivals": ["Eco-Friendly Festival Decor", "Handloom Festival Wear", "Spiritual Retreat Bundles"],
-
-    # Fitness
-    "Home Gym Equipment": ["Adjustable Smart Dumbbells", "Foldable Walking Pads", "Resistance Band Bar Sets"],
-    "Supplements & Biohacking": ["Cold Plunge Tubs", "NMN Longevity Boosters", "Electrolyte Hydration Mixes"],
-    "Workout Routines & Apps": ["HYROX Training Manuals", "Calisthenics Skill Trees", "AI Form Correction Apps"],
-
-    # Gaming
-    "Viral Indie Games": ["Co-Op Horror Games", "Pixel Art Deckbuilders", "Procedural Survival Simulators"],
-    "Esports Tournaments": ["Valorant Regional Finals", "Mobile Legends League", "Counter-Strike Major Qualifiers"],
-    "Gaming Hardware & Gear": ["Rapid Trigger Keyboards", "Ultralight Wireless Mice", "OLED Gaming Monitors"],
-
-    # Fashion
-    "Streetwear Drops": ["Heavyweight Boxy Tees", "Gorpcore Cargo Pants", "Retro Runner Sneakers"],
-    "Sustainable Fashion": ["Thrifted Vintage Jackets", "Bamboo Fiber Wear", "Upcycled Denim Bags"],
-    "Luxury & Dupes": ["Minimalist Leather Totes", "Designer Sunglasses Alternatives", "Scent Dupes & Perfume Oils"],
-
-    # Finance
-    "Crypto Trends & Altcoins": ["Layer 2 Scaling Networks", "AI Agent Crypto Tokens", "Real World Asset Tokenization"],
-    "Budgeting Tools": ["Zero-Based Budget Sheets", "Automated Micro-Investing Apps", "Debt Payoff Trackers"],
-    "Investment Strategies": ["High-Yield Savings Hacks", "Index Fund Starter Kits", "Dividend Growth Portfolios"],
-
-    # Automotive
-    "Electric Vehicles (EVs)": ["Compact City EVs", "Bidirectional Charging Units", "LFP Battery Retrofits"],
-    "Car Accessories & Mods": ["Dashcams with 4K AI Vision", "Custom Ambient LED Lighting", "Wireless CarPlay Adapters"],
-    "Commuter Hardware": ["Electric Skateboard Hubs", "E-Bike Cargo Racks", "Smart Helmet Headsets"]
+CATEGORY_SIGNALS_FALLBACK = {
+    "🛒 E-Commerce & Viral Shopping": [
+        "Next-Gen Ergonomic Desk Accessories",
+        "Smart Pet Grooming Hardware",
+        "Self-Cleaning Water Bottles",
+        "Aesthetic MagSafe Powerbanks",
+    ],
+    "🏛️ Politics, News & Civic Events": [
+        "Assembly Election Rallies & Turnout",
+        "Parliament Digital Economy Policy Debates",
+        "State Infrastructure Bill & Public Protests",
+        "Civic Reform & Election Key Speeches",
+    ],
+    "🛕 Faith, Festivals & Sacred Travel": [
+        "Unexplored Ancient Temples Circuit Travel",
+        "Upcoming Festival Handicrafts & Festive Decor",
+        "Pilgrimage Eco-Resorts & VIP Pass Trends",
+        "Historic Temple Heritage Restoration",
+    ],
+    "✈️ Travel, Hotels & Food": [
+        "Hidden Hill Station Stays & Eco-Resorts",
+        "Regional Non-Veg Fusion Food Spots",
+        "Fine Dining Cloud Kitchen Collaborations",
+        "Offbeat Coastal Escapes & Stays",
+    ],
+    "🌟 Celebrities & Sports Stars": [
+        "World Cup Squad Announcements & Fan Buzz",
+        "OTT Blockbuster Movie Trailer Drops",
+        "Athlete Fitness Routines & Brand Endorsements",
+        "Viral Pop Culture Influencer Moments",
+    ],
+    "🏢 Real Estate & High-Ticket Props": [
+        "High Yield Tier-2 City Commercial Hubs",
+        "AI-Integrated PropTech Smart Homes",
+        "Luxury Gated Communities & Villas",
+        "Co-Living & Flexible Work Spaces",
+    ],
+    "💄 Beauty, Skincare & Lifestyle": [
+        "Micro-Needling & Anti-Aging At-Home Devices",
+        "Korean Glass-Skin Serum UGC Campaigns",
+        "Sustainable Organic Linen Capsule Wardrobe",
+        "Clean Eco-Friendly Cosmetics",
+    ],
+    "💻 Digital Products & AI Tools": [
+        "Automated AI Workflow & Prompt Libraries",
+        "Micro-SaaS Invoicing & Booking Plugins",
+        "Digital Notion Planners & Finance Dashboards",
+        "Generative Video Editing Extensions",
+    ],
 }
 
-CATEGORY_FALLBACK = [
-    "Ergonomic Desk Accessories", "Smart Pet Hardware", "Generative AI Workflows", "Micro-SaaS Software"
-]
+# ==========================================
+# 3. TRANSLATIONS / LOCALIZATION
+# ==========================================
+TEXTS = {
+    "English": {
+        "title": "⚡ TrendPulse AI: Commercial Signal Intelligence",
+        "subtitle": "Predictive Trend Intelligence | Automated Creator & Merchant Signal Engine",
+        "terminal": "🔑 Enterprise Access Terminal",
+        "simulate_pro": "Simulate Pro Subscription Access",
+        "config_title": "🎛️ Signal Intelligence Configuration",
+        "region": "🌍 Target Region:",
+        "platform": "📱 Platform Source:",
+        "category": "📁 Niche Category:",
+        "sub_category": "🔍 Sub-Niche Focus (Optional):",
+        "velocity": "⏱️ Signal Velocity:",
+        "apply_btn": "🚀 Apply Configuration & Update Radar",
+        "telemetry_title": "📊 Live Telemetry & Growth Forecast",
+        "custom_search": "🔍 Custom Asset Search (Optional):",
+        "active_signals_for": "Active Signals for:",
+        "filtered_asset": "Trending Signal",
+        "search_volume": "Search Volume",
+        "future_forecast": "Future Trend Forecast",
+        "chart_title": "📈 Dynamic Velocity & Demand Forecast Curve",
+        "matrix_title": "💡 Actionable Intelligence & Strategy Matrix",
+        "locked_title": "🔒 MULTI-CHANNEL BLUEPRINT IS LOCKED",
+        "locked_info": "Unlock high-converting scripts, viral hooks, ad copy, and step-by-step execution plan.",
+        "upgrade_btn": "🔥 Upgrade to Pro & Unlock Full Engine",
+        "analyzing_custom": "Analyzing Signal Potential for:",
+        "select_asset": "🎯 Select Filtered Asset:",
+        "operating_role": "👤 Operating Role:",
+        "gen_blueprint": "⚡ Generate Master Strategy Blueprint",
+        "monetization": "💰 Direct High-ROI Monetization Model",
+        "content_directives": "🎬 Role-Specific Content Directives & Story Blueprint",
+        "hook": "⚡ Visual Hook & Pattern Interrupt Script (0-3s)",
+        "audio": "🎵 Recommended Audio / Tone Directives",
+        "caption": "📢 Caption, Call to Action & Copy Framework",
+        "plan": "⏱️ Time-Chunked Action Roadmap (0-1h, 6h, 48h)",
+        "score_label": "Predictive Viral Score",
+        "export_pdf_btn": "📄 Download Blueprint PDF",
+        "share_wa_btn": "💬 Share to WhatsApp",
+        "competitor_insight": "🕵️ Live Competitor Ad Intelligence & Benchmarks",
+    },
+    "Hindi": {
+        "title": "⚡ TrendPulse AI: कमर्शियल सिग्नल इंटेलिजेंस",
+        "subtitle": "प्रेडिक्टिव ट्रेंड इंटेलिजेंस | ऑटोमेटेड क्रिएटर और मर्चेंट सिग्नल इंजन",
+        "terminal": "🔑 एंटरप्राइज एक्सेस टर्मिनल",
+        "simulate_pro": "प्रो सब्सक्रिप्शन एक्सेस सिमुलेट करें",
+        "config_title": "🎛️ सिग्नल इंटेलिजेंस कॉन्फ़िगरेशन",
+        "region": "🌍 टारगेट रीजन (क्षेत्र):",
+        "platform": "📱 प्लेटफॉर्म सोर्स:",
+        "category": "📁 नीश कैटेगरी:",
+        "sub_category": "🔍 सब-नीश फ़ोकस (वैकल्पिक):",
+        "velocity": "⏱️ सिग्नल वेलोसिटी:",
+        "apply_btn": "🚀 कॉन्फ़िगरेशन लागू करें और रडार अपडेट करें",
+        "telemetry_title": "📊 लाइव टेलीमेट्री और ग्रोथ पूर्वानुमान",
+        "custom_search": "🔍 कस्टम एसेट सर्च (वैकल्पिक):",
+        "active_signals_for": "सक्रिय सिग्नल:",
+        "filtered_asset": "ट्रेंडिंग सिग्नल",
+        "search_volume": "सर्च वॉल्यूम",
+        "future_forecast": "फ्यूचर ट्रेंड फोरकास्ट",
+        "chart_title": "📈 डायनेमिक वेलोसिटी और डिमांड फ़ोरकास्ट कर्व",
+        "matrix_title": "💡 एक्शनएबल इंटेलिजेंस और स्ट्रैटेजी मैट्रिक्स",
+        "locked_title": "🔒 मल्टी-चैनल ब्लूप्रिंट लॉक है",
+        "locked_info": "हाई-कन्वर्टिंग स्क्रिप्ट, वायरल हुक, एड कॉपी और एग्जीक्यूशन प्लान अनलॉक करें।",
+        "upgrade_btn": "🔥 प्रो में अपग्रेड करें और पूरा इंजन अनलॉक करें",
+        "analyzing_custom": "सिग्नल क्षमता का विश्लेषण:",
+        "select_asset": "🎯 फ़िल्टर किया गया एसेट चुनें:",
+        "operating_role": "👤 आपकी भूमिका (Role):",
+        "gen_blueprint": "⚡ मास्टर स्ट्रैटेजी ब्लूप्रिंट जनरेट करें",
+        "monetization": "💰 डायरेक्ट हाई-ROI मोनेटाइजेशन मॉडल",
+        "content_directives": "🎬 रोल-स्पेसिफिक कंटेंट डायरेक्टिव्स और स्टोरी ब्लूप्रिंट",
+        "hook": "⚡ विजुअल हुक और पैटर्न इंटरप्ट स्क्रिप्ट (0-3s)",
+        "audio": "🎵 अनुशंसित ऑडियो / टोन डायरेक्टिव्स",
+        "caption": "📢 कैप्शन, कॉल टू एक्शन और कॉपी फ्रेमवर्क",
+        "plan": "⏱️ टाइम-चंक्ड एक्शन रोडमैप (0-1h, 6h, 48h)",
+        "score_label": "अनुमानित वायरल स्कोर",
+        "export_pdf_btn": "📄 ब्लूप्रिंट PDF डाउनलोड करें",
+        "share_wa_btn": "💬 व्हाट्सएप पर शेयर करें",
+        "competitor_insight": "🕵️ लाइव कॉम्पिटिटर एड इंटेलिजेंस",
+    },
+}
 
 # ==========================================
-# 4. AUTHENTICATION SIDEBAR
+# 4. HELPER FUNCTIONS & PDF ENGINE
 # ==========================================
-if "authenticated" not in st.session_state:
-    st.session_state["authenticated"] = False
+def safe_xml_text(text: str) -> str:
+    """Escapes XML elements and converts basic Markdown bold into ReportLab tags."""
+    if not text:
+        return ""
+    clean = (
+        str(text)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
+    clean = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', clean)
+    return clean
 
-with st.sidebar:
-    st.markdown("### ⚙️ Control Panel")
-    selected_lang = st.selectbox("🌐 Language / भाषा:", ["English", "हिन्दी"])
-    t = TRANSLATIONS[selected_lang]
-
-    st.markdown("---")
-    if not st.session_state["authenticated"]:
-        st.markdown(f"### {t['login_header']}")
-        username_input = st.text_input("Username / उपयोगकर्ता नाम")
-        password_input = st.text_input("Password / पासवर्ड", type="password")
-        if st.button(t["login_btn"], use_container_width=True):
-            if USER_CREDENTIALS.get(username_input) == password_input:
-                st.session_state["authenticated"] = True
-                st.session_state["user"] = username_input
-                st.rerun()
-            else:
-                st.error(t["auth_failed"])
-    else:
-        st.success(f"Logged in as: **{st.session_state.get('user', 'User')}**")
-        if st.button(t["logout_btn"], use_container_width=True):
-            st.session_state["authenticated"] = False
-            st.rerun()
-
-if not st.session_state["authenticated"]:
-    st.title("🔒 TrendPulse AI - Locked Terminal")
-    st.info("Please enter your Username and Password in the sidebar to access the terminal.")
-    st.stop()
-
-# ==========================================
-# 5. HELPER FUNCTIONS & EXPORTER ENGINE
-# ==========================================
 def sanitize_trend_input(text: str) -> str:
+    """Strips system tags, bracketed metadata, and formatting artifacts."""
     if not text:
         return ""
     cleaned = re.sub(r'\[.*?\]', '', text)
     cleaned = re.sub(r'^\s*n\s+', '', cleaned)
-    return re.sub(r'\s+', ' ', cleaned).strip()
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned
 
-def create_pdf_blueprint(asset_name, category, sub_niche, role, viral_score, window, result):
+def create_pdf_blueprint(asset_name, category, role, viral_score, window, result):
     clean_asset = sanitize_trend_input(asset_name)
+    clean_cat = sanitize_trend_input(category)
+
     buffer = io.BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        rightMargin=36,
+        leftMargin=36,
+        topMargin=36,
+        bottomMargin=36,
+    )
     styles = getSampleStyleSheet()
 
-    title_style = ParagraphStyle("TitleStyle", parent=styles["Heading1"], fontSize=18, textColor="#ff4b4b", spaceAfter=12)
-    heading_style = ParagraphStyle("HeadingStyle", parent=styles["Heading2"], fontSize=12, textColor="#1a1a1a", spaceBefore=8, spaceAfter=4)
-    body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=9, leading=13, textColor="#333333", spaceAfter=6)
-    code_style = ParagraphStyle("CodeStyle", parent=styles["Code"], fontSize=8, leading=11, textColor="#111827", spaceAfter=6)
+    title_style = ParagraphStyle(
+        "TitleStyle",
+        parent=styles["Heading1"],
+        fontSize=20,
+        textColor="#ff4b4b",
+        spaceAfter=12,
+    )
+    heading_style = ParagraphStyle(
+        "HeadingStyle",
+        parent=styles["Heading2"],
+        fontSize=13,
+        textColor="#1a1a1a",
+        spaceBefore=10,
+        spaceAfter=6,
+    )
+    body_style = ParagraphStyle(
+        "BodyStyle",
+        parent=styles["Normal"],
+        fontSize=10,
+        leading=14,
+        textColor="#333333",
+        spaceAfter=8,
+    )
 
-    def safe_html(text: str) -> str:
-        escaped = html.escape(str(text or ""))
-        return escaped.replace("\n", "<br/>")
-
-    story = [
-        Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style),
-        Paragraph(f"<b>Asset:</b> {safe_html(clean_asset)} | <b>Category:</b> {safe_html(category)} | <b>Sub-Niche:</b> {safe_html(sub_niche)}", body_style),
-        Paragraph(f"<b>Role:</b> {safe_html(role)} | <b>Predictive Score:</b> {safe_html(viral_score)} | <b>Window:</b> {safe_html(window)}", body_style),
-        Spacer(1, 10)
-    ]
+    story = []
+    story.append(Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style))
+    story.append(
+        Paragraph(
+            f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}",
+            body_style,
+        )
+    )
+    story.append(
+        Paragraph(
+            f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Monetization Window:</b> {safe_xml_text(str(window))}",
+            body_style,
+        )
+    )
+    story.append(Spacer(1, 10))
 
     sections = [
         ("Monetization Model", result.get("profit_model", "")),
-        ("Role Directives", result.get("content_directives", "")),
+        ("Role-Specific Content Directives", result.get("content_directives", "")),
         ("Execution Hook & Visual Script", result.get("execution_hook", "")),
+        ("Recommended Audio / Tone Vibe", result.get("audio_suggestion", "")),
         ("Caption, CTA & Ad Copy", result.get("ad_copy", "")),
         ("Action Roadmap", result.get("action_blueprint", "")),
-        ("Competitor Benchmarks", result.get("competitor_intelligence", "")),
+        ("Competitor Ad Intelligence", result.get("competitor_intelligence", "")),
     ]
 
     for title, text in sections:
         story.append(Paragraph(title, heading_style))
-        story.append(Paragraph(safe_html(text), body_style))
+        story.append(Paragraph(safe_xml_text(text), body_style))
         story.append(Spacer(1, 4))
-
-    if result.get("production_prompt"):
-        story.append(Spacer(1, 6))
-        story.append(Paragraph("AI Video & Content Production Prompt", heading_style))
-        story.append(Paragraph(safe_html(result.get("production_prompt")), code_style))
 
     doc.build(story)
     buffer.seek(0)
     return buffer
 
+# ==========================================
+# 5. DATA FETCHING & RSS RADAR PIPELINE
+# ==========================================
 @st.cache_data(ttl=300)
 def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, timeframe):
-    if sub_niche in SUB_NICHE_SIGNALS_FALLBACK:
-        default_keywords = SUB_NICHE_SIGNALS_FALLBACK[sub_niche]
-    else:
-        default_keywords = CATEGORY_FALLBACK
-
-    raw_signals = []
     url = f"https://trends.google.com/trending/rss?geo={region}"
+    raw_signals = []
+
     try:
         headers = {"User-Agent": "Mozilla/5.0"}
         response = requests.get(url, headers=headers, timeout=5)
         if response.status_code == 200:
             root = ET.fromstring(response.content)
             ns = {"ht": "https://trends.google.com/trending/rss"}
-            for item in root.findall(".//item")[:2]:
+            for item in root.findall(".//item")[:4]:
                 title = item.find("title")
                 traffic = item.find("ht:approx_traffic", ns)
                 if title is not None and title.text:
                     raw_signals.append({
-                        "Keyword": f"{title.text} [{platform_source}]",
-                        "Volume": traffic.text if (traffic is not None and traffic.text) else "100K+ Queries",
+                        "Keyword": f"{title.text} ({platform_source})",
+                        "Volume": (
+                            traffic.text
+                            if (traffic is not None and traffic.text)
+                            else "100K+ Queries"
+                        ),
                     })
     except Exception:
         pass
 
-    combined = [
-        {"Keyword": f"{kw} [{platform_source}]", "Volume": f"150K+ ({timeframe})"}
-        for kw in default_keywords
-    ]
+    default_keywords = CATEGORY_SIGNALS_FALLBACK.get(
+        category, ["Trending Breakout Asset"]
+    )
+
+    if sub_niche and sub_niche != "All Sub-Niches":
+        combined = [
+            {"Keyword": f"[{sub_niche}] {kw} [{platform_source}]", "Volume": f"180K+ ({timeframe})"}
+            for kw in default_keywords
+        ]
+    else:
+        combined = [
+            {"Keyword": f"{kw} [{platform_source}]", "Volume": f"150K+ ({timeframe})"}
+            for kw in default_keywords
+        ]
+
     for item in raw_signals:
-        combined.append({"Keyword": item["Keyword"], "Volume": item["Volume"]})
+        combined.append(
+            {"Keyword": item["Keyword"], "Volume": item["Volume"]}
+        )
 
     return combined[:5]
 
-def generate_master_intelligence(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang="English"):
+# ==========================================
+# 6. GROQ LLM BLUEPRINT GENERATOR (ROLE-DRIVEN ENGINE)
+# ==========================================
+def generate_master_intelligence(
+    keyword_asset,
+    category,
+    sub_niche,
+    target_role,
+    platform,
+    timeframe,
+    velocity_score,
+    lang,
+):
     clean_asset = sanitize_trend_input(keyword_asset)
-    effective_sub_niche = sub_niche if sub_niche != "All Sub-Niches" else category
-    tag_keyword = effective_sub_niche.split()[0].upper() if effective_sub_niche else "TREND"
+    clean_cat = sanitize_trend_input(category)
+    clean_sub = sanitize_trend_input(sub_niche)
 
-    if lang == "हिन्दी":
+    sub_context = f" | Sub-Niche: '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
+
+    # ==========================================
+    # DYNAMIC ROLE-BASED FALLBACK TEMPLATES
+    # ==========================================
+    if target_role == "Agency Owner / Freelancer":
         default_response = {
             "viral_score": f"{velocity_score}%",
-            "prediction_window": f"सक्रिय जीवनचक्र ({timeframe})",
-            "profit_model": f"• **मुख्य मॉडल:** {effective_sub_niche} में {target_role} के लिए रणनीति।\n• **फनल:** लक्षित रूपांतरण फ़नल के माध्यम से '{clean_asset}' के लिए ट्रैफ़िक बदलें।",
-            "content_directives": f"• **कोण (Angle):** {target_role} के लिए विशेष {effective_sub_niche} स्थिति।\n• **मुख्य बिंदु:** 1. मांग वृद्धि 2. नीश प्रमाण 3. केंद्रित CTA।",
-            "execution_hook": f"• **0-3s संकेत:** विज़ुअल प्रमाण जो '{clean_asset}' को समस्या हल करते हुए दिखाता है।\n• **टेक्स्ट ओवरले:** \"ध्यान दें {effective_sub_niche} खरीदार! इसे देखें...\"",
-            "ad_copy": f"{clean_asset} के साथ अपने {effective_sub_niche} सेटअप में क्रांति लाएं! 🚀\n\nविवरण के लिए '{tag_keyword}' कमेंट करें।",
-            "action_blueprint": f"1. घंटा 1: मुख्य कोण पहचानें।\n2. घंटा 6: टेस्ट क्रिएटिव लॉन्च करें।\n3. घंटा 48: जुड़ाव के आधार पर अनुकूलित करें।",
-            "competitor_intelligence": f"• **फोकस:** शॉर्ट-फॉर्म वीडियो ट्रेंड्स।\n• **अवधि:** 12-20 सेकंड।",
-            "production_prompt": f"[सिस्टम भूमिका: वायरल शॉर्ट-फॉर्म वीडियो निदेशक]\n\nउत्पाद: {clean_asset}\nश्रेणी: {category}\nउप-नीश: {effective_sub_niche}\nभूमिका: {target_role}"
+            "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
+            "profit_model": (
+                f"• **Primary Funnel:** B2B High-Ticket Client Acquisition & White-Label Audits.\n"
+                f"• **Execution Path:** Package '{clean_asset}' insights into a $2,500/mo trend-jacking retainer deck for e-commerce or corporate brands."
+            ),
+            "content_directives": (
+                f"• **Narrative Angle / Thesis:** Explaining how businesses can turn the demand around '{clean_asset}' into predictable revenue.\n"
+                f"• **Key Talking Points:**\n"
+                f"  1. The missed ROI opportunity most brands are ignoring regarding {clean_asset}.\n"
+                f"  2. Step-by-step breakdown of the client campaign workflow.\n"
+                f"  3. Expected CAC reduction and conversion metrics.\n"
+                f"• **Visual & B-Roll Assets:** LinkedIn PDF slide overlays, agency ROI spreadsheets, screen recordings of campaign setups.\n"
+                f"• **Category Guardrails:** Keep communication professional, metric-driven, and focused on business bottom-line growth."
+            ),
+            "execution_hook": (
+                f"• **0-3s Visual Cue:** Screen recording of client dashboard showing traffic spikes overlaying '{clean_asset}'.\n"
+                f"• **Text Overlay:** \"How to turn {clean_asset[:20]} into $10k in client retainers...\"\n"
+                f"• **Spoken Script:** \"If you run an agency or consult brands, here is the exact framework we're using to turn {clean_asset} into high-converting client campaigns this week...\""
+            ),
+            "audio_suggestion": "Low-fi Instrumental Chill / Professional Corporate Narrative Background",
+            "ad_copy": (
+                f"We just published our B2B Strategy Briefing on capitalizing on {clean_asset}. 💼\n\n"
+                "Comment 'AGENCY' below to get our complete pitch deck and client outreach templates sent directly to your DMs!\n\n"
+                f"#{clean_asset.replace(' ', '')} #AgencyGrowth #B2BStrategy #TrendPulse"
+            ),
+            "action_blueprint": (
+                "1. HOUR 1: Turn this trend data into a 5-page PDF Strategy Audit deck.\n"
+                "2. HOUR 6: Launch cold email & LinkedIn video pitches targeting brand CMOs using the framework.\n"
+                "3. DAY 2: Set up automated discovery call calendars for incoming DM leads."
+            ),
+            "competitor_intelligence": (
+                f"• **Top Competitor Hook Style:** *'How agencies are scaling with {clean_asset}...'*\n"
+                "• **Optimal Video Duration:** 45 - 60 seconds (LinkedIn/YouTube Shorts)\n"
+                "• **Estimated Engagement Benchmark:** 8.4% Lead Conversion Rate on DMs"
+            ),
         }
-    else:
+    elif target_role == "E-Commerce Merchant / Dropshipper":
         default_response = {
             "viral_score": f"{velocity_score}%",
-            "prediction_window": f"Active Lifecycle ({timeframe})",
-            "profit_model": f"• **Primary Model:** Monetization strategy tailored for {target_role} in {effective_sub_niche}.\n• **Funnel:** Convert traffic for '{clean_asset}' via targeted {effective_sub_niche} conversion funnels.",
-            "content_directives": f"• **Angle:** Specialized {effective_sub_niche} positioning for {target_role}.\n• **Key Points:** 1. {effective_sub_niche} demand spike 2. Niche proof 3. Focused CTA.\n• **Visuals:** Fast cuts tailored to {effective_sub_niche} audiences.",
-            "execution_hook": f"• **0-3s Cue:** Visual proof showing '{clean_asset}' solving a key {effective_sub_niche} problem.\n• **Text Overlay:** \"Attention {effective_sub_niche} buyers! Check this out...\"\n• **Script:** \"If you're into {effective_sub_niche}, here is why {clean_asset} is currently exploding...\"",
-            "ad_copy": f"Revolutionize your {effective_sub_niche} setup with {clean_asset}! 🚀\n\nComment '{tag_keyword}' for details.\n\n#{clean_asset.replace(' ', '')} #{effective_sub_niche.replace(' ', '')}",
-            "action_blueprint": f"1. HOUR 1: Identify core {effective_sub_niche} angle.\n2. HOUR 6: Launch test creative.\n3. HOUR 48: Optimize based on engagement.",
-            "competitor_intelligence": f"• **Focus:** Short-form video trends within {effective_sub_niche}.\n• **Duration:** 12-20 seconds.\n• **Benchmark:** High share-to-view ratio in {category}.",
-            "production_prompt": f"""[SYSTEM ROLE: VIRAL SHORT-FORM VIDEO DIRECTOR & UGC AD STRATEGIST]
-
-PRODUCT/ASSET: {clean_asset}
-CATEGORY: {category}
-SUB-NICHE FOCUS: {effective_sub_niche}
-TARGET ROLE: {target_role}
-PLATFORM: {platform}
-
-1. VISUAL STORYBOARD & SCRIPT (15s Vertical 9:16)
-• 00-03s (Hook): Close-up of {clean_asset} solving a major issue in {effective_sub_niche}. Text Overlay: "Attention {effective_sub_niche}!" | Audio: "If you care about {effective_sub_niche}, stop scrolling."
-• 03-08s (Proof): Rapid demonstration of key features for {target_role}. Text Overlay: "Essential for {effective_sub_niche} ✨" | Audio: "This completely transforms how you handle {clean_asset}."
-• 08-15s (CTA): Point to screen with call-to-action overlay. Text Overlay: "Comment '{tag_keyword}' for 15% OFF 👇" | Audio: "Comment below or tap the link to claim your access!"
-
-2. AI TEXT-TO-VIDEO GENERATOR PROMPT (Runway / CapCut / Sora)
-"A fast-paced 9:16 vertical video featuring {clean_asset} focused on {effective_sub_niche}. Ultra-clean modern setup, 4K resolution, realistic UGC feel, high-contrast visual focus."
-
-3. CAPTION & HASHTAGS
-"Level up your {effective_sub_niche} game with {clean_asset}! 🚀 Comment '{tag_keyword}' for instant direct link.\n#{clean_asset.replace(' ', '')} #{effective_sub_niche.replace(' ', '')} #ViralFinds"
-"""
+            "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
+            "profit_model": (
+                f"• **Primary Funnel:** Direct-to-Consumer Impulse Sales & Flash Offer Drops.\n"
+                f"• **Execution Path:** Source or bundle product inventory related to '{clean_asset}' and leverage TikTok Shop / Reels ad spark posts."
+            ),
+            "content_directives": (
+                f"• **Narrative Angle / Thesis:** Highlighting problem-solution angles and immediate transformation tied to {clean_asset}.\n"
+                f"• **Key Talking Points:**\n"
+                f"  1. Pain point before discovering this trend asset.\n"
+                f"  2. Live product unboxing / stress-test demonstration.\n"
+                f"  3. Scarcity & limited stock warning.\n"
+                f"• **Visual & B-Roll Assets:** Close-up macro product shots, rapid 0.5x reaction cuts, fast unboxing, aesthetic lifestyle usage.\n"
+                f"• **Category Guardrails:** Emphasize fast shipping, high visual contrast, and immediate impulse buy triggers."
+            ),
+            "execution_hook": (
+                f"• **0-3s Visual Cue:** Rapid hands-on product demonstration with price tag flash overlay for '{clean_asset}'.\n"
+                f"• **Text Overlay:** \"Stop scrolling! This {clean_asset[:20]} sold out 3x this week 🚨\"\n"
+                f"• **Spoken Script:** \"If you've been looking for {clean_asset}, stop buying cheap knockoffs. Here is why everyone is ordering this exact one...\""
+            ),
+            "audio_suggestion": "Upbeat Phonk / Trending TikTok Sound Effect Accent",
+            "ad_copy": (
+                f"The demand for {clean_asset} is breaking the internet! 🛒\n\n"
+                "Tap the 'Shop Now' button or click the link in bio to claim 20% OFF before our flash stock runs out!\n\n"
+                f"#{clean_asset.replace(' ', '')} #TikTokMadeMeBuyIt #EcomTrends #TrendPulse"
+            ),
+            "action_blueprint": (
+                "1. HOUR 1: Create a high-converting single-product landing page or TikTok Shop listing.\n"
+                "2. HOUR 6: Launch 3 user-generated video ad variants targeting broad interest stacks.\n"
+                "3. DAY 2: Scale ad spend on winning creative and trigger cart abandonment emails."
+            ),
+            "competitor_intelligence": (
+                f"• **Top Competitor Hook Style:** *'Why everyone is obsessed with {clean_asset}...'*\n"
+                "• **Optimal Video Duration:** 9 - 15 seconds\n"
+                "• **Estimated Engagement Benchmark:** High (4.8% Direct Purchase CTR)"
+            ),
+        }
+    else:  # Content Creator / Influencer
+        default_response = {
+            "viral_score": f"{velocity_score}%",
+            "prediction_window": f"Active Viral Lifecycle Window ({timeframe})",
+            "profit_model": (
+                f"• **Primary Funnel:** Organic Viral Reach, Follower Growth & ManyChat DM Automation.\n"
+                f"• **Execution Path:** Use pattern-interrupt commentary on '{clean_asset}' to drive thousands of keyword comments and grow audience loyalty."
+            ),
+            "content_directives": (
+                f"• **Narrative Angle / Thesis:** Delivering a unique hot-take or deep-dive breakdown behind '{clean_asset}' that nobody else is mentioning.\n"
+                f"• **Key Talking Points:**\n"
+                f"  1. What everyone gets wrong about this topic.\n"
+                f"  2. The hidden detail or story behind the trend.\n"
+                f"  3. Open-ended controversial question to spark debate.\n"
+                f"• **Visual & B-Roll Assets:** Face-cam with green screen background, fast cutaways, dramatic text pop-ups, meme overlays.\n"
+                f"• **Category Guardrails:** Maximize retention, avoid corporate jargon, focus on entertainment and curiosity."
+            ),
+            "execution_hook": (
+                f"• **0-3s Visual Cue:** Green-screen reaction in front of a trending headline about '{clean_asset}'.\n"
+                f"• **Text Overlay:** \"Nobody is talking about this detail... 😳\"\n"
+                f"• **Spoken Script:** \"Everyone is posting about {clean_asset}, but almost nobody noticed what actually happened behind the scenes...\""
+            ),
+            "audio_suggestion": "Viral Rhythmic Beat / Dramatic Tension Sound Effect",
+            "ad_copy": (
+                f"What's your take on {clean_asset}? 💬\n\n"
+                "Comment 'TRUTH' below and I'll send the full breakdown video straight to your DMs!\n\n"
+                f"#{clean_asset.replace(' ', '')} #ViralTrends #CreatorEconomy #TrendPulse"
+            ),
+            "action_blueprint": (
+                "1. HOUR 1: Film a 9:16 vertical video using green screen overlay and script above.\n"
+                "2. HOUR 6: Activate auto-DM responder for keyword 'TRUTH' to boost post velocity.\n"
+                "3. DAY 2: Pin top engaging comments and post a follow-up story poll."
+            ),
+            "competitor_intelligence": (
+                f"• **Top Competitor Hook Style:** *'The secret behind {clean_asset} revealed...'*\n"
+                "• **Optimal Video Duration:** 15 - 30 seconds\n"
+                "• **Estimated Engagement Benchmark:** Very High (8.5%+ Comment/Share Ratio)"
+            ),
         }
 
     if not GROQ_API_KEY:
@@ -436,28 +508,67 @@ PLATFORM: {platform}
 
     try:
         client = Groq(api_key=GROQ_API_KEY)
-        prompt = f"""
-Generate a complete JSON strategy blueprint and video production prompt in Language '{lang}' specifically tailored for:
-- Asset: "{clean_asset}"
-- Category: "{category}"
-- Sub-Niche Focus: "{effective_sub_niche}"
-- Target Role: "{target_role}"
-- Platform: "{platform}"
-- Velocity Score: {velocity_score}%
 
-Required JSON Structure:
+        # ==========================================
+        # STRICT ROLE-DRIVEN PROMPT ENGINE
+        # ==========================================
+        prompt = f"""
+You are TrendPulse AI's Master Strategy Blueprint Generator.
+
+Generate a highly customized, role-specific operational execution blueprint.
+You MUST follow the strict role rules below. DO NOT output generic filler.
+
+=========================================
+INPUT DATA:
+=========================================
+- Asset / Topic: "{clean_asset}"
+- Category: "{clean_cat}"{sub_context}
+- Operating Role: "{target_role}"
+- Platform Focus: "{platform}"
+- Timeframe: "{timeframe}"
+- Viral Score: {velocity_score}%
+- Target Language: {lang}
+
+=========================================
+STRICT ROLE-DRIVEN STRATEGY INSTRUCTIONS:
+=========================================
+You are writing SPECIFICALLY for the role: "{target_role}".
+
+IF Role is "Agency Owner / Freelancer":
+- Monetization Model: B2B retainers ($2,500–$10,000/mo), selling trends as strategic services, white-label client audits, CMO pitch decks.
+- Hook Style: "How to turn [Asset] into client revenue...", "How agencies are monetizing..."
+- CTA / Ad Copy: "Comment 'AGENCY' to get our free pitch deck & client outreach workflow."
+- Action Plan: Focus on creating pitch decks, cold outbound, and closing retainers.
+
+IF Role is "E-Commerce Merchant / Dropshipper":
+- Monetization Model: Direct product sales, impulse buying, flash sales, TikTok Shop listings, high ROAS ad campaigns.
+- Hook Style: "Stop buying cheap knockoffs...", "This [Asset] product sold out 3x this week..."
+- CTA / Ad Copy: "Tap 'Shop Now' or click link in bio to get 20% OFF today!"
+- Action Plan: Focus on store setup, video ads targeting buyers, and scaling ad spend.
+
+IF Role is "Content Creator / Influencer":
+- Monetization Model: Organic viral reach, engagement farming, brand deal positioning, audience building via ManyChat DM automation.
+- Hook Style: "Nobody noticed this one detail about [Asset]...", "The truth about..."
+- CTA / Ad Copy: "Comment 'TRUTH' below for the full breakdown sent to your DMs!"
+- Action Plan: Focus on green-screen reels, community engagement, and story polls.
+
+=========================================
+JSON OUTPUT REQUIREMENTS:
+=========================================
+Return ONLY a valid JSON object matching this structure EXACTLY (do not wrap in markdown tags):
 {{
   "viral_score": "{velocity_score}%",
-  "prediction_window": "Active lifecycle",
-  "profit_model": "Monetization model explicitly tailored to {effective_sub_niche}",
-  "content_directives": "• **Angle:** Specific positioning...\\n• **Key Points:** 1...",
-  "execution_hook": "• **0-3s Cue:** ...\\n• **Text:** ...",
-  "ad_copy": "Caption and Call to Action",
-  "action_blueprint": "1. HOUR 1...\\n2. HOUR 6...",
-  "competitor_intelligence": "• **Focus:** ...",
-  "production_prompt": "Production prompt text"
+  "prediction_window": "Active lifecycle timing window details",
+  "profit_model": "Role-tailored high-ROI monetization model strategy tailored strictly for {target_role}",
+  "content_directives": "• **Narrative Angle / Thesis:** [Core story tailored to {target_role}]\n• **Key Talking Points:**\n  1. [Beat 1]\n  2. [Beat 2]\n  3. [Beat 3]\n• **Visual & B-Roll Assets:** [Specific shot list for {target_role}]\n• **Category Guardrails:** [Do's and Don'ts]",
+  "execution_hook": "• **0-3s Visual Cue:** [Specific camera/graphic cue for {target_role}]\n• **Text Overlay:** \"[Punchy text tailored to {target_role}]\"\n• **Spoken Script:** \"[Script tailored specifically to {target_role}]\"",
+  "audio_suggestion": "Specific music genre or sound vibe matching {target_role}",
+  "ad_copy": "Complete caption with CTA keyword tailored strictly to {target_role}",
+  "action_blueprint": "1. HOUR 1: [Immediate setup step for {target_role}]\n2. HOUR 6: [Deployment step for {target_role}]\n3. HOUR 48: [Optimization step for {target_role}]",
+  "competitor_intelligence": "• **Top Competitor Focus:** [Style/Angle]\n• **Optimal Format/Duration:** [Format]\n• **Target Benchmarks:** [CTR / Growth Metrics]"
 }}
 """
+
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
@@ -469,145 +580,301 @@ Required JSON Structure:
         return default_response
 
 # ==========================================
-# 6. HEADER & TOP CONTROL BAR
+# 7. UI LAYOUT & RENDER
 # ==========================================
-h_col1, h_col2 = st.columns([3, 1])
-with h_col1:
-    st.markdown(f"<h1>⚡ {t['title']} <span style='color:#ff4b4b;'>AI</span></h1>", unsafe_allow_html=True)
+if "is_premium" not in st.session_state:
+    st.session_state["is_premium"] = False
+
+head_col1, head_col2 = st.columns([3, 1])
+
+with head_col2:
+    selected_lang = st.selectbox(
+        "🌐 Language / भाषा:", ["English", "Hindi"], index=0
+    )
+
+t = TEXTS[selected_lang]
+
+with head_col1:
+    st.title(t["title"])
     st.caption(t["subtitle"])
-with h_col2:
-    st.markdown(f"<br><span class='metric-badge'>{t['pro_badge']}</span>", unsafe_allow_html=True)
 
 st.markdown("---")
 
-# Global Filter Bar
-with st.container(border=True):
-    f1, f2, f3, f4, f5 = st.columns(5)
-    with f1:
-        geo_option = st.selectbox(t["region"], ["India (IN)", "United States (US)", "United Kingdom (GB)"])
-        geo_map = {"India (IN)": "IN", "United States (US)": "US", "United Kingdom (GB)": "GB"}
-    with f2:
-        platform_source = st.selectbox(t["source"], ["Social Video & Reels", "TikTok Shop", "Search Intent"])
-    with f3:
-        selected_category = st.selectbox(t["niche_cat"], list(ALL_NICHE_CATEGORIES.keys()))
-    with f4:
-        sub_options = ALL_NICHE_CATEGORIES.get(selected_category, [])
-        selected_sub_niche = st.selectbox(t["sub_niche"], ["All Sub-Niches"] + sub_options)
-    with f5:
-        timeframe = st.selectbox(t["velocity_win"], ["Realtime Spike (24h)", "Short-Term (7 Days)", "Macro (30 Days)"])
+with st.expander(t["terminal"]):
+    st.session_state["is_premium"] = st.checkbox(
+        t["simulate_pro"], value=st.session_state["is_premium"]
+    )
 
-# ==========================================
-# 7. HYBRID BENTO DASHBOARD LAYOUT
-# ==========================================
-left_col, right_col = st.columns([0.42, 0.58], gap="medium")
+st.markdown(f"### {t['config_title']}")
 
-active_signals = fetch_filtered_radar_signals(geo_map[geo_option], platform_source, selected_category, selected_sub_niche, timeframe)
-signal_scores = {item["Keyword"]: round(98.8 - (i * 3.2), 1) for i, item in enumerate(active_signals)}
+# Filter Form Configuration
+with st.form(key="filter_form"):
+    f_col1, f_col2, f_col3, f_col4, f_col5 = st.columns(5)
 
-# --- LEFT COLUMN: TELEMETRY & TRAJECTORY ---
+    with f_col1:
+        geo_option = st.selectbox(
+            t["region"],
+            [
+                "India (IN)",
+                "United States (US)",
+                "United Kingdom (GB)",
+                "Global (ALL)",
+            ],
+        )
+        geo_map = {
+            "India (IN)": "IN",
+            "United States (US)": "US",
+            "United Kingdom (GB)": "GB",
+            "Global (ALL)": "US",
+        }
+
+    with f_col2:
+        platform_source = st.selectbox(
+            t["platform"],
+            [
+                "Social Video & Reels",
+                "TikTok & Instagram Reels",
+                "Search Engine Intent",
+                "E-Commerce Shopping",
+            ],
+        )
+
+    with f_col3:
+        selected_category = st.selectbox(
+            t["category"],
+            options=list(UPDATED_NICHE_CATEGORIES.keys()),
+            index=0
+        )
+
+    with f_col4:
+        sub_niche_options = UPDATED_NICHE_CATEGORIES.get(selected_category, [])
+        selected_sub_niche = st.selectbox(
+            t["sub_category"],
+            options=["All Sub-Niches"] + sub_niche_options,
+            index=0
+        )
+
+    with f_col5:
+        timeframe = st.selectbox(
+            t["velocity"],
+            [
+                "Realtime Spike (24h)",
+                "Short-Term Trend (7 Days)",
+                "Viral Surge (3-7 Days)",
+                "Macro Trend (30 Days)",
+            ],
+        )
+
+    apply_filters = st.form_submit_button(t["apply_btn"], use_container_width=True)
+
+st.markdown("---")
+
+left_col, right_col = st.columns([1.3, 0.7], gap="large")
+
 with left_col:
-    with st.container(border=True):
-        st.markdown(f"### {t['telemetry_title']}")
-        st.caption(f"{t['active_sub_filter']} **{selected_sub_niche}**")
-        custom_search = st.text_input(t["custom_search_label"], placeholder=t["custom_search_placeholder"])
-        
-        table_data = [
-            {"Signal": item["Keyword"], "Volume": item["Volume"], "Velocity": f"{signal_scores[item['Keyword']]}%"}
-            for item in active_signals
+    st.subheader(t["telemetry_title"])
+    custom_search = st.text_input(
+        t["custom_search"],
+        placeholder="e.g. Ergonomic Desk, State Infrastructure Bill, Pilgrimage Circuits",
+    )
+
+    active_signals = fetch_filtered_radar_signals(
+        geo_map[geo_option], 
+        platform_source, 
+        selected_category, 
+        selected_sub_niche, 
+        timeframe
+    )
+
+    future_forecast_options = [
+        "🔥 High Growth (Next 7 Days)",
+        "🚀 Viral Peak Expected",
+        "📈 Steady Upward Surge",
+        "⚡ Breakout Candidate",
+        "📊 Emerging Trend",
+    ]
+
+    table_data = []
+    signal_scores = {}
+
+    for idx, item in enumerate(active_signals):
+        score = round(98.8 - (idx * 3.2), 1)
+        forecast = future_forecast_options[
+            idx % len(future_forecast_options)
         ]
-        st.dataframe(pd.DataFrame(table_data), use_container_width=True, hide_index=True)
 
-    with st.container(border=True):
-        st.markdown(f"### {t['predictive_title']}")
-        chart_keyword = custom_search.strip() if custom_search.strip() else (active_signals[0]["Keyword"] if active_signals else "Asset")
-        base_score = signal_scores.get(chart_keyword, 92.0)
+        table_data.append({
+            t["filtered_asset"]: item["Keyword"],
+            t["search_volume"]: item["Volume"],
+            t["future_forecast"]: forecast,
+        })
+        signal_scores[item["Keyword"]] = score
 
-        days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"]
-        velocity_curve = [round(base_score * p, 1) for p in [0.6, 0.72, 0.85, 0.94, 1.0, 1.08, 1.15]]
+    df = pd.DataFrame(table_data)
+    sub_title_ctx = f" | Sub: `{selected_sub_niche}`" if selected_sub_niche != "All Sub-Niches" else ""
+    st.markdown(
+        f"**{t['active_signals_for']}** `{selected_category}`{sub_title_ctx} |"
+        f" `{platform_source}` | `{geo_option}`"
+    )
 
-        fig = px.line(
-            pd.DataFrame({"Timeline": days, "Velocity Score": velocity_curve}),
-            x="Timeline", y="Velocity Score",
-            markers=True, line_shape="spline"
+    st.dataframe(
+        df,
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            t["filtered_asset"]: st.column_config.TextColumn(
+                t["filtered_asset"], width="large"
+            ),
+            t["search_volume"]: st.column_config.TextColumn(
+                t["search_volume"], width="small"
+            ),
+            t["future_forecast"]: st.column_config.TextColumn(
+                t["future_forecast"], width="medium"
+            ),
+        },
+    )
+
+    st.markdown(f"#### {t['chart_title']}")
+
+    if custom_search.strip():
+        chart_keyword = custom_search.strip()
+        base_score = 95.0
+    else:
+        chart_keyword = (
+            active_signals[0]["Keyword"] if active_signals else "Asset"
         )
-        fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=7, marker_color="#ffffff")
-        fig.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            font_color="#ffffff", height=220, margin=dict(l=10, r=10, t=10, b=10)
-        )
-        st.plotly_chart(fig, use_container_width=True)
+        base_score = signal_scores.get(chart_keyword, 90.0)
 
-# --- RIGHT COLUMN: BENTO STRATEGY ENGINE ---
+    # Historical & Velocity Forecast Plot
+    days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"]
+    velocity_curve = [
+        round(base_score * 0.6, 1),
+        round(base_score * 0.72, 1),
+        round(base_score * 0.85, 1),
+        round(base_score * 0.94, 1),
+        round(base_score, 1),
+        round(base_score * 1.08, 1),
+        round(base_score * 1.15, 1),
+    ]
+
+    fig_df = pd.DataFrame({"Timeline": days, "Signal Velocity Index": velocity_curve})
+    fig = px.line(
+        fig_df,
+        x="Timeline",
+        y="Signal Velocity Index",
+        markers=True,
+        line_shape="spline",
+        title=f"Demand Index Trajectory for '{sanitize_trend_input(chart_keyword)}'",
+    )
+    fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=8)
+    fig.update_layout(
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font_color="#ffffff" if st.get_option("theme.base") == "dark" else "#000000",
+        height=320,
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+# ==========================================
+# 8. RIGHT COLUMN: MASTER BLUEPRINT GENERATOR
+# ==========================================
 with right_col:
-    with st.container(border=True):
-        st.markdown(f"### {t['signal_cfg']}")
+    st.subheader(t["matrix_title"])
+
+    if not st.session_state["is_premium"]:
+        st.warning(t["locked_title"])
+        st.info(t["locked_info"])
+        st.markdown(
+            f'<a href="{STRIPE_CHECKOUT_URL}" target="_blank"><button style="background-color:#ff4b4b;color:white;border:none;padding:12px 20px;border-radius:6px;font-weight:bold;cursor:pointer;width:100%;">{t["upgrade_btn"]}</button></a>',
+            unsafe_allow_html=True,
+        )
+    else:
         available_keywords = [item["Keyword"] for item in active_signals]
         if custom_search.strip():
             available_keywords.insert(0, custom_search.strip())
 
-        cfg_c1, cfg_c2 = st.columns(2)
-        with cfg_c1:
-            selected_asset = st.selectbox(t["target_signal"], options=available_keywords, index=0)
-        with cfg_c2:
-            target_role = st.selectbox(t["operating_role"], ["E-Commerce Merchant / Dropshipper", "Content Creator / Influencer", "Agency Owner / Freelancer"])
+        selected_asset = st.selectbox(t["select_asset"], options=available_keywords, index=0)
+        target_role = st.selectbox(
+            t["operating_role"],
+            [
+                "Content Creator / Influencer",
+                "E-Commerce Merchant / Dropshipper",
+                "Agency Owner / Freelancer",
+            ],
+            index=0,
+        )
 
-        if st.button(t["gen_btn"], use_container_width=True):
-            with st.spinner("Analyzing telemetry & generating blueprint..."):
-                st.session_state["active_blueprint"] = generate_master_intelligence(
-                    selected_asset, selected_category, selected_sub_niche, target_role,
-                    platform_source, timeframe, signal_scores.get(selected_asset, 90.0),
-                    lang=selected_lang
+        gen_click = st.button(t["gen_blueprint"], use_container_width=True)
+
+        if gen_click or "active_blueprint" not in st.session_state:
+            with st.spinner("Generating role-specific AI strategy..."):
+                current_score = signal_scores.get(selected_asset, 89.2)
+                blueprint = generate_master_intelligence(
+                    selected_asset,
+                    selected_category,
+                    selected_sub_niche,
+                    target_role,
+                    platform_source,
+                    timeframe,
+                    current_score,
+                    selected_lang,
                 )
+                st.session_state["active_blueprint"] = blueprint
                 st.session_state["active_asset"] = selected_asset
-                st.session_state["active_sub_niche"] = selected_sub_niche
                 st.session_state["active_role"] = target_role
 
-    bp = st.session_state.get("active_blueprint", {})
-    
-    with st.container(border=True):
-        st.markdown(f"### {t['blueprint_title']}")
-        if not bp:
-            st.info(t["select_prompt"])
-        else:
-            b1, b2 = st.columns(2)
-            with b1:
+        bp = st.session_state.get("active_blueprint", {})
+        curr_asset = st.session_state.get("active_asset", selected_asset)
+        curr_role = st.session_state.get("active_role", target_role)
+
+        if bp:
+            st.success(f"{t['score_label']}: {bp.get('viral_score', '90.0%')}")
+
+            with st.container(border=True):
                 st.markdown(f"#### {t['monetization']}")
                 st.markdown(bp.get("profit_model", ""))
-            with b2:
-                st.markdown(f"#### {t['role_directives']}")
+
+                st.markdown(f"#### {t['content_directives']}")
                 st.markdown(bp.get("content_directives", ""))
 
-            st.markdown("---")
-
-            b3, b4 = st.columns(2)
-            with b3:
-                st.markdown(f"#### {t['hook_script']}")
+                st.markdown(f"#### {t['hook']}")
                 st.markdown(bp.get("execution_hook", ""))
-            with b4:
-                st.markdown(f"#### {t['ad_copy']}")
+
+                st.markdown(f"#### {t['audio']}")
+                st.write(bp.get("audio_suggestion", ""))
+
+                st.markdown(f"#### {t['caption']}")
                 st.code(bp.get("ad_copy", ""), language="markdown")
 
-            st.markdown("---")
-
-            b5, b6 = st.columns(2)
-            with b5:
-                st.markdown(f"#### {t['roadmap']}")
+                st.markdown(f"#### {t['plan']}")
                 st.markdown(bp.get("action_blueprint", ""))
-            with b6:
-                st.markdown(f"#### {t['competitor']}")
+
+                st.markdown(f"#### {t['competitor_insight']}")
                 st.markdown(bp.get("competitor_intelligence", ""))
 
-            st.markdown("---")
-
-            st.markdown(f"#### {t['prompt_title']}")
-            st.code(bp.get("production_prompt", ""), language="text")
-
-            st.markdown("---")
-
+            # Exporting Actions
             pdf_buf = create_pdf_blueprint(
-                st.session_state.get("active_asset", selected_asset),
-                selected_category, st.session_state.get("active_sub_niche", selected_sub_niche),
-                st.session_state.get("active_role", target_role),
-                bp.get("viral_score", "90%"), bp.get("prediction_window", timeframe), bp
+                curr_asset,
+                selected_category,
+                curr_role,
+                bp.get("viral_score", "90.0%"),
+                bp.get("prediction_window", timeframe),
+                bp,
             )
-            st.download_button(t["download_pdf"], data=pdf_buf, file_name="TrendPulse_Blueprint.pdf", mime="application/pdf", use_container_width=True)
+
+            st.download_button(
+                t["export_pdf_btn"],
+                data=pdf_buf,
+                file_name=f"TrendPulse_Blueprint_{sanitize_trend_input(curr_asset)[:15]}.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+            )
+
+            wa_text = urllib.parse.quote(
+                f"TrendPulse AI Strategy for {sanitize_trend_input(curr_asset)} ({curr_role}):\n"
+                f"Hook: {bp.get('execution_hook', '')[:100]}..."
+            )
+            st.markdown(
+                f'<a href="https://api.whatsapp.com/send?text={wa_text}" target="_blank"><button style="background-color:#25D366;color:white;border:none;padding:10px 15px;border-radius:6px;font-weight:bold;cursor:pointer;width:100%;margin-top:8px;">{t["share_wa_btn"]}</button></a>',
+                unsafe_allow_html=True,
+            )
