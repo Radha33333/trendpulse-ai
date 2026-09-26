@@ -287,9 +287,10 @@ def sanitize_trend_input(text: str) -> str:
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     return cleaned
 
-def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
+Vdef create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     clean_asset = sanitize_trend_input(asset_name)
     clean_cat = sanitize_trend_input(category)
+    clean_role = sanitize_trend_input(role).lstrip('n').strip() # Fixes leading 'n' role bug
 
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
@@ -301,7 +302,7 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
 
     story = [
         Paragraph("TrendPulse AI - 10-Point Enterprise Intelligence Commercial Dossier", title_style),
-        Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}", body_style),
+        Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(clean_role)}", body_style),
         Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
         Spacer(1, 4)
     ]
@@ -327,7 +328,6 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     doc.build(story)
     buffer.seek(0)
     return buffer
-
 # ==========================================
 # 6. PIPELINE & RADAR DATA ENGINE
 # ==========================================
@@ -422,17 +422,18 @@ def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, targe
 
     metrics_template = ROLE_SPECIFIC_METRICS.get(target_role, ROLE_SPECIFIC_METRICS["🛍️ E-Commerce Merchants & D2C Brands"])
 
+    # Safe text values avoiding raw newline rendering issues
     default_response = {
         "viral_score": f"{velocity_score}%",
         "prediction_window": f"Active Timing Window ({timeframe})",
-        "unit_economics": f"• **{metrics_template['m1']}:** Optimized tier\n• **{metrics_template['m2']}:** ₹1,500 – ₹2,800 benchmark\n• **{metrics_template['m3']}:** Strong market fit\n• **{metrics_template['m4']}:** Safe margin threshold\n• **{metrics_template['m5']}:** Stable index",
+        "unit_economics": f"• **{metrics_template['m1']}:** Optimized tier\n• **{metrics_template['m2']}:** INR 1,500 – INR 2,800 benchmark\n• **{metrics_template['m3']}:** Strong market fit\n• **{metrics_template['m4']}:** Safe margin threshold\n• **{metrics_template['m5']}:** Stable index",
         "geo_mapping": "• **Primary Tier-1 Hotspots:** Mumbai, Bengaluru, Delhi-NCR, Pune\n• **Emerging Tier-2 Hubs:** Jaipur, Indore, Chandigarh, Lucknow\n• **International Spillover:** US/UK diaspora clusters",
         "hook_matrix": f"• **FOMO Hook:** \"The secret strategy behind {clean_asset} that elite operators are hiding...\"\n• **Risk Hook:** \"If you ignore {clean_asset} in {timeframe}, you are leaving massive ROI on the table...\"\n• **Dopamine Hook:** [Visual Pattern Interrupt] High-end cinematic showcase of {clean_asset}.",
-        "copywriting_vault": f"• **Problem-Solver Angle:** \"{clean_asset} से जुड़ी समस्याओं से परेशान हैं? पेश है सबसे आधुनिक समाधान।\"\n• **Trust Builder Angle:** \"⭐⭐⭐⭐⭐ 'इसने मेरे काम को 3x आसान बना दिया।' - Verified User.\"",
+        "copywriting_vault": f"• **Problem-Solver Angle:** \"Struggling with {clean_asset}? Here is the ultimate modern solution to scale your results instantly.\"\n• **Trust Builder Angle:** \"⭐⭐⭐⭐⭐ 'This completely transformed my workflow within 3 days.' - Verified User.\"",
         "saturation_matrix": "• **Saturation Index:** Moderate (62% saturated, high incoming demand)\n• **Competitor Weakness:** Slow fulfillment and generic design copy\n• **Our Strategic Edge:** Ultra-fast 48-hour delivery & micro-community branding",
-        "monetization_vault": "• **Optimal Pricing Model:** ₹999 – ₹1,499 sweet spot\n• **Upsell Stack Strategy:** Bundle Pack (2 + 1 Free) to increase AOV by 35%",
+        "monetization_vault": "• **Optimal Pricing Model:** INR 999 – INR 1,499 sweet spot\n• **Upsell Stack Strategy:** Bundle Pack (2 + 1 Free) to increase AOV by 35%",
         "tech_prompts": f"• **ChatGPT Script Prompt:** Write a 30-second high-retention script for {clean_asset}.\n• **Midjourney v6.0:** Hyper-realistic minimalist luxury asset photography of {clean_asset}, clean studio lighting, 8k --ar 16:9 --v 6.0",
-        "scale_kill_rules": "• **The Kill Rule:** If ad budget crosses ₹4,000/day with 0 conversions in 24h -> PAUSE IMMEDIATELY.\n• **The Scaling Rule:** If ROAS is stable for 48h -> Increase budget by 20%-30% daily at 11:00 AM.",
+        "scale_kill_rules": "• **The Kill Rule:** If ad budget crosses INR 4,000/day with 0 conversions in 24h -> PAUSE IMMEDIATELY.\n• **The Scaling Rule:** If ROAS is stable for 48h -> Increase budget by 20%-30% daily at 11:00 AM.",
         "python_code": "import asyncio\nimport aiohttp\n\nasync def fetch_metrics(session, url):\n    async with session.get(url) as r:\n        print(await r.json())",
         "action_roadmap": "1. HOUR 1-6 (Setup): Core infrastructure & <2s speed optimization.\n2. HOUR 24 (Micro-Testing): Low-budget cross-channel validation.\n3. DAY 3 (Optimization): Apply 'Scale vs Kill' rules.\n4. DAY 10 (Scaling): Deploy retention and upsell funnels."
     }
@@ -444,27 +445,27 @@ def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, targe
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
 You are an elite Enterprise Intelligence AI. Return ONLY a raw valid JSON object (no markdown, no backticks).
-Generate a hyper-realistic, highly customized 10-Point Commercial Intelligence Dossier in {lang} for:
+Generate a hyper-realistic, highly customized 10-Point Commercial Intelligence Dossier in English for:
 - Asset/Trend: "{clean_asset}"
 - Category: "{clean_cat} {sub_ctx}"
 - Target Operating Role: "{target_role}"
 - Platform Source: "{platform}"
 - Timeframe: "{timeframe}"
 
-Ensure all monetary values use Indian Rupees (₹) and metrics strictly match the domain of '{target_role}'.
+Ensure all monetary values use 'INR ' instead of special characters and metrics strictly match the domain of '{target_role}'.
 
 JSON Format:
 {{
   "viral_score": "{velocity_score}%",
   "prediction_window": "Lifecycle timing window",
-  "unit_economics": "• **{metrics_template['m1']}:** ...\\n• **{metrics_template['m2']}:** ₹...\\n• **{metrics_template['m3']}:** ...\\n• **{metrics_template['m4']}:** ...\\n• **{metrics_template['m5']}:** ...",
+  "unit_economics": "• **{metrics_template['m1']}:** ...\\n• **{metrics_template['m2']}:** INR ...\\n• **{metrics_template['m3']}:** ...\\n• **{metrics_template['m4']}:** ...\\n• **{metrics_template['m5']}:** ...",
   "geo_mapping": "• **Primary Tier-1 Hotspots:** ...\\n• **Emerging Tier-2 Hubs:** ...\\n• **International Spillover:** ...",
   "hook_matrix": "• **FOMO Hook:** ...\\n• **Risk Hook:** ...\\n• **Dopamine Hook:** ...",
   "copywriting_vault": "• **Problem-Solver Angle:** ...\\n• **Trust Builder Angle:** ...",
   "saturation_matrix": "• **Saturation Index:** ...\\n• **Competitor Weakness:** ...\\n• **Our Strategic Edge:** ...",
-  "monetization_vault": "• **Optimal Pricing Model:** ₹...\\n• **Upsell Stack Strategy:** ...",
+  "monetization_vault": "• **Optimal Pricing Model:** INR ...\\n• **Upsell Stack Strategy:** ...",
   "tech_prompts": "• **ChatGPT Script Prompt:** ...\\n• **Midjourney Prompt:** ...",
-  "scale_kill_rules": "• **The Kill Rule:** ₹4,000/day threshold ...\\n• **The Scaling Rule:** ...",
+  "scale_kill_rules": "• **The Kill Rule:** INR 4,000/day threshold ...\\n• **The Scaling Rule:** ...",
   "python_code": "import asyncio...",
   "action_roadmap": "1. HOUR 1-6: ...\\n2. HOUR 24: ...\\n3. DAY 3: ...\\n4. DAY 10: ..."
 }}
