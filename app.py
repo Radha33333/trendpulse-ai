@@ -57,7 +57,7 @@ GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY", ""))
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
 # ==========================================
-# 2. SQLITE DATABASE INITIALIZATION (5 CORE TABLES)
+# 2. SQLITE DATABASE INITIALIZATION
 # ==========================================
 def init_database():
     conn = sqlite3.connect("trendpulse_enterprise.db", check_same_thread=False)
@@ -199,7 +199,7 @@ UPDATED_NICHE_CATEGORIES = {
 }
 
 # ==========================================
-# 4. MASTER ROLE-BASED METRIC MAPPING
+# 4. MASTER ROLE-BASED METRICS
 # ==========================================
 ROLE_SPECIFIC_METRICS = {
     "🛍️ E-Commerce Merchants & D2C Brands": {
@@ -330,37 +330,50 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     return buffer
 
 # ==========================================
-# 6. PIPELINE & RADAR DATA ENGINE (FULL SYNCHRONIZATION)
+# 6. BULLETPROOF SYNCHRONIZED SIGNAL ENGINE
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     results = []
     
-    comprehensive_templates = {
+    # Comprehensive domain-mapped records for every single sub-niche across all categories
+    master_deep_database = {
         "🛒 E-Commerce & Viral Shopping": {
             "TikTok Shop & Live Deals": [
-                ("Viral TikTok Shop Kitchen Gadget Restock Surge", "MegaShop Live Deals"),
-                ("LED Crystal Sunset Lamp Flash Sale Bundle", "TikTok viral impulse buy"),
+                ("Viral TikTok Shop Kitchen Gadget Restock Surge", "MegaShop Live Deals Hub"),
+                ("LED Crystal Sunset Lamp Flash Sale Bundle", "TikTok Viral Impulse Buy Store"),
                 ("Auto-Stirring Self Mixing Mug Live Drop", "ShopViral Direct Dropship"),
-                ("Neck Fan Portable Cooler Flash Deals", "Summer 2026 TikTok Trend"),
+                ("Neck Fan Portable Cooler Flash Deals", "Summer 2026 TikTok Trend Store"),
                 ("Mini Thermal Pocket Printer Viral Haul", "TikTok Stationery Hub"),
                 ("Gravity Car Phone Mount Live Showcase", "GadgetStore Live Shopper"),
                 ("Silicone Stretch Lids Food Saver Boom", "EcoShop TikTok Live"),
-                ("Galaxy Star Projector Night Light Viral Trend", "HomeDecor Live Deals"),
+                ("Galaxy Star Projector Night Light Trend", "HomeDecor Live Deals"),
                 ("Electric Lint Remover Fabric Shaver Spike", "HomeHack Deals Hub"),
                 ("Smart LED Strip Lights Color Sync Pack", "LightingDirect Live Shop")
             ],
             "Amazon Hot Movers & Bestsellers": [
                 ("Ergonomic Mesh Office Chair Bestseller Surge", "Amazon Home Office Movers"),
-                ("HEPA Air Purifier Allergy Relief Hot Mover", "Amazon Health & Home"),
+                ("HEPA Air Purifier Allergy Relief Hot Mover", "Amazon Health & Home Hub"),
                 ("Cast Iron Skillet Pre-Seasoned Pan Spike", "KitchenBestsellers Daily"),
                 ("Stainless Steel Insulated Tumbler Flask Drop", "Drinkware Movers Hub"),
-                ("Dumbbell Adjustable Weight Set Surge", "FitnessEquipment Amazon"),
+                ("Dumbbell Adjustable Weight Set Surge", "FitnessEquipment Amazon Store"),
                 ("Wireless Charging Station 3-in-1 Bestseller", "TechAccessories Daily"),
                 ("Memory Foam Pillow Cervical Support Spike", "BeddingBestSellers Hub"),
                 ("Instant Read Digital Meat Thermometer Mover", "KitchenGadgets Daily"),
-                ("Standing Desk Converter Adjustable Riser", "OfficeTech Bestseller"),
+                ("Standing Desk Converter Adjustable Riser", "OfficeTech Bestseller Store"),
                 ("Portable Bluetooth Speaker Waterproof Spike", "AudioTech Movers")
+            ],
+            "D2C Breakout & DTC Brands": [
+                ("Minimalist Skincare Vitamin C Serum D2C Boom", "DermaCo & Plum Direct"),
+                ("Oversized Heavyweight Cotton Streetwear Drop", "Bewakoof & Snitch Trendline"),
+                ("Plant-Based Protein Powder Clean Label Surge", "Kapiva & Wellbeing Nutrition"),
+                ("Smart Ergonomic Footwear Cloud Slides", "Solethreads & Campus Direct"),
+                ("Bamboo Toothbrush Zero Waste Kit Mover", "Beco Eco D2C Hub"),
+                ("Aura Quartz Crystal Perfume Oil Surge", "Nasoking Fragrance Brand"),
+                ("Customized Name Engraved Leather Wallet Drop", "Ello Leather Direct"),
+                ("Matte Liquid Lipstick Long-Wear Kit", "Mars Cosmetics D2C Spike"),
+                ("Copper Water Bottle Hammered Finish Wave", "PantryEssentials Brand"),
+                ("Anti-Chafing Thigh Band Comfort Spike", "CurvyLove Direct Store")
             ]
         },
         "💰 Finance, Crypto & Wealth Building": {
@@ -431,26 +444,28 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
         }
     }
 
-    # Fallback generator for categories/sub-niches not explicitly hardcoded above
-    cat_dict = comprehensive_templates.get(category, {})
-    active_pool = cat_dict.get(sub_niche, []) if sub_niche and sub_niche != "All Sub-Niches" else []
+    # Fetch pool based on precise Category and Sub-Niche selection
+    cat_dict = master_deep_database.get(category, {})
+    active_pool = []
     
-    if not active_pool and sub_niche and sub_niche != "All Sub-Niches":
-        active_pool = [
-            (f"High-Intent Consumer Spike in {sub_niche} #{i+1}", f"Verified Entity #{i+1} ({sub_niche})")
-            for i in range(10)
-        ]
-        
-    if not active_pool:
-        for s_key, s_list in cat_dict.items():
-            active_pool.extend(s_list)
-            
-    if not active_pool:
-        target_label = sub_niche if sub_niche and sub_niche != "All Sub-Niches" else category
-        active_pool = [
-            (f"Market Growth & Consumer Interest Surge in {target_label} #{i+1}", f"Enterprise Verified Target #{i+1} ({category})")
-            for i in range(10)
-        ]
+    if sub_niche and sub_niche != "All Sub-Niches":
+        active_pool = cat_dict.get(sub_niche, [])
+        if not active_pool:
+            # Dynamic precise fallback generator tailored to the exact selected sub-niche
+            active_pool = [
+                (f"High-Intent Consumer Search Spike in {sub_niche} #{i+1}", f"Verified Enterprise Entity #{i+1} ({sub_niche})")
+                for i in range(10)
+            ]
+    else:
+        # If All Sub-Niches selected, aggregate all available sub-niche pools in this category
+        if cat_dict:
+            for s_name, s_items in cat_dict.items():
+                active_pool.extend(s_items)
+        if not active_pool:
+            active_pool = [
+                (f"High-Intent Market Surge in {category} #{i+1}", f"Verified Global Target #{i+1}")
+                for i in range(10)
+            ]
 
     velocity_status_list = ["🔥 High Growth", "⚡ Accelerating", "🚀 Explosive Surge", "📈 Trending"]
 
@@ -627,7 +642,7 @@ with tab_radar:
             active_signals.insert(0, custom_item)
             df_signals = pd.DataFrame(active_signals)
 
-    st.markdown(f"**{t['active_signals_for']}** `{selected_category}` | `{platform_source}` | `{geo_option}`")
+    st.markdown(f"**{t['active_signals_for']}** `{selected_category}` | `{selected_sub_niche}` | `{platform_source}` | `{geo_option}`")
     
     st.dataframe(
         df_signals.rename(columns={
@@ -689,7 +704,7 @@ with tab_blueprint:
                 st.markdown(f"""
                 # ⚡ TrendPulse AI — Master Intelligence & Revenue Scale Dossier
                 > **Asset Target:** `{selected_asset}`  
-                > **Category:** {selected_category} | **Operating Role:** {target_role}  
+                > **Category:** {selected_category} / `{selected_sub_niche}` | **Operating Role:** {target_role}  
                 > **Predictive Viral Score:** **{velocity_score} / 100** | **Timing Window:** {timeframe} | **Revenue Multiplier Mode:** 🟢 Active
                 """)
                 st.markdown("---")
