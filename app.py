@@ -453,7 +453,7 @@ JSON Format:
   "syndication_matrix": "• **Instagram Reels Strategy:** ...\\n• **YouTube Shorts Strategy:** ...\\n• **Cross-Platform Retargeting:** ...",
   "action_roadmap": "1. HOUR 1-6: Setup & affiliate integration.\\n2. HOUR 24: Micro-Testing.\\n3. DAY 3: Optimization.\\n4. DAY 10: Scaling."
 }}
-        """
+"""
         
         chat_completion = client.chat.completions.create(
             messages=[
@@ -469,7 +469,7 @@ JSON Format:
             model="llama-3.3-70b-versatile",
             temperature=0.3,
             max_tokens=2500
-        ]
+        )
         
         content = chat_completion.choices[0].message.content.strip()
         if content.startswith("```json"):
