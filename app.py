@@ -705,11 +705,16 @@ with st.form(key="filter_form"):
         platform_source = st.selectbox(
             t["platform"],
             [
-                "Social Video & Reels",
-                "TikTok & Instagram Reels",
-                "Search Engine Intent",
-                "E-Commerce Shopping",
+                "🎵 TikTok Trends & Creative Center",
+                "📸 Instagram Reels & Meta Ad Library",
+                "🔎 Google Trends & Keyword Search",
+                "📌 Pinterest Trends & Visual Discovery",
+                "🧵 X (Twitter) Realtime Trends",
+                "👽 Reddit Viral & Community Buzz",
+                "🛒 Amazon Movers & Shakers",
+                "▶️ YouTube Shorts & Video Popularity",
             ],
+            index=0,
         )
 
     with f_col3:
