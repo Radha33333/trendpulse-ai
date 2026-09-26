@@ -15,10 +15,10 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 import streamlit as st
 
 # ==========================================
-# 1. PAGE CONFIG & GLOBAL STYLING (PHASE 2)
+# 1. PAGE CONFIG & GLOBAL ENTERPRISE STYLING
 # ==========================================
 st.set_page_config(
-    page_title="TrendPulse AI - System Architecture & Enterprise Backend",
+    page_title="TrendPulse AI - Enterprise Intelligence & Execution Suite",
     page_icon="⚡",
     layout="wide",
 )
@@ -43,6 +43,13 @@ st.markdown("""
         background: linear-gradient(90deg, #e03e3e 0%, #ff4b4b 100%);
         box-shadow: 0 4px 12px rgba(255, 75, 75, 0.4);
     }
+    .blueprint-card {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -50,13 +57,11 @@ GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY", ""))
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
 # ==========================================
-# 2. PHASE 2: DATABASE INITIALIZATION (SQL)
+# 2. SQLITE DATABASE INITIALIZATION
 # ==========================================
 def init_database():
-    conn = sqlite3.connect("trendpulse_architecture.db", check_same_thread=False)
+    conn = sqlite3.connect("trendpulse_enterprise.db", check_same_thread=False)
     cursor = conn.cursor()
-
-    # Users Table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users_table (
             user_id TEXT PRIMARY KEY,
@@ -66,8 +71,6 @@ def init_database():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-
-    # Platform Signals Table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS platform_signals (
             signal_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -78,49 +81,22 @@ def init_database():
             timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-
-    # Niches Master Table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS niches_table (
-            category_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            category_name TEXT,
-            sub_niche_name TEXT
-        )
-    """)
-
-    # Trends Table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS trends_table (
-            trend_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            trend_name TEXT,
-            category_name TEXT,
-            velocity_score REAL,
-            saturation_index TEXT,
-            emergence_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-
-    # Blueprints Table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS blueprints_table (
             blueprint_id INTEGER PRIMARY KEY AUTOINCREMENT,
             trend_name TEXT,
             role_type TEXT,
-            generated_script TEXT,
-            ad_copy TEXT,
-            prompts TEXT,
-            funnel_steps TEXT,
+            full_dossier TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-
     conn.commit()
     return conn
 
 db_conn = init_database()
 
 # ==========================================
-# 3. FINAL 20 MASTER CATEGORIES & 120 SUB-NICHES
+# 3. 20 MASTER CATEGORIES & 120 SUB-NICHES
 # ==========================================
 UPDATED_NICHE_CATEGORIES = {
     "🛒 E-Commerce & Viral Shopping": [
@@ -205,94 +181,49 @@ UPDATED_NICHE_CATEGORIES = {
     ],
 }
 
-# ==========================================
-# 4. LOCAL TEXT DICTIONARIES
-# ==========================================
 TEXTS = {
     "English": {
-        "title": "⚡ TrendPulse AI: System Architecture & Backend Engine",
-        "subtitle": "Phase 2 Pipeline, Data Ingestion & Enterprise Database",
+        "title": "⚡ TrendPulse AI: Enterprise Intelligence & Execution Suite",
+        "subtitle": "Autonomous Market Domination Engine & Advanced Dossier Generator",
         "terminal": "🔑 Enterprise Access Terminal",
         "simulate_pro": "Simulate Pro Subscription Access",
-        "config_title": "⚙️ Data Ingestion Pipeline & Signal Filter",
+        "config_title": "⚙️ Ingestion Pipeline & Signal Filter",
         "region": "🌐 Target Region:",
         "platform": "🎛️ Platform Source (12 Master Sources):",
-        "category": "📁 Niche Category (20 Categories):",
-        "sub_category": "🔍 Sub-Niche Focus (120 Sub-Niches):",
+        "category": "📁 Niche Category:",
+        "sub_category": "🔍 Sub-Niche Focus:",
         "velocity": "⏱️ Signal Velocity & Timeframe:",
         "apply_btn": "🚀 Execute Ingestion Pipeline & Update DB",
         "telemetry_title": "📊 Live Telemetry & Database Signals",
         "custom_search": "🔍 Custom Asset Injection:",
         "active_signals_for": "Active Ingested Signals for:",
-        "filtered_asset": "Trending Asset Signal",
-        "search_volume": "Engagement / Volume",
-        "future_forecast": "Velocity Status",
-        "chart_title": "📈 Signal Velocity & Pipeline Demand Curve",
-        "matrix_title": "💡 Actionable Intelligence & Strategy Matrix",
-        "locked_title": "🔒 MULTI-CHANNEL BLUEPRINT IS LOCKED",
-        "locked_info": "Unlock high-converting scripts, viral hooks, ad copy, and step-by-step execution plan.",
-        "upgrade_btn": "🔥 Upgrade to Pro & Unlock Full Engine",
-        "select_asset": "🎯 Select Ingested Asset:",
-        "operating_role": "👤 Operating Role (6 User Modes):",
-        "gen_blueprint": "⚡ Generate Master Strategy Blueprint",
-        "monetization": "💰 Direct High-ROI Monetization Model",
-        "content_directives": "🎬 Role-Specific Content Directives & Story Blueprint",
-        "hook": "⚡ Visual Hook & Pattern Interrupt Script (0-3s)",
-        "audio": "🎵 Recommended Audio / Tone Directives",
-        "caption": "📢 Caption, Call to Action & Copy Framework",
-        "plan": "⏱️ Time-Chunked Action Roadmap (0-1h, 6h, 48h)",
-        "score_label": "Predictive Viral Score",
-        "export_pdf_btn": "📄 Download Blueprint PDF",
-        "share_wa_btn": "💬 Share to WhatsApp",
-        "competitor_insight": "🕵️ Competitor Ad Intelligence & Benchmarks",
-        "tab_radar": "📡 Ingestion Radar & Telemetry",
-        "tab_blueprint": "🚀 AI Strategy Blueprint",
-        "tab_db": "🗄️ Database Inspector & Pipeline Logs",
+        "tab_radar": "📡 Ingestion Radar",
+        "tab_blueprint": "🚀 Enterprise Dossier & 3-Tab Execution",
+        "tab_db": "🗄️ Database Inspector & Logs",
     },
     "Hindi": {
-        "title": "⚡ TrendPulse AI: सिस्टम आर्किटेक्चर और बैकएंड इंजन",
-        "subtitle": "फेज 2 पाइपलाइन, डेटा इंजेक्शन और एंटरप्राइज डेटाबेस",
+        "title": "⚡ TrendPulse AI: एंटरप्राइज इंटेलिजेंस और एग्जीक्यूशन सुइट",
+        "subtitle": "ऑटोनॉमस मार्केट डोमिनेशन इंजन और एडवांस डॉसियर जेनरेटर",
         "terminal": "🔑 एंटरप्राइज एक्सेस टर्मिनल",
         "simulate_pro": "प्रो सब्सक्रिप्शन एक्सेस सिमुलेट करें",
-        "config_title": "⚙️ डेटा इंजेक्शन पाइपलाइन और सिग्नल फ़िल्टर",
-        "region": "🌐 टारगेट रीजन (क्षेत्र):",
-        "platform": "🎛️ प्लेटफॉर्म सोर्स (12 मास्टर):",
-        "category": "📁 नीश कैटेगरी (20 कैटेगरी):",
-        "sub_category": "🔍 सब-नीश फ़ोकस (120 सब-नीश):",
+        "config_title": "⚙️ इंजेक्शन पाइपलाइन और सिग्नल फ़िल्टर",
+        "region": "🌐 टारगेट रीजन:",
+        "platform": "🎛️ प्लेटफॉर्म सोर्स:",
+        "category": "📁 नीश कैटेगरी:",
+        "sub_category": "🔍 सब-नीश फ़ोकस:",
         "velocity": "⏱️ सिग्नल वेलोसिटी और टाइमफ्रेम:",
         "apply_btn": "🚀 इंजेक्शन पाइपलाइन चलाएं और DB अपडेट करें",
         "telemetry_title": "📊 लाइव टेलीमेट्री और डेटाबेस सिग्नल",
         "custom_search": "🔍 कस्टम एसेट इंजेक्शन:",
         "active_signals_for": "सक्रिय इंजेस्टेड सिग्नल:",
-        "filtered_asset": "ट्रेंडिंग एसेट सिग्नल",
-        "search_volume": "इंगेजमेंट / वॉल्यूम",
-        "future_forecast": "वेलोसिटी स्टेटस",
-        "chart_title": "📈 सिग्नल वेलोसिटी और डिमांड कर्व",
-        "matrix_title": "💡 एक्शनएबल इंटेलिजेंस और स्ट्रैटेजी मैट्रिक्स",
-        "locked_title": "🔒 मल्टी-चैनल ब्लूप्रिंट लॉक है",
-        "locked_info": "हाई-कन्वर्टिंग स्क्रिप्ट, वायरल हुक, एड कॉपी और एग्जीक्यूशन प्लान अनलॉक करें।",
-        "upgrade_btn": "🔥 प्रो में अपग्रेड करें और पूरा इंजन अनलॉक करें",
-        "select_asset": "🎯 इंजेस्टेड एसेट चुनें:",
-        "operating_role": "👤 आपकी भूमिका (6 ऑपरेटिंग रोल्स):",
-        "gen_blueprint": "⚡ मास्टर स्ट्रैटेजी ब्लूप्रिंट जनरेट करें",
-        "monetization": "💰 डायरेक्ट हाई-ROI मोनेटाइजेशन मॉडल",
-        "content_directives": "🎬 रोल-स्पेसिफिक कंटेंट डायरेक्टिव्स और स्टोरी ब्लूप्रिंट",
-        "hook": "⚡ विजुअल हुक और पैटर्न इंटरप्ट स्क्रिप्ट (0-3s)",
-        "audio": "🎵 अनुशंसित ऑडियो / टोन डायरेक्टिव्स",
-        "caption": "📢 कैप्शन, कॉल टू एक्शन और कॉपी फ्रेमवर्क",
-        "plan": "⏱️ टाइम-चंक्ड रोडमैप (0-1h, 6h, 48h)",
-        "score_label": "अनुमानित वायरल स्कोर",
-        "export_pdf_btn": "📄 ब्लूप्रिंट PDF डाउनलोड करें",
-        "share_wa_btn": "💬 व्हाट्सएप पर शेयर करें",
-        "competitor_insight": "🕵️ कॉम्पिटिटर एड इंटेलिजेंस",
-        "tab_radar": "📡 इंजेक्शन रडार और टेलीमेट्री",
-        "tab_blueprint": "🚀 AI रणनीति ब्लूप्रिंट",
-        "tab_db": "🗄️ डेटाबेस इंस्पेक्टर और पाइपलाइन लॉग्स",
+        "tab_radar": "📡 इंजेक्शन रडार",
+        "tab_blueprint": "🚀 एंटरप्राइज डॉसियर और 3-टैब एग्जीक्यूशन",
+        "tab_db": "🗄️ डेटाबेस इंस्पेक्टर और लॉग्स",
     },
 }
 
 # ==========================================
-# 5. HELPER FUNCTIONS & PDF ENGINE
+# 4. HELPER FUNCTIONS & PDF ENGINE
 # ==========================================
 def safe_xml_text(text: str) -> str:
     if not text:
@@ -309,48 +240,44 @@ def sanitize_trend_input(text: str) -> str:
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     return cleaned
 
-def create_pdf_blueprint(asset_name, category, role, viral_score, window, result):
+def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     clean_asset = sanitize_trend_input(asset_name)
     clean_cat = sanitize_trend_input(category)
 
     buffer = io.BytesIO()
-    doc = SimpleDocTemplate(
-        buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36
-    )
+    doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
     styles = getSampleStyleSheet()
 
-    title_style = ParagraphStyle("TitleStyle", parent=styles["Heading1"], fontSize=18, textColor="#ff4b4b", spaceAfter=12)
-    heading_style = ParagraphStyle("HeadingStyle", parent=styles["Heading2"], fontSize=12, textColor="#1a1a1a", spaceBefore=10, spaceAfter=6)
-    body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=9, leading=13, textColor="#333333", spaceAfter=8)
+    title_style = ParagraphStyle("TitleStyle", parent=styles["Heading1"], fontSize=16, textColor="#ff4b4b", spaceAfter=10)
+    heading_style = ParagraphStyle("HeadingStyle", parent=styles["Heading2"], fontSize=11, textColor="#1a1a1a", spaceBefore=8, spaceAfter=4)
+    body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=8.5, leading=12, textColor="#333333", spaceAfter=6)
 
     story = [
-        Paragraph("TrendPulse AI - Phase 2 Enterprise Blueprint", title_style),
+        Paragraph("TrendPulse AI - Enterprise Commercial Intelligence Dossier", title_style),
         Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}", body_style),
         Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
-        Spacer(1, 10)
+        Spacer(1, 8)
     ]
 
     sections = [
-        ("Monetization Model", result.get("profit_model", "")),
-        ("Role-Specific Content Directives", result.get("content_directives", "")),
-        ("Execution Hook & Visual Script", result.get("execution_hook", "")),
-        ("Recommended Audio / Tone Vibe", result.get("audio_suggestion", "")),
-        ("Caption, CTA & Ad Copy", result.get("ad_copy", "")),
-        ("Action Roadmap", result.get("action_blueprint", "")),
-        ("Competitor Ad Intelligence", result.get("competitor_intelligence", "")),
+        ("Financial Unit Economics", result.get("unit_economics", "")),
+        ("Omnichannel Direct Execution Assets", result.get("tab1_direct", "")),
+        ("Advanced Creator & Engineer Prompts", result.get("tab2_prompts", "")),
+        ("Competitor Intelligence & Benchmarks", result.get("tab3_competitor", "")),
+        ("Automated 7-Day Action Roadmap", result.get("action_roadmap", "")),
     ]
 
     for title, text in sections:
         story.append(Paragraph(title, heading_style))
         story.append(Paragraph(safe_xml_text(text), body_style))
-        story.append(Spacer(1, 4))
+        story.append(Spacer(1, 3))
 
     doc.build(story)
     buffer.seek(0)
     return buffer
 
 # ==========================================
-# 6. PIPELINE & RADAR DATA ENGINE (DB LOGGING)
+# 5. PIPELINE & RADAR DATA ENGINE
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
@@ -364,7 +291,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
     if "Reddit" in platform_source:
         try:
             url = f"https://www.reddit.com/search.json?q={search_query}&sort=hot&limit=10"
-            headers = {"User-Agent": "Mozilla/5.0 TrendPulseAI/2.6"}
+            headers = {"User-Agent": "Mozilla/5.0 TrendPulseAI/3.0"}
             res = requests.get(url, headers=headers, timeout=4)
             if res.status_code == 200:
                 data = res.json()
@@ -419,7 +346,6 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
                 "Volume": f"{(95 - i * 11) * 10}K+ Interactions ({region})"
             })
 
-    # Log to SQLite Database (Phase 2 Pipeline Architecture)
     try:
         cursor = db_conn.cursor()
         for r in results:
@@ -434,9 +360,9 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
     return results[:5]
 
 # ==========================================
-# 7. GROQ LLM GENERATOR
+# 6. ENTERPRISE LLM INTELLIGENCE GENERATOR
 # ==========================================
-def generate_master_intelligence(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
+def generate_enterprise_dossier(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
     clean_asset = sanitize_trend_input(keyword_asset)
     clean_cat = sanitize_trend_input(category)
     clean_sub = sanitize_trend_input(sub_niche)
@@ -445,13 +371,11 @@ def generate_master_intelligence(keyword_asset, category, sub_niche, target_role
     default_response = {
         "viral_score": f"{velocity_score}%",
         "prediction_window": f"Active Timing Window ({timeframe})",
-        "profit_model": f"• **Primary Funnel:** Enterprise Strategy for {target_role} in {clean_cat}{sub_ctx}.\n• **Execution Path:** Monetize '{clean_asset}' through optimized cross-platform funnels.",
-        "content_directives": f"• **Narrative Angle:** Capitalizing on real-time momentum of '{clean_asset}'.\n• **Core Message:** High-converting value proposition tailored for {target_role}.",
-        "execution_hook": f"• **0-3s Cue:** Dynamic visual introducing {clean_asset}.\n• **Text Overlay:** \"Why top operators are scaling {clean_asset[:20]}...\"\n• **Script:** \"Here is the exact framework to capitalize on {clean_asset}...\"",
-        "audio_suggestion": "Upbeat Commercial Audio / High-Energy Vibe",
-        "ad_copy": f"Discover how {clean_asset} is breaking records in {clean_cat}. Tap link to access Phase 2 intelligence! #{clean_asset.replace(' ', '')}",
-        "action_blueprint": "1. HOUR 1: Deploy target tracking & asset setup.\n2. HOUR 6: Launch cross-channel ad campaigns.\n3. DAY 2: Optimize based on telemetry.",
-        "competitor_intelligence": "• **Phase 2 Benchmark:** Top 5% market retention and CTR performance tier.",
+        "unit_economics": "• **Estimated Sourcing Cost:** $4.50 per unit\n• **Suggested Retail Price (SRP):** $29.99\n• **Gross Profit Margin:** 85.0%\n• **Break-Even ROAS Threshold:** 1.5x (Profitable scale starts above 2.2x ROAS)",
+        "tab1_direct": f"• **Visual Hook (0-3s):** Dynamic split-screen introducing {clean_asset} with rapid pattern-interrupt motion.\n• **Script Voiceover:** \"Stop using outdated solutions in 2026. Here is why top operators in {clean_cat} are scaling {clean_asset[:25]} instantly...\"\n• **Hashtags:** #{clean_asset.replace(' ', '')} #ViralDrop2026 #D2CScaling #TrendPulse\n• **Ad Copy (Meta):** \"The ultimate secret behind {clean_asset} is finally accessible. High performance, premium quality. Tap below to claim inventory!\"",
+        "tab2_prompts": f"• **Midjourney v6.0 Prompt:** Hyper-realistic studio product photography of {clean_asset}, minimalist luxury packaging, clean ambient lighting, cinematic 8k resolution, commercial advertising style --ar 16:9 --v 6.0\n• **Claude / Cursor Prompt:** Act as a Senior E-Commerce Growth Engineer. Write a Python script using async requests to monitor daily stock velocity and price shifts for {clean_cat}.",
+        "tab3_competitor": "• **Competitor Ad Spend Tier:** Medium-High ($1,500 - $4,000/day active spend).\n• **Estimated CPA:** $12.50\n• **Performance Benchmark:** Top 5% CTR via UGC-style unboxing hooks.",
+        "action_roadmap": "1. HOUR 1-6: Sourcing setup, private-label packaging confirmation, & landing page optimization.\n2. HOUR 24: Launch micro-testing cross-channel ad campaign with $50/day budget.\n3. DAY 3: Scale winning ad sets by 50% & kill underperforming creatives.\n4. DAY 7: Deploy retargeting upsell funnel to boost Average Order Value (AOV)."
     }
 
     if not GROQ_API_KEY:
@@ -472,14 +396,12 @@ Language: {lang}
 JSON Format:
 {{
   "viral_score": "{velocity_score}%",
-  "prediction_window": "Lifecycle timing details",
-  "profit_model": "Step by step monetization model for {target_role}",
-  "content_directives": "• **Narrative Angle:** ...\\n• **Key Points:** ...",
-  "execution_hook": "• **0-3s Cue:** ...\\n• **Overlay:** ...\\n• **Script:** ...",
-  "audio_suggestion": "Audio vibe",
-  "ad_copy": "Ad copy and hashtags",
-  "action_blueprint": "1. HOUR 1: ...\\n2. HOUR 6: ...\\n3. DAY 2: ...",
-  "competitor_intelligence": "• **Benchmark:** ..."
+  "prediction_window": "Lifecycle timing window",
+  "unit_economics": "• **Sourcing Cost:** ...\\n• **SRP:** ...\\n• **Margin:** ...\\n• **Break-even ROAS:** ...",
+  "tab1_direct": "• **Visual Hook:** ...\\n• **Script:** ...\\n• **Hashtags:** ...\\n• **Ad Copy:** ...",
+  "tab2_prompts": "• **Midjourney Prompt:** ...\\n• **Cursor Prompt:** ...",
+  "tab3_competitor": "• **Ad Spend Tier:** ...\\n• **CPA:** ...\\n• **Benchmark:** ...",
+  "action_roadmap": "1. HOUR 1-6: ...\\n2. HOUR 24: ...\\n3. DAY 3: ...\\n4. DAY 7: ..."
 }}
 """
         completion = client.chat.completions.create(
@@ -493,7 +415,7 @@ JSON Format:
         return default_response
 
 # ==========================================
-# 8. PHASE 2 UI LAYOUT & BACKEND INSPECTOR
+# 7. MAIN UI LAYOUT & BACKEND INSPECTOR
 # ==========================================
 if "is_premium" not in st.session_state:
     st.session_state["is_premium"] = False
@@ -506,7 +428,7 @@ t = TEXTS[selected_lang]
 
 with head_col1:
     st.title(t["title"])
-    st.caption(f"{t['subtitle']} | ⚡ SQLite Database & Ingestion Pipeline Architecture")
+    st.caption(f"{t['subtitle']} | ⚡ Autonomous Pipeline & Enterprise DB Architecture")
 
 st.markdown("---")
 
@@ -559,78 +481,50 @@ active_signals = fetch_and_store_signals(
     geo_map[geo_option], platform_source, selected_category, selected_sub_niche, timeframe
 )
 
-future_forecast_options = ["🔥 High Growth (7 Days)", "🚀 Viral Peak Expected", "📈 Steady Surge", "⚡ Breakout Candidate", "📊 Emerging Trend"]
+signal_scores = {item["Keyword"]: round(99.4 - (i * 2.1), 1) for i, item in enumerate(active_signals)}
+df = pd.DataFrame([{ "Trending Asset Signal": item["Keyword"], "Engagement / Volume": item["Volume"], "Velocity Status": "🔥 High Growth" } for item in active_signals])
 
-table_data = []
-signal_scores = {}
-
-for idx, item in enumerate(active_signals):
-    score = round(99.2 - (idx * 2.8), 1)
-    forecast = future_forecast_options[idx % len(future_forecast_options)]
-    table_data.append({
-        t["filtered_asset"]: item["Keyword"],
-        t["search_volume"]: item["Volume"],
-        t["future_forecast"]: forecast,
-    })
-    signal_scores[item["Keyword"]] = score
-
-df = pd.DataFrame(table_data)
-
-# TABBED WORKFLOW UI (PHASE 2)
+# TABBED WORKFLOW UI
 tab_radar, tab_blueprint, tab_db = st.tabs([t["tab_radar"], t["tab_blueprint"], t["tab_db"]])
 
 with tab_radar:
     st.subheader(t["telemetry_title"])
-    custom_search = st.text_input(
-        t["custom_search"],
-        placeholder="e.g. Vibe Coding, AI Automation Agency, K-Beauty Glass Skin",
-    )
-
+    custom_search = st.text_input(t["custom_search"], placeholder="e.g. Vibe Coding, AI Automation Agency, K-Beauty Glass Skin")
     if custom_search.strip():
         custom_item = {"Keyword": f"[Custom Injection] {custom_search.strip()}", "Volume": f"Realtime Query ({geo_option})"}
         if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
             active_signals.insert(0, custom_item)
 
-    sub_title_ctx = f" | Sub: `{selected_sub_niche}`" if selected_sub_niche != "All Sub-Niches" else ""
-    st.markdown(f"**{t['active_signals_for']}** `{selected_category}`{sub_title_ctx} | `{platform_source}` | `{geo_option}`")
+    st.markdown(f"**{t['active_signals_for']}** `{selected_category}` | `{platform_source}` | `{geo_option}`")
     st.dataframe(df, use_container_width=True, hide_index=True)
 
-    st.markdown(f"#### {t['chart_title']}")
+    st.markdown("#### 📈 Signal Velocity & Pipeline Demand Curve")
     chart_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
-    base_score = signal_scores.get(chart_keyword, 92.0)
-
-    days = ["Day -3", "Day -2", "Day -1", "Today", "Day +1 (Proj)", "Day +2 (Proj)", "Day +3 (Proj)"]
-    scores = [
-        max(10.0, base_score - 45),
-        max(15.0, base_score - 30),
-        max(25.0, base_score - 15),
-        base_score,
-        min(99.9, base_score + 5),
-        min(99.9, base_score + 8),
-        min(99.9, base_score + 4),
-    ]
-
-    chart_df = pd.DataFrame({"Timeline": days, "Velocity Score": scores})
+    base_score = signal_scores.get(chart_keyword, 94.0)
+    chart_df = pd.DataFrame({
+        "Timeline": ["Day -3", "Day -2", "Day -1", "Today", "Day +1 (Proj)", "Day +2 (Proj)", "Day +3 (Proj)"],
+        "Velocity Score": [max(10.0, base_score - 45), max(15.0, base_score - 30), max(25.0, base_score - 15), base_score, min(99.9, base_score + 5), min(99.9, base_score + 8), min(99.9, base_score + 4)]
+    })
     fig = px.line(chart_df, x="Timeline", y="Velocity Score", markers=True, line_shape="spline", title=f"Backend Pipeline Trajectory: {chart_keyword}")
     fig.update_layout(plot_bgcolor="#0e1117", paper_bgcolor="#0e1117", font_color="#fafafa")
     fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=8)
     st.plotly_chart(fig, use_container_width=True)
 
 with tab_blueprint:
-    st.subheader(t["matrix_title"])
+    st.subheader("💡 Enterprise Commercial Intelligence Dossier")
 
     if not st.session_state["is_premium"]:
-        st.warning(t["locked_title"])
-        st.info(t["locked_info"])
-        st.link_button(t["upgrade_btn"], STRIPE_CHECKOUT_URL, use_container_width=True)
+        st.warning("🔒 MULTI-CHANNEL ENTERPRISE DOSSIER IS LOCKED")
+        st.info("Unlock financial unit economics, omnichannel ad suites, competitor ad intelligence, and automated action roadmaps.")
+        st.link_button("🔥 Upgrade to Pro & Unlock Full Enterprise Engine", STRIPE_CHECKOUT_URL, use_container_width=True)
     else:
-        st.success("🔓 PRO ENGINE ACTIVE (PHASE 2 ARCHITECTURE)")
+        st.success("🔓 ENTERPRISE PRO ENGINE ACTIVE")
 
         asset_list = [item["Keyword"] for item in active_signals]
-        selected_asset = st.selectbox(t["select_asset"], options=asset_list, index=0)
+        selected_asset = st.selectbox("🎯 Select Ingested Asset:", options=asset_list, index=0)
 
         target_role = st.selectbox(
-            t["operating_role"],
+            "👤 Operating Role (6 User Modes):",
             [
                 "🛍️ E-Commerce Merchants & D2C Brands",
                 "🎬 Viral Content Creators & Media Houses",
@@ -642,89 +536,87 @@ with tab_blueprint:
             index=0,
         )
 
-        gen_btn = st.button(t["gen_blueprint"], use_container_width=True)
+        gen_btn = st.button("⚡ Generate Enterprise Dossier", use_container_width=True)
 
-        if gen_btn or "last_result" in st.session_state:
+        if gen_btn or "enterprise_result" in st.session_state:
+            curr_score = signal_scores.get(selected_asset, 95.0)
             if gen_btn:
-                curr_score = signal_scores.get(selected_asset, 95.0)
-                with st.spinner("Executing Phase 2 Pipeline & Database Orchestration..."):
-                    result = generate_master_intelligence(
-                        selected_asset,
-                        selected_category,
-                        selected_sub_niche,
-                        target_role,
-                        platform_source,
-                        timeframe,
-                        curr_score,
-                        selected_lang,
+                with st.spinner("Synthesizing Cross-Platform Intelligence & Financial Unit Economics..."):
+                    result = generate_enterprise_dossier(
+                        selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, curr_score, selected_lang
                     )
-                    st.session_state["last_result"] = result
-                    st.session_state["last_asset"] = selected_asset
-                    st.session_state["last_role"] = target_role
-                    st.session_state["last_score"] = curr_score
+                    st.session_state["enterprise_result"] = result
+                    st.session_state["ent_asset"] = selected_asset
+                    st.session_state["ent_role"] = target_role
+                    st.session_state["ent_score"] = curr_score
             else:
-                result = st.session_state["last_result"]
-                selected_asset = st.session_state["last_asset"]
-                target_role = st.session_state["last_role"]
-                curr_score = st.session_state["last_score"]
+                result = st.session_state["enterprise_result"]
+                selected_asset = st.session_state["ent_asset"]
+                target_role = st.session_state["ent_role"]
+                curr_score = st.session_state["ent_score"]
 
+            # Metrics Row
             m_col1, m_col2 = st.columns(2)
-            m_col1.metric(t["score_label"], result.get("viral_score", f"{curr_score}%"))
-            m_col2.metric("Lifecycle Window", result.get("prediction_window", timeframe))
+            m_col1.metric("Predictive Viral Score", result.get("viral_score", f"{curr_score}%"))
+            m_col2.metric("Lifecycle Timing Window", result.get("prediction_window", timeframe))
 
             st.markdown("---")
-            st.markdown(f"#### {t['monetization']}")
-            st.markdown(result.get("profit_model", ""))
-
-            st.markdown(f"#### {t['content_directives']}")
-            st.markdown(result.get("content_directives", ""))
-
-            st.markdown(f"#### {t['hook']}")
-            st.markdown(result.get("execution_hook", ""))
-
-            st.markdown(f"#### {t['audio']}")
-            st.caption(result.get("audio_suggestion", ""))
-
-            st.markdown(f"#### {t['caption']}")
-            st.code(result.get("ad_copy", ""), language="text")
-
-            st.markdown(f"#### {t['plan']}")
-            st.text(result.get("action_blueprint", ""))
+            st.markdown("### 💰 Financial Unit Economics & Profitability Calculator")
+            st.markdown(result.get("unit_economics", ""))
 
             st.markdown("---")
+            st.markdown("### 🚀 Omnichannel 3-Tab Execution Engine")
+            
+            tab1_d, tab2_p, tab3_c = st.tabs([
+                "📌 TAB 1: DIRECT EXECUTION",
+                "💡 TAB 2: AI PROMPTS",
+                "🕵️ TAB 3: COMPETITOR INTEL"
+            ])
 
-            pdf_bytes = create_pdf_blueprint(
-                selected_asset, selected_category, target_role, curr_score, timeframe, result
-            )
+            with tab1_d:
+                st.markdown("#### Ready-to-Use Assets & Ad Copy")
+                st.markdown(result.get("tab1_direct", ""))
+
+            with tab2_p:
+                st.markdown("#### Advanced Creator & Engineer Prompt Packs")
+                st.markdown(result.get("tab2_prompts", ""))
+
+            with tab3_c:
+                st.markdown("#### Competitor Ad Intelligence & Benchmarks")
+                st.markdown(result.get("tab3_competitor", ""))
+
+            st.markdown("---")
+            st.markdown("### ⏱️ Automated 7-Day Action Roadmap")
+            st.text(result.get("action_roadmap", ""))
+
+            st.markdown("---")
+            pdf_bytes = create_pdf_dossier(selected_asset, selected_category, target_role, curr_score, timeframe, result)
 
             d_col1, d_col2 = st.columns(2)
             with d_col1:
                 st.download_button(
-                    label=t["export_pdf_btn"],
+                    label="📄 Download Enterprise PDF Dossier",
                     data=pdf_bytes,
-                    file_name=f"TrendPulse_Phase2_Blueprint_{sanitize_trend_input(selected_asset)[:15]}.pdf",
+                    file_name=f"TrendPulse_Enterprise_Dossier_{sanitize_trend_input(selected_asset)[:15]}.pdf",
                     mime="application/pdf",
                     use_container_width=True,
                 )
-
             with d_col2:
                 wa_text = urllib.parse.quote(
-                    f"⚡ *TrendPulse AI Phase 2 Blueprint*\n\n"
+                    f"⚡ *TrendPulse AI Enterprise Dossier*\n\n"
                     f"Asset: {sanitize_trend_input(selected_asset)}\n"
                     f"Category: {sanitize_trend_input(selected_category)}\n"
                     f"Viral Score: {curr_score}%\n\n"
-                    f"Hook: {result.get('execution_hook', '')[:100]}..."
+                    f"View full intelligence report!"
                 )
                 st.link_button(
-                    label=t["share_wa_btn"],
+                    label="💬 Share to WhatsApp",
                     url=f"https://wa.me/?text={wa_text}",
                     use_container_width=True,
                 )
 
 with tab_db:
-    st.subheader("🗄️ Database Inspector & Ingestion Logs")
-    st.markdown("Inspect backend SQLite tables (`platform_signals`, `blueprints_table`, `trends_table`) logged by the Phase 2 pipeline.")
-    
+    st.subheader("🗄️ Database Inspector & Pipeline Logs")
     try:
         db_df = pd.read_sql("SELECT * FROM platform_signals ORDER BY timestamp DESC LIMIT 50", db_conn)
         st.markdown(f"**Total Ingested Signals Logged in SQLite:** `{len(db_df)}` records")
