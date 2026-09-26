@@ -290,7 +290,7 @@ def sanitize_trend_input(text: str) -> str:
 def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     clean_asset = sanitize_trend_input(asset_name)
     clean_cat = sanitize_trend_input(category)
-    clean_role = sanitize_trend_input(role).lstrip('n').strip() # Fixes leading 'n' role bug
+    clean_role = sanitize_trend_input(role).lstrip('n').strip()
 
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
@@ -328,88 +328,79 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     doc.build(story)
     buffer.seek(0)
     return buffer
+
 # ==========================================
-# 6. PIPELINE & RADAR DATA ENGINE
+# 6. PIPELINE & RADAR DATA ENGINE (UPDATED)
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     results = []
     
-    # 10 Unique, specific, non-repetitive items per sub-niche
     specific_pools = {
+        "Hidden Tourist Places": [
+            ("Hidden Valley Trekking Expedition Surge", "Zuluk, East Sikkim", "🔥 High Growth"),
+            ("Offbeat Cliffside Sunset Viewpoint Trend", "Vagamon Pine Forest, Kerala", "⚡ Accelerating"),
+            ("Secret Waterfall Camping Spot Discovery", "Tirthan Valley, Himachal Pradesh", "🚀 Explosive Surge"),
+            ("Stargazing Eco-Lodge Weekend Getaway", "Yercaud Hills, Tamil Nadu", "📈 Trending"),
+            ("Unexplored Caves & Limestone Formations", "Kurnool Caves, Andhra Pradesh", "🔥 High Growth"),
+            ("Misty Tea Estate Heritage Homestay Wave", "Agumbe Rainforest, Karnataka", "⚡ Accelerating"),
+            ("Floating Breakfast & Lakeside Villa Retreat", "Dawki River, Meghalaya", "🚀 Explosive Surge"),
+            ("Scenic Mountain Pass Road Trip Hotspot", "Sach Pass, Chamba", "📈 Trending"),
+            ("Hidden Blue Lagoon Natural Pool Spot", "Kakoti, Arunachal Pradesh", "🔥 High Growth"),
+            ("Ancient Cliff Fortress Exploration Trend", "Gingee Fort, Villupuram", "⚡ Accelerating")
+        ],
         "Viral Creator Scandals & Internet Drama": [
-            "Exposed: The Fake Giveaway & Brand Sponsorship Controversy",
-            "Creator House Eviction Notice & Secret Fallout Breakdown",
-            "The 3AM Podcast Apology Video That Broke Internet Records",
-            "Behind-The-Scenes Agency Leak: Hidden Creator Pay Cuts",
-            "Reality Show Feud: Influencer Physical Altercation Drama",
-            "Brand Owner Calls Out Ungrateful Tier-1 Creator Live",
-            "The Million-Subscriber Milestone Party Safety Hazard Scandal",
-            "Stolen Content Accusations Between Rival Short-Form Giants",
-            "Unfiltered DM Screenshots Leaked by Former Editor",
-            "The Rise and Fall of the Dubai Influencer Mastermind Group"
+            ("Exposed: Fake Giveaway & Sponsorship Controversy", "Creator House LA", "🔥 High Growth"),
+            ("Creator House Eviction & Secret Fallout Breakdown", "Mumbai Creator Pod", "🚀 Explosive Surge"),
+            ("The 3AM Podcast Apology Video Record Break", "Delhi Influencer Hub", "⚡ Accelerating"),
+            ("Behind-The-Scenes Agency Pay Cut Leak", "Supercreator Agency", "📈 Trending"),
+            ("Reality Show Feud & Physical Altercation Drama", "MTV Splitsvilla Cast", "🔥 High Growth"),
+            ("Brand Owner Calls Out Ungrateful Tier-1 Creator", "D2C Founder Network", "⚡ Accelerating"),
+            ("Milestone Party Safety Hazard Scandal", "Dubai Yacht Party", "🚀 Explosive Surge"),
+            ("Stolen Content Accusations Between Giants", "Short-Form Rivals", "📈 Trending"),
+            ("Unfiltered DM Screenshots Leaked by Editor", "Anonymous Leaks", "🔥 High Growth"),
+            ("Rise and Fall of Influencer Mastermind Group", "Crypto/Wealth Influencers", "⚡ Accelerating")
         ],
         "TikTok Shop & Live Deals": [
-            "Flash Drop: Korean 10-Step Glass Skin Skincare Bundle",
-            "Viral Sunset Projector Lamp & RGB Strip Restock Surge",
-            "50% Off Portable Neck Fan Heatwave Special Clearance",
-            "Aesthetic Corduroy Tote Bags Trending in College Campuses",
-            "Mini Wireless Car Vacuum Cleaner 3-Hour Sellout Event",
-            "Smart Bluetooth Water Bottle Hydration Tracker Drop",
-            "Ergonomic Memory Foam Seat Cushion for WFH Setups",
-            "Reusable Silicone Food Storage Bags Zero-Waste Kit",
-            "Matte Black Air Fryer Liners Bulk Pack Breakthrough",
-            "Handheld Garment Steamer Travel Edition Lightning Deal"
-        ],
-        "Amazon Hot Movers & Bestsellers": [
-            "Heavyweight Oversized Drop-Shoulder Minimalist Tees",
-            "Scented Soy Wax Luxury Hotel Collection Candles",
-            "Organic Plant-Based Evening Protein Snack Bar Packs",
-            "Handcrafted Speckled Ceramic Coffee Mugs Aesthetic Set",
-            "Waterproof Extended Desk Mat & Cable Management Kit",
-            "LED Backlit Mechanical Gaming Keyboard & Mouse Combo",
-            "MagSafe Compatible Transparent Magnetic Phone Case",
-            "Stainless Steel Insulated Tumbler with Straw Lid",
-            "Minimalist Wooden Bedside Nightstand Organizer Tray",
-            "Aesthetic Sunset LED Desk Lamp for Content Creators"
+            ("Flash Drop: Korean Glass Skin Skincare Bundle", "Laneige & Innisfree Kits", "🚀 Explosive Surge"),
+            ("Viral Sunset Projector Lamp Restock Surge", "RGB Ambient Lights", "🔥 High Growth"),
+            ("50% Off Portable Neck Fan Heatwave Special", "JisuLife Fans", "⚡ Accelerating"),
+            ("Aesthetic Corduroy Tote Bags College Drop", "Minimalist Canvas Co.", "📈 Trending"),
+            ("Mini Wireless Car Vacuum 3-Hour Sellout", "Baseus Auto", "🔥 High Growth"),
+            ("Smart Bluetooth Water Bottle Hydration Tracker", "HidrateSpark", "⚡ Accelerating"),
+            ("Ergonomic Memory Foam Seat Cushion WFH", "AromaEase Set", "🚀 Explosive Surge"),
+            ("Reusable Silicone Food Storage Bags Zero-Waste", "Stasher Bags", "📈 Trending"),
+            ("Matte Black Air Fryer Liners Bulk Pack", "KitchenEssentials", "🔥 High Growth"),
+            ("Handheld Garment Steamer Travel Edition", "Philips Steam&Go", "⚡ Accelerating")
         ],
         "Stock Market & Algo Trading Bots": [
-            "Nifty 50 Intraday Breakout & Critical Support Level Analysis",
-            "Bank Nifty Weekly Options Chain Open Interest Massive Spike",
-            "Algorithmic Momentum Crossover Strategy for Scalpers",
-            "FII/DII Net Cash Flow Reversal Signals Heading Into Expiry",
-            "Smallcap Index Sector Rotation & Volume Accumulation Alert",
-            "High-Beta Breakout Stocks Screener for Momentum Traders",
-            "Volatility Index (VIX) Sudden Drop Risk & Hedging Setup",
-            "Breakout Trendline Retest in PSU Bank Sector Equities",
-            "Auto Sector Monthly Sales Data vs Market Expectation Impact",
-            "Intraday VWAP Crossover Blueprint for Tech Equities"
+            ("Nifty 50 Intraday Breakout & Critical Support Level", "Nifty 50 Index", "🔥 High Growth"),
+            ("Bank Nifty Weekly Options Chain Open Interest Spike", "Bank Nifty Futures", "🚀 Explosive Surge"),
+            ("Algorithmic Momentum Crossover Strategy Setup", "Quant Scalpers Bot", "⚡ Accelerating"),
+            ("FII/DII Net Cash Flow Reversal Signal", "NSE Institutional Flow", "📈 Trending"),
+            ("Smallcap Sector Rotation & Volume Accumulation", "BSE Smallcap Index", "🔥 High Growth"),
+            ("High-Beta Breakout Stocks Momentum Scanner", "Nifty Midcap 100", "⚡ Accelerating"),
+            ("Volatility Index (VIX) Sudden Drop Risk & Hedging", "India VIX", "🚀 Explosive Surge"),
+            ("Breakout Trendline Retest in PSU Bank Sector", "State Bank of India", "📈 Trending"),
+            ("Auto Sector Monthly Sales Data vs Expectation", "Tata Motors & M&M", "🔥 High Growth"),
+            ("Intraday VWAP Crossover Blueprint for Equities", "Reliance Industries", "⚡ Accelerating")
         ]
     }
 
-    # Default fallback if sub-niche is custom or not explicitly in pools
     default_pool = [
-        f"High-Intent Consumer Search Volume Spike in {sub_niche if sub_niche else category}",
-        f"Breakout Social Media Engagement Surge across Elite Channels",
-        f"Direct-to-Consumer Supply Chain Acceleration Velocity",
-        f"Top Community-Driven Discussion Trend on {platform_source.split()[1] if len(platform_source.split()) > 1 else 'Platform'}",
-        f"High-Conversion Micro-Niche Interest Vector Wave",
-        f"Realtime Audience Attention Spike Detected in Region ({region})",
-        f"Algorithm-Boosted Content Cluster Outperforming Benchmarks",
-        f"Emerging Buyer Intent Signal with Low Competitor Saturation",
-        f"Cross-Platform Viral Distribution Momentum Acceleration",
-        f"Tier-1 Creator Collaboration Impact Analysis Metric"
+        (f"High-Intent Search Spike in {sub_niche if sub_niche else category}", f"Asset Target #{i+1}", "🔥 High Growth" if i%2==0 else "⚡ Accelerating")
+        for i in range(10)
     ]
 
     items = specific_pools.get(sub_niche, default_pool)
-    platform_name = platform_source.split()[1] if len(platform_source.split()) > 1 else "Platform"
 
-    # Generate 10 distinct results with realistic varying volumes
-    for i, item in enumerate(items):
+    for i, (item, entity, velocity) in enumerate(items):
         base_vol = 1250000 - (i * 95400)
         results.append({
-            "Keyword": f"[{platform_name}] {item}",
-            "Volume": f"{base_vol:,} Interactions ({region})"
+            "Keyword": item,
+            "Entity": entity,
+            "Volume": f"{base_vol:,} Interactions ({region})",
+            "Velocity": velocity
         })
 
     try:
@@ -417,13 +408,14 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
         for r in results:
             cursor.execute(
                 "INSERT INTO platform_signals (source_platform, keyword, engagement_metrics, region) VALUES (?, ?, ?, ?)",
-                (platform_source, r["Keyword"], r["Volume"], region)
+                (platform_source, f"{r['Keyword']} ({r['Entity']})", r["Volume"], region)
             )
         db_conn.commit()
     except Exception:
         pass
 
-    return results  # Returns all 10 detailed items
+    return results
+
 # ==========================================
 # 7. MASTER LLM 10-POINT DOSSIER GENERATOR
 # ==========================================
@@ -435,7 +427,6 @@ def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, targe
 
     metrics_template = ROLE_SPECIFIC_METRICS.get(target_role, ROLE_SPECIFIC_METRICS["🛍️ E-Commerce Merchants & D2C Brands"])
 
-    # Safe text values avoiding raw newline rendering issues
     default_response = {
         "viral_score": f"{velocity_score}%",
         "prediction_window": f"Active Timing Window ({timeframe})",
@@ -561,7 +552,7 @@ active_signals = fetch_and_store_signals(
 )
 
 signal_scores = {item["Keyword"]: round(99.4 - (i * 2.1), 1) for i, item in enumerate(active_signals)}
-df = pd.DataFrame([{ "Trending Asset Signal": item["Keyword"], "Engagement / Volume": item["Volume"], "Velocity Status": "🔥 High Growth" } for item in active_signals])
+df_signals = pd.DataFrame(active_signals)
 
 # TABBED WORKFLOW UI
 tab_radar, tab_blueprint, tab_db = st.tabs([t["tab_radar"], t["tab_blueprint"], t["tab_db"]])
@@ -570,12 +561,23 @@ with tab_radar:
     st.subheader(t["telemetry_title"])
     custom_search = st.text_input(t["custom_search"], placeholder="e.g. Vibe Coding, AI Automation Agency, K-Beauty Glass Skin")
     if custom_search.strip():
-        custom_item = {"Keyword": f"[Custom Injection] {custom_search.strip()}", "Volume": f"Realtime Query ({geo_option})"}
+        custom_item = {"Keyword": custom_search.strip(), "Entity": "Custom Injection Target", "Volume": f"Realtime Query ({geo_option})", "Velocity": "🔥 High Growth"}
         if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
             active_signals.insert(0, custom_item)
+            df_signals = pd.DataFrame(active_signals)
 
     st.markdown(f"**{t['active_signals_for']}** `{selected_category}` | `{platform_source}` | `{geo_option}`")
-    st.dataframe(df, use_container_width=True, hide_index=True)
+    
+    st.dataframe(
+        df_signals.rename(columns={
+            "Keyword": "Trending Asset Signal",
+            "Entity": "Specific Entity / Target",
+            "Volume": "Engagement / Volume",
+            "Velocity": "Velocity Status"
+        }),
+        use_container_width=True,
+        hide_index=True
+    )
 
     st.markdown("#### 📈 Signal Velocity & Pipeline Demand Curve")
     chart_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
@@ -610,116 +612,59 @@ with tab_blueprint:
                 "💸 Affiliate Marketers & Arbitrage Traders",
                 "🏢 Real Estate Agents & High-Ticket Brokers",
                 "💻 SaaS Founders, AI Builders & Solopreneurs",
-                "📈 Stock & Crypto Traders / Market Analysts",
+                "📈 Stock & Crypto Traders / Market Analysts"
             ],
-            index=0,
+            index=0
         )
 
-        gen_btn = st.button("⚡ Generate 10-Point Master Dossier", use_container_width=True)
+        velocity_score = signal_scores.get(selected_asset, 94.2)
 
-        if gen_btn or "enterprise_result" in st.session_state:
-            curr_score = signal_scores.get(selected_asset, 95.0)
-            if gen_btn:
-                with st.spinner("Synthesizing 10-Point Enterprise Intelligence Dossier..."):
-                    result = generate_master_enterprise_dossier(
-                        selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, curr_score, selected_lang
-                    )
-                    st.session_state["enterprise_result"] = result
-                    st.session_state["ent_asset"] = selected_asset
-                    st.session_state["ent_role"] = target_role
-                    st.session_state["ent_score"] = curr_score
-            else:
-                result = st.session_state["enterprise_result"]
-                selected_asset = st.session_state["ent_asset"]
-                target_role = st.session_state["ent_role"]
-                curr_score = st.session_state["ent_score"]
+        if st.button("🚀 Generate 10-Point Commercial Intelligence Dossier", use_container_width=True):
+            with st.spinner("⚡ Synthesizing Master Enterprise Dossier across 10 intelligence vectors..."):
+                dossier_result = generate_master_enterprise_dossier(
+                    selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, velocity_score, selected_lang
+                )
 
-            # Metrics Row
-            m_col1, m_col2 = st.columns(2)
-            m_col1.metric("Predictive Viral Score", result.get("viral_score", f"{curr_score}%"))
-            m_col2.metric("Lifecycle Timing Window", result.get("prediction_window", timeframe))
+                st.markdown(f"### 📑 Enterprise Dossier: {selected_asset}")
+                st.caption(f"Role: {target_role} | Platform: {platform_source} | Predictive Score: {velocity_score}%")
 
-            st.markdown("---")
-            st.markdown(f"### 📊 1. Role-Specific Unit Economics & Financial Vault ({target_role})")
-            st.markdown(result.get("unit_economics", ""))
-
-            st.markdown("---")
-            st.markdown("### 🌍 2. Geo-Targeting & Regional Hotspot Mapping")
-            st.markdown(result.get("geo_mapping", ""))
-
-            st.markdown("---")
-            st.markdown("### 🎯 3. The Psychological Hook Matrix (0-3s Triggers)")
-            st.markdown(result.get("hook_matrix", ""))
-
-            st.markdown("---")
-            st.markdown("### ✍️ 4. Ready-to-Deploy Multi-Angle Copywriting Vault")
-            st.markdown(result.get("copywriting_vault", ""))
-
-            st.markdown("---")
-            st.markdown("### ⚠️ 5. Competitor & Market Saturation Threat Matrix")
-            st.markdown(result.get("saturation_matrix", ""))
-
-            st.markdown("---")
-            st.markdown("### 💰 6. Monetization & Pricing Strategy Vault")
-            st.markdown(result.get("monetization_vault", ""))
-
-            st.markdown("---")
-            st.markdown("### 🧠 7. AI Prompt Engineering & Script Generation Pack")
-            st.markdown(result.get("tech_prompts", ""))
-
-            st.markdown("---")
-            st.markdown("### 📉 8. Algorithmic Scale vs Kill Risk Management Rules")
-            st.markdown(result.get("scale_kill_rules", ""))
-
-            st.markdown("---")
-            st.markdown("### ⚙️ 9. Python Async Data Scraper & Pipeline Monitor")
-            st.code(result.get("python_code", ""), language="python")
-
-            st.markdown("---")
-            st.markdown("### 📅 10. Automated 10-Day Master Execution Roadmap")
-            st.text(result.get("action_roadmap", ""))
-
-            st.markdown("---")
-            pdf_bytes = create_pdf_dossier(selected_asset, selected_category, target_role, curr_score, timeframe, result)
-
-            d_col1, d_col2 = st.columns(2)
-            with d_col1:
+                pdf_buffer = create_pdf_dossier(selected_asset, selected_category, target_role, velocity_score, timeframe, dossier_result)
                 st.download_button(
-                    label="📄 Download 10-Point Master PDF Dossier",
-                    data=pdf_bytes,
-                    file_name=f"TrendPulse_10Pt_Dossier_{sanitize_trend_input(selected_asset)[:15]}.pdf",
+                    label="📥 Download Official PDF Commercial Dossier",
+                    data=pdf_buffer,
+                    file_name=f"TrendPulse_Dossier_{sanitize_trend_input(selected_asset)[:20]}.pdf",
                     mime="application/pdf",
-                    use_container_width=True,
+                    use_container_width=True
                 )
-            with d_col2:
-                wa_text = urllib.parse.quote(
-                    f"⚡ *TrendPulse AI 10-Point Master Dossier*\n\n"
-                    f"Asset: {sanitize_trend_input(selected_asset)}\n"
-                    f"Role: {target_role}\n"
-                    f"Viral Score: {curr_score}%\n\n"
-                    f"View full enterprise intelligence briefing!"
-                )
-                st.link_button(
-                    label="💬 Share to WhatsApp",
-                    url=f"https://wa.me/?text={wa_text}",
-                    use_container_width=True,
-                )
+
+                sections_meta = [
+                    ("1. Role-Specific Unit Economics & Financial Vault", dossier_result.get("unit_economics", "")),
+                    ("2. Geo-Targeting & Regional Hotspot Mapping", dossier_result.get("geo_mapping", "")),
+                    ("3. Psychological Hook Matrix (0-3s)", dossier_result.get("hook_matrix", "")),
+                    ("4. Ready-to-Deploy Multi-Angle Copywriting Vault", dossier_result.get("copywriting_vault", "")),
+                    ("5. Competitor & Market Saturation Threat Matrix", dossier_result.get("saturation_matrix", "")),
+                    ("6. Monetization & Pricing Strategy Vault", dossier_result.get("monetization_vault", "")),
+                    ("7. AI Prompt Engineering & Script Generation Pack", dossier_result.get("tech_prompts", "")),
+                    ("8. Algorithmic Scale vs Kill Risk Management Rules", dossier_result.get("scale_kill_rules", "")),
+                    ("9. Python Async Data Scraper & Pipeline Monitor", dossier_result.get("python_code", "")),
+                    ("10. Automated 10-Day Master Execution Roadmap", dossier_result.get("action_roadmap", ""))
+                ]
+
+                for sec_title, sec_content in sections_meta:
+                    with st.expander(sec_title, expanded=False):
+                        st.markdown(sec_content)
 
 with tab_db:
-    st.subheader("🗄️ Database Inspector & Pipeline Logs (5 Core Tables)")
+    st.subheader("🗄️ SQLite Database Inspector & Execution Logs")
     try:
-        db_df = pd.read_sql("SELECT * FROM platform_signals ORDER BY timestamp DESC LIMIT 50", db_conn)
-        st.markdown(f"**Total Ingested Signals Logged in SQLite:** `{len(db_df)}` records")
-        st.dataframe(db_df, use_container_width=True, hide_index=True)
-    except Exception as e:
-        st.error(f"Database read error: {e}")
+        cursor = db_conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = [row[0] for row in cursor.fetchall()]
+        st.write(f"**Active Tables in Database:** `{tables}`")
 
-    if st.button("🧹 Clear Pipeline Logs", use_container_width=False):
-        try:
-            cursor = db_conn.cursor()
-            cursor.execute("DELETE FROM platform_signals")
-            db_conn.commit()
-            st.success("Pipeline logs cleared successfully!")
-            st.rerun()
-        except Exception as e:
-            st.error(f"Error clearing logs: {e}")
+        selected_table = st.selectbox("Inspect Table Records:", options=tables)
+        if selected_table:
+            df_table = pd.read_sql_query(f"SELECT * FROM {selected_table} ORDER BY rowid DESC LIMIT 50", db_conn)
+            st.dataframe(df_table, use_container_width=True)
+    except Exception as e:
+        st.error(f"Database Inspection Error: {e}")
