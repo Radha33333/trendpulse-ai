@@ -21,24 +21,100 @@ st.set_page_config(
     page_title="TrendPulse AI - Commercial Signal Intelligence",
     page_icon="⚡",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY", ""))
+
+# Authentication Credentials
+USER_CREDENTIALS = {
+    "admin": "trendpulse2026",
+    "creator": "viral123"
+}
+
+# Language Dictionaries
+TRANSLATIONS = {
+    "English": {
+        "title": "TRENDPULSE",
+        "subtitle": "Commercial Signal Intelligence | Automated Creator & Merchant Strategy Engine",
+        "pro_badge": "🟢 PRO TERMINAL ACTIVE",
+        "login_header": "🔐 User Authentication",
+        "login_btn": "Login",
+        "logout_btn": "Logout",
+        "auth_failed": "Invalid Username or Password",
+        "region": "🌍 Region:",
+        "source": "📱 Source:",
+        "niche_cat": "📁 Niche Category:",
+        "sub_niche": "🔍 Sub-Niche:",
+        "velocity_win": "⏱️ Velocity Window:",
+        "telemetry_title": "📊 Signal Telemetry",
+        "active_sub_filter": "Active Sub-Niche Filter:",
+        "custom_search_label": "🔍 Custom Asset Search:",
+        "custom_search_placeholder": "Enter keyword to override...",
+        "predictive_title": "📈 Predictive Trajectory",
+        "signal_cfg": "🎯 Signal Configuration",
+        "target_signal": "Target Signal:",
+        "operating_role": "Operating Role:",
+        "gen_btn": "⚡ Generate Strategy Blueprint",
+        "blueprint_title": "💡 Master Strategy Blueprint",
+        "monetization": "💰 Monetization Model",
+        "role_directives": "🎬 Role Directives",
+        "hook_script": "⚡ 0-3s Visual Hook Script",
+        "ad_copy": "📢 Caption & Ad Copy",
+        "roadmap": "⏱️ 48-Hour Action Roadmap",
+        "competitor": "🕵️ Competitor Benchmarks",
+        "prompt_title": "🚀 Ready-to-Use AI Video & Content Production Prompt",
+        "download_pdf": "📄 Download Complete PDF Blueprint",
+        "select_prompt": "👈 Select a target signal and click 'Generate Strategy Blueprint' to view actionable tactics.",
+        "lang_label": "🌐 Language / भाषा:"
+    },
+    "हिन्दी": {
+        "title": "ट्रेंडपल्स",
+        "subtitle": "कमर्शियल सिग्नल इंटेलिजेंस | स्वचालित क्रिएटर और मर्चेंट रणनीति इंजन",
+        "pro_badge": "🟢 प्रो टर्मिनल सक्रिय",
+        "login_header": "🔐 उपयोगकर्ता प्रमाणीकरण",
+        "login_btn": "लॉग इन करें",
+        "logout_btn": "लॉग आउट करें",
+        "auth_failed": "अमान्य उपयोगकर्ता नाम या पासवर्ड",
+        "region": "🌍 क्षेत्र:",
+        "source": "📱 स्रोत:",
+        "niche_cat": "📁 नीश श्रेणी:",
+        "sub_niche": "🔍 उप-नीश (Sub-Niche):",
+        "velocity_win": "⏱️ गति विंडो (Velocity Window):",
+        "telemetry_title": "📊 सिग्नल टेलीमेट्री",
+        "active_sub_filter": "सक्रिय उप-नीश फ़िल्टर:",
+        "custom_search_label": "🔍 कस्टम एसेट खोज:",
+        "custom_search_placeholder": "ओवरराइड करने के लिए कीवर्ड दर्ज करें...",
+        "predictive_title": "📈 प्रेडिक्टिव प्रक्षेपवक्र (Trajectory)",
+        "signal_cfg": "🎯 सिग्नल कॉन्फ़िगरेशन",
+        "target_signal": "लक्ष्य सिग्नल:",
+        "operating_role": "ऑपरेटिंग भूमिका:",
+        "gen_btn": "⚡ रणनीति खाका तैयार करें",
+        "blueprint_title": "💡 मास्टर रणनीति खाका (Strategy Blueprint)",
+        "monetization": "💰 मुद्रीकरण मॉडल (Monetization)",
+        "role_directives": "🎬 भूमिका निर्देश",
+        "hook_script": "⚡ 0-3s विज़ुअल हुक स्क्रिप्ट",
+        "ad_copy": "📢 कैप्शन्स और विज्ञापन कॉपी",
+        "roadmap": "⏱️ 48-घंटे का एक्शन रोडमैप",
+        "competitor": "🕵️ प्रतियोगी बेंचमार्क",
+        "prompt_title": "🚀 उपयोग के लिए तैयार AI वीडियो और सामग्री प्रॉम्प्ट",
+        "download_pdf": "📄 संपूर्ण PDF ब्लूप्रिंट डाउनलोड करें",
+        "select_prompt": "👈 कार्रवाई योग्य रणनीति देखने के लिए एक लक्ष्य सिग्नल चुनें और 'रणनीति खाका तैयार करें' पर क्लिक करें।",
+        "lang_label": "🌐 Language / भाषा:"
+    }
+}
 
 # ==========================================
 # 2. INJECT DARK GLASSMORPHISM BENTO CSS
 # ==========================================
 st.markdown("""
 <style>
-    /* Dark Theme Base */
     .stApp {
         background-color: #0b0f17;
         color: #e2e8f0;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Glassmorphism Containers / Bento Cards */
     div[data-testid="stVerticalBlock"] > div[style*="border"] {
         background: rgba(17, 24, 39, 0.6) !important;
         backdrop-filter: blur(12px) !important;
@@ -54,7 +130,6 @@ st.markdown("""
         border-color: rgba(255, 75, 75, 0.3) !important;
     }
 
-    /* Neon Accent CTA Button */
     .stButton > button {
         background: linear-gradient(135deg, #ff4b4b 0%, #d32f2f 100%) !important;
         color: #ffffff !important;
@@ -71,7 +146,6 @@ st.markdown("""
         transform: translateY(-1px);
     }
 
-    /* Custom Header & Status Badge */
     .metric-badge {
         background: rgba(255, 75, 75, 0.1);
         border: 1px solid rgba(255, 75, 75, 0.3);
@@ -91,9 +165,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CATEGORY & SUB-NICHE DATA ARCHITECTURE
+# 3. COMPLETE RESTORED CATEGORY ARCHITECTURE
 # ==========================================
-UPDATED_NICHE_CATEGORIES = {
+ALL_NICHE_CATEGORIES = {
     "🛒 E-Commerce & Viral Shopping": [
         "Predicted Bestsellers", "TikTok Shop Products", "Upcoming High-Demand Drops", "Amazon Hot Movers"
     ],
@@ -108,6 +182,21 @@ UPDATED_NICHE_CATEGORIES = {
     ],
     "🛕 Faith, Festivals & Sacred Travel": [
         "Famous Temples", "Hidden & Ancient Temples", "Religious Festivals"
+    ],
+    "🏋️ Fitness, Health & Wellness": [
+        "Home Gym Equipment", "Supplements & Biohacking", "Workout Routines & Apps"
+    ],
+    "🎮 Gaming & Esports": [
+        "Viral Indie Games", "Esports Tournaments", "Gaming Hardware & Gear"
+    ],
+    "👗 Fashion & Personal Style": [
+        "Streetwear Drops", "Sustainable Fashion", "Luxury & Dupes"
+    ],
+    "💵 Personal Finance & Crypto": [
+        "Crypto Trends & Altcoins", "Budgeting Tools", "Investment Strategies"
+    ],
+    "🚗 Automotive & Mobility": [
+        "Electric Vehicles (EVs)", "Car Accessories & Mods", "Commuter Hardware"
     ]
 }
 
@@ -138,7 +227,32 @@ SUB_NICHE_SIGNALS_FALLBACK = {
     # Faith & Sacred Travel
     "Famous Temples": ["Kashi Vishwanath Corridor Travel", "Tirupati Balaji VIP Pilgrimage", "Kedarnath Yatra Packages"],
     "Hidden & Ancient Temples": ["Bhimashankar Forest Temple Trail", "Khajuraho Ancient Architecture", "Lepakshi Hanging Pillar Temple"],
-    "Religious Festivals": ["Eco-Friendly Festival Decor", "Handloom Festival Wear", "Spiritual Retreat Bundles"]
+    "Religious Festivals": ["Eco-Friendly Festival Decor", "Handloom Festival Wear", "Spiritual Retreat Bundles"],
+
+    # Fitness
+    "Home Gym Equipment": ["Adjustable Smart Dumbbells", "Foldable Walking Pads", "Resistance Band Bar Sets"],
+    "Supplements & Biohacking": ["Cold Plunge Tubs", "NMN Longevity Boosters", "Electrolyte Hydration Mixes"],
+    "Workout Routines & Apps": ["HYROX Training Manuals", "Calisthenics Skill Trees", "AI Form Correction Apps"],
+
+    # Gaming
+    "Viral Indie Games": ["Co-Op Horror Games", "Pixel Art Deckbuilders", "Procedural Survival Simulators"],
+    "Esports Tournaments": ["Valorant Regional Finals", "Mobile Legends League", "Counter-Strike Major Qualifiers"],
+    "Gaming Hardware & Gear": ["Rapid Trigger Keyboards", "Ultralight Wireless Mice", "OLED Gaming Monitors"],
+
+    # Fashion
+    "Streetwear Drops": ["Heavyweight Boxy Tees", "Gorpcore Cargo Pants", "Retro Runner Sneakers"],
+    "Sustainable Fashion": ["Thrifted Vintage Jackets", "Bamboo Fiber Wear", "Upcycled Denim Bags"],
+    "Luxury & Dupes": ["Minimalist Leather Totes", "Designer Sunglasses Alternatives", "Scent Dupes & Perfume Oils"],
+
+    # Finance
+    "Crypto Trends & Altcoins": ["Layer 2 Scaling Networks", "AI Agent Crypto Tokens", "Real World Asset Tokenization"],
+    "Budgeting Tools": ["Zero-Based Budget Sheets", "Automated Micro-Investing Apps", "Debt Payoff Trackers"],
+    "Investment Strategies": ["High-Yield Savings Hacks", "Index Fund Starter Kits", "Dividend Growth Portfolios"],
+
+    # Automotive
+    "Electric Vehicles (EVs)": ["Compact City EVs", "Bidirectional Charging Units", "LFP Battery Retrofits"],
+    "Car Accessories & Mods": ["Dashcams with 4K AI Vision", "Custom Ambient LED Lighting", "Wireless CarPlay Adapters"],
+    "Commuter Hardware": ["Electric Skateboard Hubs", "E-Bike Cargo Racks", "Smart Helmet Headsets"]
 }
 
 CATEGORY_FALLBACK = [
@@ -146,7 +260,41 @@ CATEGORY_FALLBACK = [
 ]
 
 # ==========================================
-# 4. HELPER FUNCTIONS & EXPORTER ENGINE
+# 4. AUTHENTICATION SIDEBAR
+# ==========================================
+if "authenticated" not in st.session_state:
+    st.session_state["authenticated"] = False
+
+with st.sidebar:
+    st.markdown("### ⚙️ Control Panel")
+    selected_lang = st.selectbox("🌐 Language / भाषा:", ["English", "हिन्दी"])
+    t = TRANSLATIONS[selected_lang]
+
+    st.markdown("---")
+    if not st.session_state["authenticated"]:
+        st.markdown(f"### {t['login_header']}")
+        username_input = st.text_input("Username / उपयोगकर्ता नाम")
+        password_input = st.text_input("Password / पासवर्ड", type="password")
+        if st.button(t["login_btn"], use_container_width=True):
+            if USER_CREDENTIALS.get(username_input) == password_input:
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = username_input
+                st.rerun()
+            else:
+                st.error(t["auth_failed"])
+    else:
+        st.success(f"Logged in as: **{st.session_state.get('user', 'User')}**")
+        if st.button(t["logout_btn"], use_container_width=True):
+            st.session_state["authenticated"] = False
+            st.rerun()
+
+if not st.session_state["authenticated"]:
+    st.title("🔒 TrendPulse AI - Locked Terminal")
+    st.info("Please enter your Username and Password in the sidebar to access the terminal.")
+    st.stop()
+
+# ==========================================
+# 5. HELPER FUNCTIONS & EXPORTER ENGINE
 # ==========================================
 def sanitize_trend_input(text: str) -> str:
     if not text:
@@ -202,7 +350,6 @@ def create_pdf_blueprint(asset_name, category, sub_niche, role, viral_score, win
 
 @st.cache_data(ttl=300)
 def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, timeframe):
-    # FIX: Check for sub_niche signals first so that selecting a sub-niche dynamically updates the telemetry table
     if sub_niche in SUB_NICHE_SIGNALS_FALLBACK:
         default_keywords = SUB_NICHE_SIGNALS_FALLBACK[sub_niche]
     else:
@@ -236,21 +383,34 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
 
     return combined[:5]
 
-def generate_master_intelligence(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score):
+def generate_master_intelligence(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang="English"):
     clean_asset = sanitize_trend_input(keyword_asset)
     effective_sub_niche = sub_niche if sub_niche != "All Sub-Niches" else category
     tag_keyword = effective_sub_niche.split()[0].upper() if effective_sub_niche else "TREND"
 
-    default_response = {
-        "viral_score": f"{velocity_score}%",
-        "prediction_window": f"Active Lifecycle ({timeframe})",
-        "profit_model": f"• **Primary Model:** Monetization strategy tailored for {target_role} in {effective_sub_niche}.\n• **Funnel:** Convert traffic for '{clean_asset}' via targeted {effective_sub_niche} conversion funnels.",
-        "content_directives": f"• **Angle:** Specialized {effective_sub_niche} positioning for {target_role}.\n• **Key Points:** 1. {effective_sub_niche} demand spike 2. Niche proof 3. Focused CTA.\n• **Visuals:** Fast cuts tailored to {effective_sub_niche} audiences.",
-        "execution_hook": f"• **0-3s Cue:** Visual proof showing '{clean_asset}' solving a key {effective_sub_niche} problem.\n• **Text Overlay:** \"Attention {effective_sub_niche} buyers! Check this out...\"\n• **Script:** \"If you're into {effective_sub_niche}, here is why {clean_asset} is currently exploding...\"",
-        "ad_copy": f"Revolutionize your {effective_sub_niche} setup with {clean_asset}! 🚀\n\nComment '{tag_keyword}' for details.\n\n#{clean_asset.replace(' ', '')} #{effective_sub_niche.replace(' ', '')}",
-        "action_blueprint": f"1. HOUR 1: Identify core {effective_sub_niche} angle.\n2. HOUR 6: Launch test creative.\n3. HOUR 48: Optimize based on engagement.",
-        "competitor_intelligence": f"• **Focus:** Short-form video trends within {effective_sub_niche}.\n• **Duration:** 12-20 seconds.\n• **Benchmark:** High share-to-view ratio in {category}.",
-        "production_prompt": f"""[SYSTEM ROLE: VIRAL SHORT-FORM VIDEO DIRECTOR & UGC AD STRATEGIST]
+    if lang == "हिन्दी":
+        default_response = {
+            "viral_score": f"{velocity_score}%",
+            "prediction_window": f"सक्रिय जीवनचक्र ({timeframe})",
+            "profit_model": f"• **मुख्य मॉडल:** {effective_sub_niche} में {target_role} के लिए रणनीति।\n• **फनल:** लक्षित रूपांतरण फ़नल के माध्यम से '{clean_asset}' के लिए ट्रैफ़िक बदलें।",
+            "content_directives": f"• **कोण (Angle):** {target_role} के लिए विशेष {effective_sub_niche} स्थिति।\n• **मुख्य बिंदु:** 1. मांग वृद्धि 2. नीश प्रमाण 3. केंद्रित CTA।",
+            "execution_hook": f"• **0-3s संकेत:** विज़ुअल प्रमाण जो '{clean_asset}' को समस्या हल करते हुए दिखाता है।\n• **टेक्स्ट ओवरले:** \"ध्यान दें {effective_sub_niche} खरीदार! इसे देखें...\"",
+            "ad_copy": f"{clean_asset} के साथ अपने {effective_sub_niche} सेटअप में क्रांति लाएं! 🚀\n\nविवरण के लिए '{tag_keyword}' कमेंट करें।",
+            "action_blueprint": f"1. घंटा 1: मुख्य कोण पहचानें।\n2. घंटा 6: टेस्ट क्रिएटिव लॉन्च करें।\n3. घंटा 48: जुड़ाव के आधार पर अनुकूलित करें।",
+            "competitor_intelligence": f"• **फोकस:** शॉर्ट-फॉर्म वीडियो ट्रेंड्स।\n• **अवधि:** 12-20 सेकंड।",
+            "production_prompt": f"[सिस्टम भूमिका: वायरल शॉर्ट-फॉर्म वीडियो निदेशक]\n\nउत्पाद: {clean_asset}\nश्रेणी: {category}\nउप-नीश: {effective_sub_niche}\nभूमिका: {target_role}"
+        }
+    else:
+        default_response = {
+            "viral_score": f"{velocity_score}%",
+            "prediction_window": f"Active Lifecycle ({timeframe})",
+            "profit_model": f"• **Primary Model:** Monetization strategy tailored for {target_role} in {effective_sub_niche}.\n• **Funnel:** Convert traffic for '{clean_asset}' via targeted {effective_sub_niche} conversion funnels.",
+            "content_directives": f"• **Angle:** Specialized {effective_sub_niche} positioning for {target_role}.\n• **Key Points:** 1. {effective_sub_niche} demand spike 2. Niche proof 3. Focused CTA.\n• **Visuals:** Fast cuts tailored to {effective_sub_niche} audiences.",
+            "execution_hook": f"• **0-3s Cue:** Visual proof showing '{clean_asset}' solving a key {effective_sub_niche} problem.\n• **Text Overlay:** \"Attention {effective_sub_niche} buyers! Check this out...\"\n• **Script:** \"If you're into {effective_sub_niche}, here is why {clean_asset} is currently exploding...\"",
+            "ad_copy": f"Revolutionize your {effective_sub_niche} setup with {clean_asset}! 🚀\n\nComment '{tag_keyword}' for details.\n\n#{clean_asset.replace(' ', '')} #{effective_sub_niche.replace(' ', '')}",
+            "action_blueprint": f"1. HOUR 1: Identify core {effective_sub_niche} angle.\n2. HOUR 6: Launch test creative.\n3. HOUR 48: Optimize based on engagement.",
+            "competitor_intelligence": f"• **Focus:** Short-form video trends within {effective_sub_niche}.\n• **Duration:** 12-20 seconds.\n• **Benchmark:** High share-to-view ratio in {category}.",
+            "production_prompt": f"""[SYSTEM ROLE: VIRAL SHORT-FORM VIDEO DIRECTOR & UGC AD STRATEGIST]
 
 PRODUCT/ASSET: {clean_asset}
 CATEGORY: {category}
@@ -269,7 +429,7 @@ PLATFORM: {platform}
 3. CAPTION & HASHTAGS
 "Level up your {effective_sub_niche} game with {clean_asset}! 🚀 Comment '{tag_keyword}' for instant direct link.\n#{clean_asset.replace(' ', '')} #{effective_sub_niche.replace(' ', '')} #ViralFinds"
 """
-    }
+        }
 
     if not GROQ_API_KEY:
         return default_response
@@ -277,7 +437,7 @@ PLATFORM: {platform}
     try:
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
-Generate a complete JSON strategy blueprint and video production prompt specifically tailored for the SUB-NICHE:
+Generate a complete JSON strategy blueprint and video production prompt in Language '{lang}' specifically tailored for:
 - Asset: "{clean_asset}"
 - Category: "{category}"
 - Sub-Niche Focus: "{effective_sub_niche}"
@@ -285,19 +445,17 @@ Generate a complete JSON strategy blueprint and video production prompt specific
 - Platform: "{platform}"
 - Velocity Score: {velocity_score}%
 
-Make sure ALL messaging, strategy, hooks, and video prompts explicitly target the sub-niche "{effective_sub_niche}".
-
 Required JSON Structure:
 {{
   "viral_score": "{velocity_score}%",
   "prediction_window": "Active lifecycle",
-  "profit_model": "Monetization model explicitly tailored to {effective_sub_niche} and {target_role}",
-  "content_directives": "• **Angle:** Specific {effective_sub_niche} angle...\\n• **Key Points:** 1... 2...",
-  "execution_hook": "• **0-3s Cue:** ...\\n• **Text:** ...\\n• **Script:** ...",
-  "ad_copy": "Caption and Call to Action tailored to {effective_sub_niche}",
-  "action_blueprint": "1. HOUR 1...\\n2. HOUR 6...\\n3. HOUR 48...",
-  "competitor_intelligence": "• **Focus:** ...\\n• **Duration:** ...",
-  "production_prompt": "A complete, copy-paste ready prompt incorporating {effective_sub_niche}:\\n1. 15-second Storyboard\\n2. AI Video Generator Prompt\\n3. Final Caption & Hashtags"
+  "profit_model": "Monetization model explicitly tailored to {effective_sub_niche}",
+  "content_directives": "• **Angle:** Specific positioning...\\n• **Key Points:** 1...",
+  "execution_hook": "• **0-3s Cue:** ...\\n• **Text:** ...",
+  "ad_copy": "Caption and Call to Action",
+  "action_blueprint": "1. HOUR 1...\\n2. HOUR 6...",
+  "competitor_intelligence": "• **Focus:** ...",
+  "production_prompt": "Production prompt text"
 }}
 """
         completion = client.chat.completions.create(
@@ -311,14 +469,14 @@ Required JSON Structure:
         return default_response
 
 # ==========================================
-# 5. HEADER & TOP CONTROL BAR
+# 6. HEADER & TOP CONTROL BAR
 # ==========================================
 h_col1, h_col2 = st.columns([3, 1])
 with h_col1:
-    st.markdown("<h1>⚡ TRENDPULSE <span style='color:#ff4b4b;'>AI</span></h1>", unsafe_allow_html=True)
-    st.caption("Commercial Signal Intelligence | Automated Creator & Merchant Strategy Engine")
+    st.markdown(f"<h1>⚡ {t['title']} <span style='color:#ff4b4b;'>AI</span></h1>", unsafe_allow_html=True)
+    st.caption(t["subtitle"])
 with h_col2:
-    st.markdown("<br><span class='metric-badge'>🟢 PRO TERMINAL ACTIVE</span>", unsafe_allow_html=True)
+    st.markdown(f"<br><span class='metric-badge'>{t['pro_badge']}</span>", unsafe_allow_html=True)
 
 st.markdown("---")
 
@@ -326,20 +484,20 @@ st.markdown("---")
 with st.container(border=True):
     f1, f2, f3, f4, f5 = st.columns(5)
     with f1:
-        geo_option = st.selectbox("🌍 Region:", ["India (IN)", "United States (US)", "United Kingdom (GB)"])
+        geo_option = st.selectbox(t["region"], ["India (IN)", "United States (US)", "United Kingdom (GB)"])
         geo_map = {"India (IN)": "IN", "United States (US)": "US", "United Kingdom (GB)": "GB"}
     with f2:
-        platform_source = st.selectbox("📱 Source:", ["Social Video & Reels", "TikTok Shop", "Search Intent"])
+        platform_source = st.selectbox(t["source"], ["Social Video & Reels", "TikTok Shop", "Search Intent"])
     with f3:
-        selected_category = st.selectbox("📁 Niche Category:", list(UPDATED_NICHE_CATEGORIES.keys()))
+        selected_category = st.selectbox(t["niche_cat"], list(ALL_NICHE_CATEGORIES.keys()))
     with f4:
-        sub_options = UPDATED_NICHE_CATEGORIES.get(selected_category, [])
-        selected_sub_niche = st.selectbox("🔍 Sub-Niche:", ["All Sub-Niches"] + sub_options)
+        sub_options = ALL_NICHE_CATEGORIES.get(selected_category, [])
+        selected_sub_niche = st.selectbox(t["sub_niche"], ["All Sub-Niches"] + sub_options)
     with f5:
-        timeframe = st.selectbox("⏱️ Velocity Window:", ["Realtime Spike (24h)", "Short-Term (7 Days)", "Macro (30 Days)"])
+        timeframe = st.selectbox(t["velocity_win"], ["Realtime Spike (24h)", "Short-Term (7 Days)", "Macro (30 Days)"])
 
 # ==========================================
-# 6. HYBRID BENTO DASHBOARD LAYOUT
+# 7. HYBRID BENTO DASHBOARD LAYOUT
 # ==========================================
 left_col, right_col = st.columns([0.42, 0.58], gap="medium")
 
@@ -349,9 +507,9 @@ signal_scores = {item["Keyword"]: round(98.8 - (i * 3.2), 1) for i, item in enum
 # --- LEFT COLUMN: TELEMETRY & TRAJECTORY ---
 with left_col:
     with st.container(border=True):
-        st.markdown("### 📊 Signal Telemetry")
-        st.caption(f"Active Sub-Niche Filter: **{selected_sub_niche}**")
-        custom_search = st.text_input("🔍 Custom Asset Search:", placeholder="Enter keyword to override...")
+        st.markdown(f"### {t['telemetry_title']}")
+        st.caption(f"{t['active_sub_filter']} **{selected_sub_niche}**")
+        custom_search = st.text_input(t["custom_search_label"], placeholder=t["custom_search_placeholder"])
         
         table_data = [
             {"Signal": item["Keyword"], "Volume": item["Volume"], "Velocity": f"{signal_scores[item['Keyword']]}%"}
@@ -360,7 +518,7 @@ with left_col:
         st.dataframe(pd.DataFrame(table_data), use_container_width=True, hide_index=True)
 
     with st.container(border=True):
-        st.markdown("### 📈 Predictive Trajectory")
+        st.markdown(f"### {t['predictive_title']}")
         chart_keyword = custom_search.strip() if custom_search.strip() else (active_signals[0]["Keyword"] if active_signals else "Asset")
         base_score = signal_scores.get(chart_keyword, 92.0)
 
@@ -382,22 +540,23 @@ with left_col:
 # --- RIGHT COLUMN: BENTO STRATEGY ENGINE ---
 with right_col:
     with st.container(border=True):
-        st.markdown("### 🎯 Signal Configuration")
+        st.markdown(f"### {t['signal_cfg']}")
         available_keywords = [item["Keyword"] for item in active_signals]
         if custom_search.strip():
             available_keywords.insert(0, custom_search.strip())
 
         cfg_c1, cfg_c2 = st.columns(2)
         with cfg_c1:
-            selected_asset = st.selectbox("Target Signal:", options=available_keywords, index=0)
+            selected_asset = st.selectbox(t["target_signal"], options=available_keywords, index=0)
         with cfg_c2:
-            target_role = st.selectbox("Operating Role:", ["E-Commerce Merchant / Dropshipper", "Content Creator / Influencer", "Agency Owner / Freelancer"])
+            target_role = st.selectbox(t["operating_role"], ["E-Commerce Merchant / Dropshipper", "Content Creator / Influencer", "Agency Owner / Freelancer"])
 
-        if st.button("⚡ Generate Strategy Blueprint", use_container_width=True):
-            with st.spinner(f"Analyzing {selected_sub_niche} telemetry & generating blueprint..."):
+        if st.button(t["gen_btn"], use_container_width=True):
+            with st.spinner("Analyzing telemetry & generating blueprint..."):
                 st.session_state["active_blueprint"] = generate_master_intelligence(
                     selected_asset, selected_category, selected_sub_niche, target_role,
-                    platform_source, timeframe, signal_scores.get(selected_asset, 90.0)
+                    platform_source, timeframe, signal_scores.get(selected_asset, 90.0),
+                    lang=selected_lang
                 )
                 st.session_state["active_asset"] = selected_asset
                 st.session_state["active_sub_niche"] = selected_sub_niche
@@ -405,57 +564,50 @@ with right_col:
 
     bp = st.session_state.get("active_blueprint", {})
     
-    # Bento Grid Cards Container
     with st.container(border=True):
-        st.markdown("### 💡 Master Strategy Blueprint")
+        st.markdown(f"### {t['blueprint_title']}")
         if not bp:
-            st.info("👈 Select a target signal and click 'Generate Strategy Blueprint' to view actionable tactics.")
+            st.info(t["select_prompt"])
         else:
-            # Bento Grid Row 1
             b1, b2 = st.columns(2)
             with b1:
-                st.markdown("#### 💰 Monetization Model")
+                st.markdown(f"#### {t['monetization']}")
                 st.markdown(bp.get("profit_model", ""))
             with b2:
-                st.markdown("#### 🎬 Role Directives")
+                st.markdown(f"#### {t['role_directives']}")
                 st.markdown(bp.get("content_directives", ""))
 
             st.markdown("---")
 
-            # Bento Grid Row 2
             b3, b4 = st.columns(2)
             with b3:
-                st.markdown("#### ⚡ 0-3s Visual Hook Script")
+                st.markdown(f"#### {t['hook_script']}")
                 st.markdown(bp.get("execution_hook", ""))
             with b4:
-                st.markdown("#### 📢 Caption & Ad Copy")
+                st.markdown(f"#### {t['ad_copy']}")
                 st.code(bp.get("ad_copy", ""), language="markdown")
 
             st.markdown("---")
 
-            # Bento Grid Row 3
             b5, b6 = st.columns(2)
             with b5:
-                st.markdown("#### ⏱️ 48-Hour Action Roadmap")
+                st.markdown(f"#### {t['roadmap']}")
                 st.markdown(bp.get("action_blueprint", ""))
             with b6:
-                st.markdown("#### 🕵️ Competitor Benchmarks")
+                st.markdown(f"#### {t['competitor']}")
                 st.markdown(bp.get("competitor_intelligence", ""))
 
             st.markdown("---")
 
-            # Full-Width Ready-to-Use Production Prompt Card
-            st.markdown("#### 🚀 Ready-to-Use AI Video & Content Production Prompt")
-            st.caption("Copy and paste this structured prompt directly into ChatGPT, Claude, CapCut AI, or send it directly to your clients/creators.")
+            st.markdown(f"#### {t['prompt_title']}")
             st.code(bp.get("production_prompt", ""), language="text")
 
             st.markdown("---")
 
-            # PDF Download Button
             pdf_buf = create_pdf_blueprint(
                 st.session_state.get("active_asset", selected_asset),
                 selected_category, st.session_state.get("active_sub_niche", selected_sub_niche),
                 st.session_state.get("active_role", target_role),
                 bp.get("viral_score", "90%"), bp.get("prediction_window", timeframe), bp
             )
-            st.download_button("📄 Download Complete PDF Blueprint", data=pdf_buf, file_name="TrendPulse_Blueprint.pdf", mime="application/pdf", use_container_width=True)
+            st.download_button(t["download_pdf"], data=pdf_buf, file_name="TrendPulse_Blueprint.pdf", mime="application/pdf", use_container_width=True)
