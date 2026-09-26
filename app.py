@@ -111,7 +111,6 @@ UPDATED_NICHE_CATEGORIES = {
     ]
 }
 
-# Granular dynamic signal mappings per Sub-Niche
 SUB_NICHE_SIGNALS_FALLBACK = {
     # E-Commerce
     "Predicted Bestsellers": ["Ergonomic Mechanical Keyboards", "Smart LED Desk Mat", "Self-Cleaning Water Bottles"],
