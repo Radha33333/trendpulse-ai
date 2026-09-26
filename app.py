@@ -336,52 +336,71 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     results = []
     
-    category_templates = {
-        "Education, Careers & Jobs": [
-            ("High-Intent Search Spike in AI Upskilling & Tech Roadmaps", "Scaler & IIT Guwahati GenAI Track"),
-            ("Full-Stack Software Engineering Career Sprint", "100xEngineers Full-Stack Cohort"),
-            ("Data Science & Machine Learning Bootcamp Surge", "UpGrad Executive PG Pathway"),
-            ("Product Management Leadership & Agile Certification", "Pragmatic Institute Track"),
-            ("Cybersecurity Ethical Hacking & Red Teaming Camp", "EC-Council Certified Security Professional"),
-            ("Cloud DevOps & Kubernetes Multi-Cloud Architect Blueprint", "AWS & Google Cloud Professional Track"),
-            ("UI/UX Design Systems & Advanced Figma Masterclass", "Designership & growth school"),
-            ("High-Paying Remote Tech Jobs & Freelancing Blueprint", "Toptal & Turing Global Hiring Pools"),
-            ("Financial Modeling & Investment Banking Career Track", "CFI & Wall Street Prep Bootcamp"),
-            ("Digital Marketing & Performance Growth Hacking Hub", "CXL Institute Growth Track")
-        ],
+    specific_pools = {
         "Hidden Tourist Places": [
-            ("Hidden Valley Trekking Expedition Surge", "Zuluk, East Sikkim"),
-            ("Offbeat Cliffside Sunset Viewpoint Trend", "Vagamon Pine Forest, Kerala"),
-            ("Secret Waterfall Camping Spot Discovery", "Tirthan Valley, Himachal Pradesh"),
-            ("Stargazing Eco-Lodge Weekend Getaway", "Yercaud Hills, Tamil Nadu"),
-            ("Unexplored Caves & Limestone Formations", "Kurnool Caves, Andhra Pradesh"),
-            ("Misty Tea Estate Heritage Homestay Wave", "Agumbe Rainforest, Karnataka"),
-            ("Floating Breakfast & Lakeside Villa Retreat", "Dawki River, Meghalaya"),
-            ("Scenic Mountain Pass Road Trip Hotspot", "Sach Pass, Chamba"),
-            ("Hidden Blue Lagoon Natural Pool Spot", "Kakoti, Arunachal Pradesh"),
-            ("Ancient Cliff Fortress Exploration Trend", "Gingee Fort, Villupuram")
+            ("Hidden Valley Trekking Expedition Surge", "Zuluk, East Sikkim", "🔥 High Growth"),
+            ("Offbeat Cliffside Sunset Viewpoint Trend", "Vagamon Pine Forest, Kerala", "⚡ Accelerating"),
+            ("Secret Waterfall Camping Spot Discovery", "Tirthan Valley, Himachal Pradesh", "🚀 Explosive Surge"),
+            ("Stargazing Eco-Lodge Weekend Getaway", "Yercaud Hills, Tamil Nadu", "📈 Trending"),
+            ("Unexplored Caves & Limestone Formations", "Kurnool Caves, Andhra Pradesh", "🔥 High Growth"),
+            ("Misty Tea Estate Heritage Homestay Wave", "Agumbe Rainforest, Karnataka", "⚡ Accelerating"),
+            ("Floating Breakfast & Lakeside Villa Retreat", "Dawki River, Meghalaya", "🚀 Explosive Surge"),
+            ("Scenic Mountain Pass Road Trip Hotspot", "Sach Pass, Chamba", "📈 Trending"),
+            ("Hidden Blue Lagoon Natural Pool Spot", "Kakoti, Arunachal Pradesh", "🔥 High Growth"),
+            ("Ancient Cliff Fortress Exploration Trend", "Gingee Fort, Villupuram", "⚡ Accelerating")
+        ],
+        "Viral Creator Scandals & Internet Drama": [
+            ("Exposed: Fake Giveaway & Sponsorship Controversy", "Creator House LA", "🔥 High Growth"),
+            ("Creator House Eviction & Secret Fallout Breakdown", "Mumbai Creator Pod", "🚀 Explosive Surge"),
+            ("The 3AM Podcast Apology Video Record Break", "Delhi Influencer Hub", "⚡ Accelerating"),
+            ("Behind-The-Scenes Agency Pay Cut Leak", "Supercreator Agency", "📈 Trending"),
+            ("Reality Show Feud & Physical Altercation Drama", "MTV Splitsvilla Cast", "🔥 High Growth"),
+            ("Brand Owner Calls Out Ungrateful Tier-1 Creator", "D2C Founder Network", "⚡ Accelerating"),
+            ("Milestone Party Safety Hazard Scandal", "Dubai Yacht Party", "🚀 Explosive Surge"),
+            ("Stolen Content Accusations Between Giants", "Short-Form Rivals", "📈 Trending"),
+            ("Unfiltered DM Screenshots Leaked by Editor", "Anonymous Leaks", "🔥 High Growth"),
+            ("Rise and Fall of Influencer Mastermind Group", "Crypto/Wealth Influencers", "⚡ Accelerating")
+        ],
+        "TikTok Shop & Live Deals": [
+            ("Flash Drop: Korean Glass Skin Skincare Bundle", "Laneige & Innisfree Kits", "🚀 Explosive Surge"),
+            ("Viral Sunset Projector Lamp Restock Surge", "RGB Ambient Lights", "🔥 High Growth"),
+            ("50% Off Portable Neck Fan Heatwave Special", "JisuLife Fans", "⚡ Accelerating"),
+            ("Aesthetic Corduroy Tote Bags College Drop", "Minimalist Canvas Co.", "📈 Trending"),
+            ("Mini Wireless Car Vacuum 3-Hour Sellout", "Baseus Auto", "🔥 High Growth"),
+            ("Smart Bluetooth Water Bottle Hydration Tracker", "HidrateSpark", "⚡ Accelerating"),
+            ("Ergonomic Memory Foam Seat Cushion WFH", "AromaEase Set", "🚀 Explosive Surge"),
+            ("Reusable Silicone Food Storage Bags Zero-Waste", "Stasher Bags", "📈 Trending"),
+            ("Matte Black Air Fryer Liners Bulk Pack", "KitchenEssentials", "🔥 High Growth"),
+            ("Handheld Garment Steamer Travel Edition", "Philips Steam&Go", "⚡ Accelerating")
+        ],
+        "Stock Market & Algo Trading Bots": [
+            ("Nifty 50 Intraday Breakout & Critical Support Level", "Nifty 50 Index", "🔥 High Growth"),
+            ("Bank Nifty Weekly Options Chain Open Interest Spike", "Bank Nifty Futures", "🚀 Explosive Surge"),
+            ("Algorithmic Momentum Crossover Strategy Setup", "Quant Scalpers Bot", "⚡ Accelerating"),
+            ("FII/DII Net Cash Flow Reversal Signal", "NSE Institutional Flow", "📈 Trending"),
+            ("Smallcap Sector Rotation & Volume Accumulation", "BSE Smallcap Index", "🔥 High Growth"),
+            ("High-Beta Breakout Stocks Momentum Scanner", "Nifty Midcap 100", "⚡ Accelerating"),
+            ("Volatility Index (VIX) Sudden Drop Risk & Hedging", "India VIX", "🚀 Explosive Surge"),
+            ("Breakout Trendline Retest in PSU Bank Sector", "State Bank of India", "📈 Trending"),
+            ("Auto Sector Monthly Sales Data vs Expectation", "Tata Motors & M&M", "🔥 High Growth"),
+            ("Intraday VWAP Crossover Blueprint for Equities", "Reliance Industries", "⚡ Accelerating")
         ]
     }
 
-    active_pool = category_templates.get(category, [])
-    
-    if not active_pool:
-        target_label = sub_niche if sub_niche and sub_niche != "All Sub-Niches" else category
-        active_pool = [
-            (f"Surging Market Demand & Consumer Interest in {target_label} #{i+1}", f"Enterprise Verified Target #{i+1} ({category})")
-            for i in range(10)
-        ]
+    default_pool = [
+        (f"High-Intent Search Spike in {sub_niche if sub_niche else category}", f"Asset Target #{i+1}", "🔥 High Growth" if i%2==0 else "⚡ Accelerating")
+        for i in range(10)
+    ]
 
-    velocity_status_list = ["🔥 High Growth", "⚡ Accelerating", "🚀 Explosive Surge", "📈 Trending"]
+    items = specific_pools.get(sub_niche, default_pool)
 
-    for i, (item, entity) in enumerate(active_pool):
-        base_vol = 1450000 - (i * 85400)
-        v_status = velocity_status_list[i % len(velocity_status_list)]
+    for i, (item, entity, velocity) in enumerate(items):
+        base_vol = 1250000 - (i * 95400)
         results.append({
             "Keyword": item,
             "Entity": entity,
             "Volume": f"{base_vol:,} Interactions ({region})",
-            "Velocity": v_status
+            "Velocity": velocity
         })
 
     try:
@@ -389,7 +408,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
         for r in results:
             cursor.execute(
                 "INSERT INTO platform_signals (source_platform, keyword, engagement_metrics, region) VALUES (?, ?, ?, ?)",
-                (platform_source, f"{r['Keyword']} | Entity: {r['Entity']}", r["Volume"], region)
+                (platform_source, f"{r['Keyword']} ({r['Entity']})", r["Volume"], region)
             )
         db_conn.commit()
     except Exception:
@@ -398,7 +417,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
     return results
 
 # ==========================================
-# 7. MASTER LLM DOSSIER GENERATOR
+# 7. MASTER LLM DOSSIER GENERATOR (WITH REVENUE & SCALING SUITE)
 # ==========================================
 def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
     clean_asset = sanitize_trend_input(keyword_asset)
@@ -606,13 +625,8 @@ with tab_blueprint:
                     selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, velocity_score, selected_lang
                 )
 
-                st.markdown(f"""
-                # ⚡ TrendPulse AI — Master Intelligence & Revenue Scale Dossier
-                > **Asset Target:** `{selected_asset}`  
-                > **Category:** {selected_category} | **Operating Role:** {target_role}  
-                > **Predictive Viral Score:** **{velocity_score} / 100** | **Timing Window:** {timeframe} | **Revenue Multiplier Mode:** 🟢 Active
-                """)
-                st.markdown("---")
+                st.markdown(f"### 📑 Enterprise Master Dossier: {selected_asset}")
+                st.caption(f"Role: {target_role} | Platform: {platform_source} | Predictive Score: {velocity_score}%")
 
                 pdf_buffer = create_pdf_dossier(selected_asset, selected_category, target_role, velocity_score, timeframe, dossier_result)
                 st.download_button(
@@ -622,7 +636,6 @@ with tab_blueprint:
                     mime="application/pdf",
                     use_container_width=True
                 )
-                st.markdown("---")
 
                 sections_meta = [
                     ("1. Advanced Monetization, Rate Card & Unit Economics Vault", dossier_result.get("unit_economics", "")),
@@ -638,21 +651,20 @@ with tab_blueprint:
                 ]
 
                 for sec_title, sec_content in sections_meta:
-                    st.markdown(f"### {sec_title}")
-                    st.markdown(sec_content)
-                    st.markdown("")
+                    with st.expander(sec_title, expanded=False):
+                        st.markdown(sec_content)
 
 with tab_db:
     st.subheader("🗄️ SQLite Database Inspector & Execution Logs")
     try:
-        cursor_db = db_conn.cursor()
-        cursor_db.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = [row[0] for row in cursor_db.fetchall()]
-        st.markdown(f"**Active Tables in Database:** `{tables}`")
-        
-        selected_table = st.selectbox("Inspect Table Records:", options=tables, index=0 if tables else None)
+        cursor = db_conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = [row[0] for row in cursor.fetchall()]
+        st.write(f"**Active Tables in Database:** `{tables}`")
+
+        selected_table = st.selectbox("Inspect Table Records:", options=tables)
         if selected_table:
             df_table = pd.read_sql_query(f"SELECT * FROM {selected_table} ORDER BY rowid DESC LIMIT 50", db_conn)
             st.dataframe(df_table, use_container_width=True)
     except Exception as e:
-        st.error(f"Database inspection error: {e}")
+        st.error(f"Database Inspection Error: {e}")
