@@ -231,7 +231,7 @@ ROLE_SPECIFIC_METRICS = {
 TEXTS = {
     "English": {
         "title": "⚡ TrendPulse AI: Master Intelligence & Execution Suite",
-        "subtitle": "Autonomous Market Domination Engine & Master Dossier Generator",
+        "subtitle": "Autonomous Market Domination Engine & 10-Point Master Dossier Generator",
         "terminal": "🔑 Enterprise Access Terminal",
         "simulate_pro": "Simulate Pro Subscription Access",
         "config_title": "⚙️ Ingestion Pipeline & Signal Filter",
@@ -245,12 +245,12 @@ TEXTS = {
         "custom_search": "🔍 Custom Asset Injection:",
         "active_signals_for": "Active Ingested Signals for:",
         "tab_radar": "📡 Ingestion Radar",
-        "tab_blueprint": "🚀 Master Intelligence Dossier Engine",
+        "tab_blueprint": "🚀 10-Point Master Intelligence Dossier Engine",
         "tab_db": "🗄️ Database Inspector & Logs",
     },
     "Hindi": {
         "title": "⚡ TrendPulse AI: मास्टर इंटेलिजेंस और एग्जीक्यूशन सुइट",
-        "subtitle": "ऑटोनॉमस मार्केट डोमिनेशन इंजन और मास्टर डॉसियर जेनरेटर",
+        "subtitle": "ऑटोनॉमस मार्केट डोमिनेशन इंजन और 10-पॉइंट मास्टर डॉसियर जेनरेटर",
         "terminal": "🔑 एंटरप्राइज एक्सेस टर्मिनल",
         "simulate_pro": "प्रो सब्सक्रिप्शन एक्सेस सिमुलेट करें",
         "config_title": "⚙️ इंजेक्शन पाइपलाइन और सिग्नल फ़िल्टर",
@@ -264,7 +264,7 @@ TEXTS = {
         "custom_search": "🔍 कस्टम एसेट इंजेक्शन:",
         "active_signals_for": "सक्रिय इंजेस्टेड सिग्नल:",
         "tab_radar": "📡 इंजेक्शन रडार",
-        "tab_blueprint": "🚀 मास्टर इंटेलिजेंस डॉसियर इंजन",
+        "tab_blueprint": "🚀 10-पॉइंट मास्टर इंटेलिजेंस डॉसियर इंजन",
         "tab_db": "🗄️ डेटाबेस इंस्पेक्टर और लॉग्स",
     },
 }
@@ -295,23 +295,28 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
     styles = getSampleStyleSheet()
 
-    title_style = ParagraphStyle("TitleStyle", parent=styles["Heading1"], fontSize=15, textColor="#ff4b4b", spaceAfter=8)
-    heading_style = ParagraphStyle("HeadingStyle", parent=styles["Heading2"], fontSize=11, textColor="#1a1a1a", spaceBefore=6, spaceAfter=3)
-    body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=8, leading=11, textColor="#333333", spaceAfter=4)
+    title_style = ParagraphStyle("TitleStyle", parent=styles["Heading1"], fontSize=14, textColor="#ff4b4b", spaceAfter=6)
+    heading_style = ParagraphStyle("HeadingStyle", parent=styles["Heading2"], fontSize=10, textColor="#1a1a1a", spaceBefore=5, spaceAfter=2)
+    body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=7.5, leading=10, textColor="#333333", spaceAfter=3)
 
     story = [
-        Paragraph("TrendPulse AI - Master Intelligence Commercial Dossier", title_style),
+        Paragraph("TrendPulse AI - 10-Point Enterprise Intelligence Commercial Dossier", title_style),
         Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}", body_style),
         Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
-        Spacer(1, 6)
+        Spacer(1, 4)
     ]
 
     sections = [
-        ("1. Role-Specific Metric Vault", result.get("unit_economics", "")),
-        ("2. Psychological Hook Matrix (0-3s)", result.get("hook_matrix", "")),
-        ("3. Multi-Angle Copywriting Vault", result.get("copywriting_vault", "")),
-        ("4. Advanced Creator & Engineer Prompts", result.get("tech_prompts", "")),
-        ("5. Automated 7-Day Action Roadmap", result.get("action_roadmap", "")),
+        ("1. Role-Specific Unit Economics & Financial Vault", result.get("unit_economics", "")),
+        ("2. Geo-Targeting & Regional Hotspot Mapping", result.get("geo_mapping", "")),
+        ("3. Psychological Hook Matrix (0-3s)", result.get("hook_matrix", "")),
+        ("4. Ready-to-Deploy Multi-Angle Copywriting Vault", result.get("copywriting_vault", "")),
+        ("5. Competitor & Market Saturation Threat Matrix", result.get("saturation_matrix", "")),
+        ("6. Monetization & Pricing Strategy Vault", result.get("monetization_vault", "")),
+        ("7. AI Prompt Engineering & Script Generation Pack", result.get("tech_prompts", "")),
+        ("8. Algorithmic Scale vs Kill Risk Management Rules", result.get("scale_kill_rules", "")),
+        ("9. Python Async Data Scraper & Pipeline Monitor", result.get("python_code", "")),
+        ("10. Automated 10-Day Master Execution Roadmap", result.get("action_roadmap", "")),
     ]
 
     for title, text in sections:
@@ -407,7 +412,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
     return results[:5]
 
 # ==========================================
-# 7. MASTER LLM DOSSIER GENERATOR ENGINE
+# 7. MASTER LLM 10-POINT DOSSIER GENERATOR
 # ==========================================
 def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
     clean_asset = sanitize_trend_input(keyword_asset)
@@ -420,11 +425,16 @@ def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, targe
     default_response = {
         "viral_score": f"{velocity_score}%",
         "prediction_window": f"Active Timing Window ({timeframe})",
-        "unit_economics": f"• **{metrics_template['m1']}:** Optimized tier\n• **{metrics_template['m2']}:** Industry benchmark\n• **{metrics_template['m3']}:** Strong market fit\n• **{metrics_template['m4']}:** Safe margin threshold\n• **{metrics_template['m5']}:** Stable index",
+        "unit_economics": f"• **{metrics_template['m1']}:** Optimized tier\n• **{metrics_template['m2']}:** ₹1,500 – ₹2,800 benchmark\n• **{metrics_template['m3']}:** Strong market fit\n• **{metrics_template['m4']}:** Safe margin threshold\n• **{metrics_template['m5']}:** Stable index",
+        "geo_mapping": "• **Primary Tier-1 Hotspots:** Mumbai, Bengaluru, Delhi-NCR, Pune\n• **Emerging Tier-2 Hubs:** Jaipur, Indore, Chandigarh, Lucknow\n• **International Spillover:** US/UK diaspora clusters",
         "hook_matrix": f"• **FOMO Hook:** \"The secret strategy behind {clean_asset} that elite operators are hiding...\"\n• **Risk Hook:** \"If you ignore {clean_asset} in {timeframe}, you are leaving massive ROI on the table...\"\n• **Dopamine Hook:** [Visual Pattern Interrupt] High-end cinematic showcase of {clean_asset}.",
-        "copywriting_vault": f"• **Problem-Solver Angle:** \"{clean_asset} से जुड़ी समस्याओं से परेशान हैं? पेश है सबसे आधुनिक समाधान।\"\n• **Trust Builder Angle:** \"⭐⭐⭐⭐⭐ 'इसने मेरे काम को 10x आसान बना दिया।' - Verified User.\"",
-        "tech_prompts": f"• **Midjourney v6.0:** Hyper-realistic minimalist luxury asset photography of {clean_asset}, clean studio lighting, cinematic 8k, commercial ad style --ar 16:9 --v 6.0\n• **Python Async Scraper:** Active pipeline tracking for {clean_cat} metrics.",
-        "action_roadmap": "1. HOUR 1-6 (Setup): Core infrastructure & <2s speed optimization.\n2. HOUR 24 (Micro-Testing): Low-budget cross-channel validation.\n3. DAY 3 (Optimization): Apply 'Scale vs Kill' rules.\n4. DAY 7 (Scaling): Deploy retention and upsell funnels."
+        "copywriting_vault": f"• **Problem-Solver Angle:** \"{clean_asset} से जुड़ी समस्याओं से परेशान हैं? पेश है सबसे आधुनिक समाधान।\"\n• **Trust Builder Angle:** \"⭐⭐⭐⭐⭐ 'इसने मेरे काम को 3x आसान बना दिया।' - Verified User.\"",
+        "saturation_matrix": "• **Saturation Index:** Moderate (62% saturated, high incoming demand)\n• **Competitor Weakness:** Slow fulfillment and generic design copy\n• **Our Strategic Edge:** Ultra-fast 48-hour delivery & micro-community branding",
+        "monetization_vault": "• **Optimal Pricing Model:** ₹999 – ₹1,499 sweet spot\n• **Upsell Stack Strategy:** Bundle Pack (2 + 1 Free) to increase AOV by 35%",
+        "tech_prompts": f"• **ChatGPT Script Prompt:** Write a 30-second high-retention script for {clean_asset}.\n• **Midjourney v6.0:** Hyper-realistic minimalist luxury asset photography of {clean_asset}, clean studio lighting, 8k --ar 16:9 --v 6.0",
+        "scale_kill_rules": "• **The Kill Rule:** If ad budget crosses ₹4,000/day with 0 conversions in 24h -> PAUSE IMMEDIATELY.\n• **The Scaling Rule:** If ROAS is stable for 48h -> Increase budget by 20%-30% daily at 11:00 AM.",
+        "python_code": "import asyncio\nimport aiohttp\n\nasync def fetch_metrics(session, url):\n    async with session.get(url) as r:\n        print(await r.json())",
+        "action_roadmap": "1. HOUR 1-6 (Setup): Core infrastructure & <2s speed optimization.\n2. HOUR 24 (Micro-Testing): Low-budget cross-channel validation.\n3. DAY 3 (Optimization): Apply 'Scale vs Kill' rules.\n4. DAY 10 (Scaling): Deploy retention and upsell funnels."
     }
 
     if not GROQ_API_KEY:
@@ -434,25 +444,29 @@ def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, targe
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
 You are an elite Enterprise Intelligence AI. Return ONLY a raw valid JSON object (no markdown, no backticks).
-Generate a hyper-realistic, highly customized God-Level Commercial Intelligence Dossier for:
+Generate a hyper-realistic, highly customized 10-Point Commercial Intelligence Dossier in {lang} for:
 - Asset/Trend: "{clean_asset}"
 - Category: "{clean_cat} {sub_ctx}"
 - Target Operating Role: "{target_role}"
 - Platform Source: "{platform}"
 - Timeframe: "{timeframe}"
-- Language: {lang}
 
-Ensure the metrics in "unit_economics" strictly match the domain of the selected operating role ({target_role}).
+Ensure all monetary values use Indian Rupees (₹) and metrics strictly match the domain of '{target_role}'.
 
 JSON Format:
 {{
   "viral_score": "{velocity_score}%",
   "prediction_window": "Lifecycle timing window",
-  "unit_economics": "• **{metrics_template['m1']}:** ...\\n• **{metrics_template['m2']}:** ...\\n• **{metrics_template['m3']}:** ...\\n• **{metrics_template['m4']}:** ...\\n• **{metrics_template['m5']}:** ...",
+  "unit_economics": "• **{metrics_template['m1']}:** ...\\n• **{metrics_template['m2']}:** ₹...\\n• **{metrics_template['m3']}:** ...\\n• **{metrics_template['m4']}:** ...\\n• **{metrics_template['m5']}:** ...",
+  "geo_mapping": "• **Primary Tier-1 Hotspots:** ...\\n• **Emerging Tier-2 Hubs:** ...\\n• **International Spillover:** ...",
   "hook_matrix": "• **FOMO Hook:** ...\\n• **Risk Hook:** ...\\n• **Dopamine Hook:** ...",
   "copywriting_vault": "• **Problem-Solver Angle:** ...\\n• **Trust Builder Angle:** ...",
-  "tech_prompts": "• **Midjourney Prompt:** ...\\n• **Python Scraper:** ...",
-  "action_roadmap": "1. HOUR 1-6: ...\\n2. HOUR 24: ...\\n3. DAY 3: ...\\n4. DAY 7: ..."
+  "saturation_matrix": "• **Saturation Index:** ...\\n• **Competitor Weakness:** ...\\n• **Our Strategic Edge:** ...",
+  "monetization_vault": "• **Optimal Pricing Model:** ₹...\\n• **Upsell Stack Strategy:** ...",
+  "tech_prompts": "• **ChatGPT Script Prompt:** ...\\n• **Midjourney Prompt:** ...",
+  "scale_kill_rules": "• **The Kill Rule:** ₹4,000/day threshold ...\\n• **The Scaling Rule:** ...",
+  "python_code": "import asyncio...",
+  "action_roadmap": "1. HOUR 1-6: ...\\n2. HOUR 24: ...\\n3. DAY 3: ...\\n4. DAY 10: ..."
 }}
 """
         completion = client.chat.completions.create(
@@ -479,7 +493,7 @@ t = TEXTS[selected_lang]
 
 with head_col1:
     st.title(t["title"])
-    st.caption(f"{t['subtitle']} | ⚡ Autonomous Pipeline & 5-Table SQLite DB Architecture")
+    st.caption(f"{t['subtitle']} | ⚡ 10-Point Enterprise Intelligence & 5-Table SQLite Architecture")
 
 st.markdown("---")
 
@@ -562,14 +576,14 @@ with tab_radar:
     st.plotly_chart(fig, use_container_width=True)
 
 with tab_blueprint:
-    st.subheader("🚀 Master Intelligence Dossier Engine (All 6 Operating Roles)")
+    st.subheader("🚀 10-Point Master Intelligence Dossier Engine")
 
     if not st.session_state["is_premium"]:
-        st.warning("🔒 MASTER INTELLIGENCE DOSSIER ENGINE IS LOCKED")
-        st.info("Unlock role-specific metric vaults, psychological hook matrix, copywriting vaults, and automated execution roadmaps.")
+        st.warning("🔒 10-POINT MASTER DOSSIER ENGINE IS LOCKED")
+        st.info("Unlock all 10 enterprise intelligence vaults including geo-mapping, threat matrix, monetization, and automated execution roadmaps.")
         st.link_button("🔥 Upgrade to Pro & Unlock Master Engine", STRIPE_CHECKOUT_URL, use_container_width=True)
     else:
-        st.success("🔓 MASTER PRO ENGINE ACTIVE")
+        st.success("🔓 MASTER PRO ENGINE ACTIVE (10-POINT SUITE)")
 
         asset_list = [item["Keyword"] for item in active_signals]
         selected_asset = st.selectbox("🎯 Select Ingested Asset:", options=asset_list, index=0)
@@ -587,12 +601,12 @@ with tab_blueprint:
             index=0,
         )
 
-        gen_btn = st.button("⚡ Generate Master Dossier", use_container_width=True)
+        gen_btn = st.button("⚡ Generate 10-Point Master Dossier", use_container_width=True)
 
         if gen_btn or "enterprise_result" in st.session_state:
             curr_score = signal_scores.get(selected_asset, 95.0)
             if gen_btn:
-                with st.spinner("Synthesizing Master Intelligence & Role-Specific Metrics..."):
+                with st.spinner("Synthesizing 10-Point Enterprise Intelligence Dossier..."):
                     result = generate_master_enterprise_dossier(
                         selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, curr_score, selected_lang
                     )
@@ -612,23 +626,43 @@ with tab_blueprint:
             m_col2.metric("Lifecycle Timing Window", result.get("prediction_window", timeframe))
 
             st.markdown("---")
-            st.markdown(f"### 📊 1. Role-Specific Metric Vault ({target_role})")
+            st.markdown(f"### 📊 1. Role-Specific Unit Economics & Financial Vault ({target_role})")
             st.markdown(result.get("unit_economics", ""))
 
             st.markdown("---")
-            st.markdown("### 🎯 2. The Psychological Hook Matrix (0-3s Triggers)")
+            st.markdown("### 🌍 2. Geo-Targeting & Regional Hotspot Mapping")
+            st.markdown(result.get("geo_mapping", ""))
+
+            st.markdown("---")
+            st.markdown("### 🎯 3. The Psychological Hook Matrix (0-3s Triggers)")
             st.markdown(result.get("hook_matrix", ""))
 
             st.markdown("---")
-            st.markdown("### ✍️ 3. Multi-Angle Copywriting Vault")
+            st.markdown("### ✍️ 4. Ready-to-Deploy Multi-Angle Copywriting Vault")
             st.markdown(result.get("copywriting_vault", ""))
 
             st.markdown("---")
-            st.markdown("### ⚙️ 4. Advanced Creator & Engineer Prompts")
+            st.markdown("### ⚠️ 5. Competitor & Market Saturation Threat Matrix")
+            st.markdown(result.get("saturation_matrix", ""))
+
+            st.markdown("---")
+            st.markdown("### 💰 6. Monetization & Pricing Strategy Vault")
+            st.markdown(result.get("monetization_vault", ""))
+
+            st.markdown("---")
+            st.markdown("### 🧠 7. AI Prompt Engineering & Script Generation Pack")
             st.markdown(result.get("tech_prompts", ""))
 
             st.markdown("---")
-            st.markdown("### ⏱️ 5. Automated 7-Day Action Roadmap")
+            st.markdown("### 📉 8. Algorithmic Scale vs Kill Risk Management Rules")
+            st.markdown(result.get("scale_kill_rules", ""))
+
+            st.markdown("---")
+            st.markdown("### ⚙️ 9. Python Async Data Scraper & Pipeline Monitor")
+            st.code(result.get("python_code", ""), language="python")
+
+            st.markdown("---")
+            st.markdown("### 📅 10. Automated 10-Day Master Execution Roadmap")
             st.text(result.get("action_roadmap", ""))
 
             st.markdown("---")
@@ -637,19 +671,19 @@ with tab_blueprint:
             d_col1, d_col2 = st.columns(2)
             with d_col1:
                 st.download_button(
-                    label="📄 Download Master PDF Dossier",
+                    label="📄 Download 10-Point Master PDF Dossier",
                     data=pdf_bytes,
-                    file_name=f"TrendPulse_Master_Dossier_{sanitize_trend_input(selected_asset)[:15]}.pdf",
+                    file_name=f"TrendPulse_10Pt_Dossier_{sanitize_trend_input(selected_asset)[:15]}.pdf",
                     mime="application/pdf",
                     use_container_width=True,
                 )
             with d_col2:
                 wa_text = urllib.parse.quote(
-                    f"⚡ *TrendPulse AI Master Dossier*\n\n"
+                    f"⚡ *TrendPulse AI 10-Point Master Dossier*\n\n"
                     f"Asset: {sanitize_trend_input(selected_asset)}\n"
                     f"Role: {target_role}\n"
                     f"Viral Score: {curr_score}%\n\n"
-                    f"View full intelligence dossier!"
+                    f"View full enterprise intelligence briefing!"
                 )
                 st.link_button(
                     label="💬 Share to WhatsApp",
