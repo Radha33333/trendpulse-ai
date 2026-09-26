@@ -287,7 +287,7 @@ def sanitize_trend_input(text: str) -> str:
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     return cleaned
 
-Vdef create_pdf_dossier(asset_name, category, role, viral_score, window, result):
+def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     clean_asset = sanitize_trend_input(asset_name)
     clean_cat = sanitize_trend_input(category)
     clean_role = sanitize_trend_input(role).lstrip('n').strip() # Fixes leading 'n' role bug
