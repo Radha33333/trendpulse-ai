@@ -18,7 +18,7 @@ import streamlit as st
 # 1. PAGE CONFIG & GLOBAL ENTERPRISE STYLING
 # ==========================================
 st.set_page_config(
-    page_title="TrendPulse AI - Master Intelligence & Execution Suite",
+    page_title="TrendPulse AI - Master Intelligence & Revenue Scale Suite",
     page_icon="⚡",
     layout="wide",
 )
@@ -230,8 +230,8 @@ ROLE_SPECIFIC_METRICS = {
 
 TEXTS = {
     "English": {
-        "title": "⚡ TrendPulse AI: Master Intelligence & Execution Suite",
-        "subtitle": "Autonomous Market Domination Engine & 10-Point Master Dossier Generator",
+        "title": "⚡ TrendPulse AI: Master Intelligence & Revenue Scale Suite",
+        "subtitle": "Autonomous Market Domination Engine & Advanced Commercial Dossier Generator",
         "terminal": "🔑 Enterprise Access Terminal",
         "simulate_pro": "Simulate Pro Subscription Access",
         "config_title": "⚙️ Ingestion Pipeline & Signal Filter",
@@ -245,12 +245,12 @@ TEXTS = {
         "custom_search": "🔍 Custom Asset Injection:",
         "active_signals_for": "Active Ingested Signals for:",
         "tab_radar": "📡 Ingestion Radar",
-        "tab_blueprint": "🚀 10-Point Master Intelligence Dossier Engine",
+        "tab_blueprint": "🚀 Master Intelligence & Revenue Dossier Engine",
         "tab_db": "🗄️ Database Inspector & Logs",
     },
     "Hindi": {
-        "title": "⚡ TrendPulse AI: मास्टर इंटेलिजेंस और एग्जीक्यूशन सुइट",
-        "subtitle": "ऑटोनॉमस मार्केट डोमिनेशन इंजन और 10-पॉइंट मास्टर डॉसियर जेनरेटर",
+        "title": "⚡ TrendPulse AI: मास्टर इंटेलिजेंस और रेवेन्यू स्केल सुइट",
+        "subtitle": "ऑटोनॉमस मार्केट डोमिनेशन इंजन और एडवांस्ड कमर्शियल डॉसियर जेनरेटर",
         "terminal": "🔑 एंटरप्राइज एक्सेस टर्मिनल",
         "simulate_pro": "प्रो सब्सक्रिप्शन एक्सेस सिमुलेट करें",
         "config_title": "⚙️ इंजेक्शन पाइपलाइन और सिग्नल फ़िल्टर",
@@ -264,7 +264,7 @@ TEXTS = {
         "custom_search": "🔍 कस्टम एसेट इंजेक्शन:",
         "active_signals_for": "सक्रिय इंजेस्टेड सिग्नल:",
         "tab_radar": "📡 इंजेक्शन रडार",
-        "tab_blueprint": "🚀 10-पॉइंट मास्टर इंटेलिजेंस डॉसियर इंजन",
+        "tab_blueprint": "🚀 मास्टर इंटेलिजेंस और रेवेन्यू डॉसियर इंजन",
         "tab_db": "🗄️ डेटाबेस इंस्पेक्टर और लॉग्स",
     },
 }
@@ -301,23 +301,23 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=7.5, leading=10, textColor="#333333", spaceAfter=3)
 
     story = [
-        Paragraph("TrendPulse AI - 10-Point Enterprise Intelligence Commercial Dossier", title_style),
+        Paragraph("TrendPulse AI - Master Intelligence & Revenue Scale Dossier", title_style),
         Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(clean_role)}", body_style),
         Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
         Spacer(1, 4)
     ]
 
     sections = [
-        ("1. Role-Specific Unit Economics & Financial Vault", result.get("unit_economics", "")),
+        ("1. Advanced Monetization, Rate Card & Unit Economics Vault", result.get("unit_economics", "")),
         ("2. Geo-Targeting & Regional Hotspot Mapping", result.get("geo_mapping", "")),
-        ("3. Psychological Hook Matrix (0-3s)", result.get("hook_matrix", "")),
+        ("3. Psychological Hook Matrix & Video Storyboard (0-3s)", result.get("hook_matrix", "")),
         ("4. Ready-to-Deploy Multi-Angle Copywriting Vault", result.get("copywriting_vault", "")),
         ("5. Competitor & Market Saturation Threat Matrix", result.get("saturation_matrix", "")),
-        ("6. Monetization & Pricing Strategy Vault", result.get("monetization_vault", "")),
-        ("7. AI Prompt Engineering & Script Generation Pack", result.get("tech_prompts", "")),
-        ("8. Algorithmic Scale vs Kill Risk Management Rules", result.get("scale_kill_rules", "")),
-        ("9. Python Async Data Scraper & Pipeline Monitor", result.get("python_code", "")),
-        ("10. Automated 10-Day Master Execution Roadmap", result.get("action_roadmap", "")),
+        ("6. AI Prompt Engineering & Script Generation Pack", result.get("tech_prompts", "")),
+        ("7. Algorithmic Scale vs Kill Risk Management Rules", result.get("scale_kill_rules", "")),
+        ("8. Realtime Audience Sentiment & Virality Predictive Formula", result.get("virality_formula", "")),
+        ("9. Multi-Platform Syndication & Marketing Matrix", result.get("syndication_matrix", "")),
+        ("10. Automated 10-Day Master Execution & Scaling Roadmap", result.get("action_roadmap", "")),
     ]
 
     for title, text in sections:
@@ -330,7 +330,7 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     return buffer
 
 # ==========================================
-# 6. PIPELINE & RADAR DATA ENGINE (UPDATED)
+# 6. PIPELINE & RADAR DATA ENGINE
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
@@ -417,7 +417,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
     return results
 
 # ==========================================
-# 7. MASTER LLM 10-POINT DOSSIER GENERATOR
+# 7. MASTER LLM DOSSIER GENERATOR (WITH REVENUE & SCALING SUITE)
 # ==========================================
 def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
     clean_asset = sanitize_trend_input(keyword_asset)
@@ -430,16 +430,16 @@ def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, targe
     default_response = {
         "viral_score": f"{velocity_score}%",
         "prediction_window": f"Active Timing Window ({timeframe})",
-        "unit_economics": f"• **{metrics_template['m1']}:** Optimized tier\n• **{metrics_template['m2']}:** INR 1,500 – INR 2,800 benchmark\n• **{metrics_template['m3']}:** Strong market fit\n• **{metrics_template['m4']}:** Safe margin threshold\n• **{metrics_template['m5']}:** Stable index",
+        "unit_economics": f"• **{metrics_template['m1']}:** Optimized tier\n• **{metrics_template['m2']}:** INR 1,500 – INR 2,800 benchmark\n• **Brand Rate Card (Reel/Short):** INR 15,000 – INR 25,000 per post\n• **Affiliate Commission Stack:** 12% per confirmed conversion\n• **Viral Index Score:** Strong market fit",
         "geo_mapping": "• **Primary Tier-1 Hotspots:** Mumbai, Bengaluru, Delhi-NCR, Pune\n• **Emerging Tier-2 Hubs:** Jaipur, Indore, Chandigarh, Lucknow\n• **International Spillover:** US/UK diaspora clusters",
-        "hook_matrix": f"• **FOMO Hook:** \"The secret strategy behind {clean_asset} that elite operators are hiding...\"\n• **Risk Hook:** \"If you ignore {clean_asset} in {timeframe}, you are leaving massive ROI on the table...\"\n• **Dopamine Hook:** [Visual Pattern Interrupt] High-end cinematic showcase of {clean_asset}.",
+        "hook_matrix": f"• **FOMO Hook:** \"The secret strategy behind {clean_asset} that elite operators are hiding...\"\n• **Risk Hook:** \"If you ignore {clean_asset} in {timeframe}, you are leaving massive ROI on the table...\"\n• **Dopamine Hook (Storyboard):** [0-3s] High-end cinematic visual hook transitioning into problem-solver narrative.",
         "copywriting_vault": f"• **Problem-Solver Angle:** \"Struggling with {clean_asset}? Here is the ultimate modern solution to scale your results instantly.\"\n• **Trust Builder Angle:** \"⭐⭐⭐⭐⭐ 'This completely transformed my workflow within 3 days.' - Verified User.\"",
         "saturation_matrix": "• **Saturation Index:** Moderate (62% saturated, high incoming demand)\n• **Competitor Weakness:** Slow fulfillment and generic design copy\n• **Our Strategic Edge:** Ultra-fast 48-hour delivery & micro-community branding",
-        "monetization_vault": "• **Optimal Pricing Model:** INR 999 – INR 1,499 sweet spot\n• **Upsell Stack Strategy:** Bundle Pack (2 + 1 Free) to increase AOV by 35%",
         "tech_prompts": f"• **ChatGPT Script Prompt:** Write a 30-second high-retention script for {clean_asset}.\n• **Midjourney v6.0:** Hyper-realistic minimalist luxury asset photography of {clean_asset}, clean studio lighting, 8k --ar 16:9 --v 6.0",
         "scale_kill_rules": "• **The Kill Rule:** If ad budget crosses INR 4,000/day with 0 conversions in 24h -> PAUSE IMMEDIATELY.\n• **The Scaling Rule:** If ROAS is stable for 48h -> Increase budget by 20%-30% daily at 11:00 AM.",
-        "python_code": "import asyncio\nimport aiohttp\n\nasync def fetch_metrics(session, url):\n    async with session.get(url) as r:\n        print(await r.json())",
-        "action_roadmap": "1. HOUR 1-6 (Setup): Core infrastructure & <2s speed optimization.\n2. HOUR 24 (Micro-Testing): Low-budget cross-channel validation.\n3. DAY 3 (Optimization): Apply 'Scale vs Kill' rules.\n4. DAY 10 (Scaling): Deploy retention and upsell funnels."
+        "virality_formula": "• **Algorithm Core Logic:** Calculates engagement velocity vs comment sentiment ratios.\n• **Formula:** Virality Score = ((3s Watch Retention * Shares) / Impressions) * (1 + Comment Sentiment Weight)\n• **Pipeline Monitoring Rule:** If engagement ratio deviates by >15% in 6h, flag for instant scaling or pivot.",
+        "syndication_matrix": "• **Instagram Reels Strategy:** Trending audio loops with high-contrast text overlays.\n• **YouTube Shorts Strategy:** Optimized thumbnail and evening publishing window (6 PM - 8 PM).\n• **Cross-Platform Retargeting:** Push top 15s cutdowns as paid community ads.",
+        "action_roadmap": "1. HOUR 1-6 (Setup): Core infrastructure & affiliate integration.\n2. HOUR 24 (Micro-Testing): Low-budget cross-channel validation.\n3. DAY 3 (Optimization): Apply 'Scale vs Kill' algorithmic rules.\n4. DAY 10 (Scaling): Deploy retention loops and brand monetization funnels."
     }
 
     if not GROQ_API_KEY:
@@ -449,7 +449,7 @@ def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, targe
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
 You are an elite Enterprise Intelligence AI. Return ONLY a raw valid JSON object (no markdown, no backticks).
-Generate a hyper-realistic, highly customized 10-Point Commercial Intelligence Dossier in English for:
+Generate a hyper-realistic, highly customized Commercial Intelligence & Revenue Scale Dossier in English for:
 - Asset/Trend: "{clean_asset}"
 - Category: "{clean_cat} {sub_ctx}"
 - Target Operating Role: "{target_role}"
@@ -462,16 +462,16 @@ JSON Format:
 {{
   "viral_score": "{velocity_score}%",
   "prediction_window": "Lifecycle timing window",
-  "unit_economics": "• **{metrics_template['m1']}:** ...\\n• **{metrics_template['m2']}:** INR ...\\n• **{metrics_template['m3']}:** ...\\n• **{metrics_template['m4']}:** ...\\n• **{metrics_template['m5']}:** ...",
+  "unit_economics": "• **{metrics_template['m1']}:** ...\\n• **{metrics_template['m2']}:** INR ...\\n• **Brand Rate Card (Reel/Short):** INR 15,000 – INR 25,000\\n• **Affiliate Commission Stack:** 12%\\n• **Viral Index Score:** ...",
   "geo_mapping": "• **Primary Tier-1 Hotspots:** ...\\n• **Emerging Tier-2 Hubs:** ...\\n• **International Spillover:** ...",
-  "hook_matrix": "• **FOMO Hook:** ...\\n• **Risk Hook:** ...\\n• **Dopamine Hook:** ...",
+  "hook_matrix": "• **FOMO Hook:** ...\\n• **Risk Hook:** ...\\n• **Dopamine Hook (Storyboard):** ...",
   "copywriting_vault": "• **Problem-Solver Angle:** ...\\n• **Trust Builder Angle:** ...",
   "saturation_matrix": "• **Saturation Index:** ...\\n• **Competitor Weakness:** ...\\n• **Our Strategic Edge:** ...",
-  "monetization_vault": "• **Optimal Pricing Model:** INR ...\\n• **Upsell Stack Strategy:** ...",
   "tech_prompts": "• **ChatGPT Script Prompt:** ...\\n• **Midjourney Prompt:** ...",
   "scale_kill_rules": "• **The Kill Rule:** INR 4,000/day threshold ...\\n• **The Scaling Rule:** ...",
-  "python_code": "import asyncio...",
-  "action_roadmap": "1. HOUR 1-6: ...\\n2. HOUR 24: ...\\n3. DAY 3: ...\\n4. DAY 10: ..."
+  "virality_formula": "• **Algorithm Core Logic:** ...\\n• **Formula:** Virality Score = ((3s Watch Retention * Shares) / Impressions) * (1 + Comment Sentiment Weight)\\n• **Pipeline Monitoring Rule:** ...",
+  "syndication_matrix": "• **Instagram Reels Strategy:** ...\\n• **YouTube Shorts Strategy:** ...\\n• **Cross-Platform Retargeting:** ...",
+  "action_roadmap": "1. HOUR 1-6: Setup & affiliate integration...\\n2. HOUR 24: Micro-testing...\\n3. DAY 3: Optimization...\\n4. DAY 10: Scaling..."
 }}
 """
         completion = client.chat.completions.create(
@@ -498,7 +498,7 @@ t = TEXTS[selected_lang]
 
 with head_col1:
     st.title(t["title"])
-    st.caption(f"{t['subtitle']} | ⚡ 10-Point Enterprise Intelligence & 5-Table SQLite Architecture")
+    st.caption(f"{t['subtitle']} | ⚡ Complete Master Dossier & 5-Table SQLite Architecture")
 
 st.markdown("---")
 
@@ -559,7 +559,7 @@ tab_radar, tab_blueprint, tab_db = st.tabs([t["tab_radar"], t["tab_blueprint"], 
 
 with tab_radar:
     st.subheader(t["telemetry_title"])
-    custom_search = st.text_input(t["custom_search"], placeholder="e.g. Vibe Coding, AI Automation Agency, K-Beauty Glass Skin")
+    custom_search = st.text_input(t["custom_search"], placeholder="e.g. Misty Tea Estate Heritage Homestay Wave, K-Beauty Glass Skin")
     if custom_search.strip():
         custom_item = {"Keyword": custom_search.strip(), "Entity": "Custom Injection Target", "Volume": f"Realtime Query ({geo_option})", "Velocity": "🔥 High Growth"}
         if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
@@ -592,14 +592,14 @@ with tab_radar:
     st.plotly_chart(fig, use_container_width=True)
 
 with tab_blueprint:
-    st.subheader("🚀 10-Point Master Intelligence Dossier Engine")
+    st.subheader("🚀 Master Intelligence & Revenue Dossier Engine")
 
     if not st.session_state["is_premium"]:
-        st.warning("🔒 10-POINT MASTER DOSSIER ENGINE IS LOCKED")
-        st.info("Unlock all 10 enterprise intelligence vaults including geo-mapping, threat matrix, monetization, and automated execution roadmaps.")
+        st.warning("🔒 MASTER INTELLIGENCE & REVENUE SUITE IS LOCKED")
+        st.info("Unlock all monetization rate cards, video retention storyboards, virality prediction formulas, and scaling rules.")
         st.link_button("🔥 Upgrade to Pro & Unlock Master Engine", STRIPE_CHECKOUT_URL, use_container_width=True)
     else:
-        st.success("🔓 MASTER PRO ENGINE ACTIVE (10-POINT SUITE)")
+        st.success("🔓 MASTER PRO ENGINE ACTIVE (FULL REVENUE SUITE)")
 
         asset_list = [item["Keyword"] for item in active_signals]
         selected_asset = st.selectbox("🎯 Select Ingested Asset:", options=asset_list, index=0)
@@ -619,35 +619,35 @@ with tab_blueprint:
 
         velocity_score = signal_scores.get(selected_asset, 94.2)
 
-        if st.button("🚀 Generate 10-Point Commercial Intelligence Dossier", use_container_width=True):
-            with st.spinner("⚡ Synthesizing Master Enterprise Dossier across 10 intelligence vectors..."):
+        if st.button("🚀 Generate Master Intelligence & Revenue Dossier", use_container_width=True):
+            with st.spinner("⚡ Synthesizing Master Dossier with Advanced Revenue & Scaling Modules..."):
                 dossier_result = generate_master_enterprise_dossier(
                     selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, velocity_score, selected_lang
                 )
 
-                st.markdown(f"### 📑 Enterprise Dossier: {selected_asset}")
+                st.markdown(f"### 📑 Enterprise Master Dossier: {selected_asset}")
                 st.caption(f"Role: {target_role} | Platform: {platform_source} | Predictive Score: {velocity_score}%")
 
                 pdf_buffer = create_pdf_dossier(selected_asset, selected_category, target_role, velocity_score, timeframe, dossier_result)
                 st.download_button(
-                    label="📥 Download Official PDF Commercial Dossier",
+                    label="📥 Download Official PDF Commercial & Revenue Dossier",
                     data=pdf_buffer,
-                    file_name=f"TrendPulse_Dossier_{sanitize_trend_input(selected_asset)[:20]}.pdf",
+                    file_name=f"TrendPulse_Revenue_Dossier_{sanitize_trend_input(selected_asset)[:20]}.pdf",
                     mime="application/pdf",
                     use_container_width=True
                 )
 
                 sections_meta = [
-                    ("1. Role-Specific Unit Economics & Financial Vault", dossier_result.get("unit_economics", "")),
+                    ("1. Advanced Monetization, Rate Card & Unit Economics Vault", dossier_result.get("unit_economics", "")),
                     ("2. Geo-Targeting & Regional Hotspot Mapping", dossier_result.get("geo_mapping", "")),
-                    ("3. Psychological Hook Matrix (0-3s)", dossier_result.get("hook_matrix", "")),
+                    ("3. Psychological Hook Matrix & Video Storyboard (0-3s)", dossier_result.get("hook_matrix", "")),
                     ("4. Ready-to-Deploy Multi-Angle Copywriting Vault", dossier_result.get("copywriting_vault", "")),
                     ("5. Competitor & Market Saturation Threat Matrix", dossier_result.get("saturation_matrix", "")),
-                    ("6. Monetization & Pricing Strategy Vault", dossier_result.get("monetization_vault", "")),
-                    ("7. AI Prompt Engineering & Script Generation Pack", dossier_result.get("tech_prompts", "")),
-                    ("8. Algorithmic Scale vs Kill Risk Management Rules", dossier_result.get("scale_kill_rules", "")),
-                    ("9. Python Async Data Scraper & Pipeline Monitor", dossier_result.get("python_code", "")),
-                    ("10. Automated 10-Day Master Execution Roadmap", dossier_result.get("action_roadmap", ""))
+                    ("6. AI Prompt Engineering & Script Generation Pack", dossier_result.get("tech_prompts", "")),
+                    ("7. Algorithmic Scale vs Kill Risk Management Rules", dossier_result.get("scale_kill_rules", "")),
+                    ("8. Realtime Audience Sentiment & Virality Predictive Formula", dossier_result.get("virality_formula", "")),
+                    ("9. Multi-Platform Syndication & Marketing Matrix", dossier_result.get("syndication_matrix", "")),
+                    ("10. Automated 10-Day Master Execution & Scaling Roadmap", dossier_result.get("action_roadmap", ""))
                 ]
 
                 for sec_title, sec_content in sections_meta:
