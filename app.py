@@ -247,7 +247,7 @@ def sanitize_trend_input(text: str) -> str:
     if not text:
         return ""
     cleaned = re.sub(r'\[.*?\]', '', text)
-    cleaned = re.sub(r'[^\w\s\-\.\,\/\&\(\)]', '', cleaned) # Strict cleaning for Groq JSON Safety
+    cleaned = re.sub(r'[^\w\s\-\.\,\/\&\(\)]', '', cleaned)
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     return cleaned
 
@@ -266,7 +266,7 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=9, leading=13, textColor="#333333", spaceAfter=8)
 
     story = [
-        Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style),
+        Paragraph("TrendPulse AI - Master Strategy Blueprint (Phase 1 Finalized)", title_style),
         Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}", body_style),
         Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
         Spacer(1, 10)
@@ -292,13 +292,12 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     return buffer
 
 # ==========================================
-# 5. FULLY SYNCED PIPELINE WITH ZERO GAPS
+# 5. FULLY SYNCED PIPELINE WITH PHASE 1 ENHANCEMENTS
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, timeframe):
     results = []
     
-    # Fully Multi-layered search query combining Region, Category, and Sub-Niche
     region_term = "India" if region == "IN" else ("US" if region == "US" else "")
     sub_ctx = f"{sub_niche}" if (sub_niche and sub_niche != "All Sub-Niches") else ""
     query_text = f"{category.split()[-1]} {sub_ctx} {region_term}".strip()
@@ -306,7 +305,6 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
     
     platform_name = platform_source.split()[1] if len(platform_source.split()) > 1 else platform_source
 
-    # Live APIs with Geo Context Injection
     if "Reddit" in platform_source:
         try:
             url = f"https://www.reddit.com/search.json?q={search_query}&sort=hot&limit=10"
@@ -351,7 +349,6 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
         except Exception:
             pass
 
-    # Dynamic Fallback Construction (Resolves Gap 2 completely)
     if len(results) < 5:
         if sub_niche in SUBNICHE_SIGNALS_FALLBACK:
             base_pool = SUBNICHE_SIGNALS_FALLBACK[sub_niche]
@@ -398,13 +395,13 @@ def generate_master_intelligence(keyword_asset, category, sub_niche, target_role
     default_response = {
         "viral_score": f"{velocity_score}%",
         "prediction_window": f"Active Timing Window ({timeframe})",
-        "profit_model": f"• **Primary Funnel:** Direct High-ROI Strategy for {target_role} in {clean_cat}{sub_ctx}.\n• **Execution Path:** Monetize '{clean_asset}' through targeted ads/content.",
-        "content_directives": f"• **Narrative Angle:** Capturing momentum of '{clean_asset}'.\n• **Core Message:** Solution-focused value proposition.",
-        "execution_hook": f"• **0-3s Cue:** Dynamic visual introducing {clean_asset}.\n• **Text Overlay:** \"Why everyone is talking about {clean_asset[:20]}...\"\n• **Script:** \"Here is what you need to know about {clean_asset}...\"",
+        "profit_model": f"• **Primary Funnel:** Phase 1 Optimized Direct High-ROI Strategy for {target_role} in {clean_cat}{sub_ctx}.\n• **Execution Path:** Monetize '{clean_asset}' through targeted localized ad funnels.",
+        "content_directives": f"• **Narrative Angle:** Capturing institutional momentum of '{clean_asset}'.\n• **Core Message:** High-converting solution-focused value proposition.",
+        "execution_hook": f"• **0-3s Cue:** Dynamic visual introducing {clean_asset}.\n• **Text Overlay:** \"Why top operators are scaling {clean_asset[:20]} right now...\"\n• **Script:** \"Here is the exact framework to capitalize on {clean_asset}...\"",
         "audio_suggestion": "Upbeat Commercial Audio / High-Energy Vibe",
-        "ad_copy": f"Discover how {clean_asset} is trending in {clean_cat}. Tap link to learn more! #{clean_asset.replace(' ', '')}",
-        "action_blueprint": "1. HOUR 1: Prepare assets and hook.\n2. HOUR 6: Launch campaign on platform.\n3. DAY 2: Optimize based on engagement.",
-        "competitor_intelligence": "• **Benchmark:** Top 15% retention performance tier.",
+        "ad_copy": f"Discover how {clean_asset} is breaking records in {clean_cat}. Tap link to access Phase 1 intelligence! #{clean_asset.replace(' ', '')}",
+        "action_blueprint": "1. HOUR 1: Deploy target tracking & asset setup.\n2. HOUR 6: Launch cross-channel ad & content campaigns.\n3. DAY 2: Scale top-performing variations using real-time telemetry.",
+        "competitor_intelligence": "• **Phase 1 Benchmark:** Top 10% market retention and CTR performance tier.",
     }
 
     if not GROQ_API_KEY:
@@ -414,7 +411,7 @@ def generate_master_intelligence(keyword_asset, category, sub_niche, target_role
         client = Groq(api_key=GROQ_API_KEY)
         prompt = f"""
 Return ONLY a raw valid JSON object (no markdown, no backticks).
-Analyze:
+Analyze Phase 1 commercial requirements:
 Asset: "{clean_asset}"
 Category: "{clean_cat}"
 Sub-Niche: "{clean_sub}"
@@ -460,7 +457,7 @@ t = TEXTS[selected_lang]
 
 with head_col1:
     st.title(t["title"])
-    st.caption(t["subtitle"])
+    st.caption(f"{t['subtitle']} | Phase 1 Deployment")
 
 st.markdown("---")
 
@@ -469,7 +466,6 @@ with st.expander(t["terminal"]):
 
 st.markdown(f"### {t['config_title']}")
 
-# Dynamic Filter Form
 with st.form(key="filter_form"):
     f_col1, f_col2, f_col3, f_col4, f_col5 = st.columns(5)
 
@@ -521,7 +517,6 @@ with left_col:
         geo_map[geo_option], platform_source, selected_category, selected_sub_niche, timeframe
     )
 
-    # Resolution of Gap 3: Synchronize custom search into the Active Signals Table if present!
     if custom_search.strip():
         custom_item = {"Keyword": f"[Custom Search] {custom_search.strip()}", "Volume": f"Realtime Query ({geo_option})"}
         if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
@@ -577,7 +572,7 @@ with right_col:
         st.info(t["locked_info"])
         st.link_button(t["upgrade_btn"], STRIPE_CHECKOUT_URL, use_container_width=True)
     else:
-        st.success("🔓 PRO ENGINE ACTIVE")
+        st.success("🔓 PRO ENGINE ACTIVE (PHASE 1)")
 
         asset_list = [item["Keyword"] for item in active_signals]
         selected_asset = st.selectbox(t["select_asset"], options=asset_list, index=0)
@@ -599,7 +594,7 @@ with right_col:
         if gen_btn or "last_result" in st.session_state:
             if gen_btn:
                 curr_score = signal_scores.get(selected_asset, 94.5)
-                with st.spinner("Generating Multi-Channel Commercial Strategy..."):
+                with st.spinner("Generating Phase 1 Multi-Channel Commercial Strategy..."):
                     result = generate_master_intelligence(
                         selected_asset,
                         selected_category,
@@ -657,22 +652,21 @@ with right_col:
                 st.download_button(
                     label=t["export_pdf_btn"],
                     data=pdf_bytes,
-                    file_name=f"TrendPulse_Blueprint_{sanitize_trend_input(selected_asset)[:15]}.pdf",
+                    file_name=f"TrendPulse_Phase1_Blueprint_{sanitize_trend_input(selected_asset)[:15]}.pdf",
                     mime="application/pdf",
                     use_container_width=True,
                 )
 
             with d_col2:
                 wa_text = urllib.parse.quote(
-                    f"⚡ *TrendPulse AI Blueprint*\n\n"
+                    f"⚡ *TrendPulse AI Phase 1 Blueprint*\n\n"
                     f"Asset: {sanitize_trend_input(selected_asset)}\n"
                     f"Category: {sanitize_trend_input(selected_category)}\n"
                     f"Viral Score: {curr_score}%\n\n"
                     f"Hook: {result.get('execution_hook', '')[:100]}..."
                 )
-                st.markdown(
-                    f'<a href="https://wa.me/?text={wa_text}" target="_blank">'
-                    f'<button style="width:100%; padding:8px; border-radius:5px; background-color:#25D366; color:white; border:none; font-weight:bold; cursor:pointer;">'
-                    f'{t["share_wa_btn"]}</button></a>',
-                    unsafe_allow_html=True,
+                st.link_button(
+                    label=t["share_wa_btn"],
+                    url=f"https://wa.me/?text={wa_text}",
+                    use_container_width=True,
                 )
