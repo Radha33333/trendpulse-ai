@@ -202,15 +202,21 @@ def create_pdf_blueprint(asset_name, category, sub_niche, role, viral_score, win
 
 @st.cache_data(ttl=300)
 def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, timeframe):
-    url = f"https://trends.google.com/trending/rss?geo={region}"
+    # FIX: Check for sub_niche signals first so that selecting a sub-niche dynamically updates the telemetry table
+    if sub_niche in SUB_NICHE_SIGNALS_FALLBACK:
+        default_keywords = SUB_NICHE_SIGNALS_FALLBACK[sub_niche]
+    else:
+        default_keywords = CATEGORY_FALLBACK
+
     raw_signals = []
+    url = f"https://trends.google.com/trending/rss?geo={region}"
     try:
         headers = {"User-Agent": "Mozilla/5.0"}
         response = requests.get(url, headers=headers, timeout=5)
         if response.status_code == 200:
             root = ET.fromstring(response.content)
             ns = {"ht": "https://trends.google.com/trending/rss"}
-            for item in root.findall(".//item")[:4]:
+            for item in root.findall(".//item")[:2]:
                 title = item.find("title")
                 traffic = item.find("ht:approx_traffic", ns)
                 if title is not None and title.text:
@@ -220,11 +226,6 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
                     })
     except Exception:
         pass
-
-    if sub_niche != "All Sub-Niches" and sub_niche in SUB_NICHE_SIGNALS_FALLBACK:
-        default_keywords = SUB_NICHE_SIGNALS_FALLBACK[sub_niche]
-    else:
-        default_keywords = CATEGORY_FALLBACK
 
     combined = [
         {"Keyword": f"{kw} [{platform_source}]", "Volume": f"150K+ ({timeframe})"}
