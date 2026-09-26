@@ -183,7 +183,7 @@ TEXTS = {
         "select_asset": "🎯 Select Filtered Asset:",
         "operating_role": "👤 Operating Role:",
         "gen_blueprint": "⚡ Generate Master Strategy Blueprint",
-        "locations": "📍 Specific Hotspots & Locations:",
+        "locations": "📍 Specific Hotspots & Targeted Locations:",
         "monetization": "💰 Direct High-ROI Monetization Model",
         "content_directives": "🎬 Role-Specific Content Directives & Story Blueprint",
         "hook": "⚡ Visual Hook & Pattern Interrupt Script (0-3s)",
@@ -255,6 +255,10 @@ def sanitize_trend_input(text: str) -> str:
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     return cleaned
 
+def clean_hashtag(text: str) -> str:
+    clean = re.sub(r'[^\w\s]', '', text)
+    return "".join(clean.title().split())
+
 def create_pdf_blueprint(asset_name, category, role, viral_score, window, result):
     clean_asset = sanitize_trend_input(asset_name)
     clean_cat = sanitize_trend_input(category)
@@ -272,7 +276,7 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     story = [
         Paragraph("TrendPulse AI - Master Strategy Blueprint", title_style),
         Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(role)}", body_style),
-        Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
+        Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))}% | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
         Spacer(1, 8)
     ]
 
@@ -299,7 +303,7 @@ def create_pdf_blueprint(asset_name, category, role, viral_score, window, result
     return buffer
 
 # ==========================================
-# 5. FULLY SYNCED PIPELINE WITH ZERO GAPS
+# 5. FETCH RADAR SIGNALS
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, timeframe):
@@ -390,27 +394,27 @@ def fetch_filtered_radar_signals(region, platform_source, category, sub_niche, t
     return results[:5]
 
 # ==========================================
-# 6. GROQ LLM BLUEPRINT GENERATOR (DYNAMIC ENHANCED)
+# 6. GROQ LLM GENERATOR
 # ==========================================
 def generate_master_intelligence(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
     clean_asset = sanitize_trend_input(keyword_asset)
     clean_cat = sanitize_trend_input(category)
     clean_sub = sanitize_trend_input(sub_niche)
-
-    sub_ctx = f" focusing on '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
+    clean_role = sanitize_trend_input(target_role)
+    hashtag = clean_hashtag(clean_asset)
 
     default_response = {
         "viral_score": f"{velocity_score}%",
         "prediction_window": f"Active Timing Window ({timeframe})",
-        "targeted_locations": f"📍 Relevant Hotspots: Key locations, platforms, or specific sub-regions associated with {clean_asset}.",
-        "profit_model": f"• **Primary Funnel:** Direct High-ROI Strategy for {target_role} in {clean_cat}{sub_ctx}.\n• **Execution Path:** Monetize '{clean_asset}' through targeted ads/content.",
-        "content_directives": f"• **Narrative Angle:** Capturing momentum of '{clean_asset}'.\n• **Core Message:** Solution-focused value proposition.",
-        "execution_hook": f"• **0-3s Cue:** Dynamic visual introducing {clean_asset}.\n• **Text Overlay:** \"Why everyone is talking about {clean_asset[:20]}...\"\n• **Script:** \"Here is what you need to know about {clean_asset}...\"",
-        "audio_suggestion": "Upbeat Commercial Audio / High-Energy Vibe",
-        "ad_copy": f"Discover how {clean_asset} is trending in {clean_cat}. Tap link to learn more! #{clean_asset.replace(' ', '')}",
-        "ready_prompt": f"Create a high-converting 8K realistic thumbnail or visual asset for {clean_asset} targeted at {target_role}. Professional lighting, dramatic overlay text.",
-        "action_blueprint": "1. HOUR 1: Prepare assets and hook.\n2. HOUR 6: Launch campaign on platform.\n3. DAY 2: Optimize based on engagement.",
-        "competitor_intelligence": "• **Benchmark:** Top 15% retention performance tier.",
+        "targeted_locations": f"📍 Relevant Hotspots: Key tech hubs, TikTok Shop US/UK, Amazon Bestseller Nodes, and Reddit setup subreddits for {clean_asset}.",
+        "profit_model": f"• **Primary Funnel:** Direct High-ROI Strategy for {clean_role} in {clean_cat}.\n• **Execution Path:** Monetize '{clean_asset}' through targeted ads and high-converting video content.",
+        "content_directives": f"• **Narrative Angle:** Aesthetic transformation capturing momentum of '{clean_asset}'.\n• **Core Message:** Problem-solving value proposition with immediate ROI.",
+        "execution_hook": f"• **0-3s Cue:** Rapid before-and-after visual showing {clean_asset}.\n• **Text Overlay:** \"Why everyone is upgrading to this...\"\n• **Script:** \"If you work from home, this setup hack changes everything...\"",
+        "audio_suggestion": "Upbeat Commercial Lo-Fi Beats / High-Energy Aesthetic Vibe",
+        "ad_copy": f"Discover why {clean_asset} is trending right now! Tap link to claim yours. #{hashtag} #TrendingHacks",
+        "ready_prompt": f"Hyper-realistic 8K photo of an aesthetic workstation featuring {clean_asset}, modern minimalist interior, cinematic warm studio lighting, 35mm photography.",
+        "action_blueprint": "1. HOUR 1: Record visual hook & B-roll footage.\n2. HOUR 6: Launch campaign with link in bio.\n3. DAY 2: Optimize based on engagement telemetry.",
+        "competitor_intelligence": "• **Benchmark:** Top 10% engagement retention tier in category.",
     }
 
     if not GROQ_API_KEY:
@@ -424,25 +428,26 @@ Analyze:
 Asset: "{clean_asset}"
 Category: "{clean_cat}"
 Sub-Niche: "{clean_sub}"
-Role: "{target_role}"
+Role: "{clean_role}"
 Platform: "{platform}"
 Language: {lang}
 
-IMPORTANT SPECIAL INSTRUCTIONS:
-1. "targeted_locations": List 3 to 4 specific real-world locations, landmarks, hubs, or sub-regions highly relevant to "{clean_asset}" in "{clean_cat}".
-2. "ready_prompt": Create a ready-to-use, copy-paste AI prompt (for Midjourney/ChatGPT/Sora/Canva) tailored specifically for a {target_role} to build high-converting marketing visuals or ad assets.
+IMPORTANT INSTRUCTIONS:
+1. "targeted_locations": List 3 to 4 specific real-world cities, temples, tourist spots, or online marketplaces highly relevant to "{clean_asset}".
+2. "ready_prompt": Create a copy-paste AI prompt (for Midjourney/Flux/Sora) tailored specifically for a {clean_role} to build ad visuals.
+3. "ad_copy": Generate clean social media copy with hashtags without special characters or round brackets.
 
 JSON Format:
 {{
   "viral_score": "{velocity_score}%",
   "prediction_window": "Lifecycle timing details",
-  "targeted_locations": "📍 Specific hot spots / real-world places / specific platforms related to this asset",
-  "profit_model": "Step by step monetization model",
+  "targeted_locations": "📍 Specific hot spots / real-world places / platforms related to this asset",
+  "profit_model": "Step-by-step monetization model",
   "content_directives": "• **Narrative Angle:** ...\\n• **Key Points:** ...",
   "execution_hook": "• **0-3s Cue:** ...\\n• **Overlay:** ...\\n• **Script:** ...",
   "audio_suggestion": "Audio vibe",
-  "ad_copy": "Ad copy and hashtags",
-  "ready_prompt": "Ready-to-use AI Generation Prompt",
+  "ad_copy": "Ad copy and clean hashtags",
+  "ready_prompt": "Ready-to-use GenAI Visual Prompt",
   "action_blueprint": "1. HOUR 1: ...\\n2. HOUR 6: ...\\n3. DAY 2: ...",
   "competitor_intelligence": "• **Benchmark:** ..."
 }}
@@ -481,7 +486,6 @@ with st.expander(t["terminal"]):
 
 st.markdown(f"### {t['config_title']}")
 
-# Dynamic Filter Form
 with st.form(key="filter_form"):
     f_col1, f_col2, f_col3, f_col4, f_col5 = st.columns(5)
 
@@ -637,7 +641,6 @@ with right_col:
 
             st.markdown("---")
 
-            # 1. NEW: Target Locations/Hotspots Display
             st.markdown(f"#### {t['locations']}")
             st.info(result.get("targeted_locations", ""))
 
@@ -656,7 +659,6 @@ with right_col:
             st.markdown(f"#### {t['caption']}")
             st.code(result.get("ad_copy", ""), language="text")
 
-            # 2. NEW: Ready to Use GenAI Prompt Display
             st.markdown(f"#### {t['ready_prompt']}")
             st.code(result.get("ready_prompt", ""), language="text")
 
