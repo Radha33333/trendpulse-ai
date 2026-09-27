@@ -335,7 +335,7 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
 @st.cache_data(ttl=300)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     # Complete manual dictionary covering categories 16-20 and full coverage
-    specific_pools = {
+   specific_pools = {
         # --- 16. Beauty, Skincare & Lifestyle ---
         "UGC Skincare Hacks": [
             ("Viral Ice Rolling Skin De-Puffing Morning Routine", "Skin icing TikTok trend", "🔥 High Growth"),
@@ -435,7 +435,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
             ("Multivitamin Daily Sport Athletic Performance Pill", "Centrum Performance", "🔥 High Growth"),
             ("Collagen Peptides Powder Joint & Skin Complex", "Sports Research Collagen", "⚡ Accelerating")
         ],
-        "Biohacking & Wearable Tech (Oura/Whoop): ["
+        "Biohacking & Wearable Tech (Oura/Whoop)": [
             ("Smart Ring Sleep & Recovery Biometric Tracker", "Oura Ring Gen 4", "🔥 High Growth"),
             ("Advanced Fitness & Strain Wearable Strap Device", "WHOOP 4.0 Strap", "🚀 Explosive Surge"),
             ("Continuous Glucose Monitor (CGM) Metabolic Tracker", "Abbott Libre & Levels Health", "⚡ Accelerating"),
@@ -448,6 +448,9 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
             ("PEMF Therapy Mat Recovery Mat Low Frequency", "BEMER Practitioner Mat", "⚡ Accelerating")
         ],
         "Weight Loss & Nutrition Diets": [
+            # Continue your remaining items here...
+        ]
+}
             ("Ketogenic Diet Macro Calculator & Meal Plan", "Diet Doctor Keto Hub", "🔥 High Growth"),
             ("Intermittent Fasting 16:8 Timer & Tracking App", "Zero Fasting App", "🚀 Explosive Surge"),
             ("High-Protein Low-Calorie Meal Prep Delivery", "Eat Clean Meal Plan", "⚡ Accelerating"),
