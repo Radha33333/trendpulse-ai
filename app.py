@@ -222,7 +222,7 @@ ROLE_SPECIFIC_METRICS = {
         "m1": "Target LTV to CAC Ratio", "m2": "Average Contract Value (ACV)", 
         "m3": "Tech Stack Cost Overhead (API Burn)", "m4": "Churn Risk Probability", "m5": "Product-Led Growth (PLG) Velocity"
     },
-    "📈 Stock & Crypto Traders / Market Analysts": {
+    "📈 Stock, Crypto & Financial Markets / Market Analysts": {
         "m1": "Volatility Breaker Range", "m2": "Smart Money Flow Index (Whale Tracking)", 
         "m3": "Risk-to-Reward Ratio (R:R)", "m4": "Liquidity Depth Score", "m5": "Institutional Sentiment Index"
     }
