@@ -435,7 +435,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
             ("Multivitamin Daily Sport Athletic Performance Pill", "Centrum Performance", "🔥 High Growth"),
             ("Collagen Peptides Powder Joint & Skin Complex", "Sports Research Collagen", "⚡ Accelerating")
         ],
-        "Biohacking & Wearable Tech (Oura/Whoop): [
+        "Biohacking & Wearable Tech (Oura/Whoop): ["
             ("Smart Ring Sleep & Recovery Biometric Tracker", "Oura Ring Gen 4", "🔥 High Growth"),
             ("Advanced Fitness & Strain Wearable Strap Device", "WHOOP 4.0 Strap", "🚀 Explosive Surge"),
             ("Continuous Glucose Monitor (CGM) Metabolic Tracker", "Abbott Libre & Levels Health", "⚡ Accelerating"),
