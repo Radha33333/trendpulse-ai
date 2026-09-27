@@ -236,7 +236,7 @@ TEXTS = {
         "simulate_pro": "Simulate Pro Subscription Access",
         "config_title": "⚙️ Ingestion Pipeline & Signal Filter",
         "region": "🌐 Target Region:",
-        "platform": "🎛️ Platform Source (12 Master Sources):",
+        "platform": "🎛️ Platform Source:",
         "category": "📁 Niche Category:",
         "sub_category": "🔍 Sub-Niche Focus:",
         "velocity": "⏱️ Signal Velocity & Timeframe:",
