@@ -334,8 +334,7 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
-    # Complete manual dictionary covering categories 16-20 and full coverage
-   specific_pools = {
+    specific_pools = {
         # --- 16. Beauty, Skincare & Lifestyle ---
         "UGC Skincare Hacks": [
             ("Viral Ice Rolling Skin De-Puffing Morning Routine", "Skin icing TikTok trend", "🔥 High Growth"),
@@ -448,9 +447,6 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
             ("PEMF Therapy Mat Recovery Mat Low Frequency", "BEMER Practitioner Mat", "⚡ Accelerating")
         ],
         "Weight Loss & Nutrition Diets": [
-            # Continue your remaining items here...
-        ]
-}
             ("Ketogenic Diet Macro Calculator & Meal Plan", "Diet Doctor Keto Hub", "🔥 High Growth"),
             ("Intermittent Fasting 16:8 Timer & Tracking App", "Zero Fasting App", "🚀 Explosive Surge"),
             ("High-Protein Low-Calorie Meal Prep Delivery", "Eat Clean Meal Plan", "⚡ Accelerating"),
@@ -622,7 +618,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
             ("Auspicious Brass Ganesha Idol & Coin Gifting Set", "CaratLane Gold & Silver", "🔥 High Growth"),
             ("Eco-Friendly Seed Paper Plantable Greeting Card Pack", "BioQ Eco Gifts", "⚡ Accelerating")
         ],
-        "Spiritual Wellness & MeditationDrops": [
+        "Spiritual Wellness & Meditation Drops": [
             ("Singing Bowl Sound Healing Therapy Set Meditation", "Tibetan Chakra Healing Bowl", "🔥 High Growth"),
             ("Guided Vipassana Meditation 10-Day Residential Course", "Dhamma Vipassana Center", "🚀 Explosive Surge"),
             ("Natural Rudraksha Mala Bead Prayer Necklace Rosary", "Isha Life sacred store", "⚡ Accelerating"),
@@ -864,11 +860,10 @@ with tab_blueprint:
                         model="llama-3.3-70b-versatile",
                         messages=[{"role": "user", "content": prompt}],
                         temperature=0.7,
-                        max_token=4096,
+                        max_tokens=4096,
                     )
                     dossier_text = completion.choices[0].message.content
 
-                    # Parse sections roughly
                     sections_titles = [
                         "1. Advanced Monetization, Rate Card & Unit Economics Vault",
                         "2. Geo-Targeting & Regional Hotspot Mapping",
@@ -916,7 +911,6 @@ with tab_blueprint:
         st.markdown("---")
         st.markdown(f"### 📑 Master Intelligence Dossier for: **{st.session_state['last_asset']}**")
         
-        # PDF Download Button
         pdf_buffer = create_pdf_dossier(
             st.session_state["last_asset"],
             st.session_state["last_cat"],
