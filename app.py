@@ -2144,7 +2144,7 @@ with tab_blueprint:
                 "💸 Affiliate Marketers & Arbitrage Traders",
                 "🏢 Real Estate Agents & High-Ticket Brokers",
                 "💻 SaaS Founders, AI Builders & Solopreneurs",
-                "📈 Stock & Crypto Traders / Market Analysts"
+                "📈 Stock, Crypto & Financial Markets / Market Analysts"
             ],
             index=0
         )
