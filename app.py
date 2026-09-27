@@ -1540,555 +1540,663 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
             ("Micronized Creatine Monohydrate Pure Powder Surge", "MuscleBlaze & Dymatize", "🚀 Explosive Surge"),
             ("Pre-Workout Explosive Energy Focus Formula Launch", "C4 Original & Ghost Legend", "⚡ Accelerating"),
             ("Plant-Based Vegan Organic Pea Protein Powder Drop", "Orgain Organic Protein", "📈 Trending"),
-            ("BCAA Electrolyte Recovery Drink Mix Watermelon Flavor", "Scivation Xtend BCAA", "🔥 High Growth"),
-            ("L-Glutamine Recovery Amino Acid Pure Powder", "Sports Research Glutamine", "🚀 Explosive Surge"),
-            ("Mass Gainer High-Calorie Carbohydrate Protein Blend", "Serious Mass ON", "⚡ Accelerating"),
-            ("Collagen Peptides Hydrolyzed Hair Skin Joint Support", "Vital Proteins Powder", "📈 Trending"),
-            ("Ashwagandha KSM-66 Stress Relief Root Extract Capsule", "Himalaya & Nutricost", "🔥 High Growth"),
-            ("Omega-3 Triple Strength Fish Oil Softgels", "Nordic Naturals Ultimate", "⚡ Accelerating")
+            ("BCAA Intra-Workout Electrolyte Recovery Formula", "Scivation Xtend BCAA", "🔥 High Growth"),
+            ("L-Glutamine Amino Acid Muscle Recovery Powder", "Nutrabay Pure Glutamine", "🚀 Explosive Surge"),
+            ("Mass Gainer High-Calorie Bulking Protein Shake", "MuscleTech Mass-Tech", "⚡ Accelerating"),
+            ("Fish Oil Omega-3 High-Potency Softgels Supplement", "TrueBasics Omega-3", "📈 Trending"),
+            ("Ashwagandha KSM-66 Stress Relief & Testosterone Booster", "HealthKart HK Vitals", "🔥 High Growth"),
+            ("Collagen Peptides Powder Joint & Skin Complex", "Sports Research Collagen", "⚡ Accelerating")
         ],
         "Biohacking & Wearable Tech (Oura/Whoop)": [
-            ("Smart Health & Sleep Biometric Tracking Ring", "Oura Ring Gen 4", "🔥 High Growth"),
-            ("Continuous Glucose Monitor (CGM) Metabolic Tracker", "Abbott Libre & Levels", "🚀 Explosive Surge"),
-            ("Advanced Athletic Recovery & Strain Wearable Band", "Whoop 4.0 Strap", "⚡ Accelerating"),
-            ("Red Light Therapy Panel Full-Body Biohacking Device", "Joovv & Hooga Health", "📈 Trending"),
-            ("Smart Autonomous Sleep System Temperature Mattress Cover", "Eight Sleep Pod 4", "🔥 High Growth"),
-            ("Heart Rate Variability (HRV) Biofeedback Monitor", "Elite HRV Sensor", "🚀 Explosive Surge"),
-            ("Brainwave Entrainment & Focus Neural Headband", "Muse S Headband", "⚡ Accelerating"),
-            ("Blue Light Blocking Computer Glasses Night Shield", "TruDark & Swanwick", "📈 Trending"),
-            ("Hydrogen-Rich Water Bottle Molecular Generator", "Purity H2 Bottle", "🔥 High Growth"),
-            ("Smart Smartwatch ECG & Blood Oxygen Tracker", "Apple Watch Ultra 2", "⚡ Accelerating")
+            ("Smart Health Ring Sleep & Recovery Tracker Gen 4", "Oura Ring Horizon", "🔥 High Growth"),
+            ("Advanced Athletic Performance & Strain Wearable Band", "Whoop Strap 4.0", "🚀 Explosive Surge"),
+            ("Continuous Glucose Monitor (CGM) Metabolic Health Sensor", "Abbott Libre & Levels Health", "⚡ Accelerating"),
+            ("Smart Biohacking Sleep Mask with EEG Brainwave Sensors", "Muse S Headband", "📈 Trending"),
+            ("Red Light Therapy Panel Full-Body Biohacking Setup", "Platinum Therapy Lights", "🔥 High Growth"),
+            ("Heart Rate Variability (HRV) Biofeedback Training App", "Elite HRV System", "🚀 Explosive Surge"),
+            ("Smart Thermogenesis Fat Loss Cooling Vest", "ColdTherapy Biohack Vest", "⚡ Accelerating"),
+            ("Nootropic Cognitive Enhancement Focus Supplement Stack", "Alpha Brain Onnit", "📈 Trending"),
+            ("Hydrogen-Rich Molecular Water Bottle Antioxidant Flask", "AquaTru Hydrogen Generator", "🔥 High Growth"),
+            ("EMF Protection & Grounding Mat for Deep Sleep", "Earthing Sleep Pad", "⚡ Accelerating")
         ],
         "Weight Loss & Nutrition Diets": [
-            ("Ketogenic Diet High-Fat Low-Carb Meal Plan Guide", "Perfect Keto Blueprint", "🔥 High Growth"),
-            ("Intermittent Fasting 16:8 Protocol Tracker App", "Zero & Fastic App", "🚀 Explosive Surge"),
-            ("High-Protein Mediterranean Diet Weight Loss Plan", "Healthline Nutrition Guide", "⚡ Accelerating"),
-            ("Plant-Based Whole Food Nutrition Challenge Program", "Forks Over Knives Plan", "📈 Trending"),
-            ("Gut Health Cleanse & Elimination Diet Protocol", "Dr. Gundry Protocol", "🔥 High Growth"),
-            ("Calorie Deficit Macro Counting Calculator Guide", "MyFitnessPal Blueprint", "🚀 Explosive Surge"),
-            ("GLP-1 Weight Loss Companion Nutrition Support Plan", "Sequence & Ro Health", "⚡ Accelerating"),
-            ("Clean Green Smoothie Detox Cleanse 7-Day Plan", "Simple Green Smoothies", "📈 Trending"),
-            ("Low-FODMAP Digestive Health Diet Elimination Guide", "Monash University App", "🔥 High Growth"),
-            ("Carnivore Diet High-Protein Beef & Salt Challenge", "Dr. Shawn Baker Blueprint", "⚡ Accelerating")
+            ("Ketogenic Diet Macro Calculator & Meal Prep Guide", "Keto Diet Hub", "🔥 High Growth"),
+            ("Intermittent Fasting 16:8 Protocol Tracker App", "Zero Fasting App Hub", "🚀 Explosive Surge"),
+            ("GLP-1 Weight Loss Companion High-Protein Diet Plan", "Found & Ro Roman Health", "⚡ Accelerating"),
+            ("Mediterranean Diet Heart-Healthy Cookbook Drop", "Bestseller Diet Guide", "📈 Trending"),
+            ("Calorie Deficit Tracking & Macro Nutrient App Suite", "MyFitnessPal Pro", "🔥 High Growth"),
+            ("Plant-Based Whole Food Nutrition Transition Guide", "Forks Over Knives Plan", "🚀 Explosive Surge"),
+            ("Clean Gut Cleanse 14-Day Detox Reset Program", "Dr. Alejandro Junger Plan", "⚡ Accelerating"),
+            ("High-Protein Low-Carb Meal Prep Delivery Service", "Freshly & Eatfit Plan", "📈 Trending"),
+            ("Metabolic Reset Fasting Mimicking Diet Kit", "ProLon FMD Box", "🔥 High Growth"),
+            ("Sugar-Free 30-Day Challenge Nutrition Protocol", "I Quit Sugar Plan", "⚡ Accelerating")
         ],
         "Mental Health & Burnout Recovery": [
-            ("Dopamine Fasting & Digital Detox Reset Guide", "Dr. Anna Lembke Blueprint", "🔥 High Growth"),
-            ("Guided Meditation & Mindfulness Sleep Story App", "Headspace & Calm App", "🚀 Explosive Surge"),
-            ("Nervous System Regulation & Somatic Healing Course", "Dr. Nicole LePera Guide", "⚡ Accelerating"),
-            ("Cognitive Behavioral Therapy (CBT) Journaling Prompt Kit", "Mindler Workbook", "📈 Trending"),
-            ("Burnout Recovery Masterclass for High Performers", "Arianna Huffington Thrive", "🔥 High Growth"),
-            ("Aromatherapy Essential Oil Diffuser Stress Relief Set", "URPOWER & InnoGear", "🚀 Explosive Surge"),
-            ("Weighted Anxiety Blanket Deep Pressure Therapy", "Baloo Living Weighted", "⚡ Accelerating"),
-            ("Sound Bath Healing Frequency Meditation Audio Track", "Binaural Beats Studio", "📈 Trending"),
-            ("Journaling Notebook for Daily Gratitude & Reflection", "The Five Minute Journal", "🔥 High Growth"),
-            ("Breathwork Masterclass for Stress & Anxiety Control", "Wim Hof Method App", "⚡ Accelerating")
+            ("Guided Meditation & Mindfulness Sleep Story App", "Headspace & Calm App Hub", "🔥 High Growth"),
+            ("Cognitive Behavioral Therapy (CBT) Journal Workbook", "Burnout Recovery Journal", "🚀 Explosive Surge"),
+            ("Daily Stress Relief Weighted Anxiety Blanket", "Baloo Living Weighted", "⚡ Accelerating"),
+            ("Aromatherapy Essential Oil Diffuser Ultrasonic Hub", "InnoGear Essential Oil", "📈 Trending"),
+            ("Online Licensed Therapy & Mental Health Counseling Drop", "BetterHelp & Talkspace", "🔥 High Growth"),
+            ("Dopamine Detox 7-Day Digital Minimalism Challenge", "Cal Newport Protocol", "🚀 Explosive Surge"),
+            ("Sound Therapy Singing Bowl Meditation Kit", "Tibetan Singing Bowl Set", "⚡ Accelerating"),
+            ("Journaling for Mental Clarity & Anxiety Relief Guide", "The Five Minute Journal", "📈 Trending"),
+            ("Biofeedback Stress Reduction Breathing Device", "HeartMath Inner Balance", "🔥 High Growth"),
+            ("Cortisol Lowering Adaptogenic Ashwagandha Tea", "Organic India Tulsi Tea", "⚡ Accelerating")
         ],
-        "Recovery Gear & Cold Plues": [
-            ("Inflatable Portable Ice Bath Cold Plunge Tub", "Plunge & Pod Company", "🔥 High Growth"),
-            ("Percussive Deep Tissue Massage Gun Recovery Tool", "Theragun PRO Plus", "🚀 Explosive Surge"),
-            ("Air Compression Leg Boots for Athletic Circulation", "Normatec 3 Recovery System", "⚡ Accelerating"),
-            ("Vibration Foam Roller for Muscle Release & Mobility", "Hyperice Vyper 3", "📈 Trending"),
-            ("Chilled Cold Water Immersion Tub Chiller System", "The Cold Plunge Pro", "🔥 High Growth"),
-            ("Hot & Cold Therapy Reusable Gel Ice Pack Wrap", "ComfyPak Therapeutic", "🚀 Explosive Surge"),
-            ("Epsom Salt Magnesium Flakes Muscle Relaxation Bath", "Dr Teal's Pure Epsom", "⚡ Accelerating"),
-            ("Compression Sleeve Calf & Knee Athletic Support", "Copper Fit Compression", "📈 Trending"),
-            ("Far Infrared Sauna Blanket Portable Detox Unit", "HigherDOSE Sauna Blanket", "🔥 High Growth"),
-            ("Orthopedic Recovery Slide Sandals Ergonomic Footwear", "Oofos OOriginal Sandal", "⚡ Accelerating")
+        "Recovery Gear & Cold Plunges": [
+            ("Portable Inflatable Cold Plunge Ice Bath Tub", "Plunge & Ice Barrel Hub", "🔥 High Growth"),
+            ("Percussion Deep Tissue Massage Gun Muscle Recovery", "Theragun PRO Plus", "🚀 Explosive Surge"),
+            ("Compression Leg Boots Lymphatic Drainage Recovery System", "Normatec 3 Legs", "⚡ Accelerating"),
+            ("Therapeutic Heating & Cooling Compression Knee Wrap", "Hyperice Venom 2", "📈 Trending"),
+            ("Professional Sports Recovery Foam Roller Vibration Grid", "TriggerPoint Grid VIBE", "🔥 High Growth"),
+            ("Chilled Water Circulation Tub Hydrotherapy System", "The Ice Pod Pro", "🚀 Explosive Surge"),
+            ("Far Infrared Sauna Blanket Home Detox Portable Spa", "HigherDOSE Infrared Blanket", "⚡ Accelerating"),
+            ("Epsom Salt Magnesium Flakes Muscle Relaxation Soak", "Dr Teal's Pure Epsom Salt", "📈 Trending"),
+            ("Ergonomic Stretching Strap Yoga Mobility Recovery Band", "OPTP StretchOut Strap", "🔥 High Growth"),
+            ("Cryotherapy Facial Freeze Roller Ball Recovery Tool", "Skin Ice Roller Hub", "⚡ Accelerating")
         ],
 
         # --- 18. Travel, Hotels & Food ---
         "Trending Destinations": [
-            ("Hidden Island Beach Paradise Travel Trend 2026", "Nha Trang & Phu Quoc", "🔥 High Growth"),
-            ("Himalayan Offbeat Mountain Village Escape Spike", "Spiti Valley & Tirthan", "🚀 Explosive Surge"),
-            ("European Historic City Weekend Getaway Package", "Budapest & Prague Getaways", "⚡ Accelerating"),
-            ("Luxury Desert Glamping Oasis Resort Experience", "Wadi Rum & Thar Desert", "📈 Trending"),
-            ("Tropical Rainforest Eco-Lodge Sustainable Retreat", "Costa Rica Jungle Resort", "🔥 High Growth"),
-            ("Ancient Historical Temple Trail Sacred Tourism", "Angkor Wat & Hampi", "🚀 Explosive Surge"),
-            ("Scuba Diving Coral Reef Marine Expedition Trip", "Maldives & Andaman Islands", "⚡ Accelerating"),
-            ("Northern Lights Arctic Circle Winter Igloo Stay", "Tromso & Lapland Hub", "📈 Trending"),
-            ("Scenic Railway Luxury Train Journey Across Alps", "Glacier Express Switzerland", "🔥 High Growth"),
-            ("Wine Tasting Vineyard Tour & Estate Stay Holiday", "Tuscany & Napa Valley", "⚡ Accelerating")
+            ("Offbeat Alpine Mountain Valley Tourism Surge", "Spiti Valley & Zanskar", "🔥 High Growth"),
+            ("Tropical Island Beach Resort Booking Spike", "Andaman & Nicobar Islands", "🚀 Explosive Surge"),
+            ("Cultural Heritage UNESCO Town Weekend Getaway", "Udaipur & Hampi", "⚡ Accelerating"),
+            ("Wildlife Tiger Safari National Park Jungle Lodge", "Ranthambore & Jim Corbett", "📈 Trending"),
+            ("Scenic Tea Plantation Hill Station Homestay Wave", "Munnar & Wayanad", "🔥 High Growth"),
+            ("Desert Luxury Glamping Camp Dune Safari", "Jaisalmer Sam Dunes", "🚀 Explosive Surge"),
+            ("Backpacker Trekking Expedition Trail Discovery", "Kedartal Trek Route", "⚡ Accelerating"),
+            ("Backwaters Houseboat Luxury Cruise Booking Spike", "Alleppey Kerala", "📈 Trending"),
+            ("Snowfall Winter Wonderland Tourism Destination", "Gulmarg Kashmir", "🔥 High Growth"),
+            ("Coastal Seafood Trail & Beach Shack Destination", "South Goa Shoreline", "⚡ Accelerating")
         ],
         "Hidden Tourist Places": [
-            ("Unexplored Waterfall & Secret Valley Trekking Guide", "Meghalaya Root Bridges", "🔥 High Growth"),
-            ("Secret Coastal Cliff Cove Camping Destination", "Gokarna Hidden Beaches", "🚀 Explosive Surge"),
-            ("Ghost Town Historical Ruins Exploration Tour", "Bhangarh & Kuldhara", "⚡ Accelerating"),
-            ("Untouched Alpine Meadow Wildflower Valley Hike", "Valley of Flowers Uttarakhand", "📈 Trending"),
-            ("Isolated Backwater Village Homestay Experience", "Munroe Island Kerala", "🔥 High Growth"),
-            ("Hidden Cave Temple Pilgrimage Exploration Spot", "Borra Caves Araku", "🚀 Explosive Surge"),
-            ("Secret Stargazing Dark Sky Reserve Campsite", "Hanle Ladakh Stargaze", "⚡ Accelerating"),
-            ("Unexplored Fossil Park Geological Tour Destination", "Shivalik Fossil Park", "📈 Trending"),
-            ("Hidden Hot Springs Natural Mineral Bath Retreat", "Parvati Valley Springs", "🔥 High Growth"),
-            ("Secluded Lighthouse Cliff Sunset Viewpoint Spot", "Kanyakumari Coast Hidden", "⚡ Accelerating")
+            ("Hidden Valley Trekking Expedition Surge", "Zuluk, East Sikkim", "🔥 High Growth"),
+            ("Offbeat Cliffside Sunset Viewpoint Trend", "Vagamon Pine Forest, Kerala", "⚡ Accelerating"),
+            ("Secret Waterfall Camping Spot Discovery", "Tirthan Valley, Himachal Pradesh", "🚀 Explosive Surge"),
+            ("Stargazing Eco-Lodge Weekend Getaway", "Yercaud Hills, Tamil Nadu", "📈 Trending"),
+            ("Unexplored Caves & Limestone Formations", "Kurnool Caves, Andhra Pradesh", "🔥 High Growth"),
+            ("Misty Tea Estate Heritage Homestay Wave", "Agumbe Rainforest, Karnataka", "⚡ Accelerating"),
+            ("Floating Breakfast & Lakeside Villa Retreat", "Dawki River, Meghalaya", "🚀 Explosive Surge"),
+            ("Scenic Mountain Pass Road Trip Hotspot", "Sach Pass, Chamba", "📈 Trending"),
+            ("Hidden Blue Lagoon Natural Pool Spot", "Kakoti, Arunachal Pradesh", "🔥 High Growth"),
+            ("Ancient Cliff Fortress Exploration Trend", "Gingee Fort, Villupuram", "⚡ Accelerating")
         ],
         "Luxury Hotels & Resort Stays": [
-            ("Overwater Private Pool Villa Resort Booking Spike", "Maldives Luxury Resorts", "🔥 High Growth"),
-            ("Palace Heritage Hotel Royal Stay Experience", "Umaid Bhawan Palace Jodhpur", "🚀 Explosive Surge"),
-            ("Cliffside Infinity Pool Luxury Cliff Resort", "Ubud Bali Resort Stay", "⚡ Accelerating"),
-            ("Private Safari Lodge Luxury Wildlife Sanctuary Stay", "Ranthambore Aman-i-Khas", "📈 Trending"),
-            ("Ski-In / Ski-Out Alpine Luxury Wooden Chalet", "Zermatt Luxury Stays", "🔥 High Growth"),
-            ("Private Island Exclusive Resort Helicopter Transfer", "Necker Island Experience", "🚀 Explosive Surge"),
-            ("Underground Cave Suite Luxury Boutique Hotel", "Cappadocia Cave Suites", "⚡ Accelerating"),
-            ("Glass Igloo Aurora Borealis Luxury Glass Resort", "Kakslauttanen Arctic Resort", "📈 Trending"),
-            ("Historic Castle Hotel Royalty Stay Package", "Scottish Highlands Castle", "🔥 High Growth"),
-            ("Exclusive Spa & Wellness Retreat Luxury Sanctuary", "Ananda in the Himalayas", "⚡ Accelerating")
+            ("Palace Heritage Hotel Royal Suite Weekend Booking", "Taj Lake Palace Udaipur", "🔥 High Growth"),
+            ("Private Pool Cliffside Luxury Villa Resort Stay", "W Goa & The Leela", "🚀 Explosive Surge"),
+            ("Boutique Jungle Treehouse Resort Wilderness Retreat", "JW Marriott Muscovy", "⚡ Accelerating"),
+            ("Overwater Pool Villa Island Luxury Resort Stay", "Maldives Resort Packages", "📈 Trending"),
+            ("Golf Resort & Spa Weekend Luxury Staycation", "ITC Grand Bharat Gurugram", "🔥 High Growth"),
+            ("Snow Mountain View Luxury Chalet Resort Stay", "The Oberoi Wildflower Hall", "🚀 Explosive Surge"),
+            ("Private Beachfront Luxury Resort Suite Booking", "Vivanta by Taj Kovalam", "⚡ Accelerating"),
+            ("Historic Fort Palace Luxury Hospitality Stay", "Rambagh Palace Jaipur", "📈 Trending"),
+            ("Eco-Luxury Wellness Retreat Sustainable Villa Stay", "Ananda in the Himalayas", "🔥 High Growth"),
+            ("Designer Penthouse Hotel Suite VIP Staycation", "The St. Regis Mumbai", "⚡ Accelerating")
         ],
         "Gourmet & Regional Cuisines": [
-            ("Michelin-Star Fine Dining Tasting Menu Experience", "Bastian & Masque Mumbai", "🔥 High Growth"),
-            ("Authentic Authentic Hyderabadi Dum Biryani Feast", "Paradise & Shadaab Hub", "🚀 Explosive Surge"),
-            ("Traditional Awadhi Culinary Masterclass Dinner", "Lucknow Tunday Kababi", "⚡ Accelerating"),
-            ("Authentic Wood-Fired Neapolitan Pizza Experience", "Little Italy Artisan", "📈 Trending"),
-            ("Japanese Omakase Sushi Master Chef Experience", "Tokyo Sushi Counter", "🔥 High Growth"),
-            ("Authentic Kerala Seafood Coastal Curry Feast", "Alleppey Boat House Food", "🚀 Explosive Surge"),
-            ("Traditional Rajasthani Dal Baati Churma Thali", "Chokhi Dhani Heritage", "⚡ Accelerating"),
-            ("Authentic Italian Handmade Pasta Truffle Cooking", "Bologna Culinary School", "📈 Trending"),
-            ("Authentic South Indian Filter Coffee & Dosa Feast", "MTR Bengaluru Breakfast", "🔥 High Growth"),
-            ("Gourmet French Pastry & Macaron Baking Class", "Paris Bakery Masterclass", "⚡ Accelerating")
+            ("Authentic Coastal Seafood Thali Dining Experience", "Malvani & Mangalorean Feast", "🔥 High Growth"),
+            ("Fine Dining Chef Tasting Menu Molecular Gastronomy", "Mumbai & Bangalore Bistro", "🚀 Explosive Surge"),
+            ("Traditional Royal Awadhi Dum Biryani Feast Drop", "Lucknow Culinary Heritage", "⚡ Accelerating"),
+            ("Authentic Wood-Fired Neapolitan Pizza Dining Trend", "Boutique Pizzeria Hub", "📈 Trending"),
+            ("Farm-to-Table Organic Gourmet Bistro Dining Spike", "Goa & Pune Organic Cafes", "🔥 High Growth"),
+            ("Himalayan Tibetan Momos & Thukpa Food Tour", "Leh & McLeod Ganj Foodie", "🚀 Explosive Surge"),
+            ("Authentic Rajasthani Dal Baati Churma Feast", "Jaipur Heritage Dining", "⚡ Accelerating"),
+            ("Japanese Omakase Sushi Bar Tasting Menu Drop", "Delhi & Mumbai Luxury Sushi", "📈 Trending"),
+            ("South Indian Chettinad Spice Feast Culinary Tour", "Madurai Heritage Kitchen", "🔥 High Growth"),
+            ("Artisanal Sourdough Bakery & French Pastry Drop", "Blue Tokai & Artisan Bakes", "⚡ Accelerating")
         ],
         "Street Food Surges": [
-            ("Viral Cheese-Burst Street Sandwich Food Reel", "Mumbai Street Food Tour", "🔥 High Growth"),
-            ("Spicy Peri-Peri Momos Street Stall Food Trend", "Delhi NCR Momos Hub", "🚀 Explosive Surge"),
-            ("Sizzling Tandoori Chaap Street Food Special", "Chandni Chowk Food Walk", "⚡ Accelerating"),
-            ("Gourmet Wood-Fired Street Pizza Food Truck", "Bangalore Food Truck Park", "📈 Trending"),
-            ("Crispy Pani Puri Golgappa Challenge Food Reel", "Kolkata Phuchka Stand", "🔥 High Growth"),
-            ("Melt-in-Mouth Galouti Kebab Street Cart Special", "Aminabad Street Food", "🚀 Explosive Surge"),
-            ("Butter Garlic Loaded Indo-Chinese Noodles Stall", "Tangra Chinese Kolkata", "⚡ Accelerating"),
-            ("Chocolate Loaded Nutella Waffle Street Cart", "Mumbai Waffle House", "📈 Trending"),
-            ("Spicy Mirchi Bajji & Irani Chai Street Stand", "Hyderabad Charminar Stall", "🔥 High Growth"),
-            ("Crispy Dosa Rolling Live Counter Street Food", "Chennai Marina Beach Stall", "⚡ Accelerating")
+            ("Viral Cheese Burst Street Food Snack Reel", "Mumbai & Delhi Street Food", "🔥 High Growth"),
+            ("Authentic Kolkata Puchka & Kathi Roll Food Tour", "Park Street Street Food Hub", "🚀 Explosive Surge"),
+            ("Spicy Hyderabad Mirchi Bajji & Irani Chai Trend", "Charminar Street Food Spike", "⚡ Accelerating"),
+            ("Old Delhi Chandni Chowk Paratha & Dahi Bhalla", "Paranthe Wali Gali Hub", "📈 Trending"),
+            ("Bangalore Masala Dosa & Filter Coffee Breakfast Hub", "Malleshwaram Street Food", "🔥 High Growth"),
+            ("Indore Sarafa Bazaar Night Street Food Market Tour", "Indore Foodie Reel", "🚀 Explosive Surge"),
+            ("Lucknow Tunday Kababi Galouti Kebab Food Trend", "Aminabad Street Food Hub", "⚡ Accelerating"),
+            ("Ahmedabad Manek Chowk Midnight Street Food Fest", "Ahmedabad Foodie Trail", "📈 Trending"),
+            ("Authentic Amritsari Kulcha & Lassi Food Vlog", "Amritsar Golden Temple Food", "🔥 High Growth"),
+            ("Varanasi Malaiyyo Winter Morning Street Sweet Trend", "Varanasi Ghat Foodie Hub", "⚡ Accelerating")
         ],
         "Budget & Backpacker Escapes": [
-            ("Hostel Backpacking Europe Train Pass Itinerary", "Eurail Global Pass Hub", "🔥 High Growth"),
-            ("Budget Solo Backpacking Trekking Trail Guide", "Kasol to Kheerganga Trail", "🚀 Explosive Surge"),
-            ("Hostelworld Best Rated Social Hostel Stay Deal", "Zostel & Moustache Hub", "⚡ Accelerating"),
-            ("Cheap Flights Secret Booking Error Fare Alert", "Scott's Cheap Flights", "📈 Trending"),
-            ("Backpacker Island Hopping Speedboat Tour Pass", "Thailand Phi Phi Islands", "🔥 High Growth"),
-            ("Budget Road Trip Campervan Rental Adventure", "New Zealand Road Trip", "🚀 Explosive Surge"),
-            ("Affordable Heritage Homestay Village Tourism", "Spiti Valley Homestay", "⚡ Accelerating"),
-            ("Backpacker Multi-City Flight Ticket Hack Guide", "Skyscanner Hack Hub", "📈 Trending"),
-            ("Ultra-Lightweight Backpacking Gear Essentials Kit", "Osprey & Decathlon Hub", "🔥 High Growth"),
-            ("Free Walking Tour & City Sightseeing Guide Pass", "Europe Free Tours Hub", "⚡ Accelerating")
+            ("Hostel Backpacking Europe Interrail Travel Guide", "Hostelworld Backpacker Hub", "🔥 High Growth"),
+            ("Budget Solo Backpacking Trip Southeast Asia Route", "Thailand & Vietnam Trail", "🚀 Explosive Surge"),
+            ("Himalayan Budget Village Backpacking Hostel Stay", "Kasol & Tosh Hostel Wave", "⚡ Accelerating"),
+            ("Weekend Road Trip Budget Camping Gear Checklist", "Decathlon Camping Guide", "📈 Trending"),
+            ("Cheap Flight Booking Error Fare & Deal Finder Tool", "Skyscanner & Google Flights", "🔥 High Growth"),
+            ("Volunteering Work Exchange Hostel Stay Program", "Worldpackers & Workaway", "🚀 Explosive Surge"),
+            ("Backpacker Train Journey Scenic Route Pass Guide", "Indian Railways & Eurail", "⚡ Accelerating"),
+            ("Affordable Beach Hostel Island Hopping Getaway", "Gokarna & Varkala Hostels", "📈 Trending"),
+            ("Minimalist One-Backpack Packing List Travel Hack", "Pack Hacker Guide", "🔥 High Growth"),
+            ("Budget Homestay Village Tourism Immersive Stay", "Village Stay Network", "⚡ Accelerating")
         ],
 
         # --- 19. Faith, Festivals & Sacred Travel ---
         "Famous Temples & Shrines": [
-            ("Mahakaleshwar Jyotirlinga Bhasma Aarti Booking", "Ujjain Temple Board", "🔥 High Growth"),
-            ("Kashi Vishwanath Corridor Darshan Rush Spike", "Varanasi Temple Trust", "🚀 Explosive Surge"),
-            ("Tirumala Tirupati Vaikunta Ekadasi VIP Break Darshan", "Tirumala Devasthanam", "⚡ Accelerating"),
-            ("Ram Mandir Ayodhya Grand Darshan Pilgrim Surge", "Ayodhya Temple Trust", "📈 Trending"),
-            ("Kedarnath & Badrinath Dham Yatra Registration Peak", "Uttarakhand Char Dham Hub", "🔥 High Growth"),
-            ("Siddhivinayak Temple Tuesday Special Darshan", "Mumbai Temple Trust", "🚀 Explosive Surge"),
-            ("Meenakshi Amman Temple Festival Special Crowd", "Madurai Temple Board", "⚡ Accelerating"),
-            ("Jagannath Puri Rath Yatra Chariot Festival Spike", "Puri Temple Committee", "📈 Trending"),
-            ("Golden Temple Amritsar Langar Seva Experience", "SGPC Amritsar Hub", "🔥 High Growth"),
-            ("Sabarimala Ayyappa Swamy Mandala Pooja Rush", "Kerala Temple Board", "⚡ Accelerating")
+            ("Char Dham Yatra Pilgrimage Registration & Darshan", "Uttarakhand Tourism Portal", "🔥 High Growth"),
+            ("Tirupati Balaji VIP Break Darshan Booking Surge", "TTD Official Web Portal", "🚀 Explosive Surge"),
+            ("Kashi Vishwanath Corridor Heritage Darshan Spike", "Varanasi Temple Trust", "⚡ Accelerating"),
+            ("Ayodhya Ram Mandir Darshan & Festival Crowd Surge", "Shri Ram Janmabhoomi Trust", "📈 Trending"),
+            ("Vaishno Devi Shrine Helicopter Ticket Booking Spike", "SVDS Board Portal", "🔥 High Growth"),
+            ("Jagannath Puri Rath Yatra Festival Live Stream Hub", "Puri Temple Administration", "🚀 Explosive Surge"),
+            ("Meenakshi Amman Temple Heritage Architecture Tour", "Madurai Temple Board", "⚡ Accelerating"),
+            ("Sabarimala Ayyappa Temple Pilgrimage Season Spike", "Travancore Devaswom Board", "📈 Trending"),
+            ("Somnath Jyotirlinga Sea View Temple Darshan Surge", "Somnath Trust Gujarat", "🔥 High Growth"),
+            ("Golden Temple Amrit Sarovar Night Illumination Hub", "SGPC Amritsar Portal", "⚡ Accelerating")
         ],
         "Hidden & Ancient Temples": [
-            ("Unexplored 1000-Year-Old Chola Dynasty Temple Tour", "Thanjavur Ancient Sites", "🔥 High Growth"),
-            ("Rock-Cut Monolithic Cave Temple Exploration Trail", "Ellora & Mamallapuram", "🚀 Explosive Surge"),
-            ("Hidden Ancient Shiva Temple Forest Trek Guide", "Kedarnath Wild Trails", "⚡ Accelerating"),
-            ("Submerged Temple Underwater Ruins Discovery Tour", "Patal Bhairavi & Guhantara", "📈 Trending"),
-            ("Mysterious Hoysala Architecture Star Temple Visit", "Belur & Halebidu Hub", "🔥 High Growth"),
-            ("Ancient Sun Temple Architectural Alignment Study", "Konark Sun Temple Tour", "🚀 Explosive Surge"),
-            ("Tantric Shakti Peeth Hidden Shrine Pilgrimage", "Kamakhya & Tarapith", "⚡ Accelerating"),
-            ("Jain Marble Temple Intricate Carving Exploration", "Ranakpur & Mount Abu", "📈 Trending"),
-            ("Hidden Ancient Stepwell Baoli Architectural Tour", "Chand Baori Abhaneri", "🔥 High Growth"),
-            ("Chola Bronze Sculpture Ancient Temple Sanctuary", "Kumbakonam Temple Trail", "⚡ Accelerating")
+            ("Unexplored Hoysala Architecture Temple Trail", "Belur & Halebidu Karnataka", "🔥 High Growth"),
+            ("Ancient Rock-Cut Cave Temple Archaeological Tour", "Ellora & Badami Caves", "🚀 Explosive Surge"),
+            ("Secret Chola Dynasty Temple Heritage Discovery", "Thanjavur Ancient Trail", "⚡ Accelerating"),
+            ("Hidden 1000-Pillar Temple Architectural Wonder", "Warangal Thousand Pillar", "📈 Trending"),
+            ("Mystical Megalithic Temple Site Exploration", "Lepakshi Hanging Temple", "🔥 High Growth"),
+            ("Ancient Sun Temple Heritage Circuit Discovery", "Modhera Sun Temple Gujarat", "🚀 Explosive Surge"),
+            ("Hidden Waterfall Shiva Shrine Trekking Destination", "Karnatak Offbeat Temples", "⚡ Accelerating"),
+            ("Ancient Odisha Kalinga Architecture Temple Trail", "Bhubaneswar Heritage Hub", "📈 Trending"),
+            ("Remote Himalayan Wooden Temple Architectural Trek", "Kinnaur Temple Circuit", "🔥 High Growth"),
+            ("Secret Underground Cave Shrine Pilgrimage Route", "Kurnool Ancient Caves", "⚡ Accelerating")
         ],
         "Religious Festivals & Pujas": [
-            ("Maha Kumbh Mela Royal Bathing Date Pilgrim Surge", "Prayagraj Kumbh Mela Hub", "🔥 High Growth"),
-            ("Diwali Laxmi Puja Muhurat & Festive Gifting Drop", "All-India Festival Hub", "🚀 Explosive Surge"),
-            ("Durga Puja Pandal Hopping VIP Pass & Lighting Guide", "Kolkata Durga Puja Hub", "⚡ Accelerating"),
-            ("Ganesh Chaturthi Visarjan Procession Route Spike", "Mumbai Lalbaugcha Raja", "📈 Trending"),
-            ("Navratri Garba Dandiya Night Festival Pass Booking", "Ahmedabad Navratri Hub", "🔥 High Growth"),
-            ("Holi Braj Ki Lathmar Holi Celebration Travel Guide", "Mathura & Vrindavan Hub", "🚀 Explosive Surge"),
-            ("Makar Sankranti Kite Flying Festival Sky Celebration", "Gujarat International Kite Fest", "⚡ Accelerating"),
-            ("Shivaratri Night Vigil Abhishekam Temple Special", "All-India Shiva Temples", "📈 Trending"),
-            ("Raksha Bandhan Festive Gift Hamper E-Commerce Spike", "Amazon & FNP Festive Drop", "🔥 High Growth"),
-            ("Chhath Puja Sunrise Arghya Ritual Riverbank Surge", "Bihar & Patna Ghats", "⚡ Accelerating")
+            ("Diwali Laxmi Puja Muhurat & Festive Decor Trend", "Diwali Celebration Hub", "🔥 High Growth"),
+            ("Maha Shivratri Night Vigil & Rudrabhishek Puja", "Shivratri Temple Events", "🚀 Explosive Surge"),
+            ("Navratri Durga Puja Pandal Hopping & Garba Night", "Kolkata & Gujarat Navratri", "⚡ Accelerating"),
+            ("Ganesh Chaturthi Pandals & Eco-Friendly Idol Drop", "Mumbai Ganpati Festival", "📈 Trending"),
+            ("Holi Festival Organic Colors & Celebration Hub", "Mathura Vrindavan Holi", "🔥 High Growth"),
+            ("Durga Puja Sindoor Khela & Maha Ashtami Live", "Kolkata Pandal Hub", "🚀 Explosive Surge"),
+            ("Janmashtami Midnight Celebration Temple Darshan", "Mathura Krishna Janmabhoomi", "⚡ Accelerating"),
+            ("Kumbh Mela Shahi Snan Royal Bathing Date Alert", "Kumbh Mela Official Portal", "📈 Trending"),
+            ("Raksha Bandhan Festive Gift Hampers & Sweets Drop", "Rakhi E-Commerce Spike", "🔥 High Growth"),
+            ("Chhath Puja Sunrise & Sunset Arghya Ritual Live", "Bihar & Delhi Yamuna Ghats", "⚡ Accelerating")
         ],
         "Pilgrimage Circuits & Yatras": [
-            ("Char Dham Yatra Helicopter Booking Package Surge", "Uttarakhand Tourism Board", "🔥 High Growth"),
-            ("Amarnath Cave Shrine Ice Lingam Yatra Registration", "Jammu & Kashmir Board", "🚀 Explosive Surge"),
-            ("Kailash Mansarovar Yatra Permit & Route Update", "Ministry of External Affairs", "⚡ Accelerating"),
-            ("12 Jyotirlinga Express Train Circuit Pilgrimage", "IRCTC Pilgrim Special", "📈 Trending"),
-            ("Vaishno Devi Bhawan Battery Car & Heli Booking", "SMVD Shrine Board", "🔥 High Growth"),
-            ("Puri-Rameshwaram-Dwarka Sacred Coastal Circuit", "IRCTC Heritage Train", "🚀 Explosive Surge"),
-            ("Buddhist Circuit Tourism Train Enlightenment Trail", "Bodh Gaya & Sarnath Hub", "⚡ Accelerating"),
-            ("Sikh Takht Hazur Sahib & Golden Temple Yatra", "Panjab Pilgrimage Hub", "📈 Trending"),
-            ("Shakti Peeth Darshan Express Tour Package", "IRCTC Special Tourist Train", "🔥 High Growth"),
-            ("Pandharpur Wari Holy Footwear Procession Yatra", "Maharashtra Wari Hub", "⚡ Accelerating")
+            ("Kailash Mansarovar Yatra Permit & Route Application", "MEA Pilgrimage Portal", "🔥 High Growth"),
+            ("Amarnath Yatra Registration & Health Certificate Hub", "SASB Official Portal", "🚀 Explosive Surge"),
+            ("Panch Kedar Trekking Circuit Pilgrimage Journey", "Garhwal Himalayas Yatra", "⚡ Accelerating"),
+            ("Ashtavinayak Ganpati Temple Circuit Road Trip", "Maharashtra Pilgrimage Tour", "📈 Trending"),
+            ("Twelve Jyotirlinga Express Train Tour Package", "IRCTC Pilgrim Special Train", "🔥 High Growth"),
+            ("Shakti Peeth Circuit Spiritual Tour Package", "Navadurga Pilgrimage Trail", "🚀 Explosive Surge"),
+            ("Buddhist Circuit Tourism Train Heritage Journey", "Bodh Gaya & Sarnath Trail", "⚡ Accelerating"),
+            ("Sikh Gurudwara Panthic Circuit Yatra Route", "Punjab & Takht Pilgrimage", "📈 Trending"),
+            ("Rameshwaram to Kanyakumari Coastal Temple Yatra", "South India Sacred Trail", "🔥 High Growth"),
+            ("Circuit of Sacred Rivers Confluence Sangam Yatra", "Prayagraj Sangam Hub", "⚡ Accelerating")
         ],
         "Festive Gifting Trends": [
-            ("Luxury Silver Dry Fruit Hamper Festive Drop", "Titan & Frazer and Haws", "🔥 High Growth"),
-            ("Artisanal Handcrafted Diya & Scented Candle Box", "Mahalaxmi Candle Studio", "🚀 Explosive Surge"),
-            ("Customized Corporate Diwali Gift Hamper Bulk Pack", "BoxUp & IGP Business", "⚡ Accelerating"),
-            ("Organic Honey & Herbal Tea Festive Gifting Set", "Forest Essentials Gift Box", "📈 Trending"),
-            ("Traditional Indian Sweets Mithai Box Luxury Pack", "Bikanervala & Haldiram Box", "🔥 High Growth"),
-            ("Brass Pooja Thali Set with Auspicious Bells", "Diviniti Sacred Decor", "🚀 Explosive Surge"),
-            ("Eco-Friendly Seed Paper Calendar & Greeting Set", "Brown Living Gifting", "⚡ Accelerating"),
-            ("Crystal Ganesha Idol Car Dashboard Showpiece", "Ferns N Petals Spiritual", "📈 Trending"),
-            ("Designer Festive Ethnic Kurta & Saree Gift Box", "Fabindia Festive Line", "🔥 High Growth"),
-            ("Handmade Terracotta Pottery Lamp Festive Set", "Khadi Village Industries", "⚡ Accelerating")
+            ("Luxury Dry Fruits & Artisanal Chocolate Gift Box", "Fabindia & Country Bean", "🔥 High Growth"),
+            ("Silver Plated Coin & Laxmi Ganesha Idol Hamper", "Silver Gift Studio", "🚀 Explosive Surge"),
+            ("Handmade Soy Wax Scented Candle Gift Set", "Earthy Touch Candles", "⚡ Accelerating"),
+            ("Ethnic Designer Kurta & Festive Apparel Gift Drop", "Manyavar & Fabindia Festive", "📈 Trending"),
+            ("Aromatherapy Essential Oil Wellness Gift Hamper", "Soulflower Gift Box", "🔥 High Growth"),
+            ("Personalized Photo Engraved Wooden Keepsake Box", "Custom Craft Studio", "🚀 Explosive Surge"),
+            ("Organic Tea Infuser & Ceramic Teacup Gift Set", "Teabox Luxury Hamper", "⚡ Accelerating"),
+            ("Traditional Brass Diya & Home Decor Festive Kit", "Home Centre Festive Line", "📈 Trending"),
+            ("Handcrafted Terracotta Planter & Indoor Plant Set", "Ugaoo Green Hamper", "🔥 High Growth"),
+            ("Gourmet Sweets Box Sugar-Free Artisanal Mithai", "Subnis Mithai Co.", "⚡ Accelerating")
         ],
         "Spiritual Wellness & Meditation Drops": [
-            ("10-Day Vipassana Meditation Silent Retreat Booking", "Goenka Vipassana Centers", "🔥 High Growth"),
-            ("Himalayan Yoga Teacher Training Certification Course", "Rishikesh Yoga Association", "🚀 Explosive Surge"),
-            ("Tibetan Singing Bowl Sound Healing Chakra Set", "Healing Bowl Studio Hub", "⚡ Accelerating"),
-            ("Rudraksha Mala & Natural Crystal Energy Bracelet", "Certified Rudraksha Hub", "📈 Trending"),
-            ("Ayurvedic Panchakarma Detox Wellness Retreat Stay", "Carnoustie Kerala Resort", "🔥 High Growth"),
-            ("Mindfulness Breathwork & Spiritual Awakening Retreat", "Dharamshala Meditation Hub", "🚀 Explosive Surge"),
-            ("Chakra Healing Essential Oil Aromatherapy Kit", "Soulflower Ayurveda", "⚡ Accelerating"),
-            ("Copper Water Bottle Ayurvedic Health Vessel", "Tamra Jal Vessel Hub", "📈 Trending"),
-            ("Patanjali Yoga Sutra Commentary Book Box Set", "Geeta Press Gorakhpur", "🔥 High Growth"),
-            ("Natural Incense Sticks Dhoop Cones Assorted Pack", "Phool Organic Incense", "⚡ Accelerating")
+            ("Vipassana 10-Day Silent Meditation Course Booking", "Vipassana International Hub", "🔥 High Growth"),
+            ("Yoga Teacher Training Certification Ashram Retreat", "Rishikesh Yoga Association", "🚀 Explosive Surge"),
+            ("Tibetan Singing Bowl Sound Bath Healing Set", "Chakra Healing Studio", "⚡ Accelerating"),
+            ("Mindfulness & Breathwork Masterclass Online Pass", "Art of Living Portal", "📈 Trending"),
+            ("Natural Rudraksha Mala Bead Prayer Necklace Drop", "Varanasi Sacred Beads", "🔥 High Growth"),
+            ("Chakra Balancing Essential Oil Roll-On Blend", "Ayurvedic Wellness Co.", "🚀 Explosive Surge"),
+            ("Himalayan Salt Lamp Air Purifying Glow Light", "Crystal Salt Hub", "⚡ Accelerating"),
+            ("Bhagavad Gita Life Mastery Online Study Course", "ISKCON Spiritual Hub", "📈 Trending"),
+            ("Ayurvedic Panchakarma Detox Wellness Retreat Stay", "Kerala Ayurveda Village", "🔥 High Growth"),
+            ("Minimalist Meditation Zafu Cushion & Mat Set", "Mindful Living Studio", "⚡ Accelerating")
         ],
 
         # --- 20. Politics, News & Civic Events ---
         "Elections & Campaign Rallies": [
-            ("Assembly Election Opinion Poll & Seat Projection Spike", "Election Commission of India", "🔥 High Growth"),
-            ("Prime Minister Mega Election Campaign Rally Broadcast", "National News Live Stream", "🚀 Explosive Surge"),
-            ("Candidate Nomination Filing & Affidavit Wealth Disclosure", "ECI Candidate Portal", "⚡ Accelerating"),
-            ("Voter Turnout Percentage & Exit Poll Live Tracking", "News18 & NDTV Election Hub", "📈 Trending"),
-            ("Political Party Manifesto Release & Promise Breakdown", "Manifesto Analysis Report", "🔥 High Growth"),
-            ("Constituency High-Stakes Electoral Battle Analysis", "Ground Zero Polling Report", "🚀 Explosive Surge"),
-            ("Digital Campaign Social Media Ad Spend War Chest", "Meta & Google Ad Library", "⚡ Accelerating"),
-            ("By-Election Results & Political Impact Statement", "Press Information Bureau", "📈 Trending"),
-            ("Youth Voter Registration Campaign Drive Surge", "National Voters' Service Portal", "🔥 High Growth"),
-            ("Political Debate Prime Time Show Viewership Record", "Republic & NDTV Debate", "⚡ Accelerating")
+            ("General Election Exit Poll Sentiment Surge & Analysis", "Election Commission Dashboard", "🔥 High Growth"),
+            ("Political Party Manifesto Announcement & Policy Drop", "National Party Press Portal", "🚀 Explosive Surge"),
+            ("Assembly Election Campaign Rally Live Broadcast Clip", "Election News Wire", "⚡ Accelerating"),
+            ("Voter Turnout Percentage Live Tracking Dashboard", "ECI Voter Turnout App", "📈 Trending"),
+            ("Constituency High-Profile Candidate Debate Spike", "News Debate Live Hub", "🔥 High Growth"),
+            ("Digital Political Campaign Advertising Spend Analytics", "Meta & Google Ad Library", "🚀 Explosive Surge"),
+            ("State Legislative Assembly Election Result Verdict", "State Election Portal", "⚡ Accelerating"),
+            ("By-Election Constituency Polling Trend Update", "Press Information Bureau", "📈 Trending"),
+            ("Youth Voter Registration Campaign Awareness Drive", "National Voters' Service", "🔥 High Growth"),
+            ("Political Party Alliance Coalition Formation Bulletin", "National News Flash", "⚡ Accelerating")
         ],
         "Legislative Debates & Laws": [
-            ("Parliament Lok Sabha & Rajya Sabha Bill Passage Live", "Sansad TV Live Broadcast", "🔥 High Growth"),
-            ("Supreme Court Landmark Constitutional Bench Verdict", "Supreme Court of India Portal", "🚀 Explosive Surge"),
-            ("Union Budget Tax Reform & Fiscal Deficit Speech", "Ministry of Finance Portal", "⚡ Accelerating"),
-            ("Criminal Law Overhaul & New Act Implementation", "Gazette of India Notification", "📈 Trending"),
-            ("Data Protection & Privacy Act Compliance Directive", "Ministry of Electronics & IT", "🔥 High Growth"),
-            ("Labor Code Reform & Minimum Wage Notification", "Ministry of Labor & Employment", "🚀 Explosive Surge"),
-            ("Agricultural Policy Reform & MSP Legislative Debate", "Parliamentary Standing Committee", "⚡ Accelerating"),
-            ("Telecommunications Act & Spectrum Allocation Rules", "TRAI Official Portal", "📈 Trending"),
-            ("Real Estate Regulatory Authority (RERA) New Ruling", "State RERA Portal Hub", "🔥 High Growth"),
-            ("Environmental Impact Assessment Policy Notification", "Ministry of Environment", "⚡ Accelerating")
+            ("Parliamentary Budget Session Live Legislative Debate", "Sansad TV Live Broadcast", "🔥 High Growth"),
+            ("New Criminal Law Bill Implementation & Analysis", "Ministry of Law & Justice", "🚀 Explosive Surge"),
+            ("Supreme Court Landmark Constitutional Verdict Drop", "Supreme Court of India Portal", "⚡ Accelerating"),
+            ("Tax Reform & Financial Bill Amendment Summary", "Ministry of Finance Bulletin", "📈 Trending"),
+            ("Data Protection & Digital Privacy Legislation Update", "Ministry of IT Policy Hub", "🔥 High Growth"),
+            ("Labor Code Reform & Industrial Relations Bill Update", "Ministry of Labour Portal", "🚀 Explosive Surge"),
+            ("Environmental Protection Policy & Green Law Debate", "Ministry of Environment", "⚡ Accelerating"),
+            ("Consumer Protection Act Amendment Notification", "Consumer Affairs Portal", "📈 Trending"),
+            ("Real Estate Regulatory Authority (RERA) Legal Update", "RERA State Portal", "🔥 High Growth"),
+            ("Intellectual Property & Patent Law Amendment Notice", "Controller General of Patents", "⚡ Accelerating")
         ],
         "Protests & Policy Changes": [
-            ("Nationwide Citizen Protest & Police Barricade Spike", "Ground Zero News Network", "🔥 High Growth"),
-            ("Policy Rollback & Government Negotiation Meeting", "Cabinet Secretariat Bulletin", "🚀 Explosive Surge"),
-            ("Trade Union General Strike & Transport Disruption", "All India Trade Union Hub", "⚡ Accelerating"),
-            ("Student University Campus Protest & Demonstration", "Campus News Live Feed", "📈 Trending"),
-            ("Municipal Tax Hike Public Opposition & Rally", "City Civic Center Update", "🔥 High Growth"),
-            ("Environmental Conservation Forest Protection Protest", "Chipko & Save Soil Hub", "🚀 Explosive Surge"),
-            ("Fuel Price Hike Public Outcry & Opposition March", "Economic Times Policy Desk", "⚡ Accelerating"),
-            ("Gig Worker Rights & Minimum Wage Protest Rally", "Urban Company & Zomato Union", "📈 Trending"),
-            ("Industrial Zone Land Acquisition Protest & Stay", "High Court Legal Bulletin", "🔥 High Growth"),
-            ("Internet Shutdown & Civil Disruption Security Alert", "Telecom Department Advisory", "⚡ Accelerating")
+            ("National Labor Strike & Trade Union Protest Update", "News Wire Bulletin", "🔥 High Growth"),
+            ("Agricultural Policy Reform Public Demonstration Surge", "Farmers Union Press Release", "🚀 Explosive Surge"),
+            ("Fuel Price Hike & Public Transport Tariff Protest", "City Transport Update", "⚡ Accelerating"),
+            ("Civic Infrastructure Protest & Urban Tax Reform", "Municipal Corporation Notice", "📈 Trending"),
+            ("Student Union University Fee Hike Demonstration", "Campus Protest Hub", "🔥 High Growth"),
+            ("New Traffic Regulation & Speed Fine Policy Update", "Traffic Police Department", "🚀 Explosive Surge"),
+            ("Railway Fare Revision & Passenger Concession Policy", "Ministry of Railways Bulletin", "⚡ Accelerating"),
+            ("Public Sector Bank Privatization Policy Protest", "Bank Employees Federation", "📈 Trending"),
+            ("Municipal Property Tax Revision Policy Opposition", "Local Civic News Hub", "🔥 High Growth"),
+            ("Commercial Vehicle Emission Norms Policy Shift", "ARAI Compliance Notice", "⚡ Accelerating")
         ],
         "Politician Speeches & Interviews": [
-            ("Prime Minister Exclusive Independence Day Speech", "DD National Live Feed", "🔥 High Growth"),
-            ("Opposition Leader Parliamentary No-Confidence Speech", "Lok Sabha Media Portal", "🚀 Explosive Surge"),
-            ("Chief Minister Policy Announcement Press Conference", "State Information Bureau", "⚡ Accelerating"),
-            ("Politician Viral Hard-Hitting News Interview Clip", "BBC & CNN International", "📈 Trending"),
-            ("Foreign Minister Geopolitical Press Briefing Speech", "MEA India Live Stream", "🔥 High Growth"),
-            ("Election Campaign Rally Closing Speech Viral Reel", "Party Official YouTube", "🚀 Explosive Surge"),
-            ("State Assembly Budget Speech Live Broadcast", "Vidhana Soudha Feed", "⚡ Accelerating"),
-            ("Youth Parliament Debate Best Speaker Award Clip", "National Youth Parliament", "📈 Trending"),
-            ("Cabinet Minister Economic Policy Defense Interview", "CNBC-TV18 Interview", "🔥 High Growth"),
-            ("Local MP Constituency Development Speech Drop", "District Media Bulletin", "⚡ Accelerating")
+            ("Prime Minister Independence Day Address Broadcast", "PMO India Official Hub", "🔥 High Growth"),
+            ("Opposition Leader Parliamentary No-Confidence Speech", "Lok Sabha Proceedings", "🚀 Explosive Surge"),
+            ("Exclusive Hard-Hitting Political Interview Clip", "BBC & NDTV Politician Talk", "⚡ Accelerating"),
+            ("State Chief Minister Policy Announcement Press Meet", "State Information Bureau", "📈 Trending"),
+            ("Union Budget Presentation Speech Live Broadcast", "Parliament Budget Speech", "🔥 High Growth"),
+            ("Global Summit World Leader Diplomatic Address", "United Nations General Assembly", "🚀 Explosive Surge"),
+            ("Election Campaign Closing Speech Viral Sound Byte", "Political Rally Hub", "⚡ Accelerating"),
+            ("Cabinet Minister Economic Policy Press Conference", "PIB Press Briefing", "📈 Trending"),
+            ("State Governor Legislative Assembly Opening Address", "Raj Bhavan Bulletin", "🔥 High Growth"),
+            ("Foreign Minister International Press Meet Diplomacy", "MEA India Press Brief", "⚡ Accelerating")
         ],
         "Geopolitical & Diplomatic Updates": [
-            ("G20 Summit Global Leader Declaration & Bilateral Talks", "Ministry of External Affairs", "🔥 High Growth"),
-            ("UN General Assembly National Leader Address Broadcast", "UN Web TV Live Stream", "🚀 Explosive Surge"),
-            ("Defense Strategic Partnership & Weapon Acquisition Pact", "Ministry of Defense Portal", "⚡ Accelerating"),
-            ("Cross-Border Trade Corridor & Free Trade Agreement", "Ministry of Commerce Hub", "📈 Trending"),
-            ("Global Summit Climate Change Emission Target Accord", "COP Climate Conference Hub", "🔥 High Growth"),
-            ("Ambassador Diplomatic Summit & Visa Agreement Drop", "Embassy Press Release", "🚀 Explosive Surge"),
-            ("Naval Joint Military Exercise & Maritime Security Pact", "Indian Navy Public Relations", "⚡ Accelerating"),
-            ("Foreign Direct Investment (FDI) Bilateral Treaty Drop", "Invest India Portal", "📈 Trending"),
-            ("Space Exploration Joint International Satellite Launch", "ISRO & NASA Portal", "🔥 High Growth"),
-            ("International Sanction List & Economic Policy Update", "Global Trade Advisory", "⚡ Accelerating")
+            ("G20 Summit Global Economic Communique Agreement", "G20 Presidency Portal", "🔥 High Growth"),
+            ("Bilateral Trade Agreement Signing Ceremony Bulletin", "Ministry of External Affairs", "🚀 Explosive Surge"),
+            ("International Border Security & Defense Pact Update", "Ministry of Defense Press", "⚡ Accelerating"),
+            ("Global Climate Change Treaty Ratification Summit", "COP Climate Conference Hub", "📈 Trending"),
+            ("UN Security Council Resolution Diplomatic Debate", "United Nations News Portal", "🔥 High Growth"),
+            ("Cross-Border Economic Corridor Investment Treaty", "Global Trade Bulletin", "🚀 Explosive Surge"),
+            ("Ambassador Diplomatic Mission Press Briefing Update", "Embassy News Portal", "⚡ Accelerating"),
+            ("International Space Station Joint Scientific Mission", "ISRO & NASA Collaboration", "📈 Trending"),
+            ("Global Energy Supply Security & Oil Diplomacy", "OPEC & Energy Bulletin", "🔥 High Growth"),
+            ("Multilateral Defense Exercise Strategic Partnership", "Military Exercise Bulletin", "⚡ Accelerating")
         ],
         "Public Schemes & Subsidies": [
-            ("PM Kisan Samman Nidhi Installment Release Spike", "Ministry of Agriculture Portal", "🔥 High Growth"),
+            ("PM Awas Yojana Housing Subsidy Application Portal", "Pradhan Mantri Awas Yojana", "🔥 High Growth"),
             ("Ayushman Bharat Health Insurance Card Registration", "National Health Authority", "🚀 Explosive Surge"),
-            ("Pradhan Mantri Awas Yojana Housing Subsidy Drop", "PMAY Urban & Rural Portal", "⚡ Accelerating"),
-            ("Mudra Loan Scheme Small Business Financing Surge", "SIDBI Mudra Portal", "📈 Trending"),
-            ("Atal Pension Yojana Financial Inclusion Milestone", "PFRDA Official Portal", "🔥 High Growth"),
-            ("National Solar Rooftop Subsidy Direct Benefit Transfer", "National Portal for Rooftop Solar", "🚀 Explosive Surge"),
-            ("Beti Bachao Beti Padhao Scholarship Scheme Alert", "Ministry of Women & Child", "⚡ Accelerating"),
-            ("Skill India National Apprenticeship Training Portal", "MSDE India Hub", "📈 Trending"),
-            ("Free Ration Distribution Scheme Extension Notice", "Ministry of Food Consumer Affairs", "🔥 High Growth"),
-            ("Electric Vehicle Faster Adoption (FAME) Subsidy Update", "Ministry of Heavy Industries", "⚡ Accelerating")
+            ("Mudra Loan Small Business Financing Scheme Update", "PMMY Official Portal", "⚡ Accelerating"),
+            ("Kisan Samman Nidhi Farmer Income Support Installment", "PM-KISAN Portal Tracker", "📈 Trending"),
+            ("Skill India National Apprenticeship Training Portal", "MSDE Skill India Hub", "🔥 High Growth"),
+            ("Startup India Seed Fund Scheme Grant Application", "Startup India Portal", "🚀 Explosive Surge"),
+            ("Beti Bachao Beti Padhao Savings Scheme Update", "Women & Child Development", "⚡ Accelerating"),
+            ("Solar Rooftop Free Electricity Subsidy Scheme", "MNRE Solar Portal", "📈 Trending"),
+            ("Electric Vehicle Purchase Subsidy Incentive Drop", "FAME II Subsidy Portal", "🔥 High Growth"),
+            ("National Pension Scheme (NPS) Vatsalya Launch", "PFRDA Official Portal", "⚡ Accelerating")
         ]
     }
 
-    pool = specific_pools.get(sub_niche, [
-        (f"Breakout Asset in {sub_niche}", platform_source, "🔥 High Growth"),
-        (f"Viral Trend Surge in {sub_niche}", platform_source, "🚀 Explosive Surge"),
-        (f"Top Earning Product in {sub_niche}", platform_source, "⚡ Accelerating"),
-        (f"Trending Innovation in {sub_niche}", platform_source, "📈 Trending"),
-    ])
-
-    cursor = db_conn.cursor()
-    for item in pool:
-        keyword, engagement, vel = item[0], item[1], item[2]
-        cursor.execute("""
-            INSERT INTO platform_signals (source_platform, keyword, engagement_metrics, region)
-            VALUES (?, ?, ?, ?)
-        """, (platform_source, keyword, f"{vel} ({engagement})", region))
-        results.append({
-            "source_platform": platform_source,
-            "keyword": keyword,
-            "engagement_metrics": f"{vel} ({engagement})",
-            "region": region
-        })
-    db_conn.commit()
-    return results
-
-# ==========================================
-# 7. GROQ LLM DOSSIER GENERATION ENGINE
-# ==========================================
-def generate_dossier_with_groq(trend_name, category, role, custom_prompt=""):
-    if not GROQ_API_KEY:
-        return {
-            "unit_economics": "⚠️ **GROQ_API_KEY Missing**: Please configure your API key in Streamlit secrets or environment variables to generate the AI dossier.",
-            "geo_mapping": "⚠️ API Key not configured.",
-            "hook_matrix": "⚠️ API Key not configured.",
-            "copywriting_vault": "⚠️ API Key not configured.",
-            "saturation_matrix": "⚠️ API Key not configured.",
-            "tech_prompts": "⚠️ API Key not configured.",
-            "scale_kill_rules": "⚠️ API Key not configured.",
-            "virality_formula": "⚠️ API Key not configured.",
-            "syndication_matrix": "⚠️ API Key not configured.",
-            "action_roadmap": "⚠️ API Key not configured."
+    # 2. Industry-Specific Vocabulary Dictionaries for fallback (just in case a sub-niche is missing)
+    category_vocab = {
+        "🛒 E-Commerce & Viral Shopping": {
+            "actions": ["Flash Sale Sellout Wave", "Viral TikTok Restock Spike", "D2C Bundle Trend Surge", "Limited-Time Drop Buzz", "Problem-Solver Gadget Viral Loop"],
+            "entities": ["Aesthetic Living Co.", "Nova Direct Brand", "Prime Gadgets Hub", "Trendify Storefront", "OmniStock Fulfillment"]
+        },
+        "🏢 Real Estate & High-Ticket Props": {
+            "actions": ["Rental Yield Price Surge", "Smart Home Tech Integration Wave", "Luxury Villa Inbound Inquiry Spike", "Commercial Co-Working Demand Jump", "Fractional REIT Volume Growth"],
+            "entities": ["Apex Heights", "Metro Transit Estates", "Skyline PropTech", "Urban Living Spaces", "Vanguard Realty Group"]
+        },
+        "🚗 Automobile, EV & Mobility": {
+            "actions": ["Solid-State Battery Range Breakthrough", "ADAS Dashcam Viral Review Spike", "Supercar Customization Trend", "EV Commuter Price Drop Wave", "Mileage Hack & Tuning Buzz"],
+            "entities": ["VoltDrive Systems", "Apex Auto Tech", "HyperTune Motors", "NextGen EV Hub", "RoadGuard Smart Tech"]
+        },
+        "👶 Parenting, Baby Care & Kids": {
+            "actions": ["Smart Stroller Ergonomic Upgrade Spike", "Early EdTech Toy Demand Surge", "Organic Toddler Nutrition Trend", "Postpartum Care Essential Restock", "Modern Parenting Routine Hack"],
+            "entities": ["TinyTots Care", "ParentPulse Hub", "KiddoSmart Tech", "PurePure Nutrition", "MammaLife Studio"]
+        },
+        "🐾 Pets & Animal Care": {
+            "actions": ["Organic Pet Supplement Trend Surge", "Smart GPS Collar Restock Wave", "Dog Training Behavioral Hack Viral View", "Pet Grooming Kit Flash Sale", "Adoption & Breed Guide Spike"],
+            "entities": ["Pawfect Care", "BarkSmart Tech", "FurFamily Goods", "TailWag Hub", "PetVibe Nutrition"]
+        },
+        "💰 Finance, Crypto & Wealth Building": {
+            "actions": ["High-Yield Credit Card Reward Loop", "Layer-2 Token Volume Accumulation", "Passive Income Side Hustle Blueprint", "Tax-Saving Asset Reallocation Spike", "Algorithmic Trading Signal Alert"],
+            "entities": ["WealthFlow Bot", "CryptoPulse Node", "FinHack Academy", "AssetCore Capital", "YieldMaster Pro"]
+        },
+        "💼 Business, Startups & Entrepreneurship": {
+            "actions": ["Seed Funding Pitch Deck Breakdown", "Solopreneur Automation Stack Spike", "AI Agency Scale Blueprint", "B2B Growth Hacking Framework", "Supply Chain Optimization Wave"],
+            "entities": ["ScaleUp Lab", "Solopreneur HQ", "AI Automation Studio", "GrowthPulse Agency", "FounderNetwork"]
+        },
+        "💻 Digital Products & AI Tools": {
+            "actions": ["Vibe Coding Extension Viral Launch", "Generative AI Workflow Template Spike", "Notion Productivity Dashboard Drop", "No-Code SaaS Micro-Tool Acquisition", "UI/UX Prompt Pack Trend"],
+            "entities": ["CodeVibe Studio", "AIToolbox Hub", "NotionMaster Pro", "SaaSLaunchpad", "PixelCraft Systems"]
+        },
+        "🎓 Education, Careers & Jobs": {
+            "actions": ["Govt Exam Date & Prep Material Spike", "AI Tech Roadmap Enrollment Wave", "Study Abroad Visa Policy Update", "Remote Hiring Alert Surge", "Resume Portfolio ATS Hack"],
+            "entities": ["EduTech Roadmaps", "CareerPulse Portal", "ScholarshipHub", "SkillUp Academy", "GlobalHire Network"]
+        },
+        "🌿 Sustainability & Green Tech": {
+            "actions": ["Residential Solar Inverter Subsidy Surge", "Zero-Waste Reusable Household Swap", "Eco-Friendly Packaging Wholesale Spike", "Clean Tech Carbon Offset Trend", "Electric Micro-Transit Adoption"],
+            "entities": ["EcoGrid Power", "ZeroWaste Living", "GreenPack Solutions", "CarbonZero Tech", "TransitEco Hub"]
+        },
+        "🎬 Movies, OTT & Series": {
+            "actions": ["Box Office Opening Weekend Surge", "OTT Platform Series Release Buzz", "Trailer Fan Theory Breakdown Wave", "Celebrity Cast Interview Leak", "Regional Cinema Trend Wave"],
+            "entities": ["CinePulse Network", "OTT Insider", "BoxOffice Metrics", "ScreenWave Media", "TrailerTracker"]
+        },
+        "🎵 Music & Viral Sound Tracks": {
+            "actions": ["TikTok Viral Sound Loop Surge", "Concert Tour Ticket Drop Sellout", "Regional Folk Remix Trend", "Indie Artist Breakthrough Wave", "Lo-Fi Instrumental Stream Spike"],
+            "entities": ["BeatPulse Audio", "SoundDrop Studio", "MelodyStream", "IndieVibe Records", "ChartBurst Music"]
+        },
+        "🎭 Pop Culture, Memes & Drama": {
+            "actions": ["Viral Meme Formats & Parodies", "Creator Drama Unfiltered Leak", "Nostalgia Throwback Trend Wave", "Reality TV Broadcast Live Buzz", "Internet Challenge Explosion"],
+            "entities": ["MemeCentral", "DramaAlert Hub", "ViralPulse Media", "PopCulture Wire", "TrendTracker Live"]
+        },
+        "🐉 Anime, Gaming & Fandom": {
+            "actions": ["Esports Championship Final Highlight Surge", "Mobile Gaming Character Drop Update", "Anime Episode Release & Leak Wave", "Console Hardware Restock Spike", "Streamer Clipped Moment Virality"],
+            "entities": ["EsportsArena", "PixelPlay Hub", "AnimePulse Leaks", "GameCore Terminal", "StreamerClip Studio"]
+        },
+        "🌟 Celebrities & Sports Stars": {
+            "actions": ["Sports Idol Tournament Match Winning Spike", "Celebrity Airport Outfit Fashion Trend", "Movie Star OTT Announcement Buzz", "League Matchup Rivalry Surge", "Influencer Vlog Milestone Event"],
+            "entities": ["StarPulse Wire", "SportIcon Media", "CelebTrend Hub", "LeagueInsider", "VlogPeak Network"]
+        },
+        "💄 Beauty, Skincare & Lifestyle": {
+            "actions": ["K-Beauty Glass Skin Routine Surge", "UGC Skincare Hack Viral Video", "Anti-Aging Beauty Device Restock", "Men's Beard Grooming Kit Spike", "Minimalist Capsule Wardrobe Trend"],
+            "entities": ["GlowSkin Labs", "BeautyPulse Co.", "K-Glow Essentials", "AestheticWardrobe", "PureCare Studio"]
+        },
+        "🏋️ Health, Fitness & Biohacking": {
+            "actions": ["Wearable Tech Recovery Data Spike", "Gym Home Workout Equipment Trend", "Whey Protein Isolate Flash Drop", "Cold Plunge Recovery Tub Surge", "Mental Health Burnout Protocol"],
+            "entities": ["BioHack Labs", "FitPulse Gear", "RecoveryZone", "StrengthCore", "WellnessHub Pro"]
+        },
+        "✈️ Travel, Hotels & Food": {
+            "actions": ["Trending Offbeat Destination Surge", "Luxury Resort Stay Package Drop", "Gourmet Regional Cuisine Food Trend", "Street Food Viral Video Wave", "Backpacker Budget Escape Hub"],
+            "entities": ["Wanderlust Pulse", "LuxuryEscape Hub", "FoodieTrail", "DestinationX", "TravelGrid Media"]
+        },
+        "🛕 Faith, Festivals & Sacred Travel": {
+            "actions": ["Ancient Temple Pilgrimage Circuit Surge", "Festive Gifting & Decor Trend", "Spiritual Meditation Retreat Booking", "Religious Festival Puja Live Buzz", "Sacred Heritage Trail Discovery"],
+            "entities": ["SacredTrail Hub", "DivinePulse", "FestiveGifts Co.", "HeritagePilgrimage", "SpiritualZen Studio"]
+        },
+        "🏛️ Politics, News & Civic Events": {
+            "actions": ["Election Campaign Rally Sentiment Surge", "Legislative Policy Debate Update", "Public Subsidy Scheme Announcement", "Geopolitical Diplomatic Bulletin", "Civic Protest & Reform Trend"],
+            "entities": ["CivicPulse News", "PolicyWire", "ElectionTracker", "GovtScheme Portal", "GlobalGeopolitics Hub"]
         }
-    
-    client = Groq(api_key=GROQ_API_KEY)
-    metrics = ROLE_SPECIFIC_METRICS.get(role, ROLE_SPECIFIC_METRICS["🛍️ E-Commerce Merchants & D2C Brands"])
-    
-    prompt = f"""
-    You are TrendPulse AI, an elite autonomous market domination engine and commercial dossier generator.
-    Analyze the following asset/trend for the specified commercial role with extreme detail, professional depth, and exact numbers.
+    }
 
-    Asset/Trend: {trend_name}
-    Niche Category: {category}
-    Target Commercial Role: {role}
-    Custom Directive: {custom_prompt if custom_prompt else 'None'}
-    Role-Specific Focus Metrics to Calculate:
-    - Metric 1: {metrics['m1']}
-    - Metric 2: {metrics['m2']}
-    - Metric 3: {metrics['m3']}
-    - Metric 4: {metrics['m4']}
-    - Metric 5: {metrics['m5']}
+    # 3. Resolve items using Manual Pool or Industry-Mapped Dynamic Generator
+    if sub_niche in specific_pools:
+        items = specific_pools[sub_niche]
+    else:
+        vocab = category_vocab.get(category, {
+            "actions": [f"High-Intent Consumer Surge in {sub_niche}", f"Viral Trend Breakthrough: {sub_niche}"],
+            "entities": [f"{sub_niche} Node", f"{sub_niche} Pro Hub"]
+        })
+        
+        actions = vocab["actions"]
+        entities = vocab["entities"]
+        velocities = ["🔥 High Growth", "⚡ Accelerating", "🚀 Explosive Surge", "📈 Trending"]
+        
+        items = []
+        for i in range(10):
+            action_text = actions[i % len(actions)]
+            entity_text = entities[i % len(entities)]
+            velocity_text = velocities[i % len(velocities)]
+            
+            keyword_title = f"{action_text}"
+            entity_name = f"{sub_niche} - {entity_text} #{i+1}"
+            
+            items.append((keyword_title, entity_name, velocity_text))
 
-    Generate a comprehensive, highly tactical enterprise report structured EXACTLY into the following 10 sections using JSON format keys or clear delimited headers. Return valid JSON with these exact keys:
-    1. unit_economics
-    2. geo_mapping
-    3. hook_matrix
-    4. copywriting_vault
-    5. saturation_matrix
-    6. tech_prompts
-    7. scale_kill_rules
-    8. virality_formula
-    9. syndication_matrix
-    10. action_roadmap
-
-    Make sure each section contains exhaustive, professional-grade insights, exact mathematical estimates, scripts, prompts, and actionable steps tailored to {role}.
-    """
+    for i, (item, entity, velocity) in enumerate(items):
+        base_vol = 1250000 - (i * 95400)
+        results.append({
+            "Keyword": item,
+            "Entity": entity,
+            "Volume": f"{base_vol:,} Interactions ({region})",
+            "Velocity": velocity
+        })
 
     try:
+        cursor = db_conn.cursor()
+        for r in results:
+            cursor.execute(
+                "INSERT INTO platform_signals (source_platform, keyword, engagement_metrics, region) VALUES (?, ?, ?, ?)",
+                (platform_source, f"{r['Keyword']} ({r['Entity']})", r["Volume"], region)
+            )
+        db_conn.commit()
+    except Exception:
+        pass
+
+    return results
+# ==========================================
+# 7. MASTER LLM DOSSIER GENERATOR (WITH REVENUE & SCALING SUITE)
+# ==========================================
+def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
+    clean_asset = sanitize_trend_input(keyword_asset)
+    clean_cat = sanitize_trend_input(category)
+    clean_sub = sanitize_trend_input(sub_niche)
+    sub_ctx = f"focusing on sub-niche '{clean_sub}'" if clean_sub and clean_sub != "All Sub-Niches" else ""
+
+    metrics_template = ROLE_SPECIFIC_METRICS.get(target_role, ROLE_SPECIFIC_METRICS["🛍️ E-Commerce Merchants & D2C Brands"])
+
+    default_response = {
+        "viral_score": f"{velocity_score}%",
+        "prediction_window": f"Active Timing Window ({timeframe})",
+        "unit_economics": f"• **{metrics_template['m1']}:** Optimized tier\n• **{metrics_template['m2']}:** INR 1,500 – INR 2,800 benchmark\n• **Brand Rate Card (Reel/Short):** INR 15,000 – INR 25,000 per post\n• **Affiliate Commission Stack:** 12% per confirmed conversion\n• **Viral Index Score:** Strong market fit",
+        "geo_mapping": "• **Primary Tier-1 Hotspots:** Mumbai, Bengaluru, Delhi-NCR, Pune\n• **Emerging Tier-2 Hubs:** Jaipur, Indore, Chandigarh, Lucknow\n• **International Spillover:** US/UK diaspora clusters",
+        "hook_matrix": f"• **FOMO Hook:** \"The secret strategy behind {clean_asset} that elite operators are hiding...\"\n• **Risk Hook:** \"If you ignore {clean_asset} in {timeframe}, you are leaving massive ROI on the table...\"\n• **Dopamine Hook (Storyboard):** [0-3s] High-end cinematic visual hook transitioning into problem-solver narrative.",
+        "copywriting_vault": f"• **Problem-Solver Angle:** \"Struggling with {clean_asset}? Here is the ultimate modern solution to scale your results instantly.\"\n• **Trust Builder Angle:** \"⭐⭐⭐⭐⭐ 'This completely transformed my workflow within 3 days.' - Verified User.\"",
+        "saturation_matrix": "• **Saturation Index:** Moderate (62% saturated, high incoming demand)\n• **Competitor Weakness:** Slow fulfillment and generic design copy\n• **Our Strategic Edge:** Ultra-fast 48-hour delivery & micro-community branding",
+        "tech_prompts": f"• **ChatGPT Script Prompt:** Write a 30-second high-retention script for {clean_asset}.\n• **Midjourney v6.0:** Hyper-realistic minimalist luxury asset photography of {clean_asset}, clean studio lighting, 8k --ar 16:9 --v 6.0",
+        "scale_kill_rules": "• **The Kill Rule:** If ad budget crosses INR 4,000/day with 0 conversions in 24h -> PAUSE IMMEDIATELY.\n• **The Scaling Rule:** If ROAS is stable for 48h -> Increase budget by 20%-30% daily at 11:00 AM.",
+        "virality_formula": "• **Algorithm Core Logic:** Calculates engagement velocity vs comment sentiment ratios.\n• **Formula:** Virality Score = ((3s Watch Retention * Shares) / Impressions) * (1 + Comment Sentiment Weight)\n• **Pipeline Monitoring Rule:** If engagement ratio deviates by >15% in 6h, flag for instant scaling or pivot.",
+        "syndication_matrix": "• **Instagram Reels Strategy:** Trending audio loops with high-contrast text overlays.\n• **YouTube Shorts Strategy:** Optimized thumbnail and evening publishing window (6 PM - 8 PM).\n• **Cross-Platform Retargeting:** Push top 15s cutdowns as paid community ads.",
+        "action_roadmap": "1. HOUR 1-6 (Setup): Core infrastructure & affiliate integration.\n2. HOUR 24 (Micro-Testing): Low-budget cross-channel validation.\n3. DAY 3 (Optimization): Apply 'Scale vs Kill' algorithmic rules.\n4. DAY 10 (Scaling): Deploy retention loops and brand monetization funnels."
+    }
+
+    if not GROQ_API_KEY:
+        return default_response
+
+    try:
+        client = Groq(api_key=GROQ_API_KEY)
+        prompt = f"""
+You are an elite Enterprise Intelligence AI. Return ONLY a raw valid JSON object (no markdown, no backticks).
+Generate a hyper-realistic, highly customized Commercial Intelligence & Revenue Scale Dossier in English for:
+- Asset/Trend: "{clean_asset}"
+- Category: "{clean_cat} {sub_ctx}"
+- Target Operating Role: "{target_role}"
+- Platform Source: "{platform}"
+- Timeframe: "{timeframe}"
+
+Ensure all monetary values use 'INR ' instead of special characters and metrics strictly match the domain of '{target_role}'.
+
+JSON Format:
+{{
+  "viral_score": "{velocity_score}%",
+  "prediction_window": "Lifecycle timing window",
+  "unit_economics": "• **{metrics_template['m1']}:** ...\\n• **{metrics_template['m2']}:** INR ...\\n• **Brand Rate Card (Reel/Short):** INR 15,000 – INR 25,000\\n• **Affiliate Commission Stack:** 12%\\n• **Viral Index Score:** ...",
+  "geo_mapping": "• **Primary Tier-1 Hotspots:** ...\\n• **Emerging Tier-2 Hubs:** ...\\n• **International Spillover:** ...",
+  "hook_matrix": "• **FOMO Hook:** ...\\n• **Risk Hook:** ...\\n• **Dopamine Hook (Storyboard):** ...",
+  "copywriting_vault": "• **Problem-Solver Angle:** ...\\n• **Trust Builder Angle:** ...",
+  "saturation_matrix": "• **Saturation Index:** ...\\n• **Competitor Weakness:** ...\\n• **Our Strategic Edge:** ...",
+  "tech_prompts": "• **ChatGPT Script Prompt:** ...\\n• **Midjourney Prompt:** ...",
+  "scale_kill_rules": "• **The Kill Rule:** INR 4,000/day threshold ...\\n• **The Scaling Rule:** ...",
+  "virality_formula": "• **Algorithm Core Logic:** ...\\n• **Formula:** Virality Score = ((3s Watch Retention * Shares) / Impressions) * (1 + Comment Sentiment Weight)\\n• **Pipeline Monitoring Rule:** ...",
+  "syndication_matrix": "• **Instagram Reels Strategy:** ...\\n• **YouTube Shorts Strategy:** ...\\n• **Cross-Platform Retargeting:** ...",
+  "action_roadmap": "1. HOUR 1-6: Setup & affiliate integration...\\n2. HOUR 24: Micro-testing...\\n3. DAY 3: Optimization...\\n4. DAY 10: Scaling..."
+}}
+"""
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": "You are an elite AI market intelligence engine. You respond strictly in valid JSON containing the 10 requested dossier keys."},
-                {"role": "user", "content": prompt}
-            ],
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
             response_format={"type": "json_object"},
-            temperature=0.7,
-            max_tokens=4000
         )
-        content = completion.choices[0].message.content
-        data = json.loads(content)
-        return data
+        return json.loads(completion.choices[0].message.content)
+    except Exception:
+        return default_response
+
+# ==========================================
+# 8. MAIN UI LAYOUT & BACKEND INSPECTOR
+# ==========================================
+if "is_premium" not in st.session_state:
+    st.session_state["is_premium"] = False
+
+head_col1, head_col2 = st.columns([3, 1])
+with head_col2:
+    selected_lang = st.selectbox("🌐 Language / भाषा:", ["English", "Hindi"], index=0)
+
+t = TEXTS[selected_lang]
+
+with head_col1:
+    st.title(t["title"])
+    st.caption(f"{t['subtitle']} | ⚡ Complete Master Dossier & 5-Table SQLite Architecture")
+
+st.markdown("---")
+
+with st.expander(t["terminal"], expanded=False):
+    st.session_state["is_premium"] = st.checkbox(t["simulate_pro"], value=st.session_state["is_premium"])
+
+st.markdown(f"### {t['config_title']}")
+with st.form(key="filter_form"):
+    f_col1, f_col2, f_col3, f_col4, f_col5 = st.columns(5)
+
+    with f_col1:
+        geo_option = st.selectbox(t["region"], ["India (IN)", "United States (US)", "United Kingdom (GB)", "Global (ALL)"])
+        geo_map = {"India (IN)": "IN", "United States (US)": "US", "United Kingdom (GB)": "GB", "Global (ALL)": "ALL"}
+
+    with f_col2:
+        platform_source = st.selectbox(
+            t["platform"],
+            [
+                "🎵 TikTok Trends & Creative Center",
+                "📸 Instagram Reels & Meta Ad Library",
+                "🔎 Google Trends & Search Intent",
+                "📌 Pinterest Trends & Visual Discovery",
+                "🧵 X (Twitter) Realtime Trends",
+                "👽 Reddit Viral & Community Buzz",
+                "🛒 Amazon Movers & E-Com Marketplaces",
+                "▶️ YouTube Shorts & Video Popularity",
+                "💼 LinkedIn Business & B2B Signals",
+                "🚀 Product Hunt & GitHub Trending",
+                "🛍️ Etsy & D2C Niche Marketplaces",
+                "📰 Google News & Newsletter Aggregators",
+            ],
+            index=0,
+        )
+
+    with f_col3:
+        selected_category = st.selectbox(t["category"], options=list(UPDATED_NICHE_CATEGORIES.keys()), index=0)
+
+    with f_col4:
+        sub_niche_options = UPDATED_NICHE_CATEGORIES.get(selected_category, [])
+        selected_sub_niche = st.selectbox(t["sub_category"], options=["All Sub-Niches"] + sub_niche_options, index=0)
+
+    with f_col5:
+        timeframe = st.selectbox(t["velocity"], ["Realtime Spike (24h)", "Short-Term Trend (7 Days)", "Viral Surge (3-7 Days)", "Macro Trend (30 Days)"])
+
+    apply_filters = st.form_submit_button(t["apply_btn"], use_container_width=True)
+
+st.markdown("---")
+
+active_signals = fetch_and_store_signals(
+    geo_map[geo_option], platform_source, selected_category, selected_sub_niche, timeframe
+)
+
+signal_scores = {item["Keyword"]: round(99.4 - (i * 2.1), 1) for i, item in enumerate(active_signals)}
+df_signals = pd.DataFrame(active_signals)
+
+# TABBED WORKFLOW UI
+tab_radar, tab_blueprint, tab_db = st.tabs([t["tab_radar"], t["tab_blueprint"], t["tab_db"]])
+
+with tab_radar:
+    st.subheader(t["telemetry_title"])
+    custom_search = st.text_input(t["custom_search"], placeholder="e.g. Misty Tea Estate Heritage Homestay Wave, K-Beauty Glass Skin")
+    if custom_search.strip():
+        custom_item = {"Keyword": custom_search.strip(), "Entity": "Custom Injection Target", "Volume": f"Realtime Query ({geo_option})", "Velocity": "🔥 High Growth"}
+        if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
+            active_signals.insert(0, custom_item)
+            df_signals = pd.DataFrame(active_signals)
+
+    st.markdown(f"**{t['active_signals_for']}** `{selected_category}` | `{platform_source}` | `{geo_option}`")
+    
+    st.dataframe(
+        df_signals.rename(columns={
+            "Keyword": "Trending Asset Signal",
+            "Entity": "Specific Entity / Target",
+            "Volume": "Engagement / Volume",
+            "Velocity": "Velocity Status"
+        }),
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.markdown("#### 📈 Signal Velocity & Pipeline Demand Curve")
+    chart_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
+    base_score = signal_scores.get(chart_keyword, 94.0)
+    chart_df = pd.DataFrame({
+        "Timeline": ["Day -3", "Day -2", "Day -1", "Today", "Day +1 (Proj)", "Day +2 (Proj)", "Day +3 (Proj)"],
+        "Velocity Score": [max(10.0, base_score - 45), max(15.0, base_score - 30), max(25.0, base_score - 15), base_score, min(99.9, base_score + 5), min(99.9, base_score + 8), min(99.9, base_score + 4)]
+    })
+    fig = px.line(chart_df, x="Timeline", y="Velocity Score", markers=True, line_shape="spline", title=f"Backend Pipeline Trajectory: {chart_keyword}")
+    fig.update_layout(plot_bgcolor="#0e1117", paper_bgcolor="#0e1117", font_color="#fafafa")
+    fig.update_traces(line_color="#ff4b4b", line_width=3, marker_size=8)
+    st.plotly_chart(fig, use_container_width=True)
+
+with tab_blueprint:
+    st.subheader("🚀 Master Intelligence & Revenue Dossier Engine")
+
+    if not st.session_state["is_premium"]:
+        st.warning("🔒 MASTER INTELLIGENCE & REVENUE SUITE IS LOCKED")
+        st.info("Unlock all monetization rate cards, video retention storyboards, virality prediction formulas, and scaling rules.")
+        st.link_button("🔥 Upgrade to Pro & Unlock Master Engine", STRIPE_CHECKOUT_URL, use_container_width=True)
+    else:
+        st.success("🔓 MASTER PRO ENGINE ACTIVE (FULL REVENUE SUITE)")
+
+        asset_list = [item["Keyword"] for item in active_signals]
+        selected_asset = st.selectbox("🎯 Select Ingested Asset:", options=asset_list, index=0)
+
+        target_role = st.selectbox(
+            "👤 Operating Role (6 User Modes):",
+            [
+                "🛍️ E-Commerce Merchants & D2C Brands",
+                "🎬 Viral Content Creators & Media Houses",
+                "💸 Affiliate Marketers & Arbitrage Traders",
+                "🏢 Real Estate Agents & High-Ticket Brokers",
+                "💻 SaaS Founders, AI Builders & Solopreneurs",
+                "📈 Stock & Crypto Traders / Market Analysts"
+            ],
+            index=0
+        )
+
+        velocity_score = signal_scores.get(selected_asset, 94.2)
+
+        if st.button("🚀 Generate Master Intelligence & Revenue Dossier", use_container_width=True):
+            with st.spinner("⚡ Synthesizing Master Dossier with Advanced Revenue & Scaling Modules..."):
+                dossier_result = generate_master_enterprise_dossier(
+                    selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, velocity_score, selected_lang
+                )
+
+                st.markdown(f"### 📑 Enterprise Master Dossier: {selected_asset}")
+                st.caption(f"Role: {target_role} | Platform: {platform_source} | Predictive Score: {velocity_score}%")
+
+                pdf_buffer = create_pdf_dossier(selected_asset, selected_category, target_role, velocity_score, timeframe, dossier_result)
+                st.download_button(
+                    label="📥 Download Official PDF Commercial & Revenue Dossier",
+                    data=pdf_buffer,
+                    file_name=f"TrendPulse_Revenue_Dossier_{sanitize_trend_input(selected_asset)[:20]}.pdf",
+                    mime="application/pdf",
+                    use_container_width=True
+                )
+
+                sections_meta = [
+                    ("1. Advanced Monetization, Rate Card & Unit Economics Vault", dossier_result.get("unit_economics", "")),
+                    ("2. Geo-Targeting & Regional Hotspot Mapping", dossier_result.get("geo_mapping", "")),
+                    ("3. Psychological Hook Matrix & Video Storyboard (0-3s)", dossier_result.get("hook_matrix", "")),
+                    ("4. Ready-to-Deploy Multi-Angle Copywriting Vault", dossier_result.get("copywriting_vault", "")),
+                    ("5. Competitor & Market Saturation Threat Matrix", dossier_result.get("saturation_matrix", "")),
+                    ("6. AI Prompt Engineering & Script Generation Pack", dossier_result.get("tech_prompts", "")),
+                    ("7. Algorithmic Scale vs Kill Risk Management Rules", dossier_result.get("scale_kill_rules", "")),
+                    ("8. Realtime Audience Sentiment & Virality Predictive Formula", dossier_result.get("virality_formula", "")),
+                    ("9. Multi-Platform Syndication & Marketing Matrix", dossier_result.get("syndication_matrix", "")),
+                    ("10. Automated 10-Day Master Execution & Scaling Roadmap", dossier_result.get("action_roadmap", ""))
+                ]
+
+                for sec_title, sec_content in sections_meta:
+                    with st.expander(sec_title, expanded=False):
+                        st.markdown(sec_content)
+
+with tab_db:
+    st.subheader("🗄️ SQLite Database Inspector & Execution Logs")
+    try:
+        cursor = db_conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = [row[0] for row in cursor.fetchall()]
+        st.write(f"**Active Tables in Database:** `{tables}`")
+
+        selected_table = st.selectbox("Inspect Table Records:", options=tables)
+        if selected_table:
+            df_table = pd.read_sql_query(f"SELECT * FROM {selected_table} ORDER BY rowid DESC LIMIT 50", db_conn)
+            st.dataframe(df_table, use_container_width=True)
     except Exception as e:
-        return {
-            "unit_economics": f"Error generating AI dossier: {str(e)}",
-            "geo_mapping": "Error", "hook_matrix": "Error", "copywriting_vault": "Error",
-            "saturation_matrix": "Error", "tech_prompts": "Error", "scale_kill_rules": "Error",
-            "virality_formula": "Error", "syndication_matrix": "Error", "action_roadmap": "Error"
-        }
-
-# ==========================================
-# 8. MAIN STREAMLIT APPLICATION UI
-# ==========================================
-def main():
-    # Sidebar Configuration & Access Terminal
-    st.sidebar.markdown(f"### {TEXTS['English']['terminal']}")
-    selected_language = st.sidebar.selectbox("🌐 Interface Language", ["English", "Hindi"])
-    t = TEXTS[selected_language]
-
-    if "pro_access" not in st.session_state:
-        st.session_state["pro_access"] = False
-
-    if st.sidebar.button(t["simulate_pro"]):
-        st.session_state["pro_access"] = not st.session_state["pro_access"]
-        st.success(f"Pro Status toggled: {st.session_state['pro_access']}")
-
-    st.sidebar.markdown("---")
-    st.sidebar.markdown(f"### {t['config_title']}")
-    
-    region = st.sidebar.selectbox(t["region"], ["Global (Worldwide)", "United States (US)", "India (IN)", "United Kingdom (UK)", "European Union (EU)", "Southeast Asia (SEA)"])
-    platform_source = st.sidebar.selectbox(t["platform"], ["TikTok Shop & FYP", "Instagram Reels & Explore", "Amazon Movers & Shakers", "Google Trends & Search", "YouTube Shorts & Trending", "X (Twitter) & Reddit Virals"])
-    
-    category_list = list(UPDATED_NICHE_CATEGORIES.keys())
-    selected_category = st.sidebar.selectbox(t["category"], category_list)
-    
-    sub_niche_list = UPDATED_NICHE_CATEGORIES[selected_category]
-    selected_sub_niche = st.sidebar.selectbox(t["sub_category"], sub_niche_list)
-    
-    timeframe = st.sidebar.selectbox(t["velocity"], ["Last 24 Hours (Realtime Spike)", "Last 7 Days (Momentum Surge)", "Last 30 Days (Established Trend)"])
-
-    if st.sidebar.button(t["apply_btn"], type="primary"):
-        with st.spinner("Executing autonomous ingestion pipeline & updating database..."):
-            fetch_and_store_signals(region, platform_source, selected_category, selected_sub_niche, timeframe)
-        st.sidebar.success("Pipeline executed successfully! Signals ingested into SQLite.")
-
-    # Main Header
-    st.markdown(f"# {t['title']}")
-    st.markdown(f"#### {t['subtitle']}")
-    st.markdown("---")
-
-    # Navigation Tabs
-    tab1, tab2, tab3 = st.tabs([t["tab_radar"], t["tab_blueprint"], t["tab_db"]])
-
-    # ------------------------------------------
-    # TAB 1: INGESTION RADAR
-    # ------------------------------------------
-    with tab1:
-        st.markdown(f"### 📡 Autonomous Ingestion Radar — {selected_sub_niche}")
-        st.markdown("Live signals ingested across global platforms and categorized into high-velocity commercial opportunities.")
-
-        col1, col2, col3, col4 = st.columns(4)
-        col1.metric("Active Signal Velocity", "98.4%", "+14.2% 24h")
-        col2.metric("Market Saturation Index", "Low-Medium", "Optimal Entry")
-        col3.metric("Predicted Viral Multiplier", "14.2x", "High Confidence")
-        col4.metric("AI Confidence Score", "99.1%", "Verified Vault")
-
-        st.markdown("---")
-        
-        # Display Ingested Signals from DB
-        cursor = db_conn.cursor()
-        cursor.execute("SELECT source_platform, keyword, engagement_metrics, region, timestamp FROM platform_signals ORDER BY signal_id DESC LIMIT 15")
-        rows = cursor.fetchall()
-
-        if rows:
-            df_signals = pd.DataFrame(rows, columns=["Platform", "Asset / Keyword", "Engagement & Velocity", "Region", "Timestamp"])
-            st.dataframe(df_signals, use_container_width=True, hide_index=True)
-        else:
-            st.info("No signals found in database. Run the Ingestion Pipeline from the sidebar to populate live telemetry.")
-
-        st.markdown("### 📊 Realtime Telemetry & Trend Visualization")
-        chart_data = pd.DataFrame({
-            "Signal Wave": ["Hour 1", "Hour 3", "Hour 6", "Hour 12", "Hour 18", "Hour 24"],
-            "Engagement Velocity": [1200, 3400, 7800, 15400, 28900, 45000],
-            "Conversion Efficiency": [12, 28, 45, 68, 85, 94]
-        })
-        fig = px.area(chart_data, x="Signal Wave", y=["Engagement Velocity", "Conversion Efficiency"], title=f"Telemetry Surge for {selected_sub_niche}", color_discrete_sequence=["#ff4b4b", "#00cc96"])
-        fig.update_layout(paper_bgcolor="#0e1117", plot_bgcolor="#161b22", font_color="#fafafa")
-        st.plotly_chart(fig, use_container_width=True)
-
-    # ------------------------------------------
-    # TAB 2: MASTER INTELLIGENCE & DOSSIER ENGINE
-    # ------------------------------------------
-    with tab2:
-        st.markdown(f"### {t['tab_blueprint']}")
-        st.markdown("Select an ingested trend or inject a custom asset to generate an exhaustive 10-section commercial execution dossier.")
-
-        col_a, col_b = st.columns([2, 1])
-        with col_a:
-            cursor.execute("SELECT keyword FROM platform_signals ORDER BY signal_id DESC LIMIT 20")
-            recent_keywords = [r[0] for r in cursor.fetchall()]
-            if not recent_keywords:
-                recent_keywords = ["Korean Glass Skin Skincare Bundle", "Smart LED Desk Lamp", "Matcha Ceremonial Grade Green Tea"]
-            
-            chosen_trend = st.selectbox("🎯 Select Ingested Asset / Trend:", recent_keywords)
-            custom_asset_input = st.text_input(t["custom_search"], placeholder="Or type any custom asset, product or coin here...")
-            target_asset = custom_asset_input if custom_asset_input else chosen_trend
-
-        with col_b:
-            selected_role = st.selectbox("💼 Target Commercial Role:", list(ROLE_SPECIFIC_METRICS.keys()))
-
-        custom_directive = st.text_area("✍️ Optional Custom Prompt / Strategic Focus Directive:", placeholder="E.g., Focus on TikTok Shop organic video hooks with zero ad spend...")
-
-        if st.button("🚀 Generate Master Intelligence & Revenue Dossier", type="primary"):
-            if not target_asset:
-                st.warning("Please select or type a valid asset/trend.")
-            else:
-                with st.spinner(f"Generating exhaustive 10-section dossier for '{target_asset}' under role '{selected_role}'..."):
-                    dossier_result = generate_dossier_with_groq(target_asset, selected_sub_niche, selected_role, custom_directive)
-                    st.session_state["latest_dossier"] = dossier_result
-                    st.session_state["latest_asset"] = target_asset
-                    st.session_state["latest_role"] = selected_role
-
-        if "latest_dossier" in st.session_state:
-            res = st.session_state["latest_dossier"]
-            cur_asset = st.session_state["latest_asset"]
-            cur_role = st.session_state["latest_role"]
-
-            st.markdown("---")
-            st.success(f"✅ Dossier Generated Successfully for: **{cur_asset}** | Role: **{cur_role}**")
-
-            # PDF Download Button
-            pdf_buffer = create_pdf_dossier(cur_asset, selected_sub_niche, cur_role, "98.4/100", "14 Days", res)
-            st.download_button(
-                label="📥 Download Complete Master Dossier (PDF)",
-                data=pdf_buffer,
-                file_name=f"TrendPulse_Dossier_{sanitize_trend_input(cur_asset)[:30]}.pdf",
-                mime="application/pdf",
-                type="primary"
-            )
-
-            # 10 Collapsible Sections
-            sections_display = [
-                ("1. Advanced Monetization, Rate Card & Unit Economics Vault", res.get("unit_economics", "")),
-                ("2. Geo-Targeting & Regional Hotspot Mapping", res.get("geo_mapping", "")),
-                ("3. Psychological Hook Matrix & Video Storyboard (0-3s)", res.get("hook_matrix", "")),
-                ("4. Ready-to-Deploy Multi-Angle Copywriting Vault", res.get("copywriting_vault", "")),
-                ("5. Competitor & Market Saturation Threat Matrix", res.get("saturation_matrix", "")),
-                ("6. AI Prompt Engineering & Script Generation Pack", res.get("tech_prompts", "")),
-                ("7. Algorithmic Scale vs Kill Risk Management Rules", res.get("scale_kill_rules", "")),
-                ("8. Realtime Audience Sentiment & Virality Predictive Formula", res.get("virality_formula", "")),
-                ("9. Multi-Platform Syndication & Marketing Matrix", res.get("syndication_matrix", "")),
-                ("10. Automated 10-Day Master Execution & Scaling Roadmap", res.get("action_roadmap", ""))
-            ]
-
-            for title, text in sections_display:
-                with st.expander(title, expanded=False):
-                    st.markdown(text)
-
-    # ------------------------------------------
-    # TAB 3: DATABASE INSPECTOR & LOGS
-    # ------------------------------------------
-    with tab3:
-        st.markdown(f"### {t['tab_db']}")
-        st.markdown("Inspect SQLite database tables, audit ingested telemetry, and review system execution logs.")
-
-        table_choice = st.selectbox("📂 Select Database Table:", ["platform_signals", "users_table", "niches_table", "trends_table", "blueprints_table"])
-        
-        cursor = db_conn.cursor()
-        cursor.execute(f"SELECT * FROM {table_choice} ORDER BY 1 DESC LIMIT 50")
-        rows = cursor.fetchall()
-        col_names = [description[0] for description in cursor.description]
-
-        if rows:
-            df_db = pd.DataFrame(rows, columns=col_names)
-            st.dataframe(df_db, use_container_width=True, hide_index=True)
-            st.info(f"Total rows displayed: {len(rows)} from `{table_choice}`.")
-        else:
-            st.warning(f"Table `{table_choice}` is currently empty.")
-
-        if st.button("🗑️ Purge Selected Table Data"):
-            cursor.execute(f"DELETE FROM {table_choice}")
-            db_conn.commit()
-            st.success(f"Table `{table_choice}` purged successfully.")
-            st.rerun()
-
-if __name__ == "__main__":
-    main()
+        st.error(f"Database Inspection Error: {e}")
