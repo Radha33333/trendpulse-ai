@@ -56,7 +56,7 @@ GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY", ""))
 STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_demo"
 
 # ==========================================
-# 2. SQLITE DATABASE INITIALIZATION (EXTENDED TABLES)
+# 2. SQLITE DATABASE INITIALIZATION (5 CORE TABLES)
 # ==========================================
 def init_database():
     conn = sqlite3.connect("trendpulse_enterprise.db", check_same_thread=False)
@@ -103,28 +103,6 @@ def init_database():
             trend_name TEXT,
             role_type TEXT,
             full_dossier TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-    # New Table for Feature 2: Saved Dossiers Vault & History
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS saved_dossiers (
-            vault_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            asset_name TEXT,
-            category TEXT,
-            role_type TEXT,
-            velocity_score REAL,
-            dossier_json TEXT,
-            saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-    # New Table for Feature 4: Alert Triggers
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS alert_subscriptions (
-            alert_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT,
-            keyword_target TEXT,
-            threshold REAL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
@@ -267,9 +245,6 @@ TEXTS = {
         "active_signals_for": "Active Ingested Signals for:",
         "tab_radar": "📡 Ingestion Radar",
         "tab_blueprint": "🚀 Master Intelligence & Revenue Dossier Engine",
-        "tab_vault": "📂 Saved Dossiers Vault",
-        "tab_content": "✍️ AI Content & Ad Copy Generator",
-        "tab_alerts": "🔔 Webhook & Email Alerts",
         "tab_db": "🗄️ Database Inspector & Logs",
         "live_sync": "⚡ Live API Connected & Synced",
     },
@@ -290,9 +265,6 @@ TEXTS = {
         "active_signals_for": "सक्रिय इंजेस्टेड सिग्नल:",
         "tab_radar": "📡 इंजेक्शन रडार",
         "tab_blueprint": "🚀 मास्टर इंटेलिजेंस और रेवेन्यू डॉसियर इंजन",
-        "tab_vault": "📂 सेव्ड डॉसियर वाल्ट",
-        "tab_content": "✍️ एआई कंटेंट और एड कॉपी जेनरेटर",
-        "tab_alerts": "🔔 वेबहुक और ईमेल अलर्ट्स",
         "tab_db": "🗄️ डेटाबेस इंस्पेक्टर और लॉग्स",
         "live_sync": "⚡ लाइव एपीआई कनेक्टेड और सिंक हो गया है",
     },
@@ -399,12 +371,15 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     items = []
     
+    # Check for specific live APIs first
     if "Crypto" in category or "Crypto" in sub_niche:
         items = fetch_coingecko_crypto()
     elif "Digital Products" in category or "Tools" in category or "Vibe Coding" in sub_niche:
         items = fetch_hackernews_tech()
     
+    # If no external API data, generate rich, context-aware dynamic signals for ANY selected sub-niche
     if not items:
+        # Dynamic pool generator based on selected sub-niche or category
         target_name = sub_niche if sub_niche and sub_niche != "All Sub-Niches" else category
         clean_target = target_name.split(" & ")[0].split(" / ")[0]
         
@@ -445,7 +420,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
     return results
 
 # ==========================================
-# 8. MASTER LLM DOSSIER & CONTENT GENERATOR
+# 8. MASTER LLM DOSSIER GENERATOR
 # ==========================================
 def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
     clean_asset = sanitize_trend_input(keyword_asset)
@@ -508,21 +483,6 @@ JSON Format:
     except Exception:
         return default_response
 
-def generate_ai_content_snippet(asset_name, content_type):
-    if not GROQ_API_KEY:
-        return f"Generated {content_type} for {asset_name}: Standard template text - please configure Groq API for live AI generation."
-    try:
-        client = Groq(api_key=GROQ_API_KEY)
-        prompt = f"Write a high-converting, viral {content_type} about the trend/asset: '{asset_name}'. Keep it punchy, engaging, and ready for immediate deployment."
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
-        )
-        return completion.choices[0].message.content
-    except Exception as e:
-        return f"Error generating content: {e}"
-
 # ==========================================
 # 9. FRAGMENTED UI COMPONENT FOR REALTIME REFRESH
 # ==========================================
@@ -537,14 +497,12 @@ def render_live_telemetry_radar(geo_option, platform_source, selected_category, 
     )
     signal_scores = {item["Keyword"]: round(99.4 - (i * 2.1), 1) for i, item in enumerate(active_signals)}
     df_signals = pd.DataFrame(active_signals)
-    
     custom_search = st.text_input(t["custom_search"], placeholder="e.g. Misty Tea Estate Heritage Homestay Wave, K-Beauty Glass Skin")
     if custom_search.strip():
         custom_item = {"Keyword": custom_search.strip(), "Entity": "Custom Injection Target", "Volume": f"Realtime Query ({geo_option})", "Velocity": "🔥 High Growth"}
         if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
             active_signals.insert(0, custom_item)
             df_signals = pd.DataFrame(active_signals)
-            
     st.markdown(f"**{t['active_signals_for']}** `{selected_category}` | `{platform_source}` | `{geo_option}`")
     
     st.dataframe(
@@ -557,32 +515,6 @@ def render_live_telemetry_radar(geo_option, platform_source, selected_category, 
         use_container_width=True,
         hide_index=True
     )
-    
-    # 🌟 Feature 1: Multi-Format Export (CSV & Excel Download)
-    st.markdown("### 📥 Export Telemetry Feed")
-    exp_col1, exp_col2 = st.columns(2)
-    with exp_col1:
-        csv_data = df_signals.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="📊 Download Telemetry as CSV",
-            data=csv_data,
-            file_name=f"TrendPulse_Signals_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
-            mime="text/csv",
-            use_container_width=True
-        )
-    with exp_col2:
-        output = io.BytesIO()
-        with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            df_signals.to_excel(writer, index=False, sheet_name='Signals')
-        excel_data = output.getvalue()
-        st.download_button(
-            label="📁 Download Telemetry as Excel",
-            data=excel_data,
-            file_name=f"TrendPulse_Signals_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            use_container_width=True
-        )
-
     st.markdown("#### 📈 Signal Velocity & Pipeline Demand Curve")
     chart_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
     base_score = signal_scores.get(chart_keyword, 94.0)
@@ -598,7 +530,7 @@ def render_live_telemetry_radar(geo_option, platform_source, selected_category, 
     return active_signals, signal_scores
 
 # ==========================================
-# 10. MAIN UI LAYOUT & ALL 4 NEW FEATURES INTEGRATION
+# 10. MAIN UI LAYOUT & BACKEND INSPECTOR
 # ==========================================
 if "is_premium" not in st.session_state:
     st.session_state["is_premium"] = False
@@ -652,10 +584,8 @@ with st.form(key="filter_form"):
 
 st.markdown("---")
 
-# TABBED WORKFLOW UI (Now with all tabs including new features)
-tab_radar, tab_blueprint, tab_vault, tab_content, tab_alerts, tab_db = st.tabs([
-    t["tab_radar"], t["tab_blueprint"], t["tab_vault"], t["tab_content"], t["tab_alerts"], t["tab_db"]
-])
+# TABBED WORKFLOW UI
+tab_radar, tab_blueprint, tab_db = st.tabs([t["tab_radar"], t["tab_blueprint"], t["tab_db"]])
 
 with tab_radar:
     active_signals, signal_scores = render_live_telemetry_radar(
@@ -694,21 +624,8 @@ with tab_blueprint:
                 dossier_result = generate_master_enterprise_dossier(
                     selected_asset, selected_category, selected_sub_niche, target_role, platform_source, timeframe, velocity_score, selected_lang
                 )
-                
-                # Automatically save to Saved Dossiers Vault (Feature 2)
-                try:
-                    cur = db_conn.cursor()
-                    cur.execute(
-                        "INSERT INTO saved_dossiers (asset_name, category, role_type, velocity_score, dossier_json) VALUES (?, ?, ?, ?, ?)",
-                        (selected_asset, selected_category, target_role, velocity_score, json.dumps(dossier_result))
-                    )
-                    db_conn.commit()
-                except Exception:
-                    pass
-
                 st.markdown(f"### 📑 Enterprise Master Dossier: {selected_asset}")
                 st.caption(f"Role: {target_role} | Platform: {platform_source} | Predictive Score: {velocity_score}%")
-                
                 pdf_buffer = create_pdf_dossier(selected_asset, selected_category, target_role, velocity_score, timeframe, dossier_result)
                 st.download_button(
                     label="📥 Download Official PDF Commercial & Revenue Dossier",
@@ -717,7 +634,6 @@ with tab_blueprint:
                     mime="application/pdf",
                     use_container_width=True
                 )
-                
                 sections_meta = [
                     ("1. Advanced Monetization, Rate Card & Unit Economics Vault", dossier_result.get("unit_economics", "")),
                     ("2. Geo-Targeting & Regional Hotspot Mapping", dossier_result.get("geo_mapping", "")),
@@ -733,89 +649,6 @@ with tab_blueprint:
                 for sec_title, sec_content in sections_meta:
                     with st.expander(sec_title, expanded=False):
                         st.markdown(sec_content)
-
-# 🌟 Feature 2: Saved Dossiers Vault & History Dashboard
-with tab_vault:
-    st.subheader("📂 Saved Dossiers History Vault")
-    st.caption("Access, review, and compare previously generated enterprise commercial dossiers stored in SQLite.")
-    try:
-        df_vault = pd.read_sql_query("SELECT vault_id, asset_name, category, role_type, velocity_score, saved_at FROM saved_dossiers ORDER BY vault_id DESC", db_conn)
-        if df_vault.empty:
-            st.info("No dossiers saved in the vault yet. Generate a dossier in the Master Blueprint tab to store it here.")
-        else:
-            st.dataframe(df_vault, use_container_width=True, hide_index=True)
-            
-            selected_vault_id = st.selectbox("Select Vault ID to Inspect:", options=df_vault["vault_id"].tolist())
-            if selected_vault_id:
-                cur = db_conn.cursor()
-                cur.execute("SELECT dossier_json FROM saved_dossiers WHERE vault_id = ?", (selected_vault_id,))
-                row = cur.fetchone()
-                if row:
-                    saved_data = json.loads(row[0])
-                    st.success(f"Loaded Dossier Record #{selected_vault_id}")
-                    for k, v in saved_data.items():
-                        with st.expander(f"📌 {k.replace('_', ' ').title()}", expanded=False):
-                            st.markdown(v)
-    except Exception as e:
-        st.error(f"Error loading Vault records: {e}")
-
-# 🌟 Feature 3: Instant AI Content & Script Generator
-with tab_content:
-    st.subheader("✍️ Instant AI Content & Ad Copy Generator")
-    st.caption("Generate ready-to-deploy marketing copy, video hooks, and ad scripts for any trending asset instantly.")
-    
-    content_asset = st.text_input("Target Trend / Asset Name:", placeholder="e.g., K-Beauty Glass Skin Serum, MagSafe Power Bank")
-    content_type = st.selectbox(
-        "Select Content Format:",
-        ["Instagram Reel 30s Script", "YouTube Shorts Viral Hook Pack", "High-Converting Facebook Ad Copy", "Newsletter / Blog Launch Post", "Twitter / X Thread Hooks"]
-    )
-    
-    if st.button("✨ Generate Instant Content via AI", use_container_width=True):
-        if not content_asset.strip():
-            st.warning("Please enter a valid trend or asset name.")
-        else:
-            with st.spinner("⚡ Crafting high-converting copy with Groq AI..."):
-                generated_text = generate_ai_content_snippet(content_asset, content_type)
-                st.markdown("### 📝 Generated Content Output:")
-                st.code(generated_text, language="markdown")
-                st.info("💡 You can copy this directly for your campaigns or video shoots.")
-
-# 🌟 Feature 4: Simulated Email & Webhook Alert System
-with tab_alerts:
-    st.subheader("🔔 Simulated Email & Webhook Alert System")
-    st.caption("Configure automated alerts when your targeted asset or niche exceeds a specific velocity threshold.")
-    
-    with st.form(key="alert_form"):
-        alert_email = st.text_input("Your Enterprise Email:", placeholder="operator@company.com")
-        alert_keyword = st.text_input("Target Keyword or Niche:", placeholder="e.g., EV Battery Tech")
-        alert_threshold = st.slider("Trigger Velocity Score Threshold (%)", min_value=50.0, max_value=99.0, value=85.0, step=0.5)
-        
-        submit_alert = st.form_submit_button("🚨 Save & Register Alert Trigger", use_container_width=True)
-        if submit_alert:
-            if alert_email.strip() and alert_keyword.strip():
-                try:
-                    cur = db_conn.cursor()
-                    cur.execute(
-                        "INSERT INTO alert_subscriptions (email, keyword_target, threshold) VALUES (?, ?, ?)",
-                        (alert_email.strip(), alert_keyword.strip(), alert_threshold)
-                    )
-                    db_conn.commit()
-                    st.success(f"✅ Alert successfully registered for `{alert_keyword}` at `{alert_threshold}%` threshold! Notification simulation active.")
-                except Exception as e:
-                    st.error(f"Database Error: {e}")
-            else:
-                st.warning("Please fill in both your email and target keyword.")
-                
-    st.markdown("---")
-    st.markdown("#### 📡 Active Subscribed Alerts in Database")
-    try:
-        df_alerts = pd.read_sql_query("SELECT alert_id, email, keyword_target, threshold, created_at FROM alert_subscriptions ORDER BY alert_id DESC", db_conn)
-        if df_alerts.empty:
-            st.info("No active alert subscriptions found.")
-        else:
-            st.dataframe(df_alerts, use_container_width=True, hide_index=True)
-    except Exception as e:
-        st.warning(f"Could not load alerts: {e}")
 
 with tab_db:
     st.subheader("🗄️ Database Inspector & Execution Logs")
