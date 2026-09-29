@@ -12,8 +12,14 @@ import requests
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
-from pytrends.request import TrendReq
 import streamlit as st
+
+# Safe import for pytrends to prevent ModuleNotFoundError on Streamlit Cloud
+try:
+    from pytrends.request import TrendReq
+    PYTRENDS_AVAILABLE = True
+except ImportError:
+    PYTRENDS_AVAILABLE = False
 
 # ==========================================
 # 1. PAGE CONFIG & GLOBAL ENTERPRISE STYLING
@@ -329,6 +335,8 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_live_google_trends(keyword, region_code="IN"):
+    if not PYTRENDS_AVAILABLE:
+        return None
     try:
         pytrends = TrendReq(hl='en-US', tz=330)
         pytrends.build_payload([keyword], cat=0, timeframe='now 7-d', geo=region_code, gprop='')
@@ -352,8 +360,8 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
     
     geo_code = "IN" if "IN" in region else ("US" if "US" in region else ("GB" if "GB" in region else ""))
     
-    # Try fetching real-time Google Trends if Google Trends platform or specific sub-niche is targeted
-    if "Google Trends" in platform_source or (sub_niche and sub_niche != "All Sub-Niches"):
+    # Try fetching real-time Google Trends if available and Google Trends platform or specific sub-niche is targeted
+    if PYTRENDS_AVAILABLE and ("Google Trends" in platform_source or (sub_niche and sub_niche != "All Sub-Niches")):
         query_keyword = sub_niche if sub_niche != "All Sub-Niches" else category
         items = fetch_live_google_trends(query_keyword, geo_code)
 
