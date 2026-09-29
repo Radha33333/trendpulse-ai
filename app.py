@@ -365,42 +365,47 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     return buffer
 
 # ==========================================
-# 7. COMPREHENSIVE DYNAMIC & LIVE API DATA ENGINE
+# 7. UPDATED DYNAMIC REAL-TIME SIGNAL GENERATOR
 # ==========================================
 @st.cache_data(ttl=60)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     items = []
+    
+    # Check for specific live APIs first
     if "Crypto" in category or "Crypto" in sub_niche:
         items = fetch_coingecko_crypto()
     elif "Digital Products" in category or "Tools" in category or "Vibe Coding" in sub_niche:
         items = fetch_hackernews_tech()
     
+    # If no external API data, generate rich, context-aware dynamic signals for ANY selected sub-niche
     if not items:
-        master_pools = {
-            "TikTok Shop & Live Deals": [("Flash Drop: Korean Glass Skin Skincare Bundle", "Laneige & Innisfree Kits", "🚀 Explosive Surge"), ("Viral Sunset Projector Lamp Restock", "RGB Ambient Lights", "🔥 High Growth"), ("50% Off Portable Neck Fan Special", "JisuLife Fans", "⚡ Accelerating"), ("Aesthetic Corduroy Tote Bags", "Minimalist Canvas Co.", "📈 Trending"), ("Mini Wireless Car Vacuum Sellout", "Baseus Auto", "🔥 High Growth")],
-            "Amazon Hot Movers & Bestsellers": [("Smart LED Desk Lamp Wireless Charger", "BenQ & TaoTronics", "🔥 High Growth"), ("Bestselling Electric Toothbrush Sonic Wave", "Philips Sonicare", "🚀 Explosive Surge"), ("Compact Dehumidifier Small Rooms", "Pro Breeze Unit", "⚡ Accelerating"), ("Magnetic Power Bank Fast Charge Magsafe", "Anker MagGo", "📈 Trending"), ("Retinol Serum Surge", "CeraVe & Neutrogena", "🔥 High Growth")],
-            "D2C Breakout & DTC Brands": [("Matcha Ceremonial Grade Green Tea Drop", "Teabloom & Tenzo", "🚀 Explosive Surge"), ("Non-Toxic Ceramic Cookware Expansion", "Our Place Always Pan", "🔥 High Growth"), ("Micro-Exfoliating Body Wash Sensation", "Nécessaire", "⚡ Accelerating"), ("Sustainably Sourced Bamboo Sheets", "Boll & Branch", "📈 Trending"), ("Functional Mushroom Coffee Boom", "Four Sigmatic", "🔥 High Growth")],
-            "Problem-Solver Gadgets": [("Keyless Smart Door Lock Fingerprint Entry", "Eufy Security", "🔥 High Growth"), ("Automatic Self-Cleaning Litter Box", "Litter-Robot 4", "🚀 Explosive Surge"), ("Cordless Electric Spin Scrubber", "Rubbermaid Reveal", "⚡ Accelerating"), ("Tile Bluetooth Smart Tracker Pack", "Tile Pro Series", "📈 Trending"), ("Solar-Powered Security Camera", "Ring Floodlight Cam", "🔥 High Growth")],
-            "Print-on-Demand & Custom Merch": [("Aesthetic Vintage Graphic Oversized Tee", "Streetwear Custom Co.", "🔥 High Growth"), ("Custom Embossed Leather Passport Holder", "Monogram Studio", "🚀 Explosive Surge"), ("Personalized Acrylic Spotify Plaque", "CustomTune Gifts", "⚡ Accelerating"), ("Minimalist Line Art Pet Portrait Canvas", "Pawprint Prints", "📈 Trending"), ("Custom Neon Name Sign LED Decor", "GlowingVibes Custom", "🔥 High Growth")],
-            "Upcoming High-Demand Drops": [("Next-Gen AR Smart Glasses Pre-Order", "Ray-Ban Meta Gen 2", "🚀 Explosive Surge"), ("Limited Edition Liquid Cooling PC Case", "Lian Li Dynamic Evo", "🔥 High Growth"), ("AI-Powered Smart Plant Care Monitor", "PlantIn Sensor Pro", "⚡ Accelerating"), ("Modular Travel Jacket with Neck Pillow", "BAUBAX Ultimate", "📈 Trending"), ("Biodegradable Sneaker Line Drop", "Allbirds Tree Dasher 3", "🔥 High Growth")],
-        }
-        if sub_niche in master_pools:
-            items = master_pools[sub_niche]
-        else:
-            items = [
-                (f"Breakout Trend in {sub_niche}", f"Analyzed Entity Node #{i+1} ({category})", "🔥 High Growth" if i % 2 == 0 else "⚡ Accelerating")
-                for i in range(10)
-            ]
+        # Dynamic pool generator based on selected sub-niche or category
+        target_name = sub_niche if sub_niche and sub_niche != "All Sub-Niches" else category
+        clean_target = target_name.split(" & ")[0].split(" / ")[0]
+        
+        items = [
+            (f"Breakout Surge in {clean_target} Pro Max", f"Entity Node Alpha ({region})", "🚀 Explosive Surge"),
+            (f"Viral Trend: Next-Gen {clean_target} Edition", f"Ecosystem Hub Beta", "🔥 High Growth"),
+            (f"High-Demand Drop: Premium {clean_target}", f"Marketplace Lead Gamma", "⚡ Accelerating"),
+            (f"Consumer Surge Alert: {clean_target} Hub", f"Trend Analyzer Delta", "📈 Trending"),
+            (f"Smart Solution Pack: {clean_target}", f"Optimized Entity Omega", "🔥 High Growth"),
+            (f"Limited Edition {clean_target} Release", f"Global Feed Vector", "🚀 Explosive Surge"),
+            (f"Trending Momentum in {clean_target}", f"Direct Network Node", "⚡ Accelerating"),
+            (f"Flash Growth Spike: {clean_target}", f"Cross-Platform Signal", "📈 Trending"),
+            (f"Top Searched Intent: {clean_target}", f"Search Engine Index", "🔥 High Growth"),
+            (f"Emerging Viral Wave: {clean_target}", f"Community Feed Tracker", "🚀 Explosive Surge")
+        ]
 
     results = []
     for i, (item, entity, velocity) in enumerate(items):
-        base_vol = 1450000 - (i * 85400)
+        base_vol = 1450000 - (i * 75400)
         results.append({
             "Keyword": item,
             "Entity": entity,
             "Volume": f"{base_vol:,} Interactions ({region})",
             "Velocity": velocity
         })
+        
     try:
         cursor = db_conn.cursor()
         for r in results:
@@ -411,6 +416,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
         db_conn.commit()
     except Exception:
         pass
+        
     return results
 
 # ==========================================
