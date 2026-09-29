@@ -326,18 +326,22 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     clean_asset = sanitize_trend_input(asset_name)
     clean_cat = sanitize_trend_input(category)
     clean_role = sanitize_trend_input(role).lstrip('n').strip()
+
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
     styles = getSampleStyleSheet()
+
     title_style = ParagraphStyle("TitleStyle", parent=styles["Heading1"], fontSize=14, textColor="#ff4b4b", spaceAfter=6)
     heading_style = ParagraphStyle("HeadingStyle", parent=styles["Heading2"], fontSize=10, textColor="#1a1a1a", spaceBefore=5, spaceAfter=2)
     body_style = ParagraphStyle("BodyStyle", parent=styles["Normal"], fontSize=7.5, leading=10, textColor="#333333", spaceAfter=3)
+
     story = [
         Paragraph("TrendPulse AI - Master Intelligence & Revenue Scale Dossier", title_style),
         Paragraph(f"<b>Asset:</b> {safe_xml_text(clean_asset)} | <b>Category:</b> {safe_xml_text(clean_cat)} | <b>Role:</b> {safe_xml_text(clean_role)}", body_style),
         Paragraph(f"<b>Predictive Viral Score:</b> {safe_xml_text(str(viral_score))} | <b>Window:</b> {safe_xml_text(str(window))}", body_style),
         Spacer(1, 4)
     ]
+
     sections = [
         ("1. Advanced Monetization, Rate Card & Unit Economics Vault", result.get("unit_economics", "")),
         ("2. Geo-Targeting & Regional Hotspot Mapping", result.get("geo_mapping", "")),
@@ -350,88 +354,36 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
         ("9. Multi-Platform Syndication & Marketing Matrix", result.get("syndication_matrix", "")),
         ("10. Automated 10-Day Master Execution & Scaling Roadmap", result.get("action_roadmap", "")),
     ]
+
     for title, text in sections:
         story.append(Paragraph(title, heading_style))
         story.append(Paragraph(safe_xml_text(text), body_style))
         story.append(Spacer(1, 2))
+
     doc.build(story)
     buffer.seek(0)
     return buffer
 
 # ==========================================
-# 7. COMPREHENSIVE DYNAMIC & LIVE API DATA ENGINE (ALL 120 SUB-NICHES COVERED)
+# 7. COMPREHENSIVE DYNAMIC & LIVE API DATA ENGINE
 # ==========================================
 @st.cache_data(ttl=60)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     items = []
-
-    # Direct API integrations for specific categories
     if "Crypto" in category or "Crypto" in sub_niche:
         items = fetch_coingecko_crypto()
     elif "Digital Products" in category or "Tools" in category or "Vibe Coding" in sub_niche:
         items = fetch_hackernews_tech()
-
+    
     if not items:
-        # Full detailed mapping for all sub-niches across 20 categories to ensure zero generic fallback
         master_pools = {
-            # E-Commerce
             "TikTok Shop & Live Deals": [("Flash Drop: Korean Glass Skin Skincare Bundle", "Laneige & Innisfree Kits", "🚀 Explosive Surge"), ("Viral Sunset Projector Lamp Restock", "RGB Ambient Lights", "🔥 High Growth"), ("50% Off Portable Neck Fan Special", "JisuLife Fans", "⚡ Accelerating"), ("Aesthetic Corduroy Tote Bags", "Minimalist Canvas Co.", "📈 Trending"), ("Mini Wireless Car Vacuum Sellout", "Baseus Auto", "🔥 High Growth")],
             "Amazon Hot Movers & Bestsellers": [("Smart LED Desk Lamp Wireless Charger", "BenQ & TaoTronics", "🔥 High Growth"), ("Bestselling Electric Toothbrush Sonic Wave", "Philips Sonicare", "🚀 Explosive Surge"), ("Compact Dehumidifier Small Rooms", "Pro Breeze Unit", "⚡ Accelerating"), ("Magnetic Power Bank Fast Charge Magsafe", "Anker MagGo", "📈 Trending"), ("Retinol Serum Surge", "CeraVe & Neutrogena", "🔥 High Growth")],
             "D2C Breakout & DTC Brands": [("Matcha Ceremonial Grade Green Tea Drop", "Teabloom & Tenzo", "🚀 Explosive Surge"), ("Non-Toxic Ceramic Cookware Expansion", "Our Place Always Pan", "🔥 High Growth"), ("Micro-Exfoliating Body Wash Sensation", "Nécessaire", "⚡ Accelerating"), ("Sustainably Sourced Bamboo Sheets", "Boll & Branch", "📈 Trending"), ("Functional Mushroom Coffee Boom", "Four Sigmatic", "🔥 High Growth")],
             "Problem-Solver Gadgets": [("Keyless Smart Door Lock Fingerprint Entry", "Eufy Security", "🔥 High Growth"), ("Automatic Self-Cleaning Litter Box", "Litter-Robot 4", "🚀 Explosive Surge"), ("Cordless Electric Spin Scrubber", "Rubbermaid Reveal", "⚡ Accelerating"), ("Tile Bluetooth Smart Tracker Pack", "Tile Pro Series", "📈 Trending"), ("Solar-Powered Security Camera", "Ring Floodlight Cam", "🔥 High Growth")],
             "Print-on-Demand & Custom Merch": [("Aesthetic Vintage Graphic Oversized Tee", "Streetwear Custom Co.", "🔥 High Growth"), ("Custom Embossed Leather Passport Holder", "Monogram Studio", "🚀 Explosive Surge"), ("Personalized Acrylic Spotify Plaque", "CustomTune Gifts", "⚡ Accelerating"), ("Minimalist Line Art Pet Portrait Canvas", "Pawprint Prints", "📈 Trending"), ("Custom Neon Name Sign LED Decor", "GlowingVibes Custom", "🔥 High Growth")],
             "Upcoming High-Demand Drops": [("Next-Gen AR Smart Glasses Pre-Order", "Ray-Ban Meta Gen 2", "🚀 Explosive Surge"), ("Limited Edition Liquid Cooling PC Case", "Lian Li Dynamic Evo", "🔥 High Growth"), ("AI-Powered Smart Plant Care Monitor", "PlantIn Sensor Pro", "⚡ Accelerating"), ("Modular Travel Jacket with Neck Pillow", "BAUBAX Ultimate", "📈 Trending"), ("Biodegradable Sneaker Line Drop", "Allbirds Tree Dasher 3", "🔥 High Growth")],
-            
-            # Real Estate
-            "Rental Yield Hotspots": [("IT Corridor High-Density Studio Apartment", "Whitefield, Bengaluru", "🔥 High Growth"), ("Suburban Gated Villa Community Rental", "Gachibowli, Hyderabad", "🚀 Explosive Surge"), ("Commercial High-Street Retail Leasing", "Bandra West, Mumbai", "⚡ Accelerating"), ("Student Housing PG Asset Investment", "North Campus, Delhi", "📈 Trending"), ("IT Park Adjoining 2BHK Rental Demand", "Hinjewadi, Pune", "🔥 High Growth")],
-            "PropTech & Smart Homes": [("IoT Centralized HVAC Automation Hub", "Schneider Electric Wiser", "🔥 High Growth"), ("AI Security Camera Facial Recognition", "Hikvision Smart Suite", "🚀 Explosive Surge"), ("Automated Motorized Curtain Integration", "Somfy Smart Motor", "⚡ Accelerating"), ("Digital Intercom Video Door Phone", "Godrej SmartHome", "📈 Trending"), ("Smart Water Flow Meter Leak Valve", "Flo by Moen", "🔥 High Growth")],
-            "Luxury Estates & Villas": [("Cliffside Panoramic Ocean View Villa", "Assagao, Goa", "🔥 High Growth"), ("Ultra-Luxury Golf Course Facing Estate", "DLF Phase 5, Gurugram", "🚀 Explosive Surge"), ("Heritage Bungalow Restoration Wave", "Alipore, Kolkata", "⚡ Accelerating"), ("Private Island Gated Community Plot", "Kochi Backwaters, Kerala", "📈 Trending"), ("Super-Luxury Skyscraper Penthouse", "Worli Sea Face, Mumbai", "🔥 High Growth")],
-            "Commercial & Co-Working Spaces": [("Managed Enterprise Office Floor Leasing", "WeWork BKC, Mumbai", "🔥 High Growth"), ("Grade-A Tech Park Office Absorption", "Manyata Tech Park, BLR", "🚀 Explosive Surge"), ("High-Street Retail Showroom Leasing", "Connaught Place, Delhi", "⚡ Accelerating"), ("Flexi-Desk Co-Working Hub Expansion", "Cyber City, Gurugram", "📈 Trending"), ("Startup Incubator Plug-and-Play Lease", "Koramangala Hub, BLR", "🔥 High Growth")],
-            "Fractional Real Estate & REITs": [("Commercial Grade-A Office REIT Dividend", "Embassy Office Parks REIT", "🔥 High Growth"), ("Retail Mall Asset Fractional Ownership", "Phoenix Mills REIT", "🚀 Explosive Surge"), ("Warehouse Logistics Park Tokenization", "StashAway PropTech", "⚡ Accelerating"), ("Hospitality Luxury Hotel REIT Expansion", "Lemon Tree Hotels Portfolio", "📈 Trending"), ("High-Yield Commercial Realty Crowdfunding", "PropertyShare Portal", "🔥 High Growth")],
-            "Upcoming Transit & Metro Hubs": [("Metro Station Interchange Commercial Spike", "Central Secretariat, Delhi", "🔥 High Growth"), ("High-Speed Rail Corridor Appreciation", "Mumbai-Ahmedabad Bullet Train", "🚀 Explosive Surge"), ("Airport Express Residential Boom", "Aerocity Link, New Delhi", "⚡ Accelerating"), ("Outer Ring Road Metro Real Estate", "ORR Metro, Bengaluru", "📈 Trending"), ("Suburban Circular Railway Hub Investment", "Panvel Transit Hub, Mumbai", "🔥 High Growth")],
-
-            # Automobile
-            "EV Launches & Battery Tech": [("Solid-State Battery Range Breakthrough", "Tata Motors EV R&D", "🚀 Explosive Surge"), ("Affordable Long-Range Electric SUV", "Mahindra BE.6", "🔥 High Growth"), ("Fast-Charging Cell Production Milestone", "Ola Electric Cell Gigafactory", "⚡ Accelerating"), ("Electric Two-Wheeler Subsidy Wave", "Ather Rizta & Ola S1", "📈 Trending"), ("Commercial Electric Delivery Van Fleet", "Tata Ace EV", "🔥 High Growth")],
-            "ADAS, Dashcams & Smart Tech": [("Dual-Channel 4K GPS Dashcam Review", "70mai & Qubo Dashcam", "🔥 High Growth"), ("ADAS Retrofit Kit Integration", "Mobility AI Suite", "🚀 Explosive Surge"), ("Blind Spot Detection Sensor Drop", "Bosch Automotive Tech", "⚡ Accelerating"), ("AI Smart Rearview Mirror Display", "Foxbox Auto Mirror", "📈 Trending"), ("OBD-II Realtime Diagnostics Scanner", "Veepeak Bluetooth OBD", "🔥 High Growth")],
-            "Car & Bike Accessories / Gadgets": [("Portable High-Pressure Cordless Washer", "Karcher & Baseus", "🔥 High Growth"), ("Magnetic Wireless Smartphone Mount", "Spigen MagFit", "🚀 Explosive Surge"), ("Ergonomic Car Neck Pillow & Cushion", "Trax & Autofurnish", "⚡ Accelerating"), ("Motorcycle Bluetooth Helmet Intercom", "Cardo Packtalk Edge", "📈 Trending"), ("Ambient Interior LED Strip Lighting", "Govee Car LED", "🔥 High Growth")],
-            "Auto Reviews & Mileage Hacks": [("Real-World Fuel Economy & Mileage Test", "Autocar India Channel", "🔥 High Growth"), ("Compact SUV Comparison & Value Breakdown", "Brezza vs Nexon vs Sonet", "🚀 Explosive Surge"), ("Engine Decarbonization Hack", "GoMechanic Service", "⚡ Accelerating"), ("Hybrid vs Petrol Cost-Benefit Analysis", "Grand Vitara & Hyryder", "📈 Trending"), ("Second-Hand Diesel SUV Guide", "Big Boy Toyz & Spinny", "🔥 High Growth")],
-            "Custom Bike & Supercar Buzz": [("Custom Cafe Racer Build Showcase", "Royal Enfield Interceptor 650 Mod", "🔥 High Growth"), ("Supercar V12 Exhaust Sound Tunnel Run", "Lamborghini Revuelto", "🚀 Explosive Surge"), ("Matte PPF Wrap & Ceramic Coating", "3M Car Care Studio", "⚡ Accelerating"), ("Track-Day Superbike Carbon Fairings", "Ducati Panigale V4R", "📈 Trending"), ("Off-Road Rally Modification Build", "Modified Isuzu V-Cross", "🔥 High Growth")],
-            "Commuter Vehicle Price Drops": [("Festive Clearance Discount Hatchbacks", "Maruti Swift & WagonR", "🔥 High Growth"), ("Entry-Level Commuter Bike Price Slash", "Hero Splendor Plus Deals", "🚀 Explosive Surge"), ("Compact Sedan Corporate Discount", "Hyundai Aura & Tata Tigor", "⚡ Accelerating"), ("Inventory Clearance Electric Scooters", "Bajaj Chetak & TVS iQube", "📈 Trending"), ("Pre-Owned Commuter Car Correction", "CarDekho & Spinny Index", "🔥 High Growth")],
-
-            # Parenting & Kids
-            "Baby Gear & Smart Strollers": [("AI Smart Baby Stroller Self-Driving Push", "GlüxKind Ella", "🚀 Explosive Surge"), ("Convertible Wooden High Chair Trend", "Stokke Tripp Trapp", "🔥 High Growth"), ("Ergonomic Baby Hipseat Carrier Launch", "LÍLLÉbaby Complete", "⚡ Accelerating"), ("Compact Travel Lightweight Pram Drop", "Babyzen Yoyo 3", "📈 Trending"), ("Smart Video Baby Monitor Heart Rate Track", "Owlet Dream Duo", "🔥 High Growth")],
-            "Early Childhood EdTech & Toys": [("Montessori Wooden Sorting & Stacking Toys", "Lovevery Play Kits", "🔥 High Growth"), ("Interactive STEM Coding Robot for Kids", "Sphero Mini Edu", "🚀 Explosive Surge"), ("Audio Storytelling Pod Device Surge", "Yoto Player & Tonies", "⚡ Accelerating"), ("Augmented Reality Alphabet Flash Cards", "Shifu Orboot", "📈 Trending"), ("Eco-Friendly Building Blocks Set", "Magna-Tiles Pro", "🔥 High Growth")],
-            "Modern Parenting & Routine Hacks": [("Gentle Sleep Training Audio Program Drop", "Taking Cara Babies", "🔥 High Growth"), ("Bento Box School Lunch Prep Containers", "PlanetBox Rover", "🚀 Explosive Surge"), ("Toddler Emotion Regulation Flashcards", "Big Life Journal", "⚡ Accelerating"), ("Minimalist Nursery Wardrobe Capsule", "Hanna Andersson Baby", "📈 Trending"), ("Digital Family Schedule Wall Calendar", " Skylight Calendar", "🔥 High Growth")],
-            "Kids Nutrition & Organic Foods": [("Cold-Pressed Organic Baby Puree Pouches", "Serenity Kids Meals", "🔥 High Growth"), ("Toddler Multivitamin Immunity Gummies", "Hiya Health Kids", "🚀 Explosive Surge"), ("Allergen Introduction Peanut Butter Mix", "Lil Mixins Pack", "⚡ Accelerating"), ("Plant-Based Kids Protein Shake Launch", "Ripple Kids Milk", "📈 Trending"), ("Zero-Sugar Electrolyte Hydration Cubes", "KinderMed Hydrate", "🔥 High Growth")],
-            "Maternity & Postpartum Care": [("Postpartum Recovery Herbal Sitz Bath Soak", "Frida Mom Kit", "🔥 High Growth"), ("High-Waist Supportive Maternity Leggings", "Belly Bandit Active", "🚀 Explosive Surge"), ("Electric Hands-Free Wearable Breast Pump", "Elvie & Willow Go", "⚡ Accelerating"), ("Organic Nursing Pillow Ergonomic Support", "Boppy Luxe", "📈 Trending"), ("Stretch Mark Prevention Belly Butter", "Burt's Bees Mama", "🔥 High Growth")],
-            "Family Lifestyle & Travel Gear": [("Expandable Family Cabin Luggage Set", "Monos Carry-On Pro", "🔥 High Growth"), ("Inflatable Airplane Travel Bed for Toddlers", "PlanePal Seat", "🚀 Explosive Surge"), ("Portable UV Sterilizer Sanitizer Wand", "Hiccapop Pod", "⚡ Accelerating"), ("Leakproof Family Picnic Cooler Backpack", "YETI Hopper BackFlip", "📈 Trending"), ("Kids Ride-On Suitcase Travel Companion", "Trunki Original", "🔥 High Growth")],
-
-            # Pets
-            "Pet Health & Nutrition": [("Grain-Free Raw Freeze-Dried Dog Food", "Stella & Chewy's", "🔥 High Growth"), ("Joint Support Glucosamine Chewable Treats", "Zesty Paws Mobility", "🚀 Explosive Surge"), ("Probiotic Digestive Health Powder Supplement", "Purina Pro Plan FortiFlora", "⚡ Accelerating"), ("Organic Salmon Oil Skin & Coat Booster", "Zesty Paws Omega", "📈 Trending"), ("Veterinary Formula Calming Anxiety Drops", "VetriScience Composure", "🔥 High Growth")],
-            "Dog & Cat Training Hacks": [("Interactive Puzzle Feeder Slow Bowl", "Outward Hound", "🔥 High Growth"), ("Clicker Training Professional Starter Kit", "Karen Pryor Clicker", "🚀 Explosive Surge"), ("Anti-Bark Ultrasonic Training Device", "Modus Ultrasonic", "⚡ Accelerating"), ("Cat Scratching Cardboard Lounge Pad", "PetFusion Mega", "📈 Trending"), ("Professional Pet Agility Training Tunnel", "Outward Hound Active", "🔥 High Growth")],
-            "Smart Pet Accessories & Tech": [("Automatic Wi-Fi Pet Feeder HD Camera", "PetSafe Smart Feed", "🔥 High Growth"), ("GPS Smart Collar Activity Tracker", "Fi Series 3 Collar", "🚀 Explosive Surge"), ("Smart Self-Cleaning Water Fountain", "Petlibro Capsule", "⚡ Accelerating"), ("App-Controlled Laser Toy for Cats", "Wicked Mouse Ball", "📈 Trending"), ("Smart Microchip Pet Door Access", "SureFlap Connect", "🔥 High Growth")],
-            "Cute & Funny Pet Virals": [("Talking Pet Button Communication Set", "FluentPet HexTiles", "🔥 High Growth"), ("Funny Shark Costume Hoodie for Cats", "Frisco Pet Apparel", "🚀 Explosive Surge"), ("Cat Window Hammock Suction Perch", "K&H Pet Products", "⚡ Accelerating"), ("Doggie GoPro Harness Mount Chest Strap", "Fetch Mount", "📈 Trending"), ("Interactive Flapping Bird Cat Teaser", "Flapping Duck Toy", "🔥 High Growth")],
-            "Grooming & Hygiene Products": [("Deshedding Undercoat Grooming Brush", "FURminator Tool", "🔥 High Growth"), ("Waterless Dry Shampoo Foam for Dogs", "Burt's Bees Grooming", "🚀 Explosive Surge"), ("Odor-Eliminating Bamboo Pet Wipes", "Earth Rated Wipes", "⚡ Accelerating"), ("Professional Pet Nail Grinder Electric", "Casfuy Silent Grinder", "📈 Trending"), ("Organic Oatmeal Anti-Itch Pet Shampoo", "Earthbath Oatmeal", "🔥 High Growth")],
-            "Breed Guides & Adoption Signals": [("Golden Retriever Puppy Socialization Guide", "AKC Breed Standard", "🔥 High Growth"), ("Rescue Cat Integration & Shelter Adoption", "Petfinder Local Hub", "🚀 Explosive Surge"), ("French Bulldog Health & Breathing Care", "Frenchie Bulldog Club", "⚡ Accelerating"), ("German Shepherd Working Line Training", "K9 Police Standard", "📈 Trending"), ("Adopt Don't Shop Shelter Awareness Drive", "PETA Animal Rescue", "🔥 High Growth")],
-
-            # Finance & Crypto
-            "Crypto & Web3 Signals": [("Bitcoin Halving On-Chain Liquidity Flow", "BTC Whale Wallet Tracker", "🔥 High Growth"), ("Layer-2 Gas Fee Optimization Surge", "Arbitrum & Optimism", "🚀 Explosive Surge"), ("Solana Memecoin Volume Accumulation", "Raydium & Jupiter DEX", "⚡ Accelerating"), ("DeFi Staking Yield APY Rebalancing", "Lido Finance StETH", "📈 Trending"), ("Bitcoin ETF Institutional Inflows", "BlackRock iShares BTC", "🔥 High Growth")],
-            "Stock Market & Algo Trading Bots": [("Nifty 50 Intraday Breakout Level", "Nifty 50 Index", "🔥 High Growth"), ("Bank Nifty Options Chain Open Interest", "Bank Nifty Futures", "🚀 Explosive Surge"), ("Algorithmic Momentum Crossover Bot", "Quant Scalpers Bot", "⚡ Accelerating"), ("FII/DII Net Cash Flow Reversal", "NSE Institutional Flow", "📈 Trending"), ("Smallcap Sector Rotation Accumulation", "BSE Smallcap Index", "🔥 High Growth")],
-            "Credit Card & Reward Hacks": [("Lifetime Free Reward Credit Card Upgrade", "HDFC Regalia & Amex Plat", "🔥 High Growth"), ("Airport Lounge Access Milestone Hack", "ICICI Sapphiro Cards", "🚀 Explosive Surge"), ("Fuel Surcharge Waiver Optimization", "SBI Octane Card", "⚡ Accelerating"), ("UPI Credit Card Linking Cashback Surge", "Axis Bank Rupay Cards", "📈 Trending"), ("International Forex Markup Zero Card", "Niyo Global & Fi Money", "🔥 High Growth")],
-            "Side Hustles & Passive Income": [("Digital Notion Template E-Commerce Store", "Gumroad Creator Hub", "🔥 High Growth"), ("Automated YouTube Faceless Channel Agency", "VidIQ AI Suite", "🚀 Explosive Surge"), ("Freelance AI Prompt Engineering Gig Surge", "Upwork Enterprise Pool", "⚡ Accelerating"), ("Print-on-Demand Passive Store Setup", "Printify & Shopify", "📈 Trending"), ("Substack Paid Newsletter Monetization", "Substack Writer Growth", "🔥 High Growth")],
-            "Personal Tax & Saving Strategies": [("New Tax Regime Deduction Optimization", "ClearTax Portal Guide", "🔥 High Growth"), ("ELSS Tax Saver Mutual Fund SIP Spike", "Groww & Zerodha Coin", "🚀 Explosive Surge"), ("HRA Claim & Rent Receipt Automation", "Tax2Win Portal", "⚡ Accelerating"), ("Capital Gains Tax Harvesting Strategy", "ET Money Wealth", "📈 Trending"), ("NPS Tier-1 Additional Tax Rebate Hack", "National Pension System", "🔥 High Growth")],
-            "Real Estate & Fractional Investing": [("Commercial Realty Fractional Yield Syndicate", "hBits Property Share", "🔥 High Growth"), ("REIT Dividend Payout Yield Analysis", "Embassy & Mindspace REIT", "🚀 Explosive Surge"), ("Real Estate Crowdfunding Portal Spike", "PropertyShare India", "⚡ Accelerating"), ("Land Banking Micro-Market Investment", "North Goa Land Syndicate", "📈 Trending"), ("Co-Living Asset Syndication Fund", "Zolo PropTech Yield", "🔥 High Growth")],
-
-            # Beauty & Skincare
-            "UGC Skincare Hacks": [("Snail Mucin Repairing Essence Viral Wave", "Cosrx Power Essence", "🔥 High Growth"), ("Niacinamide 10% Pore Minimizing Serum", "The Ordinary Skincare", "🚀 Explosive Surge"), ("Hydrocolloid Pimple Patch Overnight Spot Care", "Mighty Patch Hero", "⚡ Accelerating"), ("Exfoliating AHA/BHA Chemical Peeling Solution", "The Ordinary Peeling Solution", "📈 Trending"), ("Ceramide Barrier Repair Moisturizer Cream", "Bioderma Atoderm", "🔥 High Growth")],
-            "K-Beauty & Glass Skin Trends": [("Fermented Rice Water Brightening Toner", "I'm From Rice Toner", "🔥 High Growth"), ("Centella Asiatica Calming Ampoule Drop", "Skin1004 Madagascar", "🚀 Explosive Surge"), ("Deep Cleansing Oil Emulsifying Formula", "Anua Heartleaf Cleansing Oil", "⚡ Accelerating"), ("Glass Skin Sheet Mask Hydration Pack", "Mediheal Vita Mask", "📈 Trending"), ("UV Sun Water Essence SPF 50+ Sunscreen", "Beauty of Joseon Sun Relief", "🔥 High Growth")],
-            "Anti-Aging & Beauty Devices": [("Microcurrent Facial Toning Device Lift", "NuFace Trinity Pro", "🔥 High Growth"), ("LED Light Therapy Anti-Aging Face Mask", "Omnilux Contour Face", "🚀 Explosive Surge"), ("High-Frequency Skin Wand Acne Healing", "Darsley Pro Wand", "⚡ Accelerating"), ("Radio Frequency Skin Tightening Machine", "Silk'n Titan Device", "📈 Trending"), ("Ionic Facial Steamer Deep Pore Cleansing", "NanoSteamer Pro", "🔥 High Growth")],
-            "Men's Grooming & Beard Care": [("Argan Oil Organic Beard Growth Serum", "Beardo & Ustraa", "🔥 High Growth"), ("Cordless Hair & Beard Precision Trimmer", "Philips BeardTrimmer Series 9000", "🚀 Explosive Surge"), ("Activated Charcoal Peel-Off Face Mask", "Man Matters", "⚡ Accelerating"), ("Matte Finish Hair Styling Clay Wax", "Beardo Godfather", "📈 Trending"), ("Anti-Hair Fall Biotin Shampoo for Men", "Derma Co. Biotin", "🔥 High Growth")],
-            "Haircare Treatment Trends": [("Bond Repair Protein Treatment Mask", "Olaplex No. 3 Hair Perfector", "🔥 High Growth"), ("Scalp Exfoliating Scrub Brush Treatment", "K18 & OUAI Scrub", "🚀 Explosive Surge"), ("Rosemary Essential Oil Hair Growth Surge", "Mielle Organics Rosemary Mint", "⚡ Accelerating"), ("Heatless Silk Curling Ribbon Headband", "Silke London", "📈 Trending"), ("Ionic Hair Dryer Professional Velocity", "Dyson Supersonic", "🔥 High Growth")],
-            "Minimalist Capsule Wardrobes": [("Organic Cotton Oversized Basic White Tee", "Uniqlo U Collection", "🔥 High Growth"), ("High-Waisted Straight Leg Denim Jeans", "Levi's 501 Original", "🚀 Explosive Surge"), ("Minimalist Leather Everyday Tote Bag", "Cuyana Classic Tote", "⚡ Accelerating"), ("Neutral Tone Cashmere Blend Crewneck Sweater", "Everlane Cashmere", "📈 Trending"), ("Classic White Canvas Sneaker Staple", "Veja Campo Leather", "🔥 High Growth")]
         }
-
-        # Fallback generator for any sub-niche not explicitly keyed above
         if sub_niche in master_pools:
             items = master_pools[sub_niche]
         else:
@@ -439,8 +391,6 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
                 (f"Breakout Trend in {sub_niche}", f"Analyzed Entity Node #{i+1} ({category})", "🔥 High Growth" if i % 2 == 0 else "⚡ Accelerating")
                 for i in range(10)
             ]
-
-        items = items
 
     results = []
     for i, (item, entity, velocity) in enumerate(items):
@@ -451,7 +401,6 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
             "Volume": f"{base_vol:,} Interactions ({region})",
             "Velocity": velocity
         })
-
     try:
         cursor = db_conn.cursor()
         for r in results:
@@ -542,14 +491,12 @@ def render_live_telemetry_radar(geo_option, platform_source, selected_category, 
     )
     signal_scores = {item["Keyword"]: round(99.4 - (i * 2.1), 1) for i, item in enumerate(active_signals)}
     df_signals = pd.DataFrame(active_signals)
-
     custom_search = st.text_input(t["custom_search"], placeholder="e.g. Misty Tea Estate Heritage Homestay Wave, K-Beauty Glass Skin")
     if custom_search.strip():
         custom_item = {"Keyword": custom_search.strip(), "Entity": "Custom Injection Target", "Volume": f"Realtime Query ({geo_option})", "Velocity": "🔥 High Growth"}
         if not any(custom_search.strip() in s["Keyword"] for s in active_signals):
             active_signals.insert(0, custom_item)
             df_signals = pd.DataFrame(active_signals)
-
     st.markdown(f"**{t['active_signals_for']}** `{selected_category}` | `{platform_source}` | `{geo_option}`")
     
     st.dataframe(
@@ -562,7 +509,6 @@ def render_live_telemetry_radar(geo_option, platform_source, selected_category, 
         use_container_width=True,
         hide_index=True
     )
-
     st.markdown("#### 📈 Signal Velocity & Pipeline Demand Curve")
     chart_keyword = active_signals[0]["Keyword"] if active_signals else "Asset"
     base_score = signal_scores.get(chart_keyword, 94.0)
@@ -587,13 +533,11 @@ head_col1, head_col2 = st.columns([3, 1])
 with head_col2:
     selected_lang = st.selectbox("🌐 Language / भाषा:", ["English", "Hindi"], index=0)
 t = TEXTS[selected_lang]
-
 with head_col1:
     st.title(t["title"])
     st.caption(f"{t['subtitle']} | ⚡ Complete Master Dossier & Live Multi-API Telemetry Architecture")
 
 st.markdown("---")
-
 with st.expander(t["terminal"], expanded=False):
     st.session_state["is_premium"] = st.checkbox(t["simulate_pro"], value=st.session_state["is_premium"])
 
