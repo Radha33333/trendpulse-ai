@@ -3,10 +3,7 @@ import json
 import os
 import re
 import sqlite3
-import urllib.parse
-import xml.etree.ElementTree as ET
 from datetime import datetime
-from apscheduler.schedulers.background import BackgroundScheduler
 from groq import Groq
 import pandas as pd
 import plotly.express as px
@@ -249,7 +246,7 @@ TEXTS = {
         "tab_radar": "📡 Ingestion Radar",
         "tab_blueprint": "🚀 Master Intelligence & Revenue Dossier Engine",
         "tab_db": "🗄️ Database Inspector & Logs",
-        "live_sync": "⚡ Live API Connected & Background Synced",
+        "live_sync": "⚡ Live API Connected & Synced",
     },
     "Hindi": {
         "title": "⚡ TrendPulse AI: मास्टर इंटेलिजेंस और रेवेन्यू स्केल सुइट",
@@ -269,12 +266,12 @@ TEXTS = {
         "tab_radar": "📡 इंजेक्शन रडार",
         "tab_blueprint": "🚀 मास्टर इंटेलिजेंस और रेवेन्यू डॉसियर इंजन",
         "tab_db": "🗄️ डेटाबेस इंस्पेक्टर और लॉग्स",
-        "live_sync": "⚡ लाइव एपीआई कनेक्टेड और बैकग्राउंड सिंक एक्टिव",
+        "live_sync": "⚡ लाइव एपीआई कनेक्टेड और सिंक हो गया है",
     },
 }
 
 # ==========================================
-# 5. REAL-TIME FREE API FETCHERS (MULTI-SOURCE)
+# 5. REAL-TIME FREE API FETCHERS
 # ==========================================
 def fetch_coingecko_crypto():
     try:
@@ -282,7 +279,7 @@ def fetch_coingecko_crypto():
         resp = requests.get(url, timeout=4)
         if resp.status_code == 200:
             coins = resp.json().get("coins", [])
-            return [(f"Crypto Trend: {c['item']['name']} ({c['item']['symbol']})", f"Market Cap Rank #{c['item'].get('market_cap_rank', 99)}", "🚀 Explosive Surge") for c in coins[:10]]
+            return [(f"Crypto Trend: {c['item']['name']} ({c['item']['symbol']})", f"Rank #{c['item'].get('market_cap_rank', 99)}", "🚀 Explosive Surge") for c in coins[:10]]
     except Exception:
         pass
     return None
@@ -300,20 +297,9 @@ def fetch_hackernews_tech():
                     s_data = s_resp.json()
                     title = s_data.get("title", "Tech Trend")
                     score = s_data.get("score", 100)
-                    items.append((f"Hacker News Hot Item: {title}", f"Score: {score} Upvotes", "🔥 High Growth"))
+                    items.append((f"Tech Pulse: {title}", f"Upvotes: {score}", "🔥 High Growth"))
             if items:
                 return items
-    except Exception:
-        pass
-    return None
-
-def fetch_github_repos():
-    try:
-        url = "https://api.github.com/search/repositories?q=stars:>1000&sort=stars&order=desc"
-        resp = requests.get(url, timeout=4)
-        if resp.status_code == 200:
-            repos = resp.json().get("items", [])[:10]
-            return [(f"GitHub Trending Repo: {r['name']}", f"Language: {r.get('language', 'Python/JS')} | Stars: {r['stargazers_count']}", "⚡ Accelerating") for r in repos]
     except Exception:
         pass
     return None
@@ -373,60 +359,43 @@ def create_pdf_dossier(asset_name, category, role, viral_score, window, result):
     return buffer
 
 # ==========================================
-# 7. COMPREHENSIVE DYNAMIC & LIVE API DATA ENGINE
+# 7. COMPREHENSIVE DYNAMIC DATA ENGINE
 # ==========================================
 @st.cache_data(ttl=60)
 def fetch_and_store_signals(region, platform_source, category, sub_niche, timeframe):
     items = []
 
-    # 1. Category / API Specific Live Fetching
-    if "Crypto" in category or "Crypto" in sub_niche or "Finance" in category:
+    if "Crypto" in category or "Crypto" in sub_niche:
         items = fetch_coingecko_crypto()
-    elif "Digital Products" in category or "Tools" in category or "Vibe Coding" in sub_niche:
-        items = fetch_hackernews_tech() or fetch_github_repos()
+    elif "Digital Products" in category or "Tools" in category or "AI" in category:
+        items = fetch_hackernews_tech()
 
-    # 2. Comprehensive Sub-Niche Detailed Pool for all 120 Sub-Niches
     if not items:
         comprehensive_pools = {
-            # E-Commerce
             "TikTok Shop & Live Deals": [("Flash Drop: Korean Glass Skin Skincare Bundle", "Laneige & Innisfree Kits", "🚀 Explosive Surge"), ("Viral Sunset Projector Lamp Restock", "RGB Ambient Lights", "🔥 High Growth"), ("50% Off Portable Neck Fan Special", "JisuLife Fans", "⚡ Accelerating"), ("Aesthetic Corduroy Tote Bags", "Minimalist Canvas Co.", "📈 Trending"), ("Mini Wireless Car Vacuum Sellout", "Baseus Auto", "🔥 High Growth")],
             "Amazon Hot Movers & Bestsellers": [("Smart LED Desk Lamp Wireless Charger", "BenQ & TaoTronics", "🔥 High Growth"), ("Bestselling Electric Toothbrush Sonic Wave", "Philips Sonicare", "🚀 Explosive Surge"), ("Compact Dehumidifier Small Rooms", "Pro Breeze Unit", "⚡ Accelerating"), ("Magnetic Power Bank Fast Charge Magsafe", "Anker MagGo", "📈 Trending"), ("Retinol Serum Surge", "CeraVe & Neutrogena", "🔥 High Growth")],
             "D2C Breakout & DTC Brands": [("Matcha Ceremonial Grade Green Tea Drop", "Teabloom & Tenzo", "🚀 Explosive Surge"), ("Non-Toxic Ceramic Cookware Expansion", "Our Place Always Pan", "🔥 High Growth"), ("Micro-Exfoliating Body Wash Sensation", "Nécessaire", "⚡ Accelerating"), ("Sustainably Sourced Bamboo Sheets", "Boll & Branch", "📈 Trending"), ("Functional Mushroom Coffee Boom", "Four Sigmatic", "🔥 High Growth")],
             "Problem-Solver Gadgets": [("Keyless Smart Door Lock Fingerprint Entry", "Eufy Security", "🔥 High Growth"), ("Automatic Self-Cleaning Litter Box", "Litter-Robot 4", "🚀 Explosive Surge"), ("Cordless Electric Spin Scrubber", "Rubbermaid Reveal", "⚡ Accelerating"), ("Tile Bluetooth Smart Tracker Pack", "Tile Pro Series", "📈 Trending"), ("Solar-Powered Security Camera", "Ring Floodlight Cam", "🔥 High Growth")],
             "Print-on-Demand & Custom Merch": [("Aesthetic Vintage Graphic Oversized Tee", "Streetwear Custom Co.", "🔥 High Growth"), ("Custom Embossed Leather Passport Holder", "Monogram Studio", "🚀 Explosive Surge"), ("Personalized Acrylic Spotify Plaque", "CustomTune Gifts", "⚡ Accelerating"), ("Minimalist Line Art Pet Portrait Canvas", "Pawprint Prints", "📈 Trending"), ("Custom Neon Name Sign LED Decor", "GlowingVibes Custom", "🔥 High Growth")],
             "Upcoming High-Demand Drops": [("Next-Gen AR Smart Glasses Pre-Order", "Ray-Ban Meta Gen 2", "🚀 Explosive Surge"), ("Limited Edition Liquid Cooling PC Case", "Lian Li Dynamic Evo", "🔥 High Growth"), ("AI-Powered Smart Plant Care Monitor", "PlantIn Sensor Pro", "⚡ Accelerating"), ("Modular Travel Jacket with Neck Pillow", "BAUBAX Ultimate", "📈 Trending"), ("Biodegradable Sneaker Line Drop", "Allbirds Tree Dasher 3", "🔥 High Growth")],
-            
-            # Real Estate
             "Rental Yield Hotspots": [("IT Corridor High-Density Studio Apartment", "Whitefield, Bengaluru", "🔥 High Growth"), ("Suburban Gated Villa Community Rental", "Gachibowli, Hyderabad", "🚀 Explosive Surge"), ("Commercial High-Street Retail Leasing", "Bandra West, Mumbai", "⚡ Accelerating"), ("Student Housing PG Asset Investment", "North Campus, Delhi", "📈 Trending"), ("IT Park Adjoining 2BHK Rental Demand", "Hinjewadi, Pune", "🔥 High Growth")],
             "PropTech & Smart Homes": [("IoT Centralized HVAC Automation Hub", "Schneider Electric Wiser", "🔥 High Growth"), ("AI Security Camera Facial Recognition", "Hikvision Smart Suite", "🚀 Explosive Surge"), ("Automated Motorized Curtain Integration", "Somfy Smart Motor", "⚡ Accelerating"), ("Digital Intercom Video Door Phone", "Godrej SmartHome", "📈 Trending"), ("Smart Water Flow Meter Leak Valve", "Flo by Moen", "🔥 High Growth")],
             "Luxury Estates & Villas": [("Cliffside Panoramic Ocean View Villa", "Assagao, Goa", "🔥 High Growth"), ("Ultra-Luxury Golf Course Facing Estate", "DLF Phase 5, Gurugram", "🚀 Explosive Surge"), ("Heritage Bungalow Restoration Wave", "Alipore, Kolkata", "⚡ Accelerating"), ("Private Island Gated Community Plot", "Kochi Backwaters, Kerala", "📈 Trending"), ("Super-Luxury Skyscraper Penthouse", "Worli Sea Face, Mumbai", "🔥 High Growth")],
             "Commercial & Co-Working Spaces": [("Managed Enterprise Office Floor Leasing", "WeWork BKC, Mumbai", "🔥 High Growth"), ("Grade-A Tech Park Office Absorption", "Manyata Tech Park, BLR", "🚀 Explosive Surge"), ("High-Street Retail Showroom Leasing", "Connaught Place, Delhi", "⚡ Accelerating"), ("Flexi-Desk Co-Working Hub Expansion", "Cyber City, Gurugram", "📈 Trending"), ("Startup Incubator Plug-and-Play Lease", "Koramangala Hub, BLR", "🔥 High Growth")],
             "Fractional Real Estate & REITs": [("Commercial Grade-A Office REIT Dividend", "Embassy Office Parks REIT", "🔥 High Growth"), ("Retail Mall Asset Fractional Ownership", "Phoenix Mills REIT", "🚀 Explosive Surge"), ("Warehouse Logistics Park Tokenization", "StashAway PropTech", "⚡ Accelerating"), ("Hospitality Luxury Hotel REIT Expansion", "Lemon Tree Hotels Portfolio", "📈 Trending"), ("High-Yield Commercial Realty Crowdfunding", "PropertyShare Portal", "🔥 High Growth")],
             "Upcoming Transit & Metro Hubs": [("Metro Station Interchange Commercial Spike", "Central Secretariat, Delhi", "🔥 High Growth"), ("High-Speed Rail Corridor Appreciation", "Mumbai-Ahmedabad Bullet Train", "🚀 Explosive Surge"), ("Airport Express Residential Boom", "Aerocity Link, New Delhi", "⚡ Accelerating"), ("Outer Ring Road Metro Real Estate", "ORR Metro, Bengaluru", "📈 Trending"), ("Suburban Circular Railway Hub Investment", "Panvel Transit Hub, Mumbai", "🔥 High Growth")],
-
-            # Automobile
             "EV Launches & Battery Tech": [("Solid-State Battery Range Breakthrough", "Tata Motors EV R&D", "🚀 Explosive Surge"), ("Affordable Long-Range Electric SUV", "Mahindra BE.6", "🔥 High Growth"), ("Fast-Charging Cell Production Milestone", "Ola Electric Cell Gigafactory", "⚡ Accelerating"), ("Electric Two-Wheeler Subsidy Wave", "Ather Rizta & Ola S1", "📈 Trending"), ("Commercial Electric Delivery Van Fleet", "Tata Ace EV", "🔥 High Growth")],
-            "ADAS, Dashcams & Smart Tech": [("Dual-Channel 4K GPS Dashcam Review", "70mai & Qubo Dashcam", "🔥 High Growth"), ("ADAS Retrofit Kit Integration", "Mobility AI Suite", "🚀 Explosive Surge"), ("Blind Spot Detection Sensor Drop", "Bosch Automotive Tech", "⚡ Accelerating"), ("AI Smart Rearview Mirror Display", "Foxbox Auto Mirror", "📈 Trending"), ("OBD-II Realtime Diagnostics Scanner", "Veepeak Bluetooth OBD", "🔥 High Growth")],
-            "Car & Bike Accessories / Gadgets": [("Portable High-Pressure Cordless Washer", "Karcher & Baseus", "🔥 High Growth"), ("Magnetic Wireless Smartphone Mount", "Spigen MagFit", "🚀 Explosive Surge"), ("Ergonomic Car Neck Pillow & Cushion", "Trax & Autofurnish", "⚡ Accelerating"), ("Motorcycle Bluetooth Helmet Intercom", "Cardo Packtalk Edge", "📈 Trending"), ("Ambient Interior LED Strip Lighting", "Govee Car LED", "🔥 High Growth")],
-            "Auto Reviews & Mileage Hacks": [("Real-World Fuel Economy & Mileage Test", "Autocar India Channel", "🔥 High Growth"), ("Compact SUV Comparison & Value Breakdown", "Brezza vs Nexon vs Sonet", "🚀 Explosive Surge"), ("Engine Decarbonization Hack", "GoMechanic Service", "⚡ Accelerating"), ("Hybrid vs Petrol Cost-Benefit Analysis", "Grand Vitara & Hyryder", "📈 Trending"), ("Second-Hand Diesel SUV Guide", "Big Boy Toyz & Spinny", "🔥 High Growth")],
-            "Custom Bike & Supercar Buzz": [("Custom Cafe Racer Build Showcase", "Royal Enfield Interceptor 650 Mod", "🔥 High Growth"), ("Supercar V12 Exhaust Sound Tunnel Run", "Lamborghini Revuelto", "🚀 Explosive Surge"), ("Matte PPF Wrap & Ceramic Coating", "3M Car Care Studio", "⚡ Accelerating"), ("Track-Day Superbike Carbon Fairings", "Ducati Panigale V4R", "📈 Trending"), ("Off-Road Rally Modification Build", "Modified Isuzu V-Cross", "🔥 High Growth")],
-            "Commuter Vehicle Price Drops": [("Festive Clearance Discount Hatchbacks", "Maruti Swift & WagonR", "🔥 High Growth"), ("Entry-Level Commuter Bike Price Slash", "Hero Splendor Plus Deals", "🚀 Explosive Surge"), ("Compact Sedan Corporate Discount", "Hyundai Aura & Tata Tigor", "⚡ Accelerating"), ("Inventory Clearance Electric Scooters", "Bajaj Chetak & TVS iQube", "📈 Trending"), ("Pre-Owned Commuter Car Correction", "CarDekho & Spinny Index", "🔥 High Growth")],
-            
-            # Finance & Crypto
             "Crypto & Web3 Signals": [("Bitcoin Halving On-Chain Liquidity Flow", "BTC Whale Wallet Tracker", "🔥 High Growth"), ("Layer-2 Gas Fee Optimization Surge", "Arbitrum & Optimism", "🚀 Explosive Surge"), ("Solana Memecoin Volume Accumulation", "Raydium & Jupiter DEX", "⚡ Accelerating"), ("DeFi Staking Yield APY Rebalancing", "Lido Finance StETH", "📈 Trending"), ("Bitcoin ETF Institutional Inflows", "BlackRock iShares BTC", "🔥 High Growth")],
             "Stock Market & Algo Trading Bots": [("Nifty 50 Intraday Breakout Level", "Nifty 50 Index", "🔥 High Growth"), ("Bank Nifty Options Chain Open Interest", "Bank Nifty Futures", "🚀 Explosive Surge"), ("Algorithmic Momentum Crossover Bot", "Quant Scalpers Bot", "⚡ Accelerating"), ("FII/DII Net Cash Flow Reversal", "NSE Institutional Flow", "📈 Trending"), ("Smallcap Sector Rotation Accumulation", "BSE Smallcap Index", "🔥 High Growth")]
         }
 
-        # Dynamic fallback generator for any sub-niche not explicitly hardcoded above
         if sub_niche in comprehensive_pools:
-            raw_items = comprehensive_pools[sub_niche]
+            items = comprehensive_pools[sub_niche]
         else:
-            raw_items = [
+            items = [
                 (f"Breakout Trend in {sub_niche}", f"Analyzed Entity Node #{i+1} ({category})", "🔥 High Growth" if i % 2 == 0 else "⚡ Accelerating")
                 for i in range(10)
             ]
-
-        items = raw_items
 
     results = []
     for i, (item, entity, velocity) in enumerate(items):
@@ -451,26 +420,7 @@ def fetch_and_store_signals(region, platform_source, category, sub_niche, timefr
     return results
 
 # ==========================================
-# 8. BACKGROUND SCHEDULER SETUP (APScheduler)
-# ==========================================
-def background_signal_sync():
-    try:
-        # Periodic background data synchronization mock/actual trigger
-        fetch_and_store_signals("IN", "🎵 TikTok Trends & Creative Center", "🛒 E-Commerce & Viral Shopping", "TikTok Shop & Live Deals", "Realtime Spike (24h)")
-    except Exception:
-        pass
-
-if "scheduler_started" not in st.session_state:
-    try:
-        scheduler = BackgroundScheduler()
-        scheduler.add_job(background_signal_sync, 'interval', minutes=15)
-        scheduler.start()
-        st.session_state["scheduler_started"] = True
-    except Exception:
-        pass
-
-# ==========================================
-# 9. MASTER LLM DOSSIER GENERATOR
+# 8. MASTER LLM DOSSIER GENERATOR
 # ==========================================
 def generate_master_enterprise_dossier(keyword_asset, category, sub_niche, target_role, platform, timeframe, velocity_score, lang):
     clean_asset = sanitize_trend_input(keyword_asset)
@@ -534,7 +484,7 @@ JSON Format:
         return default_response
 
 # ==========================================
-# 10. FRAGMENTED UI COMPONENT FOR REALTIME REFRESH
+# 9. FRAGMENTED UI COMPONENT FOR REALTIME REFRESH
 # ==========================================
 @st.fragment
 def render_live_telemetry_radar(geo_option, platform_source, selected_category, selected_sub_niche, timeframe, t):
@@ -583,7 +533,7 @@ def render_live_telemetry_radar(geo_option, platform_source, selected_category, 
     return active_signals, signal_scores
 
 # ==========================================
-# 11. MAIN UI LAYOUT & BACKEND INSPECTOR
+# 10. MAIN UI LAYOUT & BACKEND INSPECTOR
 # ==========================================
 if "is_premium" not in st.session_state:
     st.session_state["is_premium"] = False
